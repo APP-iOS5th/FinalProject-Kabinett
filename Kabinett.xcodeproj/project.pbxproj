@@ -84,6 +84,164 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8366B6EF2C65ECC50021FAE0 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		8366B6F02C65ECCD0021FAE0 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		8366B6F12C65ECDB0021FAE0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8366B6F22C65ECE10021FAE0 /* LetterBox */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterBox;
+			sourceTree = "<group>";
+		};
+		8366B6F32C65ECE60021FAE0 /* LetterWrite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterWrite;
+			sourceTree = "<group>";
+		};
+		8366B6F42C65ECEC0021FAE0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		8366B6F52C65ECF70021FAE0 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		8366B6F62C65ECFF0021FAE0 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8366B6F72C65ED080021FAE0 /* LetterBox */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterBox;
+			sourceTree = "<group>";
+		};
+		8366B6F82C65ED0F0021FAE0 /* LetterWrite */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterWrite;
+			sourceTree = "<group>";
+		};
+		8366B6F92C65ED150021FAE0 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		8366B6FA2C65ED1A0021FAE0 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		8366B6FB2C65EF1B0021FAE0 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		838697C42C64B7DB00E76230 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				838697C92C64B81000E76230 /* ViewModel */,
+				838697C82C64B80C00E76230 /* View */,
+				839CE0F82C644BEF003635F3 /* ContentView.swift */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		838697C52C64B7E600E76230 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				8366B6FB2C65EF1B0021FAE0 /* Auth */,
+				838697CB2C64B84500E76230 /* Firebase */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		838697C62C64B7EC00E76230 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				8366B6F02C65ECCD0021FAE0 /* UseCase */,
+				8366B6EF2C65ECC50021FAE0 /* Entity */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		838697C72C64B7FB00E76230 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		838697C82C64B80C00E76230 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8366B6F52C65ECF70021FAE0 /* SignUp */,
+				8366B6F42C65ECEC0021FAE0 /* Profile */,
+				8366B6F32C65ECE60021FAE0 /* LetterWrite */,
+				8366B6F22C65ECE10021FAE0 /* LetterBox */,
+				8366B6F12C65ECDB0021FAE0 /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		838697C92C64B81000E76230 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8366B6FA2C65ED1A0021FAE0 /* SignUp */,
+				8366B6F92C65ED150021FAE0 /* Profile */,
+				8366B6F82C65ED0F0021FAE0 /* LetterWrite */,
+				8366B6F72C65ED080021FAE0 /* LetterBox */,
+				8366B6F62C65ECFF0021FAE0 /* Components */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		838697CB2C64B84500E76230 /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		839CE0EA2C644BEF003635F3 = {
 			isa = PBXGroup;
 			children = (
@@ -107,10 +265,12 @@
 		839CE0F52C644BEF003635F3 /* Kabinett */ = {
 			isa = PBXGroup;
 			children = (
+				838697C72C64B7FB00E76230 /* Application */,
+				838697C62C64B7EC00E76230 /* Domain */,
+				838697C52C64B7E600E76230 /* Service */,
+				838697C42C64B7DB00E76230 /* Presentation */,
 				839CE12C2C645F89003635F3 /* GoogleService-Info.plist */,
 				839CE1202C645274003635F3 /* Kabinett.entitlements */,
-				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
-				839CE0F82C644BEF003635F3 /* ContentView.swift */,
 				839CE0FA2C644BF0003635F3 /* Assets.xcassets */,
 				839CE0FC2C644BF0003635F3 /* Preview Content */,
 			);
