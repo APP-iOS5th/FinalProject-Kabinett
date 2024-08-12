@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
-		831401412C69C79800F601FB /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831401402C69C79800F601FB /* Sender.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FB2C644BF0003635F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FA2C644BF0003635F3 /* Assets.xcassets */; };
@@ -22,6 +21,7 @@
 		839CE1292C645F65003635F3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE1282C645F65003635F3 /* FirebaseFirestore */; };
 		839CE12B2C645F65003635F3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE12A2C645F65003635F3 /* FirebaseStorage */; };
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
+		AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +43,6 @@
 
 /* Begin PBXFileReference section */
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
-		831401402C69C79800F601FB /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		839CE1132C644BF0003635F3 /* KabinettUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		839CE1202C645274003635F3 /* Kabinett.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kabinett.entitlements; sourceTree = "<group>"; };
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				8314013E2C69C34500F601FB /* Letter.swift */,
-				831401402C69C79800F601FB /* Sender.swift */,
+				AFA58F172C69DB1300A7C569 /* Writer.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -489,7 +489,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				831401412C69C79800F601FB /* Sender.swift in Sources */,
+				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,

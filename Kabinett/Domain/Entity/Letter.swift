@@ -12,7 +12,7 @@ struct Letter: Codable, Identifiable {
     @DocumentID var id: String?
     
     let fontString: String
-    let postScript: String
+    let postScript: String?
     let envelopeImageUrlString: String
     let stampImageUrlString: String
     let fromUserId: String
@@ -20,6 +20,6 @@ struct Letter: Codable, Identifiable {
     let content: String?
     let photoContents: [String]
     let date: Date
-    let staioneryImageUrlString: String
+    let stationeryImageUrlString: String?
     let isRead: Bool
 }
