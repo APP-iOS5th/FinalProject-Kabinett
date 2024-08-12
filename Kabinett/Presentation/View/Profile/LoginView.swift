@@ -12,18 +12,23 @@ struct LoginView: View {
     var body: some View {
         Circle()
             .foregroundColor(.gray)
-            .frame(width: 104)
+            .frame(width: 115)
+            .padding(.bottom, 3)
         Text("User")
-            .fontWeight(.medium)
+            .fontWeight(.regular)
             .font(.system(size: 36))
+            .padding(.bottom, 1)
         Text("000-000")
+            .fontWeight(.light)
             .font(.system(size: 16))
             .monospaced()
-            .foregroundStyle(.gray)
+            .foregroundStyle(.black)
+            .padding(.bottom, 3)
         Text("비회원 계정이에요.")
             .fontWeight(.bold)
-            .font(.system(size: 16))
+            .font(.system(size: 17))
             .foregroundStyle(.gray)
+            .padding(.bottom, 25)
         SignInWithAppleButton(.signIn) { request in
           
         } onCompletion: { result in
