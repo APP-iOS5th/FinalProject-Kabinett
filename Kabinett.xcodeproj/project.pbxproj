@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
+		831401412C69C79800F601FB /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831401402C69C79800F601FB /* Sender.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FB2C644BF0003635F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FA2C644BF0003635F3 /* Assets.xcassets */; };
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		831401402C69C79800F601FB /* Sender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sender.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -84,9 +88,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		831401392C69C21300F601FB /* ComponentsUseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ComponentsUseCase;
+			sourceTree = "<group>";
+		};
+		8314013A2C69C21D00F601FB /* LetterBoxUseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterBoxUseCase;
+			sourceTree = "<group>";
+		};
+		8314013B2C69C22B00F601FB /* LetterWriteUseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LetterWriteUseCase;
+			sourceTree = "<group>";
+		};
+		8314013C2C69C23500F601FB /* ProfileUseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProfileUseCase;
+			sourceTree = "<group>";
+		};
+		8314013D2C69C23C00F601FB /* SignUpUseCase */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SignUpUseCase;
+			sourceTree = "<group>";
+		};
 		8366B6EF2C65ECC50021FAE0 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				8314013E2C69C34500F601FB /* Letter.swift */,
+				831401402C69C79800F601FB /* Sender.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -94,6 +135,11 @@
 		8366B6F02C65ECCD0021FAE0 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				8314013D2C69C23C00F601FB /* SignUpUseCase */,
+				8314013C2C69C23500F601FB /* ProfileUseCase */,
+				8314013B2C69C22B00F601FB /* LetterWriteUseCase */,
+				8314013A2C69C21D00F601FB /* LetterBoxUseCase */,
+				831401392C69C21300F601FB /* ComponentsUseCase */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -443,6 +489,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				831401412C69C79800F601FB /* Sender.swift in Sources */,
+				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 			);
