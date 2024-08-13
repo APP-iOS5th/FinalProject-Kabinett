@@ -62,15 +62,21 @@ struct SignUpKabinettNumberSelectView: View {
                 .padding(.leading, 24)
                 Spacer()
                 Button(action: {
-                    print("Tapped CTA Button")
+                    if let selectedNumber = selectedNumber {
+                        print("Tapped CTA Button. Selected Number: \(kabinettNumbers[selectedNumber])")
+                    } else {
+                        print("No number selected")
+                    }
                 }) {
                     Text("시작하기")
                         .fontWeight(.medium)
                         .font(.system(size: 15))
                         .foregroundColor(.white)
                         .frame(width: 345, height: 56)
-                        .background(RoundedRectangle(cornerRadius: 14).fill(Color.primary900))
+                        .background(RoundedRectangle(cornerRadius: 14)
+                            .fill(selectedNumber != nil ? Color.primary900 : Color.primary300))
                 }
+                .disabled(selectedNumber == nil)
                 .padding(.horizontal, 24)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
