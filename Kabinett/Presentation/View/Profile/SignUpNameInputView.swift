@@ -41,6 +41,7 @@ struct SignUpNameInputView: View {
 struct OvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
+            .padding(.leading, 8)
             .padding(10)
             .background(
             Capsule()
