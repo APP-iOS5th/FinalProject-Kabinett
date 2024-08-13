@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserSelectionView: View {
     @State var checkLogin = false
+    @State var fromUser = "Song(나)"
     
     var body: some View {
         ZStack {
@@ -26,7 +27,7 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 20)
-                    Button("Song(나)") {
+                    Button(fromUser) {
                         
                     }
                     .buttonStyle(.plain)
@@ -41,7 +42,7 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 35)
-                    Button("Song(나)") {
+                    Button(fromUser) {
                         
                     }
                     .buttonStyle(.plain)
