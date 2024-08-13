@@ -20,16 +20,17 @@ struct LoginView: View {
                     Text("User")
                         .fontWeight(.regular)
                         .font(.system(size: 36))
+                        .padding(.bottom, 0.1)
                     Text("000-000")
                         .fontWeight(.light)
                         .font(.system(size: 16))
                         .monospaced()
-                        .padding(.bottom, 15)
+                        .padding(.bottom, 3)
                     Text("비회원 계정이에요.")
                         .fontWeight(.black)
-                        .font(.system(size: 19))
+                        .font(.system(size: 16))
                         .foregroundStyle(.contentSecondary)
-                        .padding(.bottom, 21)
+                        .padding(.bottom, 25)
                     SignInWithAppleButton(.signIn) { request in
                         
                     } onCompletion: { result in
