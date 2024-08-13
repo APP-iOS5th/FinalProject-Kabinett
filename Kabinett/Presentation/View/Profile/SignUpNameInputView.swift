@@ -23,6 +23,7 @@ struct SignUpNameInputView: View {
                     TextField("", text: $UserName)
                         .padding(.leading, 24)
                     Spacer()
+                    
                     NavigationLink(destination: SignUpKabinettNumberSelectView()) {
                         ZStack{
                             Circle()
@@ -35,6 +36,7 @@ struct SignUpNameInputView: View {
                         }
                             .padding(.trailing, 24)
                     }
+                    .disabled(UserName.isEmpty)
                 }
                 .textFieldStyle(OvalTextFieldStyle())
                 .font(Font.system(size: 24, design: .default))
