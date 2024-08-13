@@ -21,11 +21,13 @@ struct CustomTabView: View {
                         Text("받은편지")
                     }
                     .tag(0)
+                
                 Color.clear
                     .tabItem {
                         Image(systemName: "plus")
                     }
                     .tag(1)
+                
                 ProfileView()
                     .tabItem {
                         Image(systemName: "person.crop.circle")
@@ -33,57 +35,17 @@ struct CustomTabView: View {
                     }
                     .tag(2)
             }
-            .onChange(of: selectedTab) { previousTap, currentTap in
-                if currentTap == 1 {
+            .onChange(of: selectedTab) { _, currentTab in
+                if currentTab == 1 {
                     withAnimation {
                         showOptions = true
                     }
-                    selectedTab = previousTap
+                    selectedTab = 0
                 }
             }
             
             if showOptions {
-                Color.black.opacity(0.5)
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        withAnimation{
-                            showOptions = false
-                        }
-                    }
-                
-                VStack {
-                    Spacer()
-                    
-                    HStack(spacing: 1) {
-                        Button(action: {
-                            // 편지 불러오기 동작
-                            showOptions = false
-                            showActionSheet = true
-                        }) {
-                            Text("편지 불러오기")
-                                .font(.system(size: 14))
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                        }
-                        Button(action: {
-                            print("편지쓰기 이동")
-                            showOptions = false
-                        }) {
-                            Text("편지 쓰기")
-                                .font(.system(size: 14))
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.white)
-                                .foregroundColor(.black)
-                        }
-                    }
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-                    .padding(.bottom, getSafeAreaBottom() + 25)
-                }
-                .transition(.move(edge: .bottom))
+                OptionOverlay(showOptions: $showOptions, showActionSheet: $showActionSheet)
             }
         }
         .actionSheet(isPresented: $showActionSheet) {
@@ -97,13 +59,6 @@ struct CustomTabView: View {
             )
         }
     }
-}
-
-
-func getSafeAreaBottom() -> CGFloat {
-    let scenes = UIApplication.shared.connectedScenes
-    let windowScene = scenes.first as? UIWindowScene
-    return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
 }
 
 
