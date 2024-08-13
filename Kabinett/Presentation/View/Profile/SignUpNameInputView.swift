@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @State private var UserName = ""
+    @State private var userName = ""
+    @State private var shouldNavigate = false
     
     var body: some View {
-        NavigationView{
+        NavigationStack{
             VStack(alignment: .leading){
                 Text("이름을 알려주세요.")
                     .fontWeight(.regular)
@@ -20,30 +21,36 @@ struct SignUpNameInputView: View {
                     .padding(.leading, 24)
                     .padding(.bottom, 15)
                 HStack{
-                    TextField("", text: $UserName)
+                    TextField("", text: $userName)
                         .padding(.leading, 24)
                     Spacer()
                     
-                    NavigationLink(destination: SignUpKabinettNumberSelectView()) {
+                    Button(action: {
+                        if !userName.isEmpty {
+                            shouldNavigate = true
+                        }
+                    }) {
                         ZStack{
                             Circle()
-                                .foregroundColor(.primary300)
+                                .foregroundColor(userName.isEmpty ? .primary300 : .primary900)
                                 .frame(width: 53)
                             Image(systemName: "arrow.right")
                                 .fontWeight(.light)
                                 .font(.system(size: 20))
                                 .foregroundColor(.white)
                         }
-                            .padding(.trailing, 24)
+                        .padding(.trailing, 24)
                     }
-                    .disabled(UserName.isEmpty)
                 }
-                .textFieldStyle(OvalTextFieldStyle())
-                .font(Font.system(size: 24, design: .default))
-                .autocorrectionDisabled(true)
-                .keyboardType(.alphabet)
-                .submitLabel(.done)
-            }
+            .textFieldStyle(OvalTextFieldStyle())
+            .font(Font.system(size: 24, design: .default))
+            .autocorrectionDisabled(true)
+            .keyboardType(.alphabet)
+            .submitLabel(.done)
+            .navigationDestination(isPresented: $shouldNavigate) {
+                    SignUpKabinettNumberSelectView()
+        }
+    }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.background)
         }
