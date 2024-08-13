@@ -11,7 +11,7 @@ import FirebaseFirestore
 struct Letter: Codable, Identifiable {
     @DocumentID var id: String?
     
-    let fontString: String
+    let fontString: String?
     let postScript: String?
     let envelopeImageUrlString: String
     let stampImageUrlString: String
