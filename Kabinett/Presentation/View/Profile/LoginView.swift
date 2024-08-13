@@ -12,7 +12,7 @@ struct LoginView: View {
     var body: some View {
         Circle()
             .foregroundColor(.gray)
-            .frame(width: 115)
+            .frame(width: 110)
             .padding(.bottom, 3)
         Text("User")
             .fontWeight(.regular)
@@ -23,7 +23,7 @@ struct LoginView: View {
             .font(.system(size: 16))
             .monospaced()
             .foregroundStyle(.black)
-            .padding(.bottom, 3)
+            .padding(.bottom, 2)
         Text("비회원 계정이에요.")
             .fontWeight(.bold)
             .font(.system(size: 17))
