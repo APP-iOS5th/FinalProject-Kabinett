@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
+    @State private var selectedNumber: Int? = nil
+    
+    let kabinettNumbers = ["123-456", "234-567", "345-678"] // 파베에서 사용되지 않은 넘버 3개 받기
     
     var body: some View {
         NavigationView{
@@ -18,21 +21,40 @@ struct SignUpKabinettNumberSelectView: View {
                     .foregroundStyle(.contentPrimary)
                     .padding(.leading, 24)
                     .padding(.bottom, 5)
+                
                 VStack{
-                    ForEach(0..<3) { _ in
-                        ZStack(alignment: .leading) {
-                            Capsule()
-                                .stroke(Color.primary300, lineWidth: 1)
-                                .background(Capsule().fill(Color.white))
-                            Text("000-000")
-                                .fontWeight(.light)
-                                .font(.system(size: 20))
-                                .monospaced()
-                                .foregroundStyle(.contentPrimary)
-                                .padding(.leading, 8)
-                                .padding(10)
+                    ForEach(0..<3, id: \.self) { index in
+                        let kabinettNumber = kabinettNumbers[index]
+                        HStack{
+                            ZStack(alignment: .leading) {
+                                Capsule()
+                                    .stroke(Color.primary300, lineWidth: 1)
+                                    .background(Capsule().fill(Color.white))
+                                Text(kabinettNumber)
+                                    .fontWeight(.light)
+                                    .font(.system(size: 20))
+                                    .monospaced()
+                                    .foregroundStyle(.contentPrimary)
+                                    .padding(.leading, 8)
+                                    .padding(10)
+                            }
+                            .frame(width: 280, height: 54)
+                            
+                            Button(action: {
+                                selectedNumber = index
+                                print("Selected Index: \(index), Selected Number: \(kabinettNumber)")
+                            }) {
+                                ZStack{
+                                    Circle()
+                                        .foregroundColor(selectedNumber == index ? .contentPrimary : .primary300)
+                                        .frame(width: 53)
+                                    Image(systemName: "checkmark")
+                                        .fontWeight(.light)
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.white)
+                                }
+                            }
                         }
-                        .frame(width: 280, height: 54)
                     }
                 }
                 .padding(.leading, 24)
