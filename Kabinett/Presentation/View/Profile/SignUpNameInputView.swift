@@ -11,30 +11,40 @@ struct SignUpNameInputView: View {
     @State private var UserName = ""
     
     var body: some View {
-        VStack(alignment: .leading){
-            Text("이름을 알려주세요.")
-                .fontWeight(.regular)
-                .font(.system(size: 16))
-                .foregroundStyle(.contentPrimary)
-                .padding(.leading, 24)
-                .padding(.bottom, 5)
-            HStack{
-                TextField("", text: $UserName)
+        NavigationView{
+            VStack(alignment: .leading){
+                Text("이름을 알려주세요.")
+                    .fontWeight(.regular)
+                    .font(.system(size: 16))
+                    .foregroundStyle(.contentPrimary)
                     .padding(.leading, 24)
-                Spacer()
-                Circle()
-                    .foregroundColor(.primary300)
-                    .frame(width: 53)
-                    .padding(.trailing, 24)
+                    .padding(.bottom, 5)
+                HStack{
+                    TextField("", text: $UserName)
+                        .padding(.leading, 24)
+                    Spacer()
+                    NavigationLink(destination: SignUpKabinettNumberSelectView()) {
+                        ZStack{
+                            Circle()
+                                .foregroundColor(.primary300)
+                                .frame(width: 53)
+                            Image(systemName: "arrow.right")
+                                .fontWeight(.light)
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
+                        }
+                            .padding(.trailing, 24)
+                    }
+                }
+                .textFieldStyle(OvalTextFieldStyle())
+                .font(Font.system(size: 24, design: .default))
+                .autocorrectionDisabled(true)
+                .keyboardType(.alphabet)
+                .submitLabel(.done)
             }
-            .textFieldStyle(OvalTextFieldStyle())
-            .font(Font.system(size: 24, design: .default))
-            .autocorrectionDisabled(true)
-            .keyboardType(.alphabet)
-            .submitLabel(.done)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.background)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.background)
     }
 }
 
@@ -48,7 +58,7 @@ struct OvalTextFieldStyle: TextFieldStyle {
                 .stroke(Color.primary300, lineWidth: 1)
                 .background(Capsule().fill(Color.white))
             )
-            .frame(width: 270, height: 54)
+            .frame(width: 280, height: 54)
     }
 }
 
