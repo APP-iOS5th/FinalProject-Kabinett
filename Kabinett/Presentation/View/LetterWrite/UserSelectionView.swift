@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct UserSelectionView: View {
-    @State var checkLogin = false
-    @State var fromUser = "Song(나)"
+    @StateObject private var viewModel = UserSelectionViewModel()
+    @State private var searchText = ""
     
     var body: some View {
         ZStack {
@@ -27,13 +27,13 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 20)
-                    Button(fromUser) {
+                    Button(viewModel.fromUser) {
                         
                     }
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity, minHeight: 35)
                     .background(Color.white)
-                    .clipShape(.capsule)
+                    .clipShape(Capsule())
                 }
                 .padding(.top, 24)
                 
@@ -42,18 +42,45 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 35)
-                    Button(fromUser) {
+                    Button(viewModel.toUser) {
                         
                     }
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity, minHeight: 35)
                     .background(Color.white)
-                    .clipShape(.capsule)
+                    .clipShape(Capsule())
                 }
                 .padding(.top, 40)
                 
                 HStack {
-                    if !checkLogin {
+                    if viewModel.checkLogin {
+                        Spacer(minLength: 100)
+                        VStack {
+                            SearchBar(text: $searchText)
+                            if !searchText.isEmpty {
+                                Divider()
+                                    .padding([.leading, .trailing], 10)
+                                List {
+                                    ForEach(viewModel.dummyUsers.filter { "\($0.ID)".hasPrefix(searchText) }, id: \.ID) { user in
+                                        HStack {
+                                            Text(user.name)
+                                            Spacer()
+                                            Text("\(String(user.ID).prefix(3))-\(String(user.ID).suffix(3))")
+                                        }
+                                        .listRowSeparator(.hidden)
+                                        .onTapGesture {
+                                            viewModel.toUser = user.name
+                                            searchText = ""
+                                        }
+                                    }
+                                }
+                                .listStyle(PlainListStyle())
+                                .frame(height: 200)
+                            }
+                        }
+                        .background(searchText.isEmpty ? Color.clear : Color.white)
+                        .cornerRadius(20)
+                    } else {
                         Spacer(minLength: 90)
                         VStack {
                             Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
@@ -63,7 +90,7 @@ struct UserSelectionView: View {
                             HStack {
                                 Spacer()
                                 Button("로그인 하러가기") {
-                                    
+                                    // Login action
                                 }
                                 .buttonStyle(.plain)
                                 .font(.system(size: 13))
@@ -73,19 +100,6 @@ struct UserSelectionView: View {
                             }
                         }
                         Spacer()
-                    } else {
-                        Spacer(minLength: 102)
-                        Button {
-                            
-                        } label: {
-                            Spacer()
-                            Image(systemName: "magnifyingglass")
-                            Spacer(minLength: 208)
-                        }
-                        .buttonStyle(.plain)
-                        .frame(maxWidth: .infinity, minHeight: 35)
-                        .background(Color.white)
-                        .clipShape(.capsule)
                     }
                 }
                 .padding(.top, 1)
@@ -93,7 +107,7 @@ struct UserSelectionView: View {
             }
             .padding([.leading, .trailing, .top], 24)
         }
-        .background(Color(.systemGray5))
+        .background(Color(.systemGray6))
     }
 }
 

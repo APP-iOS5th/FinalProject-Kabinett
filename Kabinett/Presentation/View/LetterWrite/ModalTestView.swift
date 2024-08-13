@@ -11,16 +11,20 @@ struct ModalTestView: View {
     @State private var showModal = false
     
     var body: some View {
-        VStack {
-            Button("modal") {
-                self.showModal = true
-            }
-            .sheet(isPresented: self.$showModal) {
-                UserSelectionView()
-                    .presentationDetents([.medium, .large])
+        ZStack {
+            Color("Background")
+            
+            VStack {
+                Button("modal") {
+                    self.showModal = true
+                }
+                .sheet(isPresented: self.$showModal) {
+                    UserSelectionView()
+                        .presentationDetents([.medium, .large])
+                }
             }
         }
-        .padding()
+        .ignoresSafeArea()
     }
 }
 
