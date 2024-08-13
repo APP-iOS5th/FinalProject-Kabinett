@@ -20,6 +20,5 @@ struct ContentView: View {
 }
 
 #Preview {
-//    ContentView()
-    LoginView()
+    ContentView()
 }
