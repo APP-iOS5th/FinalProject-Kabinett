@@ -4,32 +4,40 @@
 //
 //  Created by Song Kim on 8/13/24.
 //
+
 import Foundation
 import SwiftUI
 import Combine
 
-struct userStruct {
-    var ID: Int
-    var name: String
-    var image: String?
-}
-
 class UserSelectionViewModel: ObservableObject {
+    
+    @Published var loginUser: Int? = 111111
     @Published var checkLogin: Bool = true
-    @Published var fromUser: String = "Song(나)"
-    @Published var toUser: String = "Song(나)"
+    @Published var fromUser: String = ""
+    @Published var toUser: String = ""
     
-    @Published var dummyUsers: [userStruct] = [
-        userStruct(ID: 111111, name: "User1", image: nil),
-        userStruct(ID: 111112, name: "User2", image: nil),
-        userStruct(ID: 111113, name: "User3", image: nil),
-        userStruct(ID: 111114, name: "User4", image: nil),
-        userStruct(ID: 111115, name: "User5", image: nil),
-        userStruct(ID: 111116, name: "User6", image: nil),
-        userStruct(ID: 111117, name: "User7", image: nil),
-        userStruct(ID: 111218, name: "User8", image: nil),
-        userStruct(ID: 111119, name: "User9", image: nil),
-        userStruct(ID: 211110, name: "User10", image: nil)
-        ]
+    @Published var dummyUsers: [Writer] = [
+        Writer(name: "Alice", kabinettNumber: 111111, profileImage: nil),
+        Writer(name: "Bob", kabinettNumber: 234234, profileImage: nil),
+        Writer(name: "Charlie", kabinettNumber: 111112, profileImage: nil),
+        Writer(name: "David", kabinettNumber: 111131, profileImage: nil),
+        Writer(name: "Eve", kabinettNumber: 111141, profileImage: nil),
+        Writer(name: "Frank", kabinettNumber: 111151, profileImage: nil),
+        Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
+    ]
     
+    @Published var dummyLetters: [Letter] = []
+    
+    init() {
+        updateFromUser()
+    }
+    
+    private func updateFromUser() {
+        if let loginUser = loginUser {
+            if let user = dummyUsers.first(where: { $0.kabinettNumber == loginUser }) {
+                fromUser = user.name + "(나)"
+                toUser = user.name + "(나)"
+            }
+        }
+    }
 }

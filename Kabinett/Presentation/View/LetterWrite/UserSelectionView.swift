@@ -27,10 +27,7 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 20)
-                    Button(viewModel.fromUser) {
-                        
-                    }
-                    .buttonStyle(.plain)
+                    Text(viewModel.fromUser)
                     .frame(maxWidth: .infinity, minHeight: 35)
                     .background(Color.white)
                     .clipShape(Capsule())
@@ -42,10 +39,7 @@ struct UserSelectionView: View {
                         .font(.system(size: 18))
                         .bold()
                     Spacer(minLength: 35)
-                    Button(viewModel.toUser) {
-                        
-                    }
-                    .buttonStyle(.plain)
+                    Text(viewModel.toUser)
                     .frame(maxWidth: .infinity, minHeight: 35)
                     .background(Color.white)
                     .clipShape(Capsule())
@@ -53,19 +47,21 @@ struct UserSelectionView: View {
                 .padding(.top, 40)
                 
                 HStack {
-                    if viewModel.checkLogin {
+                    if viewModel.loginUser != nil {
                         Spacer(minLength: 100)
                         VStack {
                             SearchBar(text: $searchText)
                             if !searchText.isEmpty {
                                 Divider()
                                     .padding([.leading, .trailing], 10)
+                                
                                 List {
-                                    ForEach(viewModel.dummyUsers.filter { "\($0.ID)".hasPrefix(searchText) }, id: \.ID) { user in
+                                    ForEach(viewModel.dummyUsers.filter { "\($0.kabinettNumber)".hasPrefix(searchText)}, id: \.kabinettNumber) { user in
                                         HStack {
+                                            Image(systemName: user.profileImage == nil ? "person.crop.circle" : "person.crop.circle.fill")
                                             Text(user.name)
                                             Spacer()
-                                            Text("\(String(user.ID).prefix(3))-\(String(user.ID).suffix(3))")
+                                            Text("\(String(user.kabinettNumber).prefix(3))-\(String(user.kabinettNumber).suffix(3))")
                                         }
                                         .listRowSeparator(.hidden)
                                         .onTapGesture {
@@ -78,6 +74,7 @@ struct UserSelectionView: View {
                                 .frame(height: 200)
                             }
                         }
+                        .padding(.top, 2)
                         .background(searchText.isEmpty ? Color.clear : Color.white)
                         .cornerRadius(20)
                     } else {
@@ -90,7 +87,7 @@ struct UserSelectionView: View {
                             HStack {
                                 Spacer()
                                 Button("로그인 하러가기") {
-                                    // Login action
+                                    
                                 }
                                 .buttonStyle(.plain)
                                 .font(.system(size: 13))
