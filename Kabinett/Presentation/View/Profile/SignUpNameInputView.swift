@@ -8,8 +8,19 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
+    @State private var UserName = ""
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading){
+            Text("이름을 알려주세요.")
+                .fontWeight(.regular)
+                .font(.system(size: 16))
+                .foregroundStyle(.contentPrimary)
+            TextField("", text: $UserName)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background)
     }
 }
 
