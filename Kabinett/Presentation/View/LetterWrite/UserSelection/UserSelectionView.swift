@@ -28,9 +28,9 @@ struct UserSelectionView: View {
                         .bold()
                     Spacer(minLength: 20)
                     Text(viewModel.fromUser)
-                    .frame(maxWidth: .infinity, minHeight: 35)
-                    .background(Color.white)
-                    .clipShape(Capsule())
+                        .frame(maxWidth: .infinity, minHeight: 35)
+                        .background(Color.white)
+                        .clipShape(Capsule())
                 }
                 .padding(.top, 24)
                 
@@ -40,9 +40,9 @@ struct UserSelectionView: View {
                         .bold()
                     Spacer(minLength: 35)
                     Text(viewModel.toUser)
-                    .frame(maxWidth: .infinity, minHeight: 35)
-                    .background(Color.white)
-                    .clipShape(Capsule())
+                        .frame(maxWidth: .infinity, minHeight: 35)
+                        .background(Color.white)
+                        .clipShape(Capsule())
                 }
                 .padding(.top, 40)
                 
@@ -58,7 +58,22 @@ struct UserSelectionView: View {
                                 List {
                                     ForEach(viewModel.dummyUsers.filter { "\($0.kabinettNumber)".hasPrefix(searchText)}, id: \.kabinettNumber) { user in
                                         HStack {
-                                            Image(systemName: user.profileImage == nil ? "person.crop.circle" : "person.crop.circle.fill")
+                                            if let profileImage = user.profileImage {
+                                                AsyncImage(url: URL(string: profileImage)) { image in
+                                                    image
+                                                        .resizable()
+                                                        .frame(width: 25, height: 25)
+                                                        .clipShape(.circle)
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                            } else {
+                                                Image(systemName: "person.crop.circle")
+                                                    .resizable()
+                                                    .frame(width: 25, height: 25)
+                                                    .clipShape(.circle)
+                                                    .foregroundStyle(Color.background)
+                                            }
                                             Text(user.name)
                                             Spacer()
                                             Text("\(String(user.kabinettNumber).prefix(3))-\(String(user.kabinettNumber).suffix(3))")
@@ -76,7 +91,7 @@ struct UserSelectionView: View {
                         }
                         .padding(.top, 2)
                         .background(searchText.isEmpty ? Color.clear : Color.white)
-                        .cornerRadius(20)
+                        .cornerRadius(16)
                     } else {
                         Spacer(minLength: 90)
                         VStack {

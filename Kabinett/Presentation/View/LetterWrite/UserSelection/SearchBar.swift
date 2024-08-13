@@ -25,12 +25,13 @@ struct SearchBar: View {
                         self.text = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(Color.background)
                     }
                 } else {
                     EmptyView()
                 }
             }
-            .padding(EdgeInsets(top: 7, leading: 10, bottom: 7, trailing: 8))
+            .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing:13))
             .background(Color(.white))
             .clipShape(.capsule)
         }
@@ -38,6 +39,6 @@ struct SearchBar: View {
     }
 }
 
-#Preview {
-    SearchBar(text: .constant(""))
-}
+//#Preview {
+//    SearchBar(text: .constant(""))
+//}
