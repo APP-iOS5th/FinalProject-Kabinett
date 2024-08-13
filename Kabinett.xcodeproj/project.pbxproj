@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
 		53BA8D252C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
 		53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailEnvelopeCell.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 			children = (
 				53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */,
 				53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */,
+				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -497,6 +500,7 @@
 			files = (
 				53BA8D252C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
