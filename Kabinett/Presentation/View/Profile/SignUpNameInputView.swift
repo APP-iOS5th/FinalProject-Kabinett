@@ -18,7 +18,7 @@ struct SignUpNameInputView: View {
                     .font(.system(size: 16))
                     .foregroundStyle(.contentPrimary)
                     .padding(.leading, 24)
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 15)
                 HStack{
                     TextField("", text: $UserName)
                         .padding(.leading, 24)
