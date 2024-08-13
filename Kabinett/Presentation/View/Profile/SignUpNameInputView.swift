@@ -12,52 +12,55 @@ struct SignUpNameInputView: View {
     @State private var shouldNavigate = false
     
     var body: some View {
-        NavigationStack{
-            VStack(alignment: .leading){
-                Text("이름을 알려주세요.")
-                    .fontWeight(.regular)
-                    .font(.system(size: 16))
-                    .foregroundStyle(.contentPrimary)
-                    .padding(.leading, 24)
-                    .padding(.bottom, 15)
-                HStack{
-                    TextField("", text: $userName)
-                        .padding(.leading, 24)
-                    Spacer()
-                    
-                    Button(action: {
-                        if !userName.isEmpty {
-                            shouldNavigate = true
+        GeometryReader { geometry in
+            NavigationStack{
+                VStack(alignment: .leading){
+                    Text("이름을 알려주세요.")
+                        .fontWeight(.regular)
+                        .font(.system(size: 16))
+                        .foregroundStyle(.contentPrimary)
+                        .padding(.leading, geometry.size.width * 0.06)
+                        .padding(.bottom, 15)
+                    HStack{
+                        TextField("", text: $userName)
+                            .padding(.leading, geometry.size.width * 0.06)
+                        Spacer()
+                        
+                        Button(action: {
+                            if !userName.isEmpty {
+                                shouldNavigate = true
+                            }
+                        }) {
+                            ZStack{
+                                Circle()
+                                    .foregroundColor(userName.isEmpty ? .primary300 : .primary900)
+                                    .frame(width: 53)
+                                Image(systemName: "arrow.right")
+                                    .fontWeight(.light)
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.trailing, geometry.size.width * 0.06)
                         }
-                    }) {
-                        ZStack{
-                            Circle()
-                                .foregroundColor(userName.isEmpty ? .primary300 : .primary900)
-                                .frame(width: 53)
-                            Image(systemName: "arrow.right")
-                                .fontWeight(.light)
-                                .font(.system(size: 20))
-                                .foregroundColor(.white)
-                        }
-                        .padding(.trailing, 24)
+                    }
+                    .textFieldStyle(OvalTextFieldStyle(width: geometry.size.width * 0.72))
+                    .font(Font.system(size: 24, design: .default))
+                    .autocorrectionDisabled(true)
+                    .keyboardType(.alphabet)
+                    .submitLabel(.done)
+                    .navigationDestination(isPresented: $shouldNavigate) {
+                        SignUpKabinettNumberSelectView()
                     }
                 }
-            .textFieldStyle(OvalTextFieldStyle())
-            .font(Font.system(size: 24, design: .default))
-            .autocorrectionDisabled(true)
-            .keyboardType(.alphabet)
-            .submitLabel(.done)
-            .navigationDestination(isPresented: $shouldNavigate) {
-                    SignUpKabinettNumberSelectView()
-        }
-    }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.background)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.background)
+            }
         }
     }
 }
 
 struct OvalTextFieldStyle: TextFieldStyle {
+    var width: CGFloat
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .padding(.leading, 8)
@@ -67,7 +70,7 @@ struct OvalTextFieldStyle: TextFieldStyle {
                 .stroke(Color.primary300, lineWidth: 1)
                 .background(Capsule().fill(Color.white))
             )
-            .frame(width: 280, height: 54)
+            .frame(width: width, height: 54)
     }
 }
 
