@@ -14,7 +14,7 @@ enum LetterError: Error {
     case invalidStamp
     case invalidFromUserId
     case invalidToUserId
-    case invalidPhtoContents
+    case invalidPhotoContents
     case invalidStationery
 }
 
@@ -76,7 +76,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase {
         guard !stamp.isEmpty else { return .failure(LetterError.invalidStamp) }
         guard !fromUserId.isEmpty else { return .failure(LetterError.invalidFromUserId) }
         guard !toUserId.isEmpty else { return .failure(LetterError.invalidToUserId) }
-        guard !photoContents.isEmpty else { return .failure(LetterError.invalidPhtoContents) }
+        guard !photoContents.isEmpty else { return .failure(LetterError.invalidPhotoContents) }
         
         do {
             try await validateUsers(fromUserId: fromUserId, toUserId: toUserId)
