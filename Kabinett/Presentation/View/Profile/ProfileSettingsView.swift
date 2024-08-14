@@ -14,43 +14,47 @@ struct ProfileSettingsView: View {
     let kabinettNumber = "000-000"
     
     var body: some View {
-        VStack{
-            ZStack{
-                Circle()
-                    .foregroundColor(.primary300)
-                    .frame(width: 110)
-                Image(systemName: "camera")
-                    .font(.system(size: 36))
-                    .foregroundColor(.white)
+        NavigationStack {
+            VStack{
+                ZStack{
+                    Circle()
+                        .foregroundColor(.primary300)
+                        .frame(width: 110)
+                    Image(systemName: "camera")
+                        .font(.system(size: 36))
+                        .foregroundColor(.white)
+                }
+                .padding(.bottom, 10)
+                ZStack {
+                    TextField("\(userName)", text: $newUserName)
+                        .textFieldStyle(OvalTextFieldStyle())
+                        .autocorrectionDisabled(true)
+                        .keyboardType(.alphabet)
+                        .submitLabel(.done)
+                        .frame(alignment: .center)
+                        .multilineTextAlignment(.center)
+                }
+                .font(Font.system(size: 25, design: .default))
+                .padding(.bottom, 10)
+                
+                Text("\(kabinettNumber)")
+                    .fontWeight(.light)
+                    .font(.system(size: 16))
+                    .monospaced()
             }
-            .padding(.bottom, 10)
-            ZStack {
-                TextField("\(userName)", text: $newUserName)
-                    .textFieldStyle(OvalTextFieldStyle())
-                    .autocorrectionDisabled(true)
-                    .keyboardType(.alphabet)
-                    .submitLabel(.done)
-                    .frame(alignment: .center)
-                    .multilineTextAlignment(.center)
-            }
-            .font(Font.system(size: 25, design: .default))
-            .padding(.bottom, 10)
-
-            Text("\(kabinettNumber)")
-                .fontWeight(.light)
-                .font(.system(size: 16))
-                .monospaced()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.background)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    
-                }) {
-                    Text("완료")
-                        .font(.system(size: 16))
-                        .foregroundColor(.contentPrimary)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.background)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        
+                    }) {
+                        Text("완료")
+                            .fontWeight(.medium)
+                            .font(.system(size: 18))
+                            .foregroundColor(.contentPrimary)
+                            .padding(.trailing, 8)
+                    }
                 }
             }
         }

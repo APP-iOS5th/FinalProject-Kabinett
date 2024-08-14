@@ -79,8 +79,10 @@ struct SettingsView: View {
                             
                         }) {
                             Text("완료")
-                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                                .font(.system(size: 18))
                                 .foregroundColor(.contentPrimary)
+                                .padding(.trailing, 8)
                         }
                     }
                 }
