@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CustomTabView: View {
     @State private var selectedTab = 0
     @State private var showOptions = false
     @State private var showActionSheet = false
+   
     
     var body: some View {
         ZStack {
@@ -35,12 +37,12 @@ struct CustomTabView: View {
                     }
                     .tag(2)
             }
-            .onChange(of: selectedTab) { _, currentTab in
+            .onChange(of: selectedTab) { PreviousTab, currentTab in
                 if currentTab == 1 {
                     withAnimation {
                         showOptions = true
                     }
-                    selectedTab = 0
+                    selectedTab = PreviousTab
                 }
             }
             
@@ -52,8 +54,10 @@ struct CustomTabView: View {
             ActionSheet(
                 title: Text("편지를 불러올 방법을 선택하세요."),
                 buttons: [
-                    .default(Text("촬영하기")),
-                    .default(Text("앨범에서 가져오기")),
+                    .default(Text("촬영하기")) {
+                    },
+                    .default(Text("앨범에서 가져오기")) {
+                    },
                     .cancel(Text("취소"))
                 ]
             )
