@@ -83,7 +83,6 @@ struct SettingsView: View {
                                 .foregroundColor(.contentPrimary)
                         }
                     }
-                    
                 }
             }
         }
