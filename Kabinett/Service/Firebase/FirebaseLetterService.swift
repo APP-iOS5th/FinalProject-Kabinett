@@ -117,7 +117,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase {
     }
     
     // MARK: - Firestore Letter 저장
-    private func saveLetterToFireStore(letter: Letter, fromUserId: String, toUserId: String) async -> Result<Void, Error> {
+    private func saveLetterToFireStore(letter: Letter, fromUserId: String, toUserId: String) async -> Result<Void, any Error> {
         
         do {
             let fromUserDoc = db.collection("Writer").document(fromUserId)
@@ -143,7 +143,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase {
                 }
                 
                 do {
-                    try await fromUserDoc.collection("Recieved").addDocument(data: letterData)
+                    try await toUserDoc.collection("Received").addDocument(data: letterData)
                 } catch {
                     receivedSaveError = error
                 }
