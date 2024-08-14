@@ -9,7 +9,71 @@ import SwiftUI
 
 struct SettingsView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geometry in
+            NavigationStack {
+                VStack(alignment: .leading) {
+                    HStack{
+                        Text("프로필 설정")
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 19))
+                            .foregroundColor(.contentPrimary)
+                    }
+                    .padding(.top, 10)
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, geometry.size.width * 0.06)
+                    HStack{
+                        Text("계정 설정")
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 19))
+                            .foregroundColor(.contentPrimary)
+                    }
+                    .padding(.horizontal, geometry.size.width * 0.06)
+                    HStack{
+                        ZStack {
+                            Rectangle()
+                                .frame(width: 25, height: 25)
+                                .cornerRadius(/*@START_MENU_TOKEN@*/3.0/*@END_MENU_TOKEN@*/)
+                            Image(systemName: "apple.logo")
+                                .font(.system(size: 14))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.leading, 10)
+                        Text("figfigure33@gmail.com")
+                            .fontWeight(.medium)
+                    }
+                    .padding(.bottom, 20)
+                    .padding(.horizontal, geometry.size.width * 0.06)
+                    HStack{
+                        Text("오픈소스 라이선스")
+                            .fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 19))
+                            .foregroundColor(.contentPrimary)
+                    }
+                    .padding(.horizontal, geometry.size.width * 0.06)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.background)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            
+                        }) {
+                            Text("완료")
+                                .font(.system(size: 16))
+                                .foregroundColor(.contentPrimary)
+                        }
+                    }
+                    
+                }
+            }
+        }
     }
 }
 
