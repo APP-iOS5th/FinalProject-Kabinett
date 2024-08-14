@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @State private var shouldNavigateToSettings = false
     //     var userName: String
     //     var userNumber: String
     
@@ -32,13 +33,16 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        print("Settings tapped")
+                        shouldNavigateToSettings = true
                     }) {
                         Image(systemName: "gearshape")
                             .font(.system(size: 19))
                             .foregroundColor(.contentPrimary)
                     }
                 }
+            }
+            .navigationDestination(isPresented: $shouldNavigateToSettings) {
+                SettingsView()
             }
         }
     }
