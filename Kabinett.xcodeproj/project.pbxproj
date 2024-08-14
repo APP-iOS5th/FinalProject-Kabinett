@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E62C6C6C7300D289EA /* ProfileView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -45,6 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04DEC0E62C6C6C7300D289EA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		8366B6F42C65ECEC0021FAE0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0E62C6C6C7300D289EA /* ProfileView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -498,6 +501,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
