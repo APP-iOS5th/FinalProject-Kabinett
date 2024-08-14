@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
+		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
-		53BA8D252C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -51,8 +51,8 @@
 /* Begin PBXFileReference section */
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
+		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
-		53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailEnvelopeCell.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -171,9 +171,9 @@
 			isa = PBXGroup;
 			children = (
 				53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */,
-				53BA8D242C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift */,
 				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
 				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
+				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -510,7 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53BA8D252C6A53580084D5CC /* LetterBoxDetailEnvelopeCell.swift in Sources */,
+				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
