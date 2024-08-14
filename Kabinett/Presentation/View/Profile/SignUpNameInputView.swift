@@ -49,7 +49,7 @@ struct SignUpNameInputView: View {
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
                     .navigationDestination(isPresented: $shouldNavigate) {
-                        SignUpKabinettNumberSelectView()
+                        SignUpKabinettNumberSelectView(userName: userName)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
