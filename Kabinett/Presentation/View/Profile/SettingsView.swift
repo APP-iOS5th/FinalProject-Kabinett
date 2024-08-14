@@ -73,6 +73,8 @@ struct SettingsView: View {
                     
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
+                .navigationTitle("설정")
+                .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
