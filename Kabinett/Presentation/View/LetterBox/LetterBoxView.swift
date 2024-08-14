@@ -23,16 +23,22 @@ struct LetterBoxView: View {
     ]
     
     var body: some View {
-        ZStack {
-            Color.background
-            
-            LazyVGrid(columns: columns, spacing: 40) {
-                ForEach(LetterBoxType.allCases) { type in
-                    LetterBoxCell(type: "\(type)", typeName: type.rawValue)
+        NavigationStack {
+            ZStack {
+                Color.background
+                
+                LazyVGrid(columns: columns, spacing: 40) {
+                    ForEach(LetterBoxType.allCases) { type in
+                        NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)")) {
+                            LetterBoxCell(type: "\(type)", typeName: type.rawValue)
+                        }
+                    }
                 }
             }
+            .ignoresSafeArea()
         }
-        .ignoresSafeArea()
+        .tint(.black)
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
