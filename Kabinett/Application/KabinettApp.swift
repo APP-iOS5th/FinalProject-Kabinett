@@ -43,7 +43,7 @@ struct KabinettApp: App {
     var body: some Scene {
         WindowGroup {
 //            ContentView()
-            ProfileView()
+            SettingsView()
         }
     }
 }

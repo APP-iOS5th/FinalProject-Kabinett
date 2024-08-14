@@ -12,26 +12,34 @@ struct SettingsView: View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    HStack{
-                        Text("프로필 설정")
-                            .fontWeight(.medium)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 19))
-                            .foregroundColor(.contentPrimary)
+                    NavigationLink(destination: ProfileSettingsView()) {
+                        HStack{
+                            Text("프로필 설정")
+                                .fontWeight(.medium)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 19))
+                                .foregroundColor(.contentPrimary)
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 20)
+                        .padding(.horizontal, geometry.size.width * 0.06)
                     }
-                    .padding(.top, 10)
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, geometry.size.width * 0.06)
-                    HStack{
-                        Text("계정 설정")
-                            .fontWeight(.medium)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 19))
-                            .foregroundColor(.contentPrimary)
+                    .buttonStyle(PlainButtonStyle())
+                    
+                    NavigationLink(destination: AccountSettingsView()) {
+                        HStack{
+                            Text("계정 설정")
+                                .fontWeight(.medium)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 19))
+                                .foregroundColor(.contentPrimary)
+                        }
+                        .padding(.horizontal, geometry.size.width * 0.06)
                     }
-                    .padding(.horizontal, geometry.size.width * 0.06)
+                    .buttonStyle(PlainButtonStyle())
+                    
                     HStack{
                         ZStack {
                             Rectangle()
@@ -47,17 +55,22 @@ struct SettingsView: View {
                     }
                     .padding(.bottom, 20)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                    HStack{
-                        Text("오픈소스 라이선스")
-                            .fontWeight(.medium)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.system(size: 19))
-                            .foregroundColor(.contentPrimary)
+                    
+                    NavigationLink(destination: OpenSourceLicensesView()) {
+                        HStack{
+                            Text("오픈소스 라이선스")
+                                .fontWeight(.medium)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 19))
+                                .foregroundColor(.contentPrimary)
+                        }
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
                     Spacer()
                 }
+                .buttonStyle(PlainButtonStyle())
+                    
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
                 .toolbar {
