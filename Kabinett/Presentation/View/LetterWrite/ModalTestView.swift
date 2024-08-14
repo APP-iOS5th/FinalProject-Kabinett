@@ -9,22 +9,21 @@ import SwiftUI
 
 struct ModalTestView: View {
     @State private var showModal = false
+    @State var letterContent = LetterViewModel()
     
     var body: some View {
-        ZStack {
-            Color("Background")
-            
-            VStack {
-                Button("modal") {
-                    self.showModal = true
-                }
-                .sheet(isPresented: self.$showModal) {
-                    UserSelectionView()
-                        .presentationDetents([.medium, .large])
+        NavigationStack {
+            ZStack {
+                Color("Background")
+                
+                VStack {
+                    NavigationLink("button") {
+                        StationerySelectionView(letterContent: $letterContent)
+                    }
                 }
             }
+            .ignoresSafeArea()
         }
-        .ignoresSafeArea()
     }
 }
 

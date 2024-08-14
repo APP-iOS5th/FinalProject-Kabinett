@@ -38,7 +38,3 @@ struct SearchBar: View {
         
     }
 }
-
-//#Preview {
-//    SearchBar(text: .constant(""))
-//}

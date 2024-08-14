@@ -26,8 +26,6 @@ class UserSelectionViewModel: ObservableObject {
         Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
     ]
     
-    @Published var dummyLetters: [Letter] = []
-    
     init() {
         updateFromUser()
     }
