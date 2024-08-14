@@ -23,7 +23,6 @@ struct UserSelectionView: View {
                             letterContent.toUserId = viewModel.toUser
                             letterContent.fromUserId = viewModel.fromUser
                             presentation.wrappedValue.dismiss()
-                            print(letterContent.toUserId)
                         }
                     }
                     .foregroundStyle(.black)

@@ -14,7 +14,9 @@ struct StationerySelectionView: View {
     var body: some View {
         ZStack {
             Color(.background)
-            
+            VStack {
+                
+            }
         }
         .ignoresSafeArea()
         .sheet(isPresented: self.$showModal) {
@@ -23,7 +25,3 @@ struct StationerySelectionView: View {
         }
     }
 }
-
-//#Preview {
-//    StationerySelectionView()
-//}

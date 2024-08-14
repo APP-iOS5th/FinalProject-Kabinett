@@ -15,7 +15,6 @@ struct ModalTestView: View {
         NavigationStack {
             ZStack {
                 Color("Background")
-                
                 VStack {
                     NavigationLink("button") {
                         StationerySelectionView(letterContent: $letterContent)

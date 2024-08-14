@@ -13,7 +13,6 @@
 		57EBE5B62C6AF149003ECD7F /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B52C6AF148003ECD7F /* SearchBar.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57EBE5BD2C6C43A7003ECD7F /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5BC2C6C43A7003ECD7F /* LetterViewModel.swift */; };
-		57ED9CD12C6C715700A4312C /* FontSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD02C6C715700A4312C /* FontSelectionView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -58,7 +57,6 @@
 		57EBE5B52C6AF148003ECD7F /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
 		57EBE5BC2C6C43A7003ECD7F /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
-		57ED9CD02C6C715700A4312C /* FontSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -195,7 +193,6 @@
 				57EBE5B12C69E653003ECD7F /* ModalTestView.swift */,
 				57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */,
 				57EBE5B72C6B3909003ECD7F /* UserSelection */,
-				57ED9CD02C6C715700A4312C /* FontSelectionView.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -533,7 +530,6 @@
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
-				57ED9CD12C6C715700A4312C /* FontSelectionView.swift in Sources */,
 				57EBE5B42C6AE818003ECD7F /* UserSelectionViewModel.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
