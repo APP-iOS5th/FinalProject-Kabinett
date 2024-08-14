@@ -37,7 +37,6 @@ struct ProfileView: View {
                         Image(systemName: "gearshape")
                             .font(.system(size: 19))
                             .foregroundColor(.contentPrimary)
-                            .padding(.trailing, 24)
                     }
                 }
             }
