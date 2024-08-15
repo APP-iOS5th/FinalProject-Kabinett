@@ -9,9 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileSettingsView: View {
-    @State private var userName = "Yule"
-    @State private var newUserName = ""
-    @State private var profileImage: UIImage?
+    @ObservedObject var viewModel: ProfileSettingsViewModel
     @State private var isShowingImagePicker = false
     
     let kabinettNumber = "000-000"
@@ -23,7 +21,7 @@ struct ProfileSettingsView: View {
                     Circle()
                         .foregroundColor(.primary300)
                         .frame(width: 110)
-                    if let image = profileImage {
+                    if let image = viewModel.profileImage {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
@@ -41,7 +39,7 @@ struct ProfileSettingsView: View {
                 .padding(.bottom, 10)
                 
                 ZStack {
-                    TextField("\(userName)", text: $newUserName)
+                    TextField("\(viewModel.userName)", text: $viewModel.newUserName)
                         .textFieldStyle(OvalTextFieldStyle())
                         .autocorrectionDisabled(true)
                         .keyboardType(.alphabet)
@@ -76,7 +74,7 @@ struct ProfileSettingsView: View {
             }
         }
         .sheet(isPresented: $isShowingImagePicker) {
-            ImagePicker(image: $profileImage)
+            ImagePicker(image: $viewModel.profileImage)
         }
     }
     
@@ -138,5 +136,5 @@ struct ProfileSettingsView: View {
 }
 
 #Preview {
-    ProfileSettingsView()
+    ProfileSettingsView(viewModel: ProfileSettingsViewModel())
 }

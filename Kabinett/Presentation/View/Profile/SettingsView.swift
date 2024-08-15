@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @ObservedObject var viewModel: ProfileSettingsViewModel
+    
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView()) {
+                    NavigationLink(destination: ProfileSettingsView(viewModel: viewModel)) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -93,5 +95,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView(viewModel: ProfileSettingsViewModel())
 }

@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @ObservedObject var viewModel: ProfileSettingsViewModel
     @State private var shouldNavigateToSettings = false
-    //     var userName: String
-    //     var userNumber: String
     
     var body: some View {
         NavigationStack {
@@ -19,7 +18,7 @@ struct ProfileView: View {
                     .foregroundColor(.primary300)
                     .frame(width: 110)
                     .padding(.bottom, -1)
-                Text("userName")
+                Text(viewModel.userName)
                     .fontWeight(.regular)
                     .font(.system(size: 36))
                     .padding(.bottom, 0.1)
@@ -42,12 +41,12 @@ struct ProfileView: View {
                 }
             }
             .navigationDestination(isPresented: $shouldNavigateToSettings) {
-                SettingsView()
+                SettingsView(viewModel: viewModel)
             }
         }
     }
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(viewModel: ProfileSettingsViewModel())
 }
