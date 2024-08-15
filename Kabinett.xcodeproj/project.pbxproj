@@ -55,6 +55,7 @@
 		04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
 		04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		04DEC0EE2C6C883C00D289EA /* OpenSourceLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicensesView.swift; sourceTree = "<group>"; };
+		04DEC0F02C6E136F00D289EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -335,6 +336,7 @@
 		839CE0F52C644BEF003635F3 /* Kabinett */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F02C6E136F00D289EA /* Info.plist */,
 				838697C72C64B7FB00E76230 /* Application */,
 				838697C62C64B7EC00E76230 /* Domain */,
 				838697C52C64B7E600E76230 /* Service */,
@@ -693,6 +695,8 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -725,6 +729,8 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

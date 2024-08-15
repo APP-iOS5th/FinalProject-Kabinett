@@ -70,7 +70,6 @@ struct SettingsView: View {
                     Spacer()
                 }
                 .buttonStyle(PlainButtonStyle())
-                    
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
                 .navigationTitle("설정")

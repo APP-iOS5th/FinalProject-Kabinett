@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileSettingsView: View {
     @State private var userName = "Yule"
     @State private var newUserName = ""
+    @State private var profileImage: UIImage?
+    @State private var isShowingImagePicker = false
     
     let kabinettNumber = "000-000"
     
@@ -20,11 +23,23 @@ struct ProfileSettingsView: View {
                     Circle()
                         .foregroundColor(.primary300)
                         .frame(width: 110)
-                    Image(systemName: "camera")
-                        .font(.system(size: 36))
-                        .foregroundColor(.white)
+                    if let image = profileImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 110, height: 110)
+                            .clipShape(Circle())
+                    } else {
+                        Image(systemName: "photo")
+                            .font(.system(size: 36))
+                            .foregroundColor(.white)
+                    }
+                }
+                .onTapGesture {
+                    isShowingImagePicker = true
                 }
                 .padding(.bottom, 10)
+                
                 ZStack {
                     TextField("\(userName)", text: $newUserName)
                         .textFieldStyle(OvalTextFieldStyle())
@@ -60,6 +75,9 @@ struct ProfileSettingsView: View {
                 }
             }
         }
+        .sheet(isPresented: $isShowingImagePicker) {
+            ImagePicker(image: $profileImage)
+        }
     }
     
     struct OvalTextFieldStyle: TextFieldStyle {
@@ -74,7 +92,51 @@ struct ProfileSettingsView: View {
                 .frame(width: 270, height: 54)
         }
     }
+    
+    struct ImagePicker: UIViewControllerRepresentable {
+        @Binding var image: UIImage?
+        @Environment(\.presentationMode) private var presentationMode
+        
+        func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> PHPickerViewController {
+            var config = PHPickerConfiguration()
+            config.filter = .images
+            let picker = PHPickerViewController(configuration: config)
+            picker.delegate = context.coordinator
+            return picker
+        }
+        
+        func updateUIViewController(_ uiViewController: PHPickerViewController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+            
+        }
+        
+        func makeCoordinator() -> Coordinator {
+            Coordinator(self)
+        }
+        
+        class Coordinator: NSObject, PHPickerViewControllerDelegate {
+            let parent: ImagePicker
+            
+            init(_ parent: ImagePicker) {
+                self.parent = parent
+            }
+            
+            func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+                parent.presentationMode.wrappedValue.dismiss()
+                
+                guard let provider = results.first?.itemProvider else { return }
+                
+                if provider.canLoadObject(ofClass: UIImage.self) {
+                    provider.loadObject(ofClass: UIImage.self) { image, _ in
+                        DispatchQueue.main.async {
+                            self.parent.image = image as? UIImage
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
 #Preview {
     ProfileSettingsView()
 }
