@@ -70,6 +70,10 @@ struct CustomTabView: View {
         .onChange(of: imagePickerViewModel.selectedItems) { _, _ in
             imagePickerViewModel.loadImages()
         }
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraView()
+                .environmentObject(imagePickerViewModel)
+        }
     }
 }
 
