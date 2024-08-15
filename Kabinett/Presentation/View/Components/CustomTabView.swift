@@ -66,13 +66,9 @@ struct CustomTabView: View {
                 ]
             )
         }
-        .fullScreenCover(isPresented: $showCamera) {
-            CameraView(viewModel: imagePickerViewModel)
-                .edgesIgnoringSafeArea(.all)
-        }
-        .fullScreenCover(isPresented:  $showPhotoLibrary) {
-            PhotoLibraryView(viewModel: imagePickerViewModel)
-                .edgesIgnoringSafeArea(.all)
+        .photosPicker(isPresented: $showPhotoLibrary, selection: $imagePickerViewModel.selectedItems, maxSelectionCount: 3, matching: .images)
+        .onChange(of: imagePickerViewModel.selectedItems) { _, _ in
+            imagePickerViewModel.loadImages()
         }
     }
 }
