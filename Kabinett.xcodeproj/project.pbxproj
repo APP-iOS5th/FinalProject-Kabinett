@@ -11,6 +11,7 @@
 		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
 		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
 		7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E12C6E25500074568E /* CameraViewModel.swift */; };
+		7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -53,6 +54,7 @@
 		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
 		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E12C6E25500074568E /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 			children = (
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
+				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -518,6 +521,7 @@
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
+				7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
