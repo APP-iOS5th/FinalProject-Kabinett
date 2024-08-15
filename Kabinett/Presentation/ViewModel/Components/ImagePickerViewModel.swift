@@ -10,10 +10,10 @@ import PhotosUI
 
 // MARK: - ViewModel
 final class ImagePickerViewModel: ObservableObject {
-    @Published var selectedImages: [UIImage] = []
+    @Published var selectedImages = []
     
     func addImage(_ image: UIImage) {
-        selectedImages.append(image)
+        selectedImages.append(selectedImages)
     }
     
     func resetImages() {

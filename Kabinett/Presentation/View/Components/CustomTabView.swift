@@ -12,6 +12,9 @@ struct CustomTabView: View {
     @State private var selectedTab = 0
     @State private var showOptions = false
     @State private var showActionSheet = false
+    @State private var showCamera = false
+    @State private var showPhotoLibrary = false
+    @StateObject private var imagePickerViewModel = ImagePickerViewModel()
     
     var body: some View {
         ZStack {
@@ -54,12 +57,22 @@ struct CustomTabView: View {
                 title: Text("편지를 불러올 방법을 선택하세요."),
                 buttons: [
                     .default(Text("촬영하기")) {
+                        showCamera = true
                     },
                     .default(Text("앨범에서 가져오기")) {
+                        showPhotoLibrary = true
                     },
                     .cancel(Text("취소"))
                 ]
             )
+        }
+        .fullScreenCover(isPresented: $showCamera) {
+            CameraView(viewModel: imagePickerViewModel)
+                .edgesIgnoringSafeArea(.all)
+        }
+        .fullScreenCover(isPresented:  $showPhotoLibrary) {
+            PhotoLibraryView(viewModel: imagePickerViewModel)
+                .edgesIgnoringSafeArea(.all)
         }
     }
 }
