@@ -29,4 +29,8 @@ final class ImagePickerViewModel: ObservableObject {
             }
         }
     }
+    
+    func addImage(_ image: UIImage) {
+        selectedImages.append(image)
+    }
 }
