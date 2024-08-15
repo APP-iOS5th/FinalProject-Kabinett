@@ -11,6 +11,7 @@ import PhotosUI
 struct ProfileSettingsView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
     @State private var isShowingImagePicker = false
+    @State private var shouldNavigateToProfile = false
     
     let kabinettNumber = "000-000"
     
@@ -62,7 +63,9 @@ struct ProfileSettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        
+                        viewModel.updateUserName()
+                        viewModel.updateProfileImage(with: viewModel.profileImage)
+                        shouldNavigateToProfile = true
                     }) {
                         Text("완료")
                             .fontWeight(.medium)
@@ -71,6 +74,9 @@ struct ProfileSettingsView: View {
                             .padding(.trailing, 8)
                     }
                 }
+            }
+            .navigationDestination(isPresented: $shouldNavigateToProfile) {
+                ProfileView(viewModel: viewModel)
             }
         }
         .sheet(isPresented: $isShowingImagePicker) {

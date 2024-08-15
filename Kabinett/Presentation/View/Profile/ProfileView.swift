@@ -14,10 +14,20 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             VStack{
-                Circle()
-                    .foregroundColor(.primary300)
-                    .frame(width: 110)
-                    .padding(.bottom, -1)
+                if let image = viewModel.profileImage {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width:110, height: 110)
+                        .clipShape(Circle())
+                        .padding(.bottom, -1)
+                } else {
+                    Circle()
+                        .foregroundColor(.primary300)
+                        .frame(width: 110, height: 110)
+                        .padding(.bottom, -1)
+                }
+                
                 Text(viewModel.userName)
                     .fontWeight(.regular)
                     .font(.system(size: 36))
