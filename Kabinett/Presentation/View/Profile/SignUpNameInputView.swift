@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @State private var userName = ""
+    @ObservedObject var viewModel: SignUpViewModel
     @State private var shouldNavigate = false
     
     var body: some View {
@@ -22,18 +22,18 @@ struct SignUpNameInputView: View {
                         .padding(.leading, geometry.size.width * 0.06)
                         .padding(.bottom, 15)
                     HStack{
-                        TextField("", text: $userName)
+                        TextField("", text: $viewModel.userName)
                             .padding(.leading, geometry.size.width * 0.06)
                         Spacer()
                         
                         Button(action: {
-                            if !userName.isEmpty {
+                            if !viewModel.userName.isEmpty {
                                 shouldNavigate = true
                             }
                         }) {
                             ZStack{
                                 Circle()
-                                    .foregroundColor(userName.isEmpty ? .primary300 : .primary900)
+                                    .foregroundColor(viewModel.userName.isEmpty ? .primary300 : .primary900)
                                     .frame(width: 53)
                                 Image(systemName: "arrow.right")
                                     .fontWeight(.light)
@@ -49,7 +49,7 @@ struct SignUpNameInputView: View {
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
                     .navigationDestination(isPresented: $shouldNavigate) {
-                        SignUpKabinettNumberSelectView(userName: userName)
+                        SignUpKabinettNumberSelectView(viewModel: viewModel)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -76,5 +76,5 @@ struct OvalTextFieldStyle: TextFieldStyle {
 }
 
 #Preview {
-    SignUpNameInputView()
+    SignUpNameInputView(viewModel: SignUpViewModel())
 }

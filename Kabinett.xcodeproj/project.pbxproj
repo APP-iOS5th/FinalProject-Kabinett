@@ -10,7 +10,7 @@
 		04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0DC2C6A3AD600D289EA /* LoginView.swift */; };
 		04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */; };
 		04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */; };
-		04DEC0E52C6B837100D289EA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E42C6B837100D289EA /* ProfileView.swift */; };
+		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -49,7 +49,7 @@
 		04DEC0DC2C6A3AD600D289EA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNameInputView.swift; sourceTree = "<group>"; };
 		04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpKabinettNumberSelectView.swift; sourceTree = "<group>"; };
-		04DEC0E42C6B837100D289EA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -179,7 +179,6 @@
 				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
 				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
 				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
-				04DEC0E42C6B837100D289EA /* ProfileView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -215,6 +214,7 @@
 		8366B6F92C65ED150021FAE0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -501,9 +501,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DEC0E52C6B837100D289EA /* ProfileView.swift in Sources */,
 				04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */,
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
+				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
