@@ -84,9 +84,9 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                     .disabled(selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                    .navigationDestination(isPresented: $shouldNavigatedToProfile) {
-                        ProfileView(userName: userName, userNumber: kabinettNumbers[selectedKabinettNumber ?? 0])
-                    }
+//                    .navigationDestination(isPresented: $shouldNavigatedToProfile) {
+//                        ProfileView(userName: userName, userNumber: kabinettNumbers[selectedKabinettNumber ?? 0])
+//                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
