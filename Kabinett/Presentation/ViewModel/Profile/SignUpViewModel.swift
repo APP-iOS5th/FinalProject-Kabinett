@@ -17,11 +17,4 @@ class SignUpViewModel: ObservableObject {
     func selectKabinettNumber(at index: Int) {
         selectedKabinettNumber = index
     }
-    
-    func getSelectedKabinettNumber() -> String {
-        guard let selectedKabinettNumber = selectedKabinettNumber else {
-            return ""
-        }
-        return kabinettNumbers[selectedKabinettNumber]
-    }
 }
