@@ -36,6 +36,29 @@ final class AuthManager {
             try Auth.auth().signOut()
         } catch {
             print("sign out error")
+    
+    func linkAccount(
+        with credential: OAuthCredential
+    ) async {
+        do {
+            if let user = Auth.auth().currentUser {
+                let result = try await user.link(with: credential)
+                currentUserSubject.send(result.user)
+            }
+        } catch {
+            let error = error as NSError
+            let code = AuthErrorCode(rawValue: error.code)
+            
+            if code == .credentialAlreadyInUse {
+                logger.debug("This credential already in use, delete current user and retry signing.")
+                deleteAccount()
+                await signInWith(credential: credential)
+            } else {
+                logger.debug("Linking Error: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func deleteAccount() {
         Auth.auth().currentUser?.delete()
     }
