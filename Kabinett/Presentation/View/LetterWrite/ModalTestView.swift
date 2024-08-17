@@ -14,14 +14,12 @@ struct ModalTestView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("Background")
                 VStack {
                     NavigationLink("button") {
                         StationerySelectionView(letterContent: $letterContent)
                     }
                 }
             }
-            .ignoresSafeArea()
         }
     }
 }

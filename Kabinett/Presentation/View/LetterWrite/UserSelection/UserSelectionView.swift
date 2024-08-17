@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UserSelectionView: View {
-    @StateObject private var viewModel = UserSelectionViewModel()
+    @StateObject private var viewModel = DummyData()
     @Binding var letterContent: LetterViewModel
     @State private var searchText = ""
     @Environment(\.presentationMode) var presentation

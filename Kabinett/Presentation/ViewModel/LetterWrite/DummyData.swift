@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
-class UserSelectionViewModel: ObservableObject {
+class DummyData: ObservableObject {
     
     @Published var loginUser: Int? = 111111
     @Published var checkLogin: Bool = true
