@@ -31,22 +31,31 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
-    func signout() {
+    func signout() -> Bool {
         do {
             try Auth.auth().signOut()
             signInAnonymousIfNeeded()
+            
+            return true
         } catch {
             logger.error("Signout Error: \(error.localizedDescription)")
+            
+            return false
         }
     }
     
     func linkAccount(
         with credential: OAuthCredential
-    ) async {
+    ) async -> Bool {
         do {
             if let user = Auth.auth().currentUser {
                 let result = try await user.link(with: credential)
                 currentUserSubject.send(result.user)
+                
+                return true
+            } else {
+                logger.warning("Attempting to linking user without current user is not allowed.")
+                return false
             }
         } catch {
             let error = error as NSError
@@ -56,8 +65,12 @@ final class AuthManager {
                 logger.debug("This credential already in use, delete current user and retry signing.")
                 deleteAccount()
                 await signInWith(credential: credential)
+                
+                return true
             } else {
                 logger.debug("Linking Error: \(error.localizedDescription)")
+                
+                return false
             }
         }
     }
