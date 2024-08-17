@@ -64,7 +64,7 @@ final class AuthManager {
     }
 }
 
-extension AuthManager {
+private extension AuthManager {
     static var users: AsyncStream<User?> {
         AsyncStream { continuation in
             _ = Auth.auth().addStateDidChangeListener { auth, user in
