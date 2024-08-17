@@ -49,15 +49,15 @@ final class AuthManager {
     
     private func signInAnonymousIfNeeded() {
         if Auth.auth().currentUser == nil {
-            Task {
+            Task { [weak self] in
                 do {
                     let result = try await Auth.auth().signInAnonymously()
-                    writerManager.createWriterDocument(
+                    self?.writerManager.createWriterDocument(
                         with: .anonymousWriter,
                         writerId: result.user.uid
                     )
                 } catch {
-                    logger.error("SignInAnonymously is failed.")
+                    self?.logger.error("SignInAnonymously is failed.")
                 }
             }
         }
