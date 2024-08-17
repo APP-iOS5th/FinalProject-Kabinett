@@ -66,3 +66,11 @@ extension AuthManager {
         }
     }
 }
+
+extension Writer {
+    static let anonymousWriter = Writer(
+        name: "User",
+        kabinettNumber: 0,
+        profileImage: nil
+    )
+}
