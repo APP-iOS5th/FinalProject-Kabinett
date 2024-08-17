@@ -34,8 +34,11 @@ final class AuthManager {
     func signout() {
         do {
             try Auth.auth().signOut()
+            signInAnonymousIfNeeded()
         } catch {
-            print("sign out error")
+            logger.error("Signout Error: \(error.localizedDescription)")
+        }
+    }
     
     func linkAccount(
         with credential: OAuthCredential
