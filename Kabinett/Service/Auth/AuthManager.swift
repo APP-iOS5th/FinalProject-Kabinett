@@ -13,12 +13,15 @@ import os
 final class AuthManager {
     private let logger: Logger
     private var currentUserSubject: CurrentValueSubject<User?, Never> = .init(nil)
+    private let writerManager: FirestoreWriterManager
     
     init() {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "AuthManager"
         )
+        self.writerManager = FirestoreWriterManager()
+        
         observeCurrentAuthStatus()
         signInAnonymousIfNeeded()
     }
@@ -48,7 +51,11 @@ final class AuthManager {
         if Auth.auth().currentUser == nil {
             Task {
                 do {
-                    try await Auth.auth().signInAnonymously()
+                    let result = try await Auth.auth().signInAnonymously()
+                    writerManager.createWriterDocument(
+                        with: .anonymousWriter,
+                        writerId: result.user.uid
+                    )
                 } catch {
                     logger.error("SignInAnonymously is failed.")
                 }
