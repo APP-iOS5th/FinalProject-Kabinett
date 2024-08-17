@@ -105,7 +105,7 @@ final class AuthManager {
                         writerId: result.user.uid
                     )
                 } catch {
-                    self?.logger.error("SignInAnonymously is failed.")
+                    self?.logger.error("SignInAnonymously is failed: \(error.localizedDescription)")
                 }
             }
         }
