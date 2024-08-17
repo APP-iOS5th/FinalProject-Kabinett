@@ -17,6 +17,9 @@ enum LetterBoxType: String, CaseIterable, Identifiable {
 }
 
 struct LetterBoxView: View {
+    @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
+    @State private var showToast: Bool = false
+    
     let columns = [
         GridItem(.flexible(minimum: 220), spacing: -70),
         GridItem(.flexible(minimum: 220))
@@ -34,8 +37,32 @@ struct LetterBoxView: View {
                         }
                     }
                 }
+                
+                VStack {
+                    if showToast {
+                        Spacer()
+                        ToastView(message: "편지가 도착했습니다.")
+                            .transition(.move(edge: .bottom))
+                            .zIndex(1)
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    withAnimation {
+                                        showToast = false
+                                    }
+                                }
+                            }
+                    }
+                }
             }
             .ignoresSafeArea()
+            .onAppear() {
+                withAnimation {
+                    if isFirstLaunch {
+                        showToast = true
+                        isFirstLaunch = false
+                    }
+                }
+            }
         }
         .tint(.black)
         .buttonStyle(PlainButtonStyle())

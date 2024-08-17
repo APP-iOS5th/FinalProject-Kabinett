@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
 				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
 				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
+				530912CB2C7045F200964130 /* ToastView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -517,6 +520,7 @@
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
+				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
