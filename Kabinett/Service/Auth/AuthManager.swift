@@ -63,6 +63,11 @@ final class AuthManager {
         Auth.auth().currentUser?.delete()
     }
     
+    private func signInWith(credential: AuthCredential) async {
+        do {
+            try await Auth.auth().signIn(with: credential)
+        } catch {
+            logger.error("signInWith Error: \(error)")
         }
     }
     
