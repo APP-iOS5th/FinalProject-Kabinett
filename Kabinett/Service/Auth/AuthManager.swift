@@ -15,12 +15,12 @@ final class AuthManager {
     private var currentUserSubject: CurrentValueSubject<User?, Never> = .init(nil)
     private let writerManager: FirestoreWriterManager
     
-    init() {
+    init(writerManager: FirestoreWriterManager) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "AuthManager"
         )
-        self.writerManager = FirestoreWriterManager()
+        self.writerManager = writerManager
         
         observeCurrentAuthStatus()
         signInAnonymousIfNeeded()
