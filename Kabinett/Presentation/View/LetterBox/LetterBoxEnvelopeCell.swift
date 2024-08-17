@@ -52,43 +52,58 @@ struct LetterBoxEnvelopeCell: View {
 
 struct LetterBoxDetailEnvelopeCell: View {
     var body: some View {
-        VStack {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("보내는 사람")
-                        .font(.system(size: 9))
-                    Text("Dotorie")
-                        .font(.system(size: 22, weight: .medium))
-                        .frame(maxWidth: .infinity, alignment: .leading)
+        ZStack {
+            ZStack {
+                VStack {
+                    HStack(alignment: .top) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("보내는 사람")
+                                .font(.system(size: 6))
+                            Text("Dotorie")
+                                .font(.system(size: 15, weight: .medium))
+                                .frame(maxWidth: 210, alignment: .leading)
+                        }
+                        
+                        Image(systemName: "rectangle.portrait.fill")
+                            .resizable()
+                            .foregroundStyle(.green)
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 33)
+                    }
+                    .padding(.bottom, 20.0)
+                    
+                    HStack(alignment: .top) {
+                        Text("사진 몇 장 같이 넣어뒀어!")
+                            .font(.system(size: 10))
+                            .frame(width: 163, alignment: .leading)
+                        
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("받는 사람")
+                                .font(.system(size: 6))
+                            Text("Yule")
+                                .font(.system(size: 15, weight: .medium))
+                                .frame(maxWidth: 80, alignment: .leading)
+                        }
+                    }
                 }
-                
-                Image(systemName: "rectangle.portrait.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50)
+                .padding(23)
+                .border(.gray, width: 0.2)
             }
-            .padding(.bottom, 40.0)
-            
-            HStack(alignment: .top) {
-                Text("사진 몇 장 같이 넣어뒀어!")
-                    .font(.system(size: 12))
-                    .frame(width: 220, alignment: .leading)
-                
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("받는 사람")
-                        .font(.system(size: 9))
-                    Text("Yule")
-                        .font(.system(size: 22, weight: .medium))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                
-                Spacer()
-            }
+            .background(
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color.white)
+                    .shadow(color: .gray.opacity(0.3), radius: 4, x: 7, y: 6)
+            )
+    
+            Circle()
+                .fill(Color.red)
+                .frame(width: 25)
+                .padding(.leading, 300)
+                .padding(.bottom, 100)
         }
-        .padding(25)
     }
 }
 
 #Preview {
-    LetterBoxEnvelopeCell()
+    LetterBoxDetailEnvelopeCell()
 }
