@@ -75,8 +75,11 @@ final class AuthManager {
         }
     }
     
-    func deleteAccount() {
+    func deleteAccount(_ withSignIn: Bool = false) {
         Auth.auth().currentUser?.delete()
+        if withSignIn {
+            signInAnonymousIfNeeded()
+        }
     }
     
     private func signInWith(credential: AuthCredential) async {
