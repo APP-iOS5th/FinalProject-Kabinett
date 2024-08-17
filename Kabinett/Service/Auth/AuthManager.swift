@@ -36,6 +36,10 @@ final class AuthManager {
             try Auth.auth().signOut()
         } catch {
             print("sign out error")
+    func deleteAccount() {
+        Auth.auth().currentUser?.delete()
+    }
+    
         }
     }
     
