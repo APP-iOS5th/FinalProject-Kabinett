@@ -12,25 +12,30 @@ struct StationerySelectionView: View {
     @Binding var letterContent: LetterViewModel
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    @ObservedObject var dummyData = DummyData()
     @State private var selectedIndex: (Int, Int) = (0, 0)
     
     var body: some View {
         ZStack {
             VStack {
                 List {
-                    ForEach(0..<8) { i in
+                    ForEach(0..<dummyData.dummyStationery.count / 2, id: \.self) { i in
                         HStack {
                             ForEach(0..<2, id: \.self) { j in
+                                let index = i * 2 + j
                                 ZStack(alignment: .topTrailing) {
-                                    Image("paper")
-                                        .resizable()
-                                        .renderingMode(.original)
-                                        .scaledToFill()
-                                        .padding(.all, 10)
-                                        .shadow(radius: 5, x: 5, y: 5)
-                                        .onTapGesture {
-                                            selectedIndex = (i, j)
-                                        }
+                                    AsyncImage(url: URL(string: dummyData.dummyStationery[index])) { image in
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .padding(10)
+                                            .shadow(radius: 5, x: 5, y: 5)
+                                    } placeholder: {
+                                        ProgressView()
+                                    }
+                                    .onTapGesture {
+                                        selectedIndex = (i, j)
+                                    }
                                     
                                     if selectedIndex == (i, j) {
                                         Image(systemName: "checkmark.circle")
@@ -69,6 +74,7 @@ struct StationerySelectionView: View {
                 .padding(.trailing, 8)
             }
         }
+        .toolbarBackground(Color("Background"), for: .navigationBar)
         .sheet(isPresented: self.$showModal) {
             UserSelectionView(letterContent: $letterContent)
                 .presentationDetents([.medium, .large])
