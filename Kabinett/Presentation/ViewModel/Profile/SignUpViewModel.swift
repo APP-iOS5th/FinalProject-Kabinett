@@ -8,13 +8,30 @@
 import SwiftUI
 import Combine
 
-class SignUpViewModel: ObservableObject {
+final class SignUpViewModel: ObservableObject {
+    private let useCase: any SignupUseCase
     @Published var userName: String = ""
+    @Published var kabinettNumbers: [String] = []
     @Published var selectedKabinettNumber: Int? = nil
     
-    let kabinettNumbers = ["123-456", "234-567", "345-678"] // 1. 파베에서 사용되지 않은 넘버 3개 받기
+    init(useCase: any SignupUseCase) {
+        self.useCase = useCase
+    }
     
-    func selectKabinettNumber(at index: Int) {
-        selectedKabinettNumber = index
-    } // 2. 파베로 보내기
+    @MainActor
+    func getNumbers() async {
+        let numbers = await useCase.getAvailableKabinettNumbers()
+        kabinettNumbers = numbers
+            .map {
+                formatNumber($0)
+            }
+    }
+    private func formatNumber(_ number: Int) -> String {
+        let formattedNumber = String(format: "%06d", number)
+        let startIndex = formattedNumber.index(formattedNumber.startIndex, offsetBy: 3)
+        let part1 = formattedNumber[..<startIndex]
+        let part2 = formattedNumber[startIndex...]
+        
+        return "\(part1)-\(part2)"
+    }
 }

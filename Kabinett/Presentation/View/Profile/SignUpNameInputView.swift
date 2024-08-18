@@ -76,5 +76,5 @@ struct OvalTextFieldStyle: TextFieldStyle {
 }
 
 #Preview {
-    SignUpNameInputView(viewModel: SignUpViewModel())
+    SignUpNameInputView(viewModel: SignUpViewModel(useCase: SignUpUseCaseStub()))
 }
