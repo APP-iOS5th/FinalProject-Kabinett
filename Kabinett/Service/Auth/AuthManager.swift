@@ -32,6 +32,7 @@ final class AuthManager {
     }
     
     func signout() -> Bool {
+        logger.debug("Attempt to sign out.")
         do {
             try Auth.auth().signOut()
             signInAnonymousIfNeeded()
@@ -54,7 +55,7 @@ final class AuthManager {
                 
                 return true
             } else {
-                logger.warning("Attempting to linking user without current user is not allowed.")
+                logger.warning("Attempting to linking account without current user is not allowed.")
                 return false
             }
         } catch {
@@ -93,6 +94,9 @@ final class AuthManager {
     private func observeCurrentAuthStatus() {
         Task { [weak self] in
             for await user in AuthManager.users {
+                self?.logger.debug(
+                    "User authentication state is changed: \(String(describing: user), privacy: .private)"
+                )
                 self?.currentUserSubject.send(user)
             }
         }
@@ -100,6 +104,7 @@ final class AuthManager {
     
     private func signInAnonymousIfNeeded() {
         if Auth.auth().currentUser == nil {
+            logger.debug("There is no current user, attempt to sign in anonymously.")
             Task { [weak self] in
                 do {
                     let result = try await Auth.auth().signInAnonymously()
