@@ -12,6 +12,7 @@
 		04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */; };
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
+		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FB2C644BF0003635F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FA2C644BF0003635F3 /* Assets.xcassets */; };
@@ -25,7 +26,11 @@
 		839CE1292C645F65003635F3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE1282C645F65003635F3 /* FirebaseFirestore */; };
 		839CE12B2C645F65003635F3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE12A2C645F65003635F3 /* FirebaseStorage */; };
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
+		83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */; };
 		AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
+		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
+		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
+		AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +56,7 @@
 		04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpKabinettNumberSelectView.swift; sourceTree = "<group>"; };
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -63,7 +69,11 @@
 		839CE1132C644BF0003635F3 /* KabinettUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		839CE1202C645274003635F3 /* Kabinett.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kabinett.entitlements; sourceTree = "<group>"; };
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
+		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
+		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
+		AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLetterService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +109,7 @@
 		831401392C69C21300F601FB /* ComponentsUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
 			);
 			path = ComponentsUseCase;
 			sourceTree = "<group>";
@@ -113,6 +124,7 @@
 		8314013B2C69C22B00F601FB /* LetterWriteUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
 			);
 			path = LetterWriteUseCase;
 			sourceTree = "<group>";
@@ -120,6 +132,7 @@
 		8314013C2C69C23500F601FB /* ProfileUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */,
 			);
 			path = ProfileUseCase;
 			sourceTree = "<group>";
@@ -127,6 +140,7 @@
 		8314013D2C69C23C00F601FB /* SignUpUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */,
 			);
 			path = SignUpUseCase;
 			sourceTree = "<group>";
@@ -296,6 +310,7 @@
 		838697CB2C64B84500E76230 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
+				AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -501,14 +516,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
+				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */,
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
+				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
