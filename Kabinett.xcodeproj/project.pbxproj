@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
+		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FB2C644BF0003635F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FA2C644BF0003635F3 /* Assets.xcassets */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 		8314013D2C69C23C00F601FB /* SignUpUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */,
 			);
 			path = SignUpUseCase;
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
