@@ -6,19 +6,15 @@
 //
 
 import Foundation
-import AuthenticationServices
+import Combine
 
 protocol ProfileUseCase {
-    func isAnonymous() async -> Bool
-    func getAvailableKabinettNumbers() async -> [Int]
+    func isAnonymous() async -> AnyPublisher<Bool, Never>
     func getCurrentWriter() async -> Writer
-    func signUp(
-        with userName: String,
-        kabinettNumber: Int,
-        _ authorization: ASAuthorization
-    ) async -> Bool
     func updateWriter(
         newWriterName: String,
         profileImage: Data?
     ) async -> Bool
+    func signout() async -> Bool
+    func deleteId() async -> Bool
 }
