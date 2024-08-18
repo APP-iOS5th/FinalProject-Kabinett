@@ -31,10 +31,16 @@ struct LoginView: View {
                         .font(.system(size: 16))
                         .foregroundStyle(.contentSecondary)
                         .padding(.bottom, 25)
+                    
                     SignInWithAppleButton(.signIn) { request in
-                        
+                        request.requestedScopes = []
                     } onCompletion: { result in
-                        
+                        switch result {
+                        case .success(let authorization): break
+                            
+                        case .failure(_): break
+                            
+                        }
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
                     .frame(height: 54)

@@ -16,5 +16,5 @@ class SignUpViewModel: ObservableObject {
     
     func selectKabinettNumber(at index: Int) {
         selectedKabinettNumber = index
-    }
+    } // 2. 파베로 보내기
 }
