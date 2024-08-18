@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
+		83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FB2C644BF0003635F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FA2C644BF0003635F3 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			children = (
 				83F0D6842C705E42001B8733 /* AuthManager.swift */,
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
+				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
