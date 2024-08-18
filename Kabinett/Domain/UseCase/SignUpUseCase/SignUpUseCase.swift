@@ -18,3 +18,19 @@ protocol SignupUseCase {
         kabinettNumber: Int
     ) async -> Bool
 }
+
+final class SignUpUseCaseStub: SignupUseCase {
+    func getAvailableKabinettNumbers() async -> [Int] {
+        [1, 100000, 455522]
+    }
+    
+    func signUp(_ authorization: ASAuthorization) async -> Bool {
+        true
+    }
+    
+    func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
+        true
+    }
+    
+   
+}
