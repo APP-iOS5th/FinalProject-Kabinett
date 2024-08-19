@@ -20,7 +20,7 @@ class DummyData: ObservableObject {
         Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
     ]
     
-    @Published var dummyStationery: [String] = [
+    @Published var dummyStationerys: [String] = [
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
         "https://mblogthumb-phinf.pstatic.net/20160919_122/imyubin__1474262528136yOuds_PNG/image_6979828871474262466901.png?type=w800",
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",

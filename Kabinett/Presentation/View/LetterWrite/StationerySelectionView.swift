@@ -21,12 +21,12 @@ struct StationerySelectionView: View {
             
             VStack {
                 List {
-                    ForEach(0..<dummyData.dummyStationery.count / 2, id: \.self) { i in
+                    ForEach(0..<dummyData.dummyStationerys.count / 2, id: \.self) { i in
                         HStack {
                             ForEach(0..<2, id: \.self) { j in
                                 let index = i * 2 + j
                                 ZStack(alignment: .topTrailing) {
-                                    AsyncImage(url: URL(string: dummyData.dummyStationery[index])) { image in
+                                    AsyncImage(url: URL(string: dummyData.dummyStationerys[index])) { image in
                                         image
                                             .resizable()
                                             .scaledToFill()
@@ -37,7 +37,7 @@ struct StationerySelectionView: View {
                                     }
                                     .onTapGesture {
                                         selectedIndex = (i, j)
-                                        letterContent.stationeryImageUrlString = dummyData.dummyStationery[index]
+                                        letterContent.stationeryImageUrlString = dummyData.dummyStationerys[index]
                                     }
                                     if selectedIndex == (i, j) {
                                         Image(systemName: "checkmark.circle")
