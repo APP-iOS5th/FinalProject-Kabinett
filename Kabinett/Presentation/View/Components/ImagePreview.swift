@@ -11,16 +11,17 @@ struct ImagePreivew: View {
     @Binding var showActionSheet: Bool
     @Environment(\.dismiss) var dismiss
     @ObservedObject var viewModel: ImagePickerViewModel
+    @State private var showDetailView = false
     
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
                     Spacer()
-                    OverlappingImagesView(images: viewModel.selectedImages)
+                    OverlappingImagesView(images: viewModel.selectedImages, showDetailView: $showDetailView)
                     Spacer()
                     Button(action: {
-                    // LetterWritingView
+                        // LetterWritingView
                     }) {
                         Text("편지 선택하기")
                             .foregroundStyle(.white)
@@ -41,7 +42,10 @@ struct ImagePreivew: View {
                 Image(systemName: "chevron.left")
                     .foregroundColor(.black)
             })
-            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarTitle("선택한 사진", displayMode: .inline)
+            .fullScreenCover(isPresented: $showDetailView) {
+                ImageDetailView(images: viewModel.selectedImages, showDetailView: $showDetailView)
+            }
             .background(Color("Background").edgesIgnoringSafeArea(.all))
         }
     }

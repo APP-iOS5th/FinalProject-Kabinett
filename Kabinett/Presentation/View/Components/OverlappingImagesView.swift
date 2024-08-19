@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OverlappingImagesView: View {
     let images: [IdentifiableImage]
+    @Binding var showDetailView: Bool
     
     var body: some View {
         ZStack {
@@ -27,6 +28,7 @@ struct OverlappingImagesView: View {
             }
             .frame(width: 350, height: 210)
             .onTapGesture {
+                showDetailView = true
             }
         }
     }

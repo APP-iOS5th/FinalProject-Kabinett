@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ImageDetailView: View {
     let images: [IdentifiableImage]
+    @Binding var showDetailView: Bool
     @State private var currentIndex = 0
     
     var body: some View {
@@ -41,6 +42,10 @@ struct ImageDetailView: View {
                 }
                 .padding()
             }
+            .navigationBarItems(leading: Button(action: { showDetailView = false }) {
+                Image(systemName: "chevron.left")
+            })
+            .padding()
         }
     }
 }
