@@ -15,8 +15,8 @@ struct Letter: Codable, Identifiable {
     let postScript: String?
     let envelopeImageUrlString: String
     let stampImageUrlString: String
-    let fromUserId: String
-    let toUserId: String
+    var fromUserId: String
+    var toUserId: String
     let content: String?
     let photoContents: [String]
     let date: Date
