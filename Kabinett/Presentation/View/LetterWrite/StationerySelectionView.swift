@@ -64,7 +64,7 @@ struct StationerySelectionView: View {
                 }) {
                     Image(systemName: "chevron.backward")
                         .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color.black)
+                        .foregroundStyle(Color("ContentPrimary"))
                 }
                 .padding(.leading, 8)
             }

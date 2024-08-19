@@ -30,10 +30,13 @@ struct UserSelectionView: View {
                     
                     HStack {
                         Text("보내는 사람")
-                            .font(.system(size: 18))
+                            .foregroundStyle(Color("ContentPrimary"))
+                            .font(.system(size: 16))
                             .bold()
-                        Spacer(minLength: 20)
+                        Spacer(minLength: 22)
                         Text(viewModel.fromUser)
+                            .foregroundStyle(Color("ContentSecondary"))
+                            .font(.system(size: 15))
                             .frame(maxWidth: .infinity, minHeight: 35)
                             .background(Color.white)
                             .clipShape(Capsule())
@@ -42,10 +45,13 @@ struct UserSelectionView: View {
                     
                     HStack {
                         Text("받는 사람")
-                            .font(.system(size: 18))
+                            .foregroundStyle(Color("ContentPrimary"))
+                            .font(.system(size: 16))
                             .bold()
-                        Spacer(minLength: 35)
+                        Spacer(minLength: 37)
                         Text(viewModel.toUser)
+                            .foregroundStyle(viewModel.toUser == "나" ? Color("ContentSecondary") : Color.black)
+                            .font(.system(size: 15))
                             .frame(maxWidth: .infinity, minHeight: 35)
                             .background(Color.white)
                             .clipShape(Capsule())
@@ -69,6 +75,7 @@ struct UserSelectionView: View {
                                             }
                                             .padding(.leading, 35)
                                             .listRowSeparator(.hidden)
+                                            .foregroundStyle(Color("Primary900"))
                                         
                                         ForEach(viewModel.dummyData.dummyUsers.filter { user in
                                             user.name.lowercased().contains(searchText.lowercased()) ||
@@ -92,8 +99,10 @@ struct UserSelectionView: View {
                                                         .foregroundStyle(Color.background)
                                                 }
                                                 Text(user.name)
+                                                    .foregroundStyle(Color("Primary900"))
                                                 Spacer()
                                                 Text("\(String(user.kabinettNumber).prefix(3))-\(String(user.kabinettNumber).suffix(3))")
+                                                    .foregroundStyle(Color("Primary900"))
                                             }
                                             .listRowSeparator(.hidden)
                                             .onTapGesture {
@@ -110,18 +119,20 @@ struct UserSelectionView: View {
                             .background(searchText.isEmpty ? Color.clear : Color.white)
                             .cornerRadius(16)
                         } else {
-                            Spacer(minLength: 90)
+                            Spacer(minLength: 65)
                             VStack {
                                 Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
-                                    .font(.system(size: 13))
+                                    .font(.system(size: 12))
                                     .lineSpacing(5)
-                                    .foregroundStyle(Color(.systemGray))
+                                    .foregroundStyle(Color("ContentSecondary"))
+                                    .bold()
                                 HStack {
                                     Spacer()
                                     Button("로그인 하러가기") {
                                         
                                     }
                                     .buttonStyle(.plain)
+                                    .foregroundStyle(Color("ContentPrimary"))
                                     .font(.system(size: 13))
                                     .bold()
                                     .underline()

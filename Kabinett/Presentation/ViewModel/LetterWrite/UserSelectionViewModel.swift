@@ -11,7 +11,7 @@ import Combine
 
 class UserSelectionViewModel: ObservableObject {
     @ObservedObject var dummyData = DummyData()
-    @Published var loginUser: Int? = 111111
+    @Published var loginUserKabinett: Int? = 111111
     @Published var checkLogin: Bool = false
     
     @Published var fromUser: String = ""
@@ -22,14 +22,14 @@ class UserSelectionViewModel: ObservableObject {
     }
     
     private func updateFromUser() {
-        if loginUser == nil {
-            checkLogin = false
-        } else {
+        if let user = dummyData.dummyUsers.first(where: { $0.kabinettNumber == loginUserKabinett }) {
             checkLogin = true
-            if let user = dummyData.dummyUsers.first(where: { $0.kabinettNumber == loginUser }) {
-                fromUser = user.name + "(나)"
-                toUser = user.name + "(나)"
-            }
+            fromUser = user.name + "(나)"
+            toUser = user.name + "(나)"
+        } else {
+            checkLogin = false
+            fromUser = "나"
+            toUser = "나"
         }
     }
 }
