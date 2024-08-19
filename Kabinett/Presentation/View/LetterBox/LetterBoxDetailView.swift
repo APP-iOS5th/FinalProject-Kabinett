@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LetterBoxDetailView: View {
     @State var letterBoxType: String
+    @State private var letterCount: Int = 0
     
     @Environment(\.dismiss) private var dismiss
     
@@ -28,6 +29,10 @@ struct LetterBoxDetailView: View {
         ZStack {
             Color.background
             
+            VStack {
+                Spacer()
+                ToastView(message: "\(letterCount)", horizontalPadding: 169)
+            }
         }
         .ignoresSafeArea()
         .navigationTitle(letterBoxType)
