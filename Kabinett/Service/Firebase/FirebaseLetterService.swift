@@ -149,9 +149,33 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         return .success(result)
     }
     
-    func getIsRead(userId: String, letterType: LetterType) async -> Result<Int, any Error> {
-        // TODO: - 안읽은 Letter 개수 불러오기
-        fatalError()
+    func getIsRead(userId: String) async -> Result<[LetterType: Int], any Error> {
+        var result: [LetterType: Int] = [:]
+        
+        let typeToCollectionName: [LetterType: String] = [
+            .toMe: "ToMe",
+            .sent: "Sent",
+            .received: "Received"
+        ]
+        
+        do {
+            try await validateFromUser(fromUserId: userId)
+            
+            for type in [LetterType.toMe, .sent, .received] {
+                if let collectionName = typeToCollectionName[type] {
+                    let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                    
+                    let querySnapshot = try await collectionRef.whereField("isRead", isEqualTo: false).getDocuments()
+                    result[type] = querySnapshot.documents.count
+                }
+            }
+            result[.all] = (result[.toMe] ?? 0) + (result[.sent] ?? 0) + (result[.received] ?? 0)
+            
+            return .success(result)
+        } catch {
+            return .failure(error)
+        }
+        
     }
     
     // MARK: - 유저 유효성 검사
