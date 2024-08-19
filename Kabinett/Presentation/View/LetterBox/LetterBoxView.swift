@@ -41,7 +41,7 @@ struct LetterBoxView: View {
                 VStack {
                     if showToast {
                         Spacer()
-                        ToastView(message: "편지가 도착했습니다.")
+                        ToastView(message: "편지가 도착했습니다.", horizontalPadding: 50)
                             .transition(.move(edge: .bottom))
                             .zIndex(1)
                             .onAppear {
