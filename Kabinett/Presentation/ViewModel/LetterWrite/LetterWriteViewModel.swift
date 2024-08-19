@@ -7,7 +7,7 @@
 
 import Foundation
 
-class LetterViewModel: ObservableObject {
+class LetterWriteViewModel: ObservableObject {
     @Published var fontString: String = ""
     @Published var postScript: String = ""
     @Published var envelopeImageUrlString: String = ""

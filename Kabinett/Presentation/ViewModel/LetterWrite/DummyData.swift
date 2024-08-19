@@ -10,12 +10,6 @@ import SwiftUI
 import Combine
 
 class DummyData: ObservableObject {
-    
-    @Published var loginUser: Int? = 111111
-    @Published var checkLogin: Bool = true
-    @Published var fromUser: String = ""
-    @Published var toUser: String = ""
-    
     @Published var dummyUsers: [Writer] = [
         Writer(name: "Alice", kabinettNumber: 111111, profileImage: "https://cdn.pixabay.com/photo/2022/06/25/13/33/landscape-7283516_1280.jpg"),
         Writer(name: "Bob", kabinettNumber: 234234, profileImage: nil),
@@ -38,17 +32,4 @@ class DummyData: ObservableObject {
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800"
     ]
-    
-    init() {
-        updateFromUser()
-    }
-    
-    private func updateFromUser() {
-        if let loginUser = loginUser {
-            if let user = dummyUsers.first(where: { $0.kabinettNumber == loginUser }) {
-                fromUser = user.name + "(나)"
-                toUser = user.name + "(나)"
-            }
-        }
-    }
 }

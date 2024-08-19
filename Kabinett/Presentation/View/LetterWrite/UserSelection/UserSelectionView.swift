@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct UserSelectionView: View {
-    @StateObject private var viewModel = DummyData()
-    @Binding var letterContent: LetterViewModel
-    @State private var searchText = ""
+    @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentation
+    
+    @ObservedObject var viewModel = UserSelectionViewModel()
+    @State private var searchText = ""
     
     var body: some View {
         NavigationStack {
@@ -52,7 +53,7 @@ struct UserSelectionView: View {
                     .padding(.top, 40)
                     
                     HStack {
-                        if viewModel.loginUser != nil {
+                        if viewModel.checkLogin {
                             Spacer(minLength: 100)
                             VStack {
                                 SearchBar(text: $searchText)
@@ -61,7 +62,7 @@ struct UserSelectionView: View {
                                         .padding([.leading, .trailing], 10)
                                     
                                     List {
-                                        ForEach(viewModel.dummyUsers.filter { "\($0.kabinettNumber)".hasPrefix(searchText)}, id: \.kabinettNumber) { user in
+                                        ForEach(viewModel.dummyData.dummyUsers.filter { "\($0.kabinettNumber)".hasPrefix(searchText)}, id: \.kabinettNumber) { user in
                                             HStack {
                                                 if let profileImage = user.profileImage {
                                                     AsyncImage(url: URL(string: profileImage)) { image in

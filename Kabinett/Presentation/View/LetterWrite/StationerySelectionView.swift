@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct StationerySelectionView: View {
-    @State private var showModal = true
-    @Binding var letterContent: LetterViewModel
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+    @Binding var letterContent: LetterWriteViewModel
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var dummyData = DummyData()
+    
+    @State private var showModal = true
     @State private var selectedIndex: (Int, Int) = (0, 0)
     
     var body: some View {
         ZStack {
+            Color("Background").ignoresSafeArea()
+            
             VStack {
                 List {
                     ForEach(0..<dummyData.dummyStationery.count / 2, id: \.self) { i in
@@ -35,8 +37,8 @@ struct StationerySelectionView: View {
                                     }
                                     .onTapGesture {
                                         selectedIndex = (i, j)
+                                        letterContent.stationeryImageUrlString = dummyData.dummyStationery[index]
                                     }
-                                    
                                     if selectedIndex == (i, j) {
                                         Image(systemName: "checkmark.circle")
                                             .font(.title)
@@ -68,7 +70,7 @@ struct StationerySelectionView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink("완료") {
-                    FontSelectionView()
+                    FontSelectionView(letterContent: $letterContent)
                 }
                 .foregroundStyle(Color.black)
                 .padding(.trailing, 8)
@@ -79,6 +81,5 @@ struct StationerySelectionView: View {
             UserSelectionView(letterContent: $letterContent)
                 .presentationDetents([.medium, .large])
         }
-        .background(Color("Background").ignoresSafeArea())
     }
 }

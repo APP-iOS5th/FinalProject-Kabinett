@@ -8,11 +8,35 @@
 import SwiftUI
 
 struct FontSelectionView: View {
+    @Binding var letterContent: LetterWriteViewModel
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color("Background").ignoresSafeArea()
+            
+        }
+        .navigationBarBackButtonHidden()
+        .navigationTitle("폰트 고르기")
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button (action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(Color.black)
+                }
+                .padding(.leading, 8)
+            }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink("완료") {
+                    
+                }
+                .foregroundStyle(Color.black)
+                .padding(.trailing, 8)
+            }
+        }
+        .toolbarBackground(Color("Background"), for: .navigationBar)
     }
-}
-
-#Preview {
-    FontSelectionView()
 }

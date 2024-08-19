@@ -9,11 +9,13 @@ import SwiftUI
 
 struct ModalTestView: View {
     @State private var showModal = false
-    @State var letterContent = LetterViewModel()
+    @State var letterContent = LetterWriteViewModel()
     
     var body: some View {
         NavigationStack {
             ZStack {
+                Color("Background").ignoresSafeArea()
+                
                 VStack {
                     NavigationLink("button") {
                         StationerySelectionView(letterContent: $letterContent)
@@ -27,4 +29,3 @@ struct ModalTestView: View {
 #Preview {
     ModalTestView()
 }
-
