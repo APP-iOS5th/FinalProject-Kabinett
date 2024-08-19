@@ -31,7 +31,18 @@ struct LetterBoxDetailView: View {
             
             VStack {
                 Spacer()
-                ToastView(message: "\(letterCount)", horizontalPadding: 169)
+                
+                ZStack {
+                    Text("\(letterCount)")
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 7)
+                        .foregroundStyle(.black)
+                        .background(.primary300.opacity(0.9))
+                        .cornerRadius(20)
+                        .padding()
+                        .font(.system(size: 15, weight: .medium))
+                }
+                .padding(.bottom, 20)
             }
         }
         .ignoresSafeArea()
