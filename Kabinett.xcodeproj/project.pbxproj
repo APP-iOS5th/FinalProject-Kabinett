@@ -14,6 +14,7 @@
 		7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */; };
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
+		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -59,6 +60,7 @@
 		7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
+		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 				7F6CE9E52C6E28400074568E /* CameraView.swift */,
 				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
+				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
 				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
 			);
@@ -523,6 +526,7 @@
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
 				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,

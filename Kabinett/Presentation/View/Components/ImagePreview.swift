@@ -17,7 +17,7 @@ struct ImagePreivew: View {
             ZStack {
                 VStack {
                     Spacer()
-                    // OverlappingImagesView
+                    OverlappingImagesView(images: viewModel.selectedImages)
                     Spacer()
                     Button(action: {
                     // LetterWritingView
