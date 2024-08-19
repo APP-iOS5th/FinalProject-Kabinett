@@ -28,7 +28,7 @@ enum LetterSaveError: Error {
 }
 
 final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
-
+    
     private let db = Firestore.firestore()
     
     // LetterWriteUseCase
@@ -121,7 +121,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 return await getAllLetters(userId: userId)
             }
             
-            let snapshot = try await db.collection("Writer").document(userId).collection(collectionName).getDocuments()
+            let snapshot = try await db.collection("Writers").document(userId).collection(collectionName).order(by: "date", descending: true).getDocuments()
             let letters = try snapshot.documents.compactMap { document in
                 try document.data(as: Letter.self)
             }
@@ -133,8 +133,20 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     }
     
     func getLetterBoxLetters(userId: String) async -> Result<[LetterType : [Letter]], any Error> {
-        // TODO: - main 페이지 Letter 불러오기
-        fatalError()
+        var result: [LetterType: [Letter]] = [:]
+        
+        for type in [LetterType.toMe, .sent, .received, .all] {
+            let lettersResult = await getLetterBoxDetailLetters(userId: userId, letterType: type)
+            
+            switch lettersResult {
+            case .success(let letters):
+                result[type] = Array(letters.prefix(3))
+            case .failure(let error):
+                return .failure(error)
+            }
+        }
+        
+        return .success(result)
     }
     
     func getIsRead(userId: String, letterType: LetterType) async -> Result<Int, any Error> {
@@ -144,14 +156,14 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     
     // MARK: - 유저 유효성 검사
     private func validateFromUser(fromUserId: String) async throws {
-        let fromUserDoc = db.collection("Writer").document(fromUserId)
+        let fromUserDoc = db.collection("Writers").document(fromUserId)
         
         let snapshotFrom = try await fromUserDoc.getDocument()
         guard snapshotFrom.exists else { throw LetterSaveError.invalidFromUserDoc }
     }
     
     private func validateToUser(toUserId: String) async throws {
-        let toUserDoc = db.collection("Writer").document(toUserId)
+        let toUserDoc = db.collection("Writers").document(toUserId)
         
         let snapshotTo = try await toUserDoc.getDocument()
         guard snapshotTo.exists else { throw LetterSaveError.invalidToUserDoc }
@@ -161,8 +173,8 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     private func saveLetterToFireStore(letter: Letter, fromUserId: String, toUserId: String) async -> Result<Void, any Error> {
         
         do {
-            let fromUserDoc = db.collection("Writer").document(fromUserId)
-            let toUserDoc = db.collection("Writer").document(toUserId)
+            let fromUserDoc = db.collection("Writers").document(fromUserId)
+            let toUserDoc = db.collection("Writers").document(toUserId)
             
             let letterData = try Firestore.Encoder().encode(letter)
             
@@ -212,7 +224,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             var allLetters: [Letter] = []
             
             for name in collectionNames {
-                let snapshot = try await db.collection("Writer").document(userId).collection(name).getDocuments()
+                let snapshot = try await db.collection("Writers").document(userId).collection(name).getDocuments()
                 let letters = try snapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
