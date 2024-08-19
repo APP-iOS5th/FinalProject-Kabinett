@@ -154,14 +154,13 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         let typeToCollectionName: [LetterType: String] = [
             .toMe: "ToMe",
-            .sent: "Sent",
             .received: "Received"
         ]
         
         do {
             try await validateFromUser(fromUserId: userId)
             
-            for type in [LetterType.toMe, .sent, .received] {
+            for type in [LetterType.toMe, .received] {
                 if let collectionName = typeToCollectionName[type] {
                     let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
                     
@@ -176,6 +175,50 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             return .failure(error)
         }
         
+    }
+    
+    func searchBy(userId: String, findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
+        // TODO: - 특정 키워드로 Letter 검색
+        fatalError()
+    }
+    
+    func searchBy(userId: String, letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
+        
+        var letters: [Letter] = []
+        
+        do {
+            try await validateFromUser(fromUserId: userId)
+            
+            let collectionNames: [String]
+            switch letterType {
+            case .sent:
+                collectionNames = ["Sent"]
+            case .received:
+                collectionNames = ["Received"]
+            case .toMe:
+                collectionNames = ["ToMe"]
+            case .all:
+                collectionNames = ["Sent", "Received", "ToMe"]
+            }
+            
+            for collectionName in collectionNames {
+                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                let querySnapshot = try await collectionRef.whereField("date", isGreaterThan: startDate)
+                                                            .whereField("date", isLessThan: endDate)
+                                                            .order(by: "date", descending: true)
+                                                            .getDocuments()
+                let fetchedLetters = try querySnapshot.documents.compactMap { document in
+                    try document.data(as: Letter.self)
+                }
+                letters.append(contentsOf: fetchedLetters)
+            }
+            letters.sort { $0.date > $1.date }
+            
+            return .success(letters)
+            
+        } catch {
+            return .failure(error)
+        }
     }
     
     // MARK: - 유저 유효성 검사
