@@ -48,14 +48,14 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             try await validateFromUser(fromUserId: fromUserId)
             try await validateToUser(toUserId: toUserId)
             
-            let letter = Letter(
+            let letter = await Letter(
                 id: nil,
                 fontString: font,
                 postScript: postScript ?? "",
                 envelopeImageUrlString: envelope,
                 stampImageUrlString: stamp,
-                fromUserId: fromUserId,
-                toUserId: toUserId,
+                fromUserId: try getUserName(userId: fromUserId),
+                toUserId: try getUserName(userId: toUserId),
                 content: content ?? "",
                 photoContents: photoContents,
                 date: date,
@@ -83,14 +83,14 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             try await validateFromUser(fromUserId: fromUserId)
             try await validateToUser(toUserId: toUserId)
             
-            let letter = Letter(
+            let letter = await Letter(
                 id: nil,
                 fontString: nil,
                 postScript: postScript ?? "",
                 envelopeImageUrlString: envelope,
                 stampImageUrlString: stamp,
-                fromUserId: fromUserId,
-                toUserId: toUserId,
+                fromUserId: try getUserName(userId: fromUserId),
+                toUserId: try getUserName(userId: toUserId),
                 content: nil,
                 photoContents: photoContents,
                 date: date,
@@ -167,6 +167,18 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         let snapshotTo = try await toUserDoc.getDocument()
         guard snapshotTo.exists else { throw LetterSaveError.invalidToUserDoc }
+    }
+    
+    private func getUserName(userId: String) async throws -> String {
+        let userDoc = db.collection("Writers").document(userId)
+        
+        let snapshotUser = try await userDoc.getDocument()
+        
+        if let data = snapshotUser.data(), let name = data["name"] as? String {
+            return name
+        } else {
+            return ""
+        }
     }
     
     // MARK: - Firestore Letter 저장
