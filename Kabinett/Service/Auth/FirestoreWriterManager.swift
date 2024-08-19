@@ -22,7 +22,7 @@ final class FirestoreWriterManager {
     
     func createWriterDocument(with writer: Writer, writerId: String) {
         do {
-            try db.collection("Writer")
+            try db.collection("Writers")
                 .document(writerId)
                 .setData(from: writer)
         } catch {
