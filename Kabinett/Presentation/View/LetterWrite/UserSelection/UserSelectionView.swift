@@ -62,7 +62,18 @@ struct UserSelectionView: View {
                                         .padding([.leading, .trailing], 10)
                                     
                                     List {
-                                        ForEach(viewModel.dummyData.dummyUsers.filter { "\($0.kabinettNumber)".hasPrefix(searchText)}, id: \.kabinettNumber) { user in
+                                        Text("\(searchText) 입력")
+                                            .onTapGesture {
+                                                viewModel.toUser = searchText
+                                                searchText = ""
+                                            }
+                                            .padding(.leading, 35)
+                                            .listRowSeparator(.hidden)
+                                        
+                                        ForEach(viewModel.dummyData.dummyUsers.filter { user in
+                                            user.name.lowercased().contains(searchText.lowercased()) ||
+                                            "\(user.kabinettNumber)".hasPrefix(searchText)
+                                        }, id: \.kabinettNumber) { user in
                                             HStack {
                                                 if let profileImage = user.profileImage {
                                                     AsyncImage(url: URL(string: profileImage)) { image in
