@@ -10,10 +10,7 @@ import SwiftUI
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var dummyData = DummyData()
-    
-    @State private var showModal = true
-    @State private var selectedIndex: (Int, Int) = (0, 0)
+    @ObservedObject private var viewModel = StationerySelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -21,12 +18,13 @@ struct StationerySelectionView: View {
             
             VStack {
                 List {
-                    ForEach(0..<dummyData.dummyStationerys.count / 2, id: \.self) { i in
+                    ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
                         HStack {
-                            ForEach(0..<2, id: \.self) { j in
-                                let index = i * 2 + j
+                            ForEach(0..<2, id: \.self) { columnIndex in
+                                let index = viewModel.index(row: rowIndex, column: columnIndex)
+                                
                                 ZStack(alignment: .topTrailing) {
-                                    AsyncImage(url: URL(string: dummyData.dummyStationerys[index])) { image in
+                                    AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
                                         image
                                             .resizable()
                                             .scaledToFill()
@@ -36,10 +34,11 @@ struct StationerySelectionView: View {
                                         ProgressView()
                                     }
                                     .onTapGesture {
-                                        selectedIndex = (i, j)
-                                        letterContent.stationeryImageUrlString = dummyData.dummyStationerys[index]
+                                        viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
+                                        letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
                                     }
-                                    if selectedIndex == (i, j) {
+                                    
+                                    if viewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
                                         Image("checked")
                                             .resizable()
                                             .frame(width: 32, height: 32)
@@ -59,7 +58,7 @@ struct StationerySelectionView: View {
         .navigationTitle("편지지 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button (action: {
+                Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
@@ -77,7 +76,7 @@ struct StationerySelectionView: View {
             }
         }
         .toolbarBackground(Color("Background"), for: .navigationBar)
-        .sheet(isPresented: self.$showModal) {
+        .sheet(isPresented: $viewModel.showModal) {
             UserSelectionView(letterContent: $letterContent)
                 .presentationDetents([.height(300), .large])
         }

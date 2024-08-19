@@ -11,7 +11,7 @@ struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentation
     
-    @ObservedObject var viewModel = UserSelectionViewModel()
+    @ObservedObject private var viewModel = UserSelectionViewModel()
     @State private var searchText = ""
     
     var body: some View {
@@ -78,7 +78,7 @@ struct UserSelectionView: View {
                                             .listRowSeparator(.hidden)
                                             .foregroundStyle(Color("Primary900"))
                                         
-                                        ForEach(viewModel.dummyData.dummyUsers.filter { user in
+                                        ForEach(viewModel.dummyUsers.filter { user in
                                             user.name.lowercased().contains(searchText.lowercased()) ||
                                             String(format: "%06d", user.kabinettNumber).hasPrefix(searchText)
                                         }, id: \.kabinettNumber) { user in
@@ -97,7 +97,7 @@ struct UserSelectionView: View {
                                                         .resizable()
                                                         .frame(width: 25, height: 25)
                                                         .clipShape(.circle)
-                                                        .foregroundStyle(Color.background)
+                                                        .foregroundStyle(Color("background"))
                                                 }
                                                 Text(user.name)
                                                     .foregroundStyle(Color("Primary900"))

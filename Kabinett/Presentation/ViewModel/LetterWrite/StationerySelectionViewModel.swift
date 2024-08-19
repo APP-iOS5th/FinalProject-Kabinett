@@ -1,24 +1,18 @@
 //
-//  UserSelectionViewModel.swift
+//  StationerySelectionViewModel.swift
 //  Kabinett
 //
-//  Created by Song Kim on 8/13/24.
+//  Created by Song Kim on 8/19/24.
 //
 
 import Foundation
 import SwiftUI
 import Combine
 
-class DummyData: ObservableObject {
-    @Published var dummyUsers: [Writer] = [
-        Writer(name: "Alice", kabinettNumber: 111111, profileImage: "https://cdn.pixabay.com/photo/2022/06/25/13/33/landscape-7283516_1280.jpg"),
-        Writer(name: "Bob", kabinettNumber: 234234, profileImage: nil),
-        Writer(name: "Charlie", kabinettNumber: 111112, profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpxjfCS04oKkgLWiCPCQg026DciIS5ayfvTg&s"),
-        Writer(name: "David", kabinettNumber: 111131, profileImage: nil),
-        Writer(name: "Eve", kabinettNumber: 1141, profileImage: nil),
-        Writer(name: "Frank", kabinettNumber: 111151, profileImage: nil),
-        Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
-    ]
+class StationerySelectionViewModel: ObservableObject {
+    
+    @Published var showModal = true
+    @Published var selectedIndex: (Int, Int) = (0, 0)
     
     @Published var dummyStationerys: [String] = [
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
@@ -32,4 +26,20 @@ class DummyData: ObservableObject {
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
         "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800"
     ]
+    
+    var numberOfRows: Int {
+        (dummyStationerys.count + 1) / 2
+    }
+    
+    func index(row: Int, column: Int) -> Int {
+        return row * 2 + column
+    }
+    
+    func selectStationery(coordinates: (Int, Int)) {
+        selectedIndex = coordinates
+    }
+    
+    func isSelected(coordinates: (Int, Int)) -> Bool {
+        return selectedIndex == coordinates
+    }
 }
