@@ -15,6 +15,7 @@ struct CustomTabView: View {
     @State private var showActionSheet = false
     @State private var showCamera = false
     @State private var showPhotoLibrary = false
+    @State private var showImagePreview = false
     
     var body: some View {
         ZStack {
@@ -76,43 +77,50 @@ struct CustomTabView: View {
             CameraView()
                 .environmentObject(imagePickerViewModel)
         }
-    }
-}
-
-
-// sample view
-struct LetterBoxView: View {
-    var body: some View {
-        ZStack{
-            Color("Background").edgesIgnoringSafeArea(.all)
-            VStack {
-                Text("받은 편지")
+        .onChange(of: imagePickerViewModel.selectedImages) { _, newImages in
+            if !newImages.isEmpty {
+                showImagePreview = true
             }
+        }
+        .sheet(isPresented: $showImagePreview) {
+            ImagePreivew(showActionSheet: $showActionSheet, viewModel: imagePickerViewModel)
         }
     }
 }
-
-
-struct ProfileView: View {
-    var body: some View {
-        ZStack {
-            Color("Background").edgesIgnoringSafeArea(.all)
-            VStack {
-                Text("프로필")
+    
+    // sample view
+    struct LetterBoxView: View {
+        var body: some View {
+            ZStack{
+                Color("Background").edgesIgnoringSafeArea(.all)
+                VStack {
+                    Text("받은 편지")
+                }
             }
         }
     }
-}
-
-
-struct WriteLetterView: View {
-    var body: some View {
-        Text("이곳에서 편지를 작성하세요!")
-            .padding()
-            .navigationTitle("편지 쓰기")
+    
+    
+    struct ProfileView: View {
+        var body: some View {
+            ZStack {
+                Color("Background").edgesIgnoringSafeArea(.all)
+                VStack {
+                    Text("프로필")
+                }
+            }
+        }
     }
-}
-
-#Preview {
-    CustomTabView()
-}
+    
+    
+    struct WriteLetterView: View {
+        var body: some View {
+            Text("이곳에서 편지를 작성하세요!")
+                .padding()
+                .navigationTitle("편지 쓰기")
+        }
+    }
+    
+    #Preview {
+        CustomTabView()
+    }
