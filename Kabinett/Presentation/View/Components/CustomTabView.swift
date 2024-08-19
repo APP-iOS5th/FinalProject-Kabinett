@@ -9,12 +9,12 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
+    @StateObject private var imagePickerViewModel = ImagePickerViewModel()
     @State private var selectedTab = 0
     @State private var showOptions = false
     @State private var showActionSheet = false
     @State private var showCamera = false
     @State private var showPhotoLibrary = false
-    @StateObject private var imagePickerViewModel = ImagePickerViewModel()
     
     var body: some View {
         ZStack {
@@ -66,10 +66,12 @@ struct CustomTabView: View {
                 ]
             )
         }
-        .photosPicker(isPresented: $showPhotoLibrary, selection: $imagePickerViewModel.selectedItems, maxSelectionCount: 3, matching: .images)
-        .onChange(of: imagePickerViewModel.selectedItems) { _, _ in
-            imagePickerViewModel.loadImages()
-        }
+        .photosPicker(
+            isPresented: $showPhotoLibrary,
+            selection: $imagePickerViewModel.selectedItems,
+            maxSelectionCount: 3,
+            matching: .images
+        )
         .fullScreenCover(isPresented: $showCamera) {
             CameraView()
                 .environmentObject(imagePickerViewModel)
