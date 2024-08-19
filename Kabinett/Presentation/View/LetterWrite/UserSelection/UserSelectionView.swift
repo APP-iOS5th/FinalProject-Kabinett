@@ -79,7 +79,7 @@ struct UserSelectionView: View {
                                         
                                         ForEach(viewModel.dummyData.dummyUsers.filter { user in
                                             user.name.lowercased().contains(searchText.lowercased()) ||
-                                            "\(user.kabinettNumber)".hasPrefix(searchText)
+                                            String(format: "%06d", user.kabinettNumber).hasPrefix(searchText)
                                         }, id: \.kabinettNumber) { user in
                                             HStack {
                                                 if let profileImage = user.profileImage {
@@ -101,7 +101,8 @@ struct UserSelectionView: View {
                                                 Text(user.name)
                                                     .foregroundStyle(Color("Primary900"))
                                                 Spacer()
-                                                Text("\(String(user.kabinettNumber).prefix(3))-\(String(user.kabinettNumber).suffix(3))")
+                                                let formattedKabinettNumber = String(format: "%06d", user.kabinettNumber)
+                                                Text("\(String(formattedKabinettNumber.prefix(3)))-\(String(formattedKabinettNumber.suffix(3)))")
                                                     .foregroundStyle(Color("Primary900"))
                                             }
                                             .listRowSeparator(.hidden)
