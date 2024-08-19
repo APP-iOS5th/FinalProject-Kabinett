@@ -40,9 +40,9 @@ struct StationerySelectionView: View {
                                         letterContent.stationeryImageUrlString = dummyData.dummyStationerys[index]
                                     }
                                     if selectedIndex == (i, j) {
-                                        Image(systemName: "checkmark.circle")
-                                            .font(.title)
-                                            .foregroundColor(Color("Secondary900"))
+                                        Image("checked")
+                                            .resizable()
+                                            .frame(width: 32, height: 32)
                                             .padding([.top, .trailing], 20)
                                     }
                                 }
@@ -79,7 +79,7 @@ struct StationerySelectionView: View {
         .toolbarBackground(Color("Background"), for: .navigationBar)
         .sheet(isPresented: self.$showModal) {
             UserSelectionView(letterContent: $letterContent)
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.height(300), .large])
         }
     }
 }

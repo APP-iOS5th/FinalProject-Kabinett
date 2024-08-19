@@ -128,7 +128,7 @@ struct UserSelectionView: View {
                                     .bold()
                                 HStack {
                                     Spacer()
-                                    Button("로그인 하러가기") {
+                                    Button("로그인하기") {
                                         
                                     }
                                     .buttonStyle(.plain)
@@ -146,7 +146,7 @@ struct UserSelectionView: View {
                     Spacer()
                 }
                 .padding([.leading, .trailing, .top], 24)
-                .background(Color(.systemGray6))
+                .background(Color("Primary100"))
             }
         }
     }

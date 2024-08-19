@@ -11,7 +11,7 @@ import Combine
 
 class UserSelectionViewModel: ObservableObject {
     @ObservedObject var dummyData = DummyData()
-    @Published var loginUserKabinett: Int? = 111111
+    @Published var loginUserKabinett: Int? = nil
     @Published var checkLogin: Bool = false
     
     @Published var fromUser: String = ""
