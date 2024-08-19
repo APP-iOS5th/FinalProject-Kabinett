@@ -25,6 +25,7 @@ enum LetterSaveError: Error {
     case failedToSaveSent
     case failedToSaveReceived
     case failedToSaveBoth
+    case bothUsersNotFound
 }
 
 final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
@@ -46,16 +47,15 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         do {
             try await validateFromUser(fromUserId: fromUserId)
-            try await validateToUser(toUserId: toUserId)
             
-            let letter = await Letter(
+            let letter = Letter(
                 id: nil,
                 fontString: font,
                 postScript: postScript ?? "",
                 envelopeImageUrlString: envelope,
                 stampImageUrlString: stamp,
-                fromUserId: try getUserName(userId: fromUserId),
-                toUserId: try getUserName(userId: toUserId),
+                fromUserId: fromUserId,
+                toUserId: toUserId,
                 content: content ?? "",
                 photoContents: photoContents,
                 date: date,
@@ -79,29 +79,21 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         guard !toUserId.isEmpty else { return .failure(LetterError.invalidToUserId) }
         guard !photoContents.isEmpty else { return .failure(LetterError.invalidPhotoContents) }
         
-        do {
-            try await validateFromUser(fromUserId: fromUserId)
-            try await validateToUser(toUserId: toUserId)
-            
-            let letter = await Letter(
-                id: nil,
-                fontString: nil,
-                postScript: postScript ?? "",
-                envelopeImageUrlString: envelope,
-                stampImageUrlString: stamp,
-                fromUserId: try getUserName(userId: fromUserId),
-                toUserId: try getUserName(userId: toUserId),
-                content: nil,
-                photoContents: photoContents,
-                date: date,
-                stationeryImageUrlString: nil,
-                isRead: isRead)
-            
-            return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
-            
-        } catch {
-            return .failure(error)
-        }
+        let letter = Letter(
+            id: nil,
+            fontString: nil,
+            postScript: postScript ?? "",
+            envelopeImageUrlString: envelope,
+            stampImageUrlString: stamp,
+            fromUserId: fromUserId,
+            toUserId: toUserId,
+            content: nil,
+            photoContents: photoContents,
+            date: date,
+            stationeryImageUrlString: nil,
+            isRead: isRead)
+        
+        return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
     }
     
     // LetterBoxUseCase
@@ -122,10 +114,16 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             }
             
             let snapshot = try await db.collection("Writers").document(userId).collection(collectionName).order(by: "date", descending: true).getDocuments()
-            let letters = try snapshot.documents.compactMap { document in
+            var letters = try snapshot.documents.compactMap { document in
                 try document.data(as: Letter.self)
             }
             
+            for index in letters.indices {
+                let fromUserName = try await getUserName(userId: letters[index].fromUserId)
+                let toUserName = try await getUserName(userId: letters[index].toUserId)
+                letters[index].fromUserId = fromUserName
+                letters[index].toUserId = toUserName
+            }
             return .success(letters)
         } catch {
             return .failure(error)
@@ -168,7 +166,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                     result[type] = querySnapshot.documents.count
                 }
             }
-            result[.all] = (result[.toMe] ?? 0) + (result[.sent] ?? 0) + (result[.received] ?? 0)
+            result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
             
             return .success(result)
         } catch {
@@ -183,7 +181,6 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     }
     
     func searchBy(userId: String, letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
-        
         var letters: [Letter] = []
         
         do {
@@ -204,9 +201,9 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             for collectionName in collectionNames {
                 let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
                 let querySnapshot = try await collectionRef.whereField("date", isGreaterThan: startDate)
-                                                            .whereField("date", isLessThan: endDate)
-                                                            .order(by: "date", descending: true)
-                                                            .getDocuments()
+                    .whereField("date", isLessThan: endDate)
+                    .order(by: "date", descending: true)
+                    .getDocuments()
                 let fetchedLetters = try querySnapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
@@ -241,10 +238,10 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         let snapshotUser = try await userDoc.getDocument()
         
-        if let data = snapshotUser.data(), let name = data["name"] as? String {
+        if snapshotUser.exists, let data = snapshotUser.data(), let name = data["name"] as? String {
             return name
         } else {
-            return ""
+            return userId
         }
     }
     
@@ -255,16 +252,19 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             let fromUserDoc = db.collection("Writers").document(fromUserId)
             let toUserDoc = db.collection("Writers").document(toUserId)
             
-            let letterData = try Firestore.Encoder().encode(letter)
+            let fromUserSnapshot = try await fromUserDoc.getDocument()
+            let toUserSnapshot = try await toUserDoc.getDocument()
             
-            if fromUserId == toUserId {
+            let letterData = try Firestore.Encoder().encode(letter)
+
+            if fromUserSnapshot.exists && fromUserId == toUserId {
                 do {
                     try await fromUserDoc.collection("ToMe").addDocument(data: letterData)
                     return .success(())
                 } catch {
                     return .failure(LetterSaveError.failedToSaveToMe)
                 }
-            } else {
+            } else if fromUserSnapshot.exists && toUserSnapshot.exists && fromUserId != toUserId {
                 var sentSaveError: Error?
                 var receivedSaveError: Error?
                 
@@ -273,7 +273,6 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 } catch {
                     sentSaveError = error
                 }
-                
                 do {
                     try await toUserDoc.collection("Received").addDocument(data: letterData)
                 } catch {
@@ -287,13 +286,29 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 } else if let _ = receivedSaveError {
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
-                
                 return .success(())
+                
+            } else if fromUserSnapshot.exists && !toUserSnapshot.exists {
+                do {
+                    try await fromUserDoc.collection("Sent").addDocument(data: letterData)
+                    return .success(())
+                } catch {
+                    return .failure(LetterSaveError.failedToSaveSent)
+                }
+            } else if !fromUserSnapshot.exists && toUserSnapshot.exists {
+                do {
+                    try await toUserDoc.collection("Received").addDocument(data: letterData)
+                    return .success(())
+                } catch {
+                    return .failure(LetterSaveError.failedToSaveReceived)
+                }
+            } else {
+                // 둘 다 nil인 경우
+                return .failure(LetterSaveError.bothUsersNotFound)
             }
         } catch {
             return .failure(error)
         }
-        
     }
     
     // MARK: - Firestore 전체 Letter 불러오기
@@ -308,6 +323,13 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                     try document.data(as: Letter.self)
                 }
                 allLetters.append(contentsOf: letters)
+            }
+            
+            for index in allLetters.indices {
+                let fromUserName = try await getUserName(userId: allLetters[index].fromUserId)
+                let toUserName = try await getUserName(userId: allLetters[index].toUserId)
+                allLetters[index].fromUserId = fromUserName
+                allLetters[index].toUserId = toUserName
             }
             
             return .success(allLetters)
