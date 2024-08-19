@@ -25,7 +25,7 @@ struct SearchBar: View {
                         self.text = ""
                     }) {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(Color.background)
+                            .foregroundStyle(Color("Primary100"))
                     }
                 } else {
                     EmptyView()

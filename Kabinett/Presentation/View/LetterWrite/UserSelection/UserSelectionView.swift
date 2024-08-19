@@ -60,12 +60,13 @@ struct UserSelectionView: View {
                     
                     HStack {
                         if viewModel.checkLogin {
-                            Spacer(minLength: 100)
+                            Spacer(minLength: 95)
                             VStack {
                                 SearchBar(text: $searchText)
                                 if !searchText.isEmpty {
                                     Divider()
                                         .padding([.leading, .trailing], 10)
+                                        .padding(.top, -6)
                                     
                                     List {
                                         Text("\(searchText) 입력")
@@ -114,6 +115,7 @@ struct UserSelectionView: View {
                                     }
                                     .listStyle(PlainListStyle())
                                     .frame(height: 200)
+                                    .padding(.top, -5)
                                 }
                             }
                             .padding(.top, 2)
