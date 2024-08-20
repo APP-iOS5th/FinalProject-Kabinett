@@ -168,8 +168,8 @@ struct SearchBarView: View {
                 }
                 .padding(7)
                 .foregroundStyle(.primary600)
-                .background(Color.black.opacity(0.1))
-                .background(.ultraThinMaterial)
+                .background(.primary300.opacity(0.2))
+                .background(TransparentBlurView(removeAllFilters: false))
                 .cornerRadius(10)
                 
                 if !searchText.isEmpty {
@@ -188,6 +188,7 @@ struct SearchBarView: View {
             }
             .padding(.top, 10)
             .padding(.horizontal, 15)
+            .background(TransparentBlurView(removeAllFilters: true).blur(radius: 4))
             
             Spacer()
         }

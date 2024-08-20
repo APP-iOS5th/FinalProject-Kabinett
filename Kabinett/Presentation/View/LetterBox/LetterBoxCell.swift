@@ -18,6 +18,8 @@ struct LetterBoxCell: View {
                 
                 Rectangle()
                     .fill(.clear)
+                    .background(.clear.opacity(0.1))
+                    .background(TransparentBlurView(removeAllFilters: true).blur(radius: 2))
                     .background(.ultraThinMaterial)
                     .frame(width: 125, height: 180)
                     .opacity(0.8)
