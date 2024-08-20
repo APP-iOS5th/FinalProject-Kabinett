@@ -16,6 +16,10 @@ struct LetterBoxDetailView: View {
     let letters = Array(0...10) // dummy
 //    let letters: [Int] = [] // empty dummy
     
+    private var xOffsets: [CGFloat] {
+        return [-8, 10, 6, -2, 16]
+    }
+    
     var backButton: some View {
         Button {
             dismiss()
@@ -52,6 +56,7 @@ struct LetterBoxDetailView: View {
                                         .padding(.bottom, idx == 0 ? 80 : 37)
                                 } else {
                                     LetterBoxDetailEnvelopeCell()
+                                        .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                         .zIndex(Double(idx))
                                         .padding(.bottom, idx % 3 == 1 ? 37 : 0)
                                 }
