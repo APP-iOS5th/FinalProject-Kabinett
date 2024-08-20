@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 enum LetterError: Error {
+    case invalidLetterId
     case invalidFont
     case invalidEnvelope
     case invalidStamp
@@ -274,16 +275,45 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     
     // 안읽음->읽음 update
     func updateIsRead(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
-        // TODO: - isRead update 구현
-        fatalError()
+        do {
+            try await validateFromUser(fromUserId: userId)
+            
+            let collectionNames: [String]
+            switch letterType {
+            case .sent:
+                collectionNames = ["Sent"]
+            case .received:
+                collectionNames = ["Received"]
+            case .toMe:
+                collectionNames = ["ToMe"]
+            case .all:
+                collectionNames = ["Received", "ToMe"]
+            }
+            
+            for collectionName in collectionNames {
+                try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
+                try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).setData(["isRead": true], merge: true)
+            }
+            
+            return .success(true)
+        } catch {
+            return .failure(error)
+        }
     }
     
-    // MARK: - 유저 유효성 검사
+    // MARK: - 유효성 검사
     private func validateFromUser(fromUserId: String?) async throws {
         let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
         
         let fromUserSnapshot = fromUserDoc != nil ? try await fromUserDoc!.getDocument() : nil
         guard let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists else { throw LetterSaveError.invalidFromUserDoc }
+    }
+    
+    private func validateLetter(userId: String, letterId: String, letterType: String) async throws {
+        let letterDoc = db.collection("Writers").document(userId).collection(letterType).document(letterId)
+        
+        let letterSnapshot = try await letterDoc.getDocument()
+        guard letterSnapshot.exists else { throw LetterError.invalidLetterId }
     }
     
     // MARK: - Firestore Letter 저장
