@@ -29,7 +29,6 @@ enum LetterSaveError: Error {
 }
 
 final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
-    
     private let db = Firestore.firestore()
     
     // MARK: - LetterWriteUseCase
@@ -267,6 +266,18 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         }
     }
     
+    // letter 삭제
+    func removeLetter(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+        // TODO: - letter 삭제 구현
+        fatalError()
+    }
+    
+    // 안읽음->읽음 update
+    func updateIsRead(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+        // TODO: - isRead update 구현
+        fatalError()
+    }
+    
     // MARK: - 유저 유효성 검사
     private func validateFromUser(fromUserId: String?) async throws {
         let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
@@ -279,8 +290,6 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Void, any Error> {
         
         do {
-            let letterData = try Firestore.Encoder().encode(letter)
-            
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             let toUserDoc = toUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             
@@ -290,6 +299,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             // fromUser가 존재하고, fromUserId와 toUserId가 같은 경우 -> ToMe
             if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists && fromUserId == toUserId {
                 do {
+                    let letterData = try Firestore.Encoder().encode(letter)
                     try await fromUserDoc!.collection("ToMe").addDocument(data: letterData)
                     return .success(())
                 } catch {
@@ -302,11 +312,17 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 var receivedSaveError: Error?
                 
                 do {
-                    try await fromUserDoc!.collection("Sent").addDocument(data: letterData)
+                    var sentLetter = letter
+                    sentLetter.isRead = true
+                    
+                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                 } catch {
                     sentSaveError = error
                 }
+                
                 do {
+                    let letterData = try Firestore.Encoder().encode(letter)
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                 } catch {
                     receivedSaveError = error
@@ -324,7 +340,11 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             } else if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists,
                       toUserSnapshot == nil || !toUserSnapshot!.exists {
                 do {
-                    try await fromUserDoc!.collection("Sent").addDocument(data: letterData)
+                    var sentLetter = letter
+                    sentLetter.isRead = true
+                    
+                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                     return .success(())
                 } catch {
                     return .failure(LetterSaveError.failedToSaveSent)
@@ -333,6 +353,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             } else if fromUserSnapshot == nil || !fromUserSnapshot!.exists,
                       let toUserSnapshot = toUserSnapshot, toUserSnapshot.exists {
                 do {
+                    let letterData = try Firestore.Encoder().encode(letter)
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                     return .success(())
                 } catch {
