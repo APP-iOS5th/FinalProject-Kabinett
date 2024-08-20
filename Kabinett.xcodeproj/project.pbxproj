@@ -25,6 +25,8 @@
 		57ED9CE72C73780100A4312C /* Pecita.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE62C73780100A4312C /* Pecita.otf */; };
 		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
+		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
+		83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FD2C644BF0003635F3 /* Preview Assets.xcassets */; };
@@ -37,10 +39,14 @@
 		839CE1292C645F65003635F3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE1282C645F65003635F3 /* FirebaseFirestore */; };
 		839CE12B2C645F65003635F3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE12A2C645F65003635F3 /* FirebaseStorage */; };
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
+		83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */; };
+		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
+		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
 		AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
 		AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */; };
+		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +86,8 @@
 		57ED9CE62C73780100A4312C /* Pecita.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pecita.otf; sourceTree = "<group>"; };
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
+		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
+		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
 		839CE0F82C644BEF003635F3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -91,10 +99,14 @@
 		839CE1132C644BF0003635F3 /* KabinettUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		839CE1202C645274003635F3 /* Kabinett.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kabinett.entitlements; sourceTree = "<group>"; };
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
+		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
 		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
 		AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLetterService.swift; sourceTree = "<group>"; };
+		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +173,7 @@
 		8314013A2C69C21D00F601FB /* LetterBoxUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */,
 			);
 			path = LetterBoxUseCase;
 			sourceTree = "<group>";
@@ -176,6 +189,7 @@
 		8314013C2C69C23500F601FB /* ProfileUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */,
 			);
 			path = ProfileUseCase;
 			sourceTree = "<group>";
@@ -183,6 +197,7 @@
 		8314013D2C69C23C00F601FB /* SignUpUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */,
 			);
 			path = SignUpUseCase;
 			sourceTree = "<group>";
@@ -290,6 +305,9 @@
 		8366B6FB2C65EF1B0021FAE0 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				83F0D6842C705E42001B8733 /* AuthManager.swift */,
+				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
+				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -572,12 +590,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
+				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
+				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
+				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
@@ -588,6 +611,7 @@
 				57EBE5B62C6AF149003ECD7F /* SearchBar.swift in Sources */,
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
