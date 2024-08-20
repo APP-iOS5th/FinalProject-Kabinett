@@ -32,13 +32,13 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     
     private let db = Firestore.firestore()
     
-    // LetterWriteUseCase
+    // MARK: - LetterWriteUseCase
     func saveLetter(font: String, postScript: String?, envelope: String, stamp: String,
                     fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
                     toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
                     content: String?, photoContents: [String], date: Date, stationery: String, isRead: Bool) async -> Result<Void, any Error> {
         
-        // MARK: - Parameter 유효성 검사
+        // Parameter 유효성 검사
         guard !font.isEmpty else { return .failure(LetterError.invalidFont) }
         guard !envelope.isEmpty else { return .failure(LetterError.invalidEnvelope) }
         guard !stamp.isEmpty else { return .failure(LetterError.invalidStamp) }
@@ -74,13 +74,13 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         }
     }
     
-    // ComponentsUseCase
+    // MARK: - ComponentsUseCase
     func saveLetter(postScript: String?, envelope: String, stamp: String,
                     fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
                     toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
                     photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
         
-        // MARK: - Parameter 유효성 검사
+        // Parameter 유효성 검사
         guard !envelope.isEmpty else { return .failure(LetterError.invalidEnvelope) }
         guard !stamp.isEmpty else { return .failure(LetterError.invalidStamp) }
         guard !fromUserName.isEmpty else { return .failure(LetterError.invalidFromUserName) }
@@ -108,7 +108,8 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
     }
     
-    // LetterBoxUseCase
+    // MARK: - LetterBoxUseCase
+    // letter 타입별 로딩
     func getLetterBoxDetailLetters(userId: String, letterType: LetterType) async -> Result<[Letter], any Error> {
         do {
             try await validateFromUser(fromUserId: userId)
@@ -136,6 +137,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         }
     }
     
+    // main 편지함 letter 3개 로딩
     func getLetterBoxLetters(userId: String) async -> Result<[LetterType : [Letter]], any Error> {
         var result: [LetterType: [Letter]] = [:]
         
@@ -153,6 +155,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         return .success(result)
     }
     
+    // 안읽은 letter 개수 로딩
     func getIsRead(userId: String) async -> Result<[LetterType: Int], any Error> {
         var result: [LetterType: Int] = [:]
         
@@ -181,11 +184,51 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
     }
     
+    // keyword 기준 letter 검색
     func searchBy(userId: String, findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
-        // TODO: - 특정 키워드로 Letter 검색
-        fatalError()
+        var letters: [Letter] = []
+        
+        do {
+            try await validateFromUser(fromUserId: userId)
+            
+            let collectionNames: [String]
+            switch letterType {
+            case .sent:
+                collectionNames = ["Sent"]
+            case .received:
+                collectionNames = ["Received"]
+            case .toMe:
+                collectionNames = ["ToMe"]
+            case .all:
+                collectionNames = ["Sent", "Received", "ToMe"]
+            }
+            
+            for collectionName in collectionNames {
+                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                
+                let query = collectionRef.whereFilter(Filter.orFilter([
+                    Filter.whereField("toUserName", isEqualTo: findKeyword),
+                    Filter.whereField("fromUserName", isEqualTo: findKeyword),
+                    Filter.whereField("toUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1),
+                    Filter.whereField("fromUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1)
+                ]))
+                
+                let snapshot = try await query.getDocuments()
+                
+                let fetchedLetters = try snapshot.documents.compactMap { document in
+                    try document.data(as: Letter.self)
+                }
+                letters.append(contentsOf: fetchedLetters)
+            }
+            letters.sort { $0.date > $1.date }
+            
+            return .success(letters)
+        } catch {
+            return .failure(error)
+        }
     }
     
+    // date 기준 letter 검색
     func searchBy(userId: String, letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
@@ -254,7 +297,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 }
                 // fromUser, toUser가 존재하는데 두 User가 다른 경우 -> Sent, Received
             } else if let fromUserSnapshot = fromUserSnapshot, let toUserSnapshot = toUserSnapshot,
-                        fromUserSnapshot.exists && toUserSnapshot.exists && fromUserId != toUserId {
+                      fromUserSnapshot.exists && toUserSnapshot.exists && fromUserId != toUserId {
                 var sentSaveError: Error?
                 var receivedSaveError: Error?
                 
@@ -279,7 +322,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 return .success(())
                 // fromUser가 존재하고, toUser가 존재하지 않을 때 -> Sent
             } else if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists,
-                        toUserSnapshot == nil || !toUserSnapshot!.exists {
+                      toUserSnapshot == nil || !toUserSnapshot!.exists {
                 do {
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterData)
                     return .success(())
