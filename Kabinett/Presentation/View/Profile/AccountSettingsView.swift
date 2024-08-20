@@ -15,12 +15,14 @@ struct AccountSettingsView: View {
                     HStack{
                         Text("로그아웃하기")
                             .fontWeight(.medium)
+                            .font(.system(size: 17))
+                            .foregroundColor(.contentPrimary)
                         Spacer()
                         Image(systemName: "chevron.right")
                             .font(.system(size: 19))
                             .foregroundColor(.contentPrimary)
                     }
-                    .padding(.top, 10)
+                    .padding(.top, 20)
                     .padding(.horizontal, geometry.size.width * 0.06)
                     Spacer()
                     Text("회원 탈퇴하기")

@@ -18,12 +18,14 @@ struct SettingsView: View {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
+                                .font(.system(size: 17))
+                                .foregroundColor(.contentPrimary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 19))
                                 .foregroundColor(.contentPrimary)
                         }
-                        .padding(.top, 10)
+                        .padding(.top, 20)
                         .padding(.bottom, 20)
                         .padding(.horizontal, geometry.size.width * 0.06)
                     }
@@ -33,6 +35,8 @@ struct SettingsView: View {
                         HStack{
                             Text("계정 설정")
                                 .fontWeight(.medium)
+                                .font(.system(size: 17))
+                                .foregroundColor(.contentPrimary)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 19))
@@ -53,6 +57,8 @@ struct SettingsView: View {
                         }
                         .padding(.leading, 10)
                         Text(viewModel.appleID)
+                            .font(.system(size: 17))
+                            .foregroundColor(.contentPrimary)
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
 
