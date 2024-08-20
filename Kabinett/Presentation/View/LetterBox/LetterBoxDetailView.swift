@@ -18,7 +18,7 @@ struct LetterBoxDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    let letters = Array(0...10) // dummy
+    let letters = Array(0...16) // dummy
 //    let letters: [Int] = [] // empty dummy
     
     private var xOffsets: [CGFloat] {
@@ -104,13 +104,14 @@ struct LetterBoxDetailView: View {
                 
                 ZStack {
                     Text("\(letterCount)")
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 7)
+                        .padding(.horizontal, 17)
+                        .padding(.vertical, 6)
                         .foregroundStyle(.black)
-                        .background(.primary300.opacity(0.9))
+                        .background(.primary600.opacity(0.4))
+                        .background(TransparentBlurView(removeAllFilters: true))
                         .cornerRadius(20)
                         .padding()
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.system(size: 16, weight: .regular))
                 }
                 .padding(.bottom, 20)
             }
