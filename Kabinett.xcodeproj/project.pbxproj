@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
+		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
@@ -67,6 +68,7 @@
 /* Begin PBXFileReference section */
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
 				530912CB2C7045F200964130 /* ToastView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
+				535961902C74F5870031E181 /* CalendarView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,

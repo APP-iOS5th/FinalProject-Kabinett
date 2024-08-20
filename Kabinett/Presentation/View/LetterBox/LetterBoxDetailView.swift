@@ -16,6 +16,8 @@ struct LetterBoxDetailView: View {
     @Binding var showSearchBarView: Bool
     @Binding var searchText: String
     
+    @State private var showCalendarView = false
+    
     @Environment(\.dismiss) private var dismiss
     
     let letters = Array(0...16) // dummy
@@ -98,6 +100,22 @@ struct LetterBoxDetailView: View {
             .onAppear {
                 letterCount = letters.count
             }
+            .overlay {
+                if showCalendarView {
+                    ZStack {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                            .onTapGesture {
+                                withAnimation {
+                                    showCalendarView = false
+                                }
+                            }
+                        
+                        CalendarView()
+                            .cornerRadius(20)
+                    }
+                }
+            }
             
             VStack {
                 Spacer()
@@ -130,7 +148,11 @@ struct LetterBoxDetailView: View {
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
-                Button{} label: {
+                Button{
+                    withAnimation {
+                        showCalendarView.toggle()
+                    }
+                } label: {
                     Image(systemName: "line.3.horizontal.decrease.circle")
                 }
                 .padding(5)
