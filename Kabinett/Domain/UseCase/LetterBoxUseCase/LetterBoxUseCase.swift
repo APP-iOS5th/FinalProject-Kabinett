@@ -14,6 +14,9 @@ protocol LetterBoxUseCase {
     
     func searchBy(userId: String, findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error>
     func searchBy(userId: String, letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error>
+    
+    func removeLetter(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error>
+    func updateIsRead(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error>
 }
 
 enum LetterType {
