@@ -269,13 +269,47 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     
     // letter 삭제
     func removeLetter(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
-        // TODO: - letter 삭제 구현
-        fatalError()
+        do {
+            var removeSucceeded = false
+            try await validateFromUser(fromUserId: userId)
+            
+            let collectionNames: [String]
+            switch letterType {
+            case .sent:
+                collectionNames = ["Sent"]
+            case .received:
+                collectionNames = ["Received"]
+            case .toMe:
+                collectionNames = ["ToMe"]
+            case .all:
+                collectionNames = ["Sent", "Received", "ToMe"]
+            }
+            
+            for collectionName in collectionNames {
+                do {
+                    try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
+                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).delete()
+                    
+                    removeSucceeded = true
+                } catch {
+                    
+                }
+            }
+            
+            if removeSucceeded {
+                return .success(true)
+            } else {
+                return .failure(LetterError.invalidLetterId)
+            }
+        } catch {
+            return .failure(error)
+        }
     }
     
     // 안읽음->읽음 update
     func updateIsRead(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
         do {
+            var updateSucceeded = false
             try await validateFromUser(fromUserId: userId)
             
             let collectionNames: [String]
@@ -291,11 +325,21 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
             }
             
             for collectionName in collectionNames {
-                try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).setData(["isRead": true], merge: true)
+                do {
+                    try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
+                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).setData(["isRead": true], merge: true)
+                    
+                    updateSucceeded = true
+                } catch {
+                    
+                }
             }
             
-            return .success(true)
+            if updateSucceeded {
+                return .success(true)
+            } else {
+                return .failure(LetterError.invalidLetterId)
+            }
         } catch {
             return .failure(error)
         }
