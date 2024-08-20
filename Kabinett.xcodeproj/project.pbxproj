@@ -11,7 +11,6 @@
 		04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E82C6C799500D289EA /* SettingsView.swift */; };
 		04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */; };
 		04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */; };
-		04DEC0EF2C6C883C00D289EA /* OpenSourceLicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EE2C6C883C00D289EA /* OpenSourceLicensesView.swift */; };
 		04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */; };
 		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
@@ -64,7 +63,6 @@
 		04DEC0E82C6C799500D289EA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
 		04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
-		04DEC0EE2C6C883C00D289EA /* OpenSourceLicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicensesView.swift; sourceTree = "<group>"; };
 		04DEC0F02C6E136F00D289EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				04DEC0E82C6C799500D289EA /* SettingsView.swift */,
 				04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */,
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
-				04DEC0EE2C6C883C00D289EA /* OpenSourceLicensesView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -560,7 +557,6 @@
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
-				04DEC0EF2C6C883C00D289EA /* OpenSourceLicensesView.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
