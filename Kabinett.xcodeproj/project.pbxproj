@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */; };
 		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
 		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
 		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
@@ -55,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
 		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
 		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
 				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
 				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
+				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
+				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
