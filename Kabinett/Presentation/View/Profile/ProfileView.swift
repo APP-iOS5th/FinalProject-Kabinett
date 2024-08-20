@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
-    @State private var shouldNavigateToSettings = false
     
     var body: some View {
         NavigationStack {
@@ -32,7 +31,7 @@ struct ProfileView: View {
                     .fontWeight(.regular)
                     .font(.system(size: 36))
                     .padding(.bottom, 0.1)
-                Text("000-000")
+                Text(viewModel.kabinettNumber)
                     .fontWeight(.light)
                     .font(.system(size: 16))
                     .monospaced()
@@ -42,7 +41,7 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        shouldNavigateToSettings = true
+                        viewModel.shouldNavigateToSettings = true
                     }) {
                         Image(systemName: "gearshape")
                             .font(.system(size: 19))
@@ -50,7 +49,7 @@ struct ProfileView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $shouldNavigateToSettings) {
+            .navigationDestination(isPresented: $viewModel.shouldNavigateToSettings) {
                 SettingsView(viewModel: viewModel)
             }
         }

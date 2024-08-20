@@ -52,23 +52,10 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 10)
-                        Text("figfigure33@gmail.com")
-                            .fontWeight(.medium)
-                    }
-                    .padding(.bottom, 20)
-                    .padding(.horizontal, geometry.size.width * 0.06)
-                    
-                    NavigationLink(destination: OpenSourceLicensesView()) {
-                        HStack{
-                            Text("오픈소스 라이선스")
-                                .fontWeight(.medium)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 19))
-                                .foregroundColor(.contentPrimary)
-                        }
+                        Text(viewModel.appleID)
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
+
                     Spacer()
                 }
                 .buttonStyle(PlainButtonStyle())

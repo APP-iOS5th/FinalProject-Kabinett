@@ -10,10 +10,6 @@ import PhotosUI
 
 struct ProfileSettingsView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
-    @State private var isShowingImagePicker = false
-    @State private var shouldNavigateToProfile = false
-    
-    let kabinettNumber = "000-000"
     
     var body: some View {
         NavigationStack {
@@ -35,12 +31,12 @@ struct ProfileSettingsView: View {
                     }
                 }
                 .onTapGesture {
-                    isShowingImagePicker = true
+                    viewModel.selectProfileImage()
                 }
                 .padding(.bottom, 10)
                 
                 ZStack {
-                    TextField("\(viewModel.userName)", text: $viewModel.newUserName)
+                    TextField(viewModel.displayName, text: $viewModel.newUserName)
                         .textFieldStyle(OvalTextFieldStyle())
                         .autocorrectionDisabled(true)
                         .keyboardType(.alphabet)
@@ -51,7 +47,7 @@ struct ProfileSettingsView: View {
                 .font(Font.system(size: 25, design: .default))
                 .padding(.bottom, 10)
                 
-                Text("\(kabinettNumber)")
+                Text(viewModel.kabinettNumber)
                     .fontWeight(.light)
                     .font(.system(size: 16))
                     .monospaced()
@@ -63,9 +59,7 @@ struct ProfileSettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        viewModel.updateUserName()
-                        viewModel.updateProfileImage(with: viewModel.profileImage)
-                        shouldNavigateToProfile = true
+                        viewModel.completeProfileUpdate()
                     }) {
                         Text("완료")
                             .fontWeight(.medium)
@@ -75,11 +69,11 @@ struct ProfileSettingsView: View {
                     }
                 }
             }
-            .navigationDestination(isPresented: $shouldNavigateToProfile) {
+            .navigationDestination(isPresented: $viewModel.shouldNavigateToProfile) {
                 ProfileView(viewModel: viewModel)
             }
         }
-        .sheet(isPresented: $isShowingImagePicker) {
+        .sheet(isPresented: $viewModel.isShowingImagePicker) {
             ImagePicker(image: $viewModel.profileImage)
         }
     }
