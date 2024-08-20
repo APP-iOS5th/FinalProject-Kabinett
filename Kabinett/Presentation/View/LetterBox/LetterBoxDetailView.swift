@@ -11,6 +11,8 @@ struct LetterBoxDetailView: View {
     @State var letterBoxType: String
     @State private var letterCount: Int = 0
     
+    @State private var navigationBarHeight: CGFloat = 0
+    
     @Environment(\.dismiss) private var dismiss
     
     let letters = Array(0...10) // dummy
@@ -32,9 +34,22 @@ struct LetterBoxDetailView: View {
         }
     }
     
+    init(letterBoxType: String) {
+        self.letterBoxType = letterBoxType
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+        appearance.backgroundColor = .clear
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        
+        UITabBar.appearance().backgroundColor = .clear
+    }
+    
     var body: some View {
         ZStack {
             Color.background
+                .edgesIgnoringSafeArea(.all)
             
             ZStack {
                 if letters.count == 0 {
@@ -62,6 +77,16 @@ struct LetterBoxDetailView: View {
                                 }
                             }
                         }
+                        .padding(.top, navigationBarHeight)
+                        .background(
+                            GeometryReader { geometry in
+                                Color.clear
+                                    .preference(key: NavigationBarHeightKey.self, value: geometry.safeAreaInsets.top + geometry.frame(in: .global).minY)
+                            }
+                        )
+                    }
+                    .onPreferenceChange(NavigationBarHeightKey.self) { value in
+                        navigationBarHeight = value + 15
                     }
                 }
             }
@@ -85,7 +110,6 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .ignoresSafeArea()
         .navigationTitle(letterBoxType)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
@@ -107,4 +131,14 @@ struct LetterBoxDetailView: View {
 
 #Preview {
     LetterBoxDetailView(letterBoxType: "All")
+}
+
+struct NavigationBarHeightKey: PreferenceKey {
+    typealias Value = CGFloat
+    
+    static var defaultValue: CGFloat = 0
+    
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
 }
