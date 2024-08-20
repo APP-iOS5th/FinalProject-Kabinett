@@ -13,6 +13,9 @@ struct LetterBoxDetailView: View {
     
     @State private var navigationBarHeight: CGFloat = 0
     
+    @Binding var showSearchBarView: Bool
+    @Binding var searchText: String
+    
     @Environment(\.dismiss) private var dismiss
     
     let letters = Array(0...10) // dummy
@@ -34,8 +37,10 @@ struct LetterBoxDetailView: View {
         }
     }
     
-    init(letterBoxType: String) {
+    init(letterBoxType: String, showSearchBarView: Binding<Bool>, searchText: Binding<String>) {
         self.letterBoxType = letterBoxType
+        self._showSearchBarView = showSearchBarView
+        self._searchText = searchText
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -115,7 +120,11 @@ struct LetterBoxDetailView: View {
         .navigationBarItems(leading: backButton)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button{} label: {
+                Button{
+                    withAnimation {
+                        showSearchBarView.toggle()
+                    }
+                } label: {
                     Image(systemName: "magnifyingglass")
                 }
             }
@@ -130,7 +139,7 @@ struct LetterBoxDetailView: View {
 }
 
 #Preview {
-    LetterBoxDetailView(letterBoxType: "All")
+    LetterBoxDetailView(letterBoxType: "All", showSearchBarView: .constant(false), searchText: .constant(""))
 }
 
 struct NavigationBarHeightKey: PreferenceKey {
@@ -140,5 +149,47 @@ struct NavigationBarHeightKey: PreferenceKey {
     
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
+    }
+}
+
+struct SearchBarView: View {
+    @Binding var searchText: String
+    @Binding var showSearchBarView: Bool
+    
+    var body: some View {
+        VStack {
+            HStack {
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .tint(.black)
+                    TextField("Search", text: $searchText)
+                        .foregroundStyle(.primary)
+                    Image(systemName: "mic.fill")
+                }
+                .padding(7)
+                .foregroundStyle(.primary600)
+                .background(Color.black.opacity(0.1))
+                .background(.ultraThinMaterial)
+                .cornerRadius(10)
+                
+                if !searchText.isEmpty {
+                    Button(action: {
+                        withAnimation {
+                            self.searchText = ""
+                            showSearchBarView.toggle()
+                        }
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.primary600)
+                    }
+                } else {
+                    EmptyView()
+                }
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 15)
+            
+            Spacer()
+        }
     }
 }
