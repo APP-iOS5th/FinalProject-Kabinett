@@ -72,10 +72,21 @@ struct LetterBoxView: View {
             .buttonStyle(PlainButtonStyle())
             
             if showSearchBarView {
-                SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView)
-                    .padding(.top, 50)
-                    .edgesIgnoringSafeArea(.top)
-                    .zIndex(1)
+                VStack {
+                    ZStack {
+                        Color.clear
+                            .background(Material.ultraThin) // Background material 설정
+                            .blur(radius: 1.5) // 배경에만 blur 적용
+
+                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView)
+                            .padding(.top, 50)
+                            .edgesIgnoringSafeArea(.top)
+                            .zIndex(1)
+                    }
+                    .frame(maxHeight: .zero)
+                    
+                    Spacer()
+                }
             }
         }
     }

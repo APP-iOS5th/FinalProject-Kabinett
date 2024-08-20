@@ -158,40 +158,36 @@ struct SearchBarView: View {
     @Binding var showSearchBarView: Bool
     
     var body: some View {
-        VStack {
+        HStack {
             HStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .tint(.black)
-                    TextField("Search", text: $searchText)
-                        .foregroundStyle(.primary)
-                    Image(systemName: "mic.fill")
-                }
-                .padding(7)
-                .foregroundStyle(.primary600)
-                .background(.primary300.opacity(0.2))
-                .background(TransparentBlurView(removeAllFilters: false))
-                .cornerRadius(10)
-                
-                if !searchText.isEmpty {
-                    Button(action: {
-                        withAnimation {
-                            self.searchText = ""
-                            showSearchBarView.toggle()
-                        }
-                    }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.primary600)
-                    }
-                } else {
-                    EmptyView()
-                }
+                Image(systemName: "magnifyingglass")
+                    .tint(.black)
+                TextField("Search", text: $searchText)
+                    .foregroundStyle(.primary)
+                Image(systemName: "mic.fill")
             }
-            .padding(.top, 10)
-            .padding(.horizontal, 15)
-            .background(TransparentBlurView(removeAllFilters: true).blur(radius: 4))
+            .padding(7)
+            .foregroundStyle(.primary600)
+            .background(.primary300.opacity(0.2))
+            .background(TransparentBlurView(removeAllFilters: false))
+            .cornerRadius(10)
             
-            Spacer()
+            if !searchText.isEmpty {
+                Button(action: {
+                    withAnimation {
+                        self.searchText = ""
+                        showSearchBarView.toggle()
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.primary600)
+                }
+            } else {
+                EmptyView()
+            }
         }
+        .padding(.top, 10)
+        .padding(.horizontal, 15)
+        .background(TransparentBlurView(removeAllFilters: true).blur(radius: 4))
     }
 }
