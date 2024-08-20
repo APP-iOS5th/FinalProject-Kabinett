@@ -5,8 +5,12 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Pecita.otf</string>
-		<string>Goorm.otf</string>
-		<string>Baskervville.otf</string>
+		<string>goormSansOTF4.otf</string>
+		<string>Baskervville-Regular.otf</string>
+		<string>SourceHanSerifK-Regular.otf</string>
+		<string>SourceHanSerifK-Bold.otf</string>
+		<string>MaruBuriot-Regular.otf</string>
+		<string>MaruBuriot-Bold.otf</string>
 	</array>
 </dict>
 </plist>

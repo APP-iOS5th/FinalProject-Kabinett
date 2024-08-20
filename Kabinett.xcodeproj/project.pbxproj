@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
+		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
+		577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B62C6AF149003ECD7F /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B52C6AF148003ECD7F /* SearchBar.swift */; };
@@ -17,9 +20,10 @@
 		57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */; };
 		57ED9CDE2C73698B00A4312C /* StationerySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */; };
 		57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CDF2C73749800A4312C /* Assets.xcassets */; };
-		57ED9CE32C7375FD00A4312C /* Baskervville.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE22C7375FC00A4312C /* Baskervville.otf */; };
-		57ED9CE52C73760800A4312C /* Goorm.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE42C73760800A4312C /* Goorm.otf */; };
+		57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */; };
+		57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE42C73760800A4312C /* goormSansOTF4.otf */; };
 		57ED9CE72C73780100A4312C /* Pecita.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE62C73780100A4312C /* Pecita.otf */; };
+		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
@@ -57,6 +61,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
+		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
+		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B52C6AF148003ECD7F /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -68,9 +75,10 @@
 		57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionViewModel.swift; sourceTree = "<group>"; };
 		57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionViewModel.swift; sourceTree = "<group>"; };
 		57ED9CDF2C73749800A4312C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Kabinett/Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		57ED9CE22C7375FC00A4312C /* Baskervville.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Baskervville.otf; sourceTree = "<group>"; };
-		57ED9CE42C73760800A4312C /* Goorm.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Goorm.otf; sourceTree = "<group>"; };
+		57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Baskervville-Regular.otf"; sourceTree = "<group>"; };
+		57ED9CE42C73760800A4312C /* goormSansOTF4.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = goormSansOTF4.otf; sourceTree = "<group>"; };
 		57ED9CE62C73780100A4312C /* Pecita.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pecita.otf; sourceTree = "<group>"; };
+		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -131,9 +139,13 @@
 		57ED9CE12C7375AC00A4312C /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */,
+				57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */,
+				577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */,
+				577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */,
+				57ED9CE42C73760800A4312C /* goormSansOTF4.otf */,
+				57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */,
 				57ED9CE62C73780100A4312C /* Pecita.otf */,
-				57ED9CE42C73760800A4312C /* Goorm.otf */,
-				57ED9CE22C7375FC00A4312C /* Baskervville.otf */,
 			);
 			path = fonts;
 			sourceTree = "<group>";
@@ -499,11 +511,12 @@
 			};
 			buildConfigurationList = 839CE0EE2C644BEF003635F3 /* Build configuration list for PBXProject "Kabinett" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 839CE0EA2C644BEF003635F3;
 			packageReferences = (
@@ -525,12 +538,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57ED9CE32C7375FD00A4312C /* Baskervville.otf in Resources */,
+				57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */,
+				57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */,
+				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
 				57ED9CE72C73780100A4312C /* Pecita.otf in Resources */,
 				839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */,
 				57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */,
-				57ED9CE52C73760800A4312C /* Goorm.otf in Resources */,
+				57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */,
 				839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */,
+				577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */,
+				577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

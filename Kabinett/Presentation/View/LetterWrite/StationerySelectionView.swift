@@ -55,7 +55,6 @@ struct StationerySelectionView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle("편지지 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
@@ -66,6 +65,9 @@ struct StationerySelectionView: View {
                         .foregroundStyle(Color("ContentPrimary"))
                 }
                 .padding(.leading, 8)
+            }
+            ToolbarItem(placement: .principal) {
+                Text("편지지 고르기")
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink("완료") {

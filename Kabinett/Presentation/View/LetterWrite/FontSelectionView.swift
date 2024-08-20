@@ -21,8 +21,8 @@ struct FontSelectionView: View {
                     VStack {
                         HStack {
                             Text("\(viewModel.dummyFonts[i].fontName)")
-                                .font(viewModel.dummyFonts[i].fileName)
-                                .padding(.leading, 5)
+                                .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
+                                .padding(.leading, 3)
                                 .padding(.top, 3)
                             Spacer()
                         }
@@ -33,18 +33,18 @@ struct FontSelectionView: View {
                                 prompt: Text("텍스트를 입력해보세요. Write Someting...").foregroundColor(Color.black)
                             )
                             .padding(.leading, 4)
-                            .font(viewModel.dummyFonts[i].fileName)
+                            .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
                             .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                             .background(Color.white)
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             Button {
                                 viewModel.selectedIndex = i
-                                letterContent.fontString = "\(viewModel.dummyFonts[i].fileName)"
+                                letterContent.fontString = viewModel.dummyFonts[i].regularFont
                             } label: {
                                 Image(viewModel.isSelected(index: i) ? "checked" : "unchecked")
                                     .resizable()
                                     .frame(width: 32, height: 32)
-                                    .padding(5)
+                                    .padding([.leading], 5)
                             }
                         }
                     }
@@ -55,10 +55,9 @@ struct FontSelectionView: View {
             .listStyle(.plain)
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle("폰트 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
-                Button (action: {
+                Button(action: {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
@@ -67,9 +66,13 @@ struct FontSelectionView: View {
                 }
                 .padding(.leading, 8)
             }
+            ToolbarItem(placement: .principal) {
+                Text("폰트 고르기")
+                    .bold()
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink("완료") {
-                    
+                    FontSelectionView(letterContent: $letterContent)
                 }
                 .foregroundStyle(Color.black)
                 .padding(.trailing, 8)
