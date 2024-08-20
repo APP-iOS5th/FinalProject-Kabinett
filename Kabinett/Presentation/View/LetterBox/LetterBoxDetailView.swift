@@ -13,6 +13,9 @@ struct LetterBoxDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
+    let letters = Array(0...10) // dummy
+//    let letters: [Int] = [] // empty dummy
+    
     var backButton: some View {
         Button {
             dismiss()
@@ -28,6 +31,38 @@ struct LetterBoxDetailView: View {
     var body: some View {
         ZStack {
             Color.background
+            
+            ZStack {
+                if letters.count == 0 {
+                    Text("아직 나에게 보낸 편지가 없어요.")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                else if letters.count < 3 {
+                    VStack(spacing: 25) {
+                        ForEach(letters, id: \.self) { letter in
+                            LetterBoxDetailEnvelopeCell()
+                        }
+                    }
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: -75) {
+                            ForEach(letters.indices, id: \.self) { idx in
+                                if idx < 2 {
+                                    LetterBoxDetailEnvelopeCell()
+                                        .padding(.bottom, idx == 0 ? 80 : 37)
+                                } else {
+                                    LetterBoxDetailEnvelopeCell()
+                                        .zIndex(Double(idx))
+                                        .padding(.bottom, idx % 3 == 1 ? 37 : 0)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                letterCount = letters.count
+            }
             
             VStack {
                 Spacer()
