@@ -86,6 +86,5 @@ struct FontSelectionView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationBarHidden(true)
     }
 }
