@@ -39,6 +39,9 @@
 		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
 		AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
+		AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */; };
+		AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */; };
+		AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,9 @@
 		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
 		AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseLetterService.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
+		AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCase.swift; sourceTree = "<group>"; };
+		AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentsLoadStuffUseCase.swift; sourceTree = "<group>"; };
+		AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,8 +140,8 @@
 		831401392C69C21300F601FB /* ComponentsUseCase */ = {
 			isa = PBXGroup;
 			children = (
+				AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */,
 				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
-				AFF423EA2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift */,
 			);
 			path = ComponentsUseCase;
 			sourceTree = "<group>";
@@ -152,7 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
-				AFF423E42C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift */,
+				AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */,
 			);
 			path = LetterWriteUseCase;
 			sourceTree = "<group>";
@@ -345,6 +351,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F252C6AE33D00A7C569 /* FirebaseLetterService.swift */,
+				AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -561,13 +568,15 @@
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
-				AFF423E52C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
 				57EBE5B42C6AE818003ECD7F /* DummyData.swift in Sources */,
+				AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
+				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
+				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				57EBE5B62C6AF149003ECD7F /* SearchBar.swift in Sources */,
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
