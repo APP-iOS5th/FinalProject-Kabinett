@@ -54,7 +54,7 @@ public struct CropBox: View {
     }
     
     public var body: some View {
-        ZStack(alignment: .center) {
+        ZStack(alignment: .topLeading) {
             blur
             box
         }
@@ -69,7 +69,7 @@ public struct CropBox: View {
     
     private var blur: some View {
         Color.black.opacity(0.5)
-            .overlay(alignment: .center) {
+            .overlay(alignment: .topLeading) {
                 Color.white
                     .frame(width: rect.width - 1, height: rect.height - 1)
                     .offset(x: rect.origin.x, y: rect.origin.y)
