@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import UIKit
 
 extension Font {
     static let SFDisplay: Font = .system(size: 14)
@@ -20,11 +21,4 @@ extension Font {
     static let goormSansOTF4: Font = .custom("goormSansOTF4", size: 14)
     static let Baskervville_Regular: Font = .custom("Baskervville-Regular", size: 14)
     static let Pecita: Font = .custom("Pecita", size: 13)
-    
-}
-
-extension UIApplication {
-    func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
 }
