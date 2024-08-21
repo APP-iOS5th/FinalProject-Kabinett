@@ -40,7 +40,3 @@ struct OpenSourceLicenseModalView: View {
         }
     }
 }
-
-#Preview {
-    OpenSourceLicenseModalView()
-}
