@@ -84,7 +84,7 @@ struct ProfileSettingsView: View {
     }
 }
 
-// 이 아래 부분은 따로 파일로 분리하거나, `ProfileSettingsView` 밖으로 빼는 것이 좋습니다.
+
 struct OvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
@@ -152,6 +152,7 @@ struct ImageCropper: View {
     var body: some View {
         if let image = image {
             VStack {
+                Spacer()
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
@@ -166,26 +167,25 @@ struct ImageCropper: View {
                                 }
                         }
                     }
-                
-                Button("Crop", action: {
+                Spacer()
+                Button("이미지 적용하기", action: {
                     croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
                     if let croppedImage = croppedImage {
                         viewModel.updateProfileImage(with: croppedImage)
                     }
                     isShowingCropper = false
                 })
-                .buttonStyle(.bordered)
-                .font(.title)
-                .foregroundStyle(.black)
-                Spacer()
+                .foregroundStyle(.white)
+                
                 if let croppedImage {
                     Image(uiImage: croppedImage)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 110)
                 }
-                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(.black)
         } else {
             Text("No image available for cropping.")
         }

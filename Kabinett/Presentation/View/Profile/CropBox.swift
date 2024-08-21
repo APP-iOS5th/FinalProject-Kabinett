@@ -54,7 +54,7 @@ public struct CropBox: View {
     }
     
     public var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack(alignment: .center) {
             blur
             box
         }
@@ -69,7 +69,7 @@ public struct CropBox: View {
     
     private var blur: some View {
         Color.black.opacity(0.5)
-            .overlay(alignment: .topLeading) {
+            .overlay(alignment: .center) {
                 Color.white
                     .frame(width: rect.width - 1, height: rect.height - 1)
                     .offset(x: rect.origin.x, y: rect.origin.y)
@@ -84,7 +84,7 @@ public struct CropBox: View {
             grid
             pins
         }
-        .border(.blue, width: 2)
+        .border(.white, width: 1.5)
         .background(Color.white.opacity(0.001))
         .frame(width: rect.width, height: rect.height)
         .offset(x: rect.origin.x, y: rect.origin.y)
@@ -120,13 +120,16 @@ public struct CropBox: View {
         }
         
         return Circle()
-            .fill(.blue)
+            .fill(.white)
             .frame(width: 16, height: 16)
             .offset(x: offX * 8, y: offY * 8)
     }
     
     private var grid: some View {
         ZStack {
+            Circle()
+                .stroke(Color.white, lineWidth: 1.5)
+                .frame(maxHeight: .infinity)
             HStack {
                 Spacer()
                 Rectangle()
@@ -173,9 +176,9 @@ public struct CropBox: View {
         var offY = 1.0
         
         switch draggedCorner {
-        case .topLeft:      offX = -1;  offY = -1
-        case .topRight:                 offY = -1
-        case .bottomLeft:   offX = -1
+        case .topLeft: offX = -1;  offY = -1
+        case .topRight: offY = -1
+        case .bottomLeft: offX = -1
         case .bottomRight: break
         default: break
         }
