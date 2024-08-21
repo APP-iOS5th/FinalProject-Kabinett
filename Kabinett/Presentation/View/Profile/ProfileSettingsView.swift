@@ -35,17 +35,15 @@ struct ProfileSettingsView: View {
                 }
                 .padding(.bottom, 10)
                 
-                ZStack {
-                    TextField(viewModel.displayName, text: $viewModel.newUserName)
-                        .textFieldStyle(OvalTextFieldStyle())
-                        .autocorrectionDisabled(true)
-                        .keyboardType(.alphabet)
-                        .submitLabel(.done)
-                        .frame(alignment: .center)
-                        .multilineTextAlignment(.center)
-                }
-                .font(Font.system(size: 25, design: .default))
-                .padding(.bottom, 10)
+                TextField(viewModel.displayName, text: $viewModel.newUserName)
+                    .textFieldStyle(OvalTextFieldStyle())
+                    .autocorrectionDisabled(true)
+                    .keyboardType(.alphabet)
+                    .submitLabel(.done)
+                    .frame(alignment: .center)
+                    .multilineTextAlignment(.center)
+                    .font(Font.system(size: 25, design: .default))
+                    .padding(.bottom, 10)
                 
                 Text(viewModel.kabinettNumber)
                     .fontWeight(.light)
@@ -77,13 +75,16 @@ struct ProfileSettingsView: View {
             ImagePicker(image: $viewModel.selectedImage, isShowingCropper: $viewModel.isShowingCropper)
         }
         .sheet(isPresented: $viewModel.isShowingCropper) {
-            ImageCropper(image: $viewModel.selectedImage, isShowingCropper: $viewModel.isShowingCropper, viewModel: viewModel) { croppedImage in
-                viewModel.updateProfileImage(with: croppedImage)
+            if let profileImage = viewModel.selectedImage {
+                ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, image: profileImage)
+            } else {
+                Text("No image available for cropping.")
             }
         }
     }
 }
 
+// 이 아래 부분은 따로 파일로 분리하거나, `ProfileSettingsView` 밖으로 빼는 것이 좋습니다.
 struct OvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
@@ -110,9 +111,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         return picker
     }
     
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: UIViewControllerRepresentableContext<ImagePicker>) {
-        
-    }
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: UIViewControllerRepresentableContext<ImagePicker>) {}
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -143,56 +142,73 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 struct ImageCropper: View {
-    @Binding var image: UIImage?
-    @Binding var isShowingCropper: Bool
     @ObservedObject var viewModel: ProfileSettingsViewModel
-    @State private var zoomScale: CGFloat = 1.0
-    @State private var dragOffset = CGSize.zero
-    var onComplete: (UIImage?) -> Void = { _ in }
+    @Binding var isShowingCropper: Bool
+    let image: UIImage?
+    @State var cropArea: CGRect = .init(x: 0, y:0, width: 110, height: 110)
+    @State var imageViewSize: CGSize = .zero
+    @State var croppedImage: UIImage?
     
     var body: some View {
-        GeometryReader { geometry in
-            if let uiImage = image {
-                ZStack {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .scaleEffect(zoomScale)
-                        .offset(x: dragOffset.width, y: dragOffset.height)
-                        .gesture(MagnificationGesture()
-                            .onChanged { value in
-                                zoomScale = value
-                            }
-                        )
-                        .gesture(DragGesture()
-                            .onChanged { value in
-                                dragOffset = value.translation
-                            }
-                        )
-                    Circle()
-                        .stroke(Color.white, lineWidth: 1)
-                        .frame(width: 110, height: 110)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                }
-                .clipped()
-                .frame(width: geometry.size.width, height: geometry.size.height)
-                
-                HStack {
-                    Spacer()
-                    Button("완료") {
-                        let croppedImage = viewModel.cropImage(uiImage, in: geometry.size, zoomScale: zoomScale, dragOffset: dragOffset, cropSize: CGSize(width: 110, height: 110))
-                        onComplete(croppedImage)
-                        isShowingCropper = false
+        if let image = image {
+            VStack {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .overlay(alignment: .topLeading) {
+                        GeometryReader { geometry in
+                            CropBox(rect: $cropArea)
+                                .onAppear {
+                                    self.imageViewSize = geometry.size
+                                }
+                                .onChange(of: geometry.size) {
+                                    self.imageViewSize = $0
+                                }
+                        }
                     }
-                    .foregroundColor(.contentPrimary)
-                    .padding(.top, 20)
-                    .padding(.trailing, 8)
+                
+                Button("Crop", action: {
+                    croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
+                    if let croppedImage = croppedImage {
+                        viewModel.updateProfileImage(with: croppedImage)
+                    }
+                    isShowingCropper = false
+                })
+                .buttonStyle(.bordered)
+                .font(.title)
+                .foregroundStyle(.black)
+                Spacer()
+                if let croppedImage {
+                    Image(uiImage: croppedImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 110)
                 }
+                Spacer()
             }
+        } else {
+            Text("No image available for cropping.")
         }
     }
+    
+    private func crop(image: UIImage, cropArea: CGRect, imageViewSize: CGSize) -> UIImage? {
+        let scaleX = image.size.width / imageViewSize.width * image.scale
+        let scaleY = image.size.height / imageViewSize.height * image.scale
+        let scaledCropArea = CGRect(
+            x: cropArea.origin.x * scaleX,
+            y: cropArea.origin.y * scaleY,
+            width: cropArea.size.width * scaleX,
+            height: cropArea.size.height * scaleY
+        )
+        
+        guard let cutImageRef: CGImage =
+                image.cgImage?.cropping(to: scaledCropArea) else {
+            return nil
+        }
+        
+        return UIImage(cgImage: cutImageRef)
+    }
 }
-
 
 #Preview {
     ProfileSettingsView(viewModel: ProfileSettingsViewModel())

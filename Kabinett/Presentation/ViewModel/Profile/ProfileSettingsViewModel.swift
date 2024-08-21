@@ -44,17 +44,6 @@ class ProfileSettingsViewModel: ObservableObject {
         }
     }
     
-    func cropImage(_ uiImage: UIImage, in containerSize: CGSize, zoomScale: CGFloat, dragOffset: CGSize, cropSize: CGSize) -> UIImage? {
-        let renderer = UIGraphicsImageRenderer(size: cropSize)
-        return renderer.image { _ in
-            let cropOriginX = (containerSize.width / 2 - cropSize.width / 2) - dragOffset.width
-            let cropOriginY = (containerSize.height / 2 - cropSize.height / 2) - dragOffset.height
-            let origin = CGPoint(x: cropOriginX, y: cropOriginY)
-            let rect = CGRect(origin: origin, size: CGSize(width: uiImage.size.width * zoomScale, height: uiImage.size.height * zoomScale))
-            uiImage.draw(in: rect)
-        }
-    }
-    
     func updateProfileImage(with croppedImage: UIImage?) {
         if let croppedImage = croppedImage {
             self.profileImage = croppedImage
