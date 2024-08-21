@@ -10,7 +10,6 @@ import SwiftUI
 import Combine
 
 class StationerySelectionViewModel: ObservableObject {
-    
     @Published var showModal = true
     @Published var selectedIndex: (Int, Int) = (0, 0)
     

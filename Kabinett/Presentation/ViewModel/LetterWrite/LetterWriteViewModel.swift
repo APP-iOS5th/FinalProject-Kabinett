@@ -10,16 +10,22 @@ import SwiftUI
 import Combine
 
 class LetterWriteViewModel: ObservableObject {
-    @Published var id: String = ""
-    @Published var fontString: String = ""
-    @Published var postScript: String = ""
+    @Published var fontString: String? = nil
+    @Published var postScript: String? = nil
     @Published var envelopeImageUrlString: String = ""
     @Published var stampImageUrlString: String = ""
-    @Published var fromUserId: String = ""
-    @Published var toUserId: String = ""
-    @Published var content: String = ""
+    
+    @Published var fromUserId: String? = nil
+    @Published var fromUserName: String = ""
+    @Published var fromUserKabinettNumber: Int? = nil
+    
+    @Published var toUserId: String? = nil
+    @Published var toUserName: String = ""
+    @Published var toUserKabinettNumber: Int? = nil
+    
+    @Published var content: String? = nil
     @Published var photoContents: [String] = []
     @Published var date: Date = Date()
-    @Published var stationeryImageUrlString: String = ""
+    @Published var stationeryImageUrlString: String? = nil
     @Published var isRead: Bool = false
 }

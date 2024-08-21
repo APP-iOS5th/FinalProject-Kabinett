@@ -82,5 +82,8 @@ struct StationerySelectionView: View {
             UserSelectionView(letterContent: $letterContent)
                 .presentationDetents([.height(300), .large])
         }
+        .onAppear {
+            viewModel.showModal = true
+        }
     }
 }
