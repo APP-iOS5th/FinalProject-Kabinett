@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
+		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
+		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
+		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
+		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
+		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
+		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
+		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
 		577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */; };
@@ -74,6 +82,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
+		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
+		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
+		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
+		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
+		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
+		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
 		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
@@ -240,6 +256,13 @@
 		8366B6F22C65ECE10021FAE0 /* LetterBox */ = {
 			isa = PBXGroup;
 			children = (
+				53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */,
+				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
+				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
+				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
+				530912CB2C7045F200964130 /* ToastView.swift */,
+				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
+				535961902C74F5870031E181 /* CalendarView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -610,20 +633,27 @@
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
+				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
+				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
+				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
+				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
+				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
 				AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */,
-				577157022C75D78B00E21162 /* Extension+Font.swift in Sources */,
-				57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */,
+				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
+				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
