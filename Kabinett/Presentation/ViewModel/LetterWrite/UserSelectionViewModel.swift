@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import Combine
 
 class UserSelectionViewModel: ObservableObject {
     @Published var searchText: String = ""

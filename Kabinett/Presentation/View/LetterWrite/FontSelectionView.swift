@@ -46,7 +46,7 @@ struct FontSelectionView: View {
                                     .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
                                     .padding(.leading, 6)
                                     .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
-                                    .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)//
+                                    .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                     .background(Color.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                     Button {
