@@ -23,6 +23,7 @@
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
 		AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
+		AFF423EB2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF423EA2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
+		AFF423EA2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsLoadStuffUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
+				AFF423EA2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift */,
 			);
 			path = ComponentsUseCase;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFF423EB2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
