@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @Binding var showCalendarView: Bool
+    @Binding var startDate: Date
+    @Binding var endDate: Date
+    
     @State private var selectedStartDate = Date()
     @State private var selectedEndDate = Date()
     
@@ -17,6 +21,34 @@ struct CalendarView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack {
+                HStack {
+                    Button {
+                        withAnimation {
+                            showCalendarView = false
+                        }
+                    } label: {
+                        Text("취소")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundStyle(.black)
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        withAnimation {
+                            startDate = selectedStartDate
+                            endDate = selectedEndDate
+                            showCalendarView = false
+                        }
+                    } label: {
+                        Text("확인")
+                            .font(.system(size: 17, weight: .bold))
+                            .foregroundStyle(.black)
+                    }
+                }
+                .padding(.top, 15)
+                .padding(.horizontal, 20)
+                
                 HStack {
                     Text("시작")
                     
@@ -51,7 +83,7 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .tint(.red)
+                        .tint(.black)
                 }
                 
                 Divider()
@@ -92,7 +124,7 @@ struct CalendarView: View {
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
                         .padding(.bottom, 15)
-                        .tint(.red)
+                        .tint(.black)
                 }
             }
             .background(Color(UIColor.systemBackground))
@@ -124,5 +156,9 @@ struct CalendarView: View {
 
 
 #Preview {
-    CalendarView()
+    CalendarView(
+        showCalendarView: .constant(true),
+        startDate: .constant(Date()),
+        endDate: .constant(Date())
+    )
 }

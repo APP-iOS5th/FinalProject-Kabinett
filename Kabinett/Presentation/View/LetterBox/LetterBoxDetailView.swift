@@ -17,6 +17,8 @@ struct LetterBoxDetailView: View {
     @Binding var searchText: String
     
     @State private var showCalendarView = false
+    @State private var startDate = Date()
+    @State private var endDate = Date()
     
     @Environment(\.dismiss) private var dismiss
     
@@ -111,7 +113,7 @@ struct LetterBoxDetailView: View {
                                 }
                             }
                         
-                        CalendarView()
+                        CalendarView(showCalendarView: $showCalendarView, startDate: $startDate, endDate: $endDate)
                             .cornerRadius(20)
                     }
                 }
