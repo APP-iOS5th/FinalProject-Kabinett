@@ -25,5 +25,5 @@ struct Letter: Codable, Identifiable {
     let photoContents: [String]
     let date: Date
     let stationeryImageUrlString: String?
-    let isRead: Bool
+    var isRead: Bool
 }
