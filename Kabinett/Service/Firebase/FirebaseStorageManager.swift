@@ -46,8 +46,20 @@ final class FirebaseStorageManager: LetterWriteLoadStuffUseCase, ComponentsLoadS
     }
     
     func loadStationeries() async -> Result<[String], any Error> {
-        // TODO: - stationery loading
-        fatalError()
+        let stationeryRef = storage.reference().child("Stationeries")
+        
+        do {
+            let stationeries = try await stationeryRef.listAll()
+            var stationeryURLStrings: [String] = []
+            for stationery in stationeries.items {
+                let stationeryURL = try await stationery.downloadURL()
+                stationeryURLStrings.append(stationeryURL.absoluteString)
+            }
+            
+            return .success(stationeryURLStrings)
+        } catch {
+            return .failure(error)
+        }
     }
     
     
