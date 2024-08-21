@@ -17,6 +17,9 @@ struct Fonts: Identifiable {
 }
 
 class FontSelectionViewModel: ObservableObject {
+    @Published var testFontText: [String] = []
+    @Published var selectedIndex: Int = 0
+    @Published var showModal: Bool = false
     @Published var dummyFonts: [Fonts] = [
         Fonts(fontName: "SF Display", boldFont: "SFDisplay_SemiBold", regularFont: "SFDisplay"),
         Fonts(fontName: "SF MONO", boldFont: "SFMONO_Bold", regularFont: "SFMONO"),
@@ -55,10 +58,6 @@ class FontSelectionViewModel: ObservableObject {
             return .system(size: 14)
         }
     }
-    
-    @Published var testFontText: [String] = []
-    @Published var selectedIndex: Int = 0
-    @Published var showModal: Bool = false
     
     init() {
         updateText()

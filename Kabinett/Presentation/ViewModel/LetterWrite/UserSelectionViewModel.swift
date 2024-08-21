@@ -15,7 +15,6 @@ class UserSelectionViewModel: ObservableObject {
     @Published var userKabi: Int? = nil
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
-    
     @Published var dummyUsers: [Writer] = [
         Writer(id: "user_1", name: "Alice", kabinettNumber: 111111, profileImage: "https://cdn.pixabay.com/photo/2022/06/25/13/33/landscape-7283516_1280.jpg"),
         Writer(id: "user_2", name: "Bob", kabinettNumber: 234234, profileImage: nil),

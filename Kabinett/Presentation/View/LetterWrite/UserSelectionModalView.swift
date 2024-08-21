@@ -52,7 +52,7 @@ struct UserSelectionModalView: View {
                                 HStack {
                                     Spacer()
                                     Button("로그인하기") {
-                                    // TODO:
+                                    // TODO: 로그인창으로 이동
                                     }
                                     .buttonStyle(.plain)
                                     .foregroundStyle(Color("ContentPrimary"))
