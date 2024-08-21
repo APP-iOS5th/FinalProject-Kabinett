@@ -17,6 +17,7 @@ struct LetterBoxDetailView: View {
     @Binding var searchText: String
     
     @State private var showCalendarView = false
+    @State private var startDateFiltering = false
     @State private var startDate = Date()
     @State private var endDate = Date()
     
@@ -60,6 +61,11 @@ struct LetterBoxDetailView: View {
             Color.background
                 .edgesIgnoringSafeArea(.all)
             
+            if startDateFiltering {
+                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate)
+                    .zIndex(1)
+            }
+            
             ZStack {
                 if letters.count == 0 {
                     Text("아직 나에게 보낸 편지가 없어요.")
@@ -87,6 +93,7 @@ struct LetterBoxDetailView: View {
                             }
                         }
                         .padding(.top, navigationBarHeight)
+                        .padding(.top, startDateFiltering ? 40 : 0)
                         .background(
                             GeometryReader { geometry in
                                 Color.clear
@@ -101,22 +108,6 @@ struct LetterBoxDetailView: View {
             }
             .onAppear {
                 letterCount = letters.count
-            }
-            .overlay {
-                if showCalendarView {
-                    ZStack {
-                        Color.black.opacity(0.4)
-                            .ignoresSafeArea()
-                            .onTapGesture {
-                                withAnimation {
-                                    showCalendarView = false
-                                }
-                            }
-                        
-                        CalendarView(showCalendarView: $showCalendarView, startDate: $startDate, endDate: $endDate)
-                            .cornerRadius(20)
-                    }
-                }
             }
             
             VStack {
@@ -160,7 +151,24 @@ struct LetterBoxDetailView: View {
                 .padding(5)
             }
         }
+        .overlay {
+            if showCalendarView {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                showCalendarView = false
+                            }
+                        }
+                    
+                    CalendarView(showCalendarView: $showCalendarView, startDateFiltering: $startDateFiltering ,startDate: $startDate, endDate: $endDate)
+                        .cornerRadius(20)
+                }
+            }
+        }
     }
+    
 }
 
 #Preview {
@@ -213,5 +221,54 @@ struct SearchBarView: View {
         .padding(.top, 10)
         .padding(.horizontal, 15)
         .background(TransparentBlurView(removeAllFilters: true).blur(radius: 4))
+    }
+}
+
+struct CalendarBar: View {
+    @Binding var startDateFiltering: Bool
+    @Binding var startDate: Date
+    @Binding var endDate: Date
+    
+    var body: some View {
+        VStack {
+            HStack {
+                HStack {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                        .tint(.primary300)
+                    Text("\(formattedDate(date: startDate))부터 \(formattedDate(date: endDate))까지")
+                        .font(.system(size: 14, weight: .regular))
+                        .foregroundStyle(.primary)
+                    
+                    Spacer()
+                }
+                .padding(8)
+                .foregroundStyle(.primary600)
+                .background(.primary300.opacity(0.4))
+                .background(TransparentBlurView(removeAllFilters: false))
+                .cornerRadius(10)
+                
+                Button(action: {
+                    withAnimation {
+                        startDateFiltering = false
+                        startDate = Date()
+                        endDate = Date()
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.primary600)
+                }
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+            
+            Spacer()
+        }
+    }
+    
+    private func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MMM d일"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: date)
     }
 }

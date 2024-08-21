@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CalendarView: View {
     @Binding var showCalendarView: Bool
+    @Binding var startDateFiltering: Bool
     @Binding var startDate: Date
     @Binding var endDate: Date
     
@@ -39,6 +40,7 @@ struct CalendarView: View {
                             startDate = selectedStartDate
                             endDate = selectedEndDate
                             showCalendarView = false
+                            startDateFiltering = true
                         }
                     } label: {
                         Text("확인")
@@ -132,22 +134,31 @@ struct CalendarView: View {
             
             Spacer()
         }
+        .onAppear {
+            if startDateFiltering {
+                selectedStartDate = startDate
+                selectedEndDate = endDate
+            } else {
+                selectedStartDate = Date()
+                selectedEndDate = Date()
+            }
+        }
         .padding(.horizontal, 20)
     }
     
-    func formattedDate(date: Date) -> String {
+    private func formattedDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy. MM. dd."
         return formatter.string(from: date)
     }
     
-    func validateStartDate() {
+    private func validateStartDate() {
         if selectedStartDate > selectedEndDate {
             selectedEndDate = selectedStartDate
         }
     }
     
-    func validateEndDate() {
+    private func validateEndDate() {
         if selectedEndDate < selectedStartDate {
             selectedStartDate = selectedEndDate
         }
@@ -158,6 +169,7 @@ struct CalendarView: View {
 #Preview {
     CalendarView(
         showCalendarView: .constant(true),
+        startDateFiltering: .constant(false),
         startDate: .constant(Date()),
         endDate: .constant(Date())
     )
