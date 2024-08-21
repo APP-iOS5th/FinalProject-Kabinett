@@ -135,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
+				AFF423EA2C75749C005697D8 /* ComponentsLoadStuffUseCase.swift */,
 			);
 			path = ComponentsUseCase;
 			sourceTree = "<group>";
