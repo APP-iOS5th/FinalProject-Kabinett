@@ -151,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
+				AFF423E42C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift */,
 			);
 			path = LetterWriteUseCase;
 			sourceTree = "<group>";
@@ -559,6 +560,7 @@
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
+				AFF423E52C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
 				57EBE5B42C6AE818003ECD7F /* DummyData.swift in Sources */,
