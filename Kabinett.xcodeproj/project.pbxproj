@@ -23,7 +23,7 @@
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
 		AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
-		AFF423E52C748EFF005697D8 /* LoadLetterStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF423E42C748EFF005697D8 /* LoadLetterStuffUseCase.swift */; };
+		AFF423E52C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF423E42C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
-		AFF423E42C748EFF005697D8 /* LoadLetterStuffUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadLetterStuffUseCase.swift; sourceTree = "<group>"; };
+		AFF423E42C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
-				AFF423E42C748EFF005697D8 /* LoadLetterStuffUseCase.swift */,
+				AFF423E42C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift */,
 			);
 			path = LetterWriteUseCase;
 			sourceTree = "<group>";
@@ -497,7 +497,7 @@
 			files = (
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
-				AFF423E52C748EFF005697D8 /* LoadLetterStuffUseCase.swift in Sources */,
+				AFF423E52C748EFF005697D8 /* LetterWriteLoadStuffUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
