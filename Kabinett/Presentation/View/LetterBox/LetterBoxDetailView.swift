@@ -118,7 +118,7 @@ struct LetterBoxDetailView: View {
                         .padding(.horizontal, 17)
                         .padding(.vertical, 6)
                         .foregroundStyle(.black)
-                        .background(.primary600.opacity(0.4))
+                        .background(.black.opacity(0.2))
                         .background(TransparentBlurView(removeAllFilters: true))
                         .cornerRadius(20)
                         .padding()

@@ -16,13 +16,13 @@ struct ToastView: View {
             Rectangle()
                 .fill(.clear)
                 .background(.primary900)
-                .frame(height: 47)
-                .cornerRadius(30)
+                .frame(height: 50)
+                .cornerRadius(28)
                 .padding(.horizontal, horizontalPadding)
                 .padding(.bottom, 20)
             
             Text(message)
-                .font(.system(size: 15, weight: .heavy))
+                .font(.system(size: 16, weight: .heavy))
                 .foregroundStyle(.white)
                 .padding(.bottom, 20)
         }
@@ -30,5 +30,5 @@ struct ToastView: View {
 }
 
 #Preview {
-    ToastView(message: "편지가 도착했어요.", horizontalPadding: 50)
+    ToastView(message: "편지가 도착했어요.", horizontalPadding: 40)
 }

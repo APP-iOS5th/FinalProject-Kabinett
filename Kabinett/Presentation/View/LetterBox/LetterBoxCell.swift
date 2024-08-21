@@ -24,19 +24,19 @@ struct LetterBoxCell: View {
                     .frame(width: 125, height: 180)
                     .opacity(0.8)
                     .padding(.top, 31)
-                    .shadow(radius: 1, y: CGFloat(3))
+                    .shadow(radius: 1, y: CGFloat(2))
                     .blendMode(.luminosity)
                 
                 Text(type)
-                    .font(.system(size: 12, design: .serif))
+                    .font(.custom("Pecita", size: 20))
                     .offset(y: 90)
             }
             .padding(.bottom, 12)
             
             HStack {
                 Text(typeName)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.gray)
+                    .font(.system(size: 11))
+                    .foregroundStyle(.contentSecondary)
                 
 //                새로 도착한 편지에 대한 알림
 //                ZStack {

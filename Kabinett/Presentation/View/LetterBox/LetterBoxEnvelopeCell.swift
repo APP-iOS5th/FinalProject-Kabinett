@@ -46,7 +46,7 @@ struct LetterBoxEnvelopeCell: View {
         .background(Color.white)
         .border(.gray, width: 0.1)
         .rotationEffect(.degrees(270))
-        .shadow(radius: 5, x: CGFloat(7), y: CGFloat(6))
+        .shadow(radius: 5, x: CGFloat(5), y: CGFloat(5))
     }
 }
 
@@ -97,7 +97,7 @@ struct LetterBoxDetailEnvelopeCell: View {
             .background(
                 RoundedRectangle(cornerRadius: 2)
                     .fill(Color.white)
-                    .shadow(color: .gray.opacity(0.3), radius: 4, x: 7, y: 6)
+                    .shadow(color: .gray.opacity(0.3), radius: 4, x: 5, y: 5)
             )
     
             // 새로운 편지에 붙을 빨간 동그라미
