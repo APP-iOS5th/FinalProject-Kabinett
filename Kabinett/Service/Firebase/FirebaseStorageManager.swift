@@ -29,8 +29,20 @@ final class FirebaseStorageManager: LetterWriteLoadStuffUseCase, ComponentsLoadS
     }
     
     func loadStamps() async -> Result<[String], any Error> {
-        // TODO: - stamp loading
-        fatalError()
+        let stampRef = storage.reference().child("Stamps")
+        
+        do {
+            let stamps = try await stampRef.listAll()
+            var stampURLStrings: [String] = []
+            for stamp in stamps.items {
+                let stampURL = try await stamp.downloadURL()
+                stampURLStrings.append(stampURL.absoluteString)
+            }
+            
+            return .success(stampURLStrings)
+        } catch {
+            return .failure(error)
+        }
     }
     
     func loadStationeries() async -> Result<[String], any Error> {
