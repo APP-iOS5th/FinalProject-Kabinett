@@ -11,29 +11,34 @@ struct NavigationBarView<Destination: View>: View {
     @Environment(\.presentationMode) var presentationMode
     let destination: Destination
     let titleName: String
-    
+
     var body: some View {
-        HStack {
-            Button(action: {
-                self.presentationMode.wrappedValue.dismiss()
-            }) {
-                Image(systemName: "chevron.backward")
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(Color("ContentPrimary"))
+        ZStack {
+            HStack {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundStyle(Color("ContentPrimary"))
+                }
+                Spacer()
             }
-            .padding(.leading, 24)
-            
-            Spacer()
-            
+
             Text(titleName)
-            
-            Spacer()
-            
-            NavigationLink(destination: destination) {
-                Text("완료")
-                    .foregroundColor(Color.black)
+                .font(.system(size: 16, weight: .semibold))
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
+
+            HStack {
+                Spacer()
+
+                NavigationLink(destination: destination) {
+                    Text("완료")
+                        .foregroundColor(Color.black)
+                }
             }
-            .padding(.trailing, 24)
         }
         .padding(.top, 12)
         .background(Color("Background"))

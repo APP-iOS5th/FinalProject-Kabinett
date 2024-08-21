@@ -20,7 +20,7 @@ extension Font {
     static let MaruBuriot_Regular: Font = .custom("MaruBuriot-Regular", size: 14)
     static let goormSansOTF4: Font = .custom("goormSansOTF4", size: 14)
     static let Baskervville_Regular: Font = .custom("Baskervville-Regular", size: 14)
-    static let Pecita: Font = .custom("Pecita", size: 14)
+    static let Pecita: Font = .custom("Pecita", size: 13)
     
 }
 

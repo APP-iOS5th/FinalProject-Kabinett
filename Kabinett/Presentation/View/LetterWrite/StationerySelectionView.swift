@@ -14,46 +14,51 @@ struct StationerySelectionView: View {
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
-            
-            VStack {
-                NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+            GeometryReader { geometry in
+                Color("Background").ignoresSafeArea()
                 
-                List {
-                    ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
-                        HStack {
-                            ForEach(0..<2, id: \.self) { columnIndex in
-                                let index = viewModel.index(row: rowIndex, column: columnIndex)
-                                
-                                ZStack(alignment: .topTrailing) {
-                                    AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                            .padding(10)
-                                            .shadow(radius: 5, x: 5, y: 5)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .onTapGesture {
-                                        viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
-                                        letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
-                                    }
+                VStack {
+                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+                    
+                    List {
+                        ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
+                            HStack {
+                                ForEach(0..<2, id: \.self) { columnIndex in
+                                    let index = viewModel.index(row: rowIndex, column: columnIndex)
                                     
-                                    if viewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
-                                        Image("checked")
-                                            .resizable()
-                                            .frame(width: 32, height: 32)
-                                            .padding([.top, .trailing], 20)
+                                    ZStack(alignment: .topTrailing) {
+                                        AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .padding(10)
+                                                .shadow(radius: 5, x: 5, y: 5)
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .onTapGesture {
+                                            viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
+                                            letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
+                                        }
+                                        
+                                        if viewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
+                                            Image("checked")
+                                                .resizable()
+                                                .frame(width: 32, height: 32)
+                                                .padding([.top, .trailing], 20)
+                                        }
                                     }
                                 }
                             }
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
+                    .padding([.leading, .trailing], -10)
                 }
-                .listStyle(.plain)
+                .padding(.horizontal, geometry.size.width * 0.06)
             }
         }
         .navigationBarBackButtonHidden()

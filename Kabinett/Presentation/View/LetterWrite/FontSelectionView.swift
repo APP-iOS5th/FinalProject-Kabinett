@@ -16,73 +16,83 @@ struct FontSelectionView: View {
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
             
-            VStack(alignment: .leading) {
-                NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "폰트 고르기")
+            GeometryReader { geometry in
                 
-                List {
-                    ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
-                        VStack {
-                            HStack {
-                                Text("\(viewModel.dummyFonts[i].fontName)")
+                VStack(alignment: .leading) {
+                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "서체 고르기")
+                    
+                    List {
+                        ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
+                            VStack {
+                                HStack {
+                                    Text("\(viewModel.dummyFonts[i].fontName)")
+                                        .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
+                                    Spacer()
+                                }
+                                .onTapGesture {
+                                    UIApplication.shared.endEditing()
+                                }
+                                .padding(.top, 20)
+                                HStack {
+                                    TextField(
+                                        "",
+                                        text: $viewModel.testFontText[i],
+                                        prompt: Text("텍스트를 입력해보세요. Write Someting...").foregroundColor(Color.black)
+                                    )
+                                    .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
+                                    .padding(.leading, 6)
                                     .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
-                                    .padding(.leading, 3)
-                                    .padding(.top, 3)
-                                Spacer()
-                            }
-                            HStack {
-                                TextField(
-                                    "",
-                                    text: $viewModel.testFontText[i],
-                                    prompt: Text("텍스트를 입력해보세요. Write Someting...").foregroundColor(Color.black)
-                                )
-                                .padding(.leading, 4)
-                                .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
-                                .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
-                                .background(Color.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                                Button {
-                                    viewModel.selectedIndex = i
-                                    letterContent.fontString = viewModel.dummyFonts[i].regularFont
-                                } label: {
-                                    if letterContent.fontString == nil {
-                                        Image(i == viewModel.selectedIndex ? "checked" : "unchecked")
-                                            .resizable()
-                                            .frame(width: 32, height: 32)
-                                            .padding([.leading], 5)
-                                    } else {
-                                        Image(viewModel.dummyFonts[i].regularFont == letterContent.fontString ? "checked" : "unchecked")
-                                            .resizable()
-                                            .frame(width: 32, height: 32)
-                                            .padding([.leading], 5)
+                                    .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)//
+                                    .background(Color.white)
+                                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    Button {
+                                        viewModel.selectedIndex = i
+                                        letterContent.fontString = viewModel.dummyFonts[i].regularFont
+                                    } label: {
+                                        if letterContent.fontString == nil {
+                                            Image(i == viewModel.selectedIndex ? "checked" : "unchecked")
+                                                .resizable()
+                                                .frame(width: 32, height: 32)
+                                                .padding([.leading], 5)
+                                        } else {
+                                            Image(viewModel.dummyFonts[i].regularFont == letterContent.fontString ? "checked" : "unchecked")
+                                                .resizable()
+                                                .frame(width: 32, height: 32)
+                                                .padding([.leading], 5)
+                                        }
                                     }
                                 }
+                                .padding([.top, .bottom], 2)
                             }
                         }
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
                     }
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
+                    .listStyle(.plain)
+                    
+                    HStack {
+                        Button {
+                            viewModel.showModal = true
+                        } label: {
+                            Image(systemName: "questionmark.circle.fill")
+                                .resizable()
+                                .frame(width: 32, height: 32)
+                                .foregroundStyle(Color("Primary900"))
+                        }
+                        .sheet(isPresented: $viewModel.showModal) {
+                            OpenSourceLicenseModalView()
+                                .presentationDetents([.height(280)])
+                                .presentationDragIndicator(.visible)
+                        }
+                        Spacer()
+                    }
                 }
-                .listStyle(.plain)
-                .padding(.leading, 5)
-                .frame(maxWidth: .infinity, alignment: .top)
-                
-                HStack {
-                    Button {
-                        viewModel.showModal = true
-                    } label: {
-                        Image(systemName: "questionmark.circle.fill")
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .foregroundStyle(Color("Primary900"))
-                    }
-                    .sheet(isPresented: $viewModel.showModal) {
-                        OpenSourceLicenseModalView()
-                            .presentationDetents([.height(280)])
-                    }
-                    .padding(.leading, 24)
-                    Spacer()
-                }
+                .padding(.horizontal, geometry.size.width * 0.06)
             }
         }
         .navigationBarBackButtonHidden()
