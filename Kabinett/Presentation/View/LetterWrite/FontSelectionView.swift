@@ -49,6 +49,11 @@ struct FontSelectionView: View {
                                     .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                     .background(Color.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .onAppear {
+                                        if letterContent.fontString == nil {
+                                            letterContent.fontString = viewModel.dummyFonts[viewModel.selectedIndex].regularFont
+                                        }
+                                    }
                                     Button {
                                         viewModel.selectedIndex = i
                                         letterContent.fontString = viewModel.dummyFonts[i].regularFont

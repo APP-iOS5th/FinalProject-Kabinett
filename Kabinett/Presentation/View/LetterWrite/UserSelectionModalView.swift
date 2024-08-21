@@ -13,65 +13,69 @@ struct UserSelectionModalView: View {
     @ObservedObject private var viewModel = UserSelectionViewModel()
     
     var body: some View {
-            NavigationStack {
-                ZStack {
-                    GeometryReader { geometry in
-                        VStack {
-                            HStack {
-                                Spacer()
-                                Button("완료") {
-                                    letterContent.fromUserId = viewModel.fromUser?.id
-                                    letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                                    letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                                    letterContent.toUserId = viewModel.toUser?.id
-                                    letterContent.toUserName = viewModel.toUser?.name ?? ""
-                                    letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-                                    presentation.wrappedValue.dismiss()
-                                }
-                            }
-                            .foregroundStyle(.black)
-                            
-                            FormToUser(letterContent: $letterContent, viewModel: viewModel)
-                            
-                            HStack {
-                                if viewModel.checkLogin {
-                                    Spacer(minLength: 95)
-                                    VStack {
-                                        SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
-                                    }
-                                } else {
-                                    Spacer(minLength: 65)
-                                    VStack {
-                                        Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
-                                            .font(.system(size: 12))
-                                            .lineSpacing(5)
-                                            .foregroundStyle(Color("ContentSecondary"))
-                                            .bold()
-                                        HStack {
-                                            Spacer()
-                                            Button("로그인하기") {
-                                                // TODO: 로그인창으로 이동
-                                            }
-                                            .buttonStyle(.plain)
-                                            .foregroundStyle(Color("ContentPrimary"))
-                                            .font(.system(size: 13))
-                                            .bold()
-                                            .underline()
-                                            .padding(.top, 20)
-                                        }
-                                    }
-                                    Spacer()
-                                }
-                            }
-                            .padding(.top, 1)
+        NavigationStack {
+            ZStack {
+                GeometryReader { geometry in
+                    VStack {
+                        HStack {
                             Spacer()
+                            Button("완료") {
+                                letterContent.fromUserId = viewModel.fromUser?.id
+                                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+                                letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+                                if letterContent.toUserName == "" {
+                                    viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
+                                }
+                                letterContent.toUserId = viewModel.toUser?.id
+                                letterContent.toUserName = viewModel.toUser?.name ?? ""
+                                letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+                                
+                                presentation.wrappedValue.dismiss()
+                            }
                         }
-                        .padding(.horizontal, geometry.size.width * 0.06)
-                        .padding(.top, 24)
-                        .background(Color("Primary100"))
+                        .foregroundStyle(.black)
+                        
+                        FormToUser(letterContent: $letterContent, viewModel: viewModel)
+                        
+                        HStack {
+                            if viewModel.checkLogin {
+                                Spacer(minLength: 95)
+                                VStack {
+                                    SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
+                                }
+                            } else {
+                                Spacer(minLength: 65)
+                                VStack {
+                                    Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
+                                        .font(.system(size: 12))
+                                        .lineSpacing(5)
+                                        .foregroundStyle(Color("ContentSecondary"))
+                                        .bold()
+                                    HStack {
+                                        Spacer()
+                                        Button("로그인하기") {
+                                            // TODO: 로그인창으로 이동
+                                        }
+                                        .buttonStyle(.plain)
+                                        .foregroundStyle(Color("ContentPrimary"))
+                                        .font(.system(size: 13))
+                                        .bold()
+                                        .underline()
+                                        .padding(.top, 20)
+                                    }
+                                }
+                                Spacer()
+                            }
+                        }
+                        .padding(.top, 1)
+                        Spacer()
                     }
+                    .padding(.horizontal, geometry.size.width * 0.06)
+                    .padding(.top, 24)
+                    .background(Color("Primary100"))
                 }
             }
+        }
         
     }
 }

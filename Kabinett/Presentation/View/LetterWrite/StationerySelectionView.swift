@@ -46,6 +46,9 @@ struct StationerySelectionView: View {
                                                 .resizable()
                                                 .frame(width: 32, height: 32)
                                                 .padding([.top, .trailing], 20)
+                                                .onAppear {
+                                                    letterContent.stationeryImageUrlString = viewModel.dummyStationerys[viewModel.index(row: rowIndex, column: columnIndex)]
+                                                }
                                         }
                                     }
                                 }
