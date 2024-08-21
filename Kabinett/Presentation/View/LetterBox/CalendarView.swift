@@ -45,7 +45,10 @@ struct CalendarView: View {
                     Divider()
                         .padding(.leading, 20)
                     
-                    DatePicker("시작", selection: $selectedStartDate, displayedComponents: [.date])
+                    DatePicker("시작", selection: Binding(get: { self.selectedStartDate }, set: { newValue in
+                        self.selectedStartDate = newValue
+                        self.validateStartDate()
+                    }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
                         .tint(.red)
@@ -82,7 +85,10 @@ struct CalendarView: View {
                     Divider()
                         .padding(.leading, 20)
                     
-                    DatePicker("종료", selection: $selectedEndDate, displayedComponents: [.date])
+                    DatePicker("종료", selection: Binding(get: { self.selectedEndDate }, set: { newValue in
+                        self.selectedEndDate = newValue
+                        self.validateEndDate()
+                    }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
                         .padding(.bottom, 15)
@@ -101,6 +107,18 @@ struct CalendarView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy. MM. dd."
         return formatter.string(from: date)
+    }
+    
+    func validateStartDate() {
+        if selectedStartDate > selectedEndDate {
+            selectedEndDate = selectedStartDate
+        }
+    }
+    
+    func validateEndDate() {
+        if selectedEndDate < selectedStartDate {
+            selectedStartDate = selectedEndDate
+        }
     }
 }
 
