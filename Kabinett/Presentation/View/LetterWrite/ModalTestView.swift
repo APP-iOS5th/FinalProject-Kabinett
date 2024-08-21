@@ -11,6 +11,8 @@ struct ModalTestView: View {
     @State private var showModal = false
     @State var letterContent = LetterWriteViewModel()
     
+    @State private var text: String = "Enter some text: "
+    
     var body: some View {
         NavigationStack {
             ZStack {
