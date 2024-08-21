@@ -45,7 +45,7 @@ struct LetterBoxCell: View {
 //                        .frame(width: 17)
 //                    Text("1")
 //                        .font(.system(size: 9))
-//                        .foregroundStyle(.alert)
+//                        .foregroundStyle(.white)
 //                }
 //                .padding(.leading, -2)
             }

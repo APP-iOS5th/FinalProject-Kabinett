@@ -83,7 +83,7 @@ struct LetterBoxDetailView: View {
                             ForEach(letters.indices, id: \.self) { idx in
                                 if idx < 2 {
                                     LetterBoxDetailEnvelopeCell()
-                                        .padding(.bottom, idx == 0 ? 80 : 37)
+                                        .padding(.bottom, idx == 0 ? 82 : 37)
                                 } else {
                                     LetterBoxDetailEnvelopeCell()
                                         .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
@@ -134,6 +134,11 @@ struct LetterBoxDetailView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 Button{
                     withAnimation {
+                        if startDateFiltering {
+                            startDateFiltering = false
+                            startDate = Date()
+                            endDate = Date()
+                        }
                         showSearchBarView.toggle()
                     }
                 } label: {
@@ -158,7 +163,7 @@ struct LetterBoxDetailView: View {
                         .ignoresSafeArea()
                         .onTapGesture {
                             withAnimation {
-                                showCalendarView = false
+                                showCalendarView.toggle()
                             }
                         }
                     
@@ -207,8 +212,8 @@ struct SearchBarView: View {
             if !searchText.isEmpty {
                 Button(action: {
                     withAnimation {
-                        self.searchText = ""
                         showSearchBarView.toggle()
+                        self.searchText = ""
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -220,7 +225,6 @@ struct SearchBarView: View {
         }
         .padding(.top, 10)
         .padding(.horizontal, 15)
-        .background(TransparentBlurView(removeAllFilters: true).blur(radius: 4))
     }
 }
 
@@ -236,7 +240,7 @@ struct CalendarBar: View {
                     Image(systemName: "line.3.horizontal.decrease.circle")
                         .tint(.primary300)
                     Text("\(formattedDate(date: startDate))부터 \(formattedDate(date: endDate))까지")
-                        .font(.system(size: 14, weight: .regular))
+                        .font(.system(size: 13, weight: .regular))
                         .foregroundStyle(.primary)
                     
                     Spacer()
@@ -249,7 +253,7 @@ struct CalendarBar: View {
                 
                 Button(action: {
                     withAnimation {
-                        startDateFiltering = false
+                        startDateFiltering.toggle()
                         startDate = Date()
                         endDate = Date()
                     }

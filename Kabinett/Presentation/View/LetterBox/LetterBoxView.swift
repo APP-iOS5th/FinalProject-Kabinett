@@ -75,8 +75,8 @@ struct LetterBoxView: View {
                 VStack {
                     ZStack {
                         Color.clear
-                            .background(Material.ultraThin) // Background material 설정
-                            .blur(radius: 1.5) // 배경에만 blur 적용
+                            .background(Material.ultraThinMaterial)
+                            .blur(radius: 1.5)
 
                         SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView)
                             .padding(.top, 50)

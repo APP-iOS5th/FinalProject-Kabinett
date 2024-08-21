@@ -57,7 +57,6 @@ struct CalendarView: View {
                     Spacer()
                     
                     Text("\(formattedDate(date: selectedStartDate))")
-                        .foregroundStyle(showGraphicalStartCalendar ? .red : .black)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
                         .background(.primary600.opacity(0.1))
@@ -97,7 +96,6 @@ struct CalendarView: View {
                     Spacer()
                     
                     Text("\(formattedDate(date: selectedEndDate))")
-                        .foregroundStyle(showGraphicalEndCalendar ? .red : .black)
                         .padding(.horizontal, 15)
                         .padding(.vertical, 6)
                         .background(.primary600.opacity(0.1))

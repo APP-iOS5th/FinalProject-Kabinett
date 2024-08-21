@@ -59,8 +59,10 @@ struct LetterBoxDetailEnvelopeCell: View {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("보내는 사람")
                                 .font(.system(size: 6))
+                                .foregroundStyle(.contentPrimary)
                             Text("Dotorie")
                                 .font(.system(size: 15, weight: .medium))
+                                .foregroundStyle(.contentPrimary)
                                 .frame(maxWidth: 210, alignment: .leading)
                         }
                         
@@ -75,19 +77,22 @@ struct LetterBoxDetailEnvelopeCell: View {
                     HStack(alignment: .top) {
                         Text("사진 몇 장 같이 넣어뒀어!")
                             .font(.system(size: 10))
+                            .foregroundStyle(.contentPrimary)
                             .frame(width: 163, alignment: .leading)
                         
                         VStack(alignment: .leading, spacing: 2) {
                             Text("받는 사람")
                                 .font(.system(size: 6))
+                                .foregroundStyle(.contentPrimary)
                             Text("Yule")
                                 .font(.system(size: 15, weight: .medium))
+                                .foregroundStyle(.contentPrimary)
                                 .frame(maxWidth: 80, alignment: .leading)
                         }
                     }
                 }
                 .padding(23)
-                .border(.gray, width: 0.2)
+                .border(.gray, width: 0.1)
             }
             .background(
                 RoundedRectangle(cornerRadius: 2)
@@ -95,11 +100,12 @@ struct LetterBoxDetailEnvelopeCell: View {
                     .shadow(color: .gray.opacity(0.3), radius: 4, x: 7, y: 6)
             )
     
-            Circle()
-                .fill(Color.red)
-                .frame(width: 25)
-                .padding(.leading, 300)
-                .padding(.bottom, 100)
+            // 새로운 편지에 붙을 빨간 동그라미
+//            Circle()
+//                .fill(.alert)
+//                .frame(width: 25)
+//                .padding(.leading, 300)
+//                .padding(.bottom, 110)
         }
     }
 }
