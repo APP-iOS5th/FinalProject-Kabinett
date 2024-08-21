@@ -57,6 +57,8 @@ class FontSelectionViewModel: ObservableObject {
     }
     
     @Published var testFontText: [String] = []
+    @Published var selectedIndex: Int = 0
+    @Published var showModal: Bool = false
     
     init() {
         updateText()
@@ -67,8 +69,6 @@ class FontSelectionViewModel: ObservableObject {
             testFontText.append("")
         }
     }
-    
-    @Published var selectedIndex: Int = 0
     
     func isSelected(index: Int) -> Bool {
         return selectedIndex == index

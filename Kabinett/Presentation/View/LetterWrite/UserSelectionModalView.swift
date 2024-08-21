@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserSelectionView: View {
+struct UserSelectionModalView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentation
     @ObservedObject private var viewModel = UserSelectionViewModel()
@@ -158,6 +158,7 @@ struct SearchBar: View {
                         .onTapGesture {
                             viewModel.updateToUser(&letterContent, toUserName: searchText)
                             searchText = ""
+                            UIApplication.shared.endEditing()
                         }
                         .padding(.leading, 35)
                         .listRowSeparator(.hidden)
@@ -195,6 +196,7 @@ struct SearchBar: View {
                         .onTapGesture {
                             viewModel.updateToUser(&letterContent, toUserName: user.name)
                             searchText = ""
+                            UIApplication.shared.endEditing()
                         }
                     }
                 }

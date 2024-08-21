@@ -17,6 +17,8 @@ struct StationerySelectionView: View {
             Color("Background").ignoresSafeArea()
             
             VStack {
+                NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+                
                 List {
                     ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
                         HStack {
@@ -55,31 +57,9 @@ struct StationerySelectionView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color("ContentPrimary"))
-                }
-                .padding(.leading, 8)
-            }
-            ToolbarItem(placement: .principal) {
-                Text("편지지 고르기")
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink("완료") {
-                    FontSelectionView(letterContent: $letterContent)
-                }
-                .foregroundStyle(Color.black)
-                .padding(.trailing, 8)
-            }
-        }
-        .toolbarBackground(Color("Background"), for: .navigationBar)
+        .navigationBarHidden(true)
         .sheet(isPresented: $viewModel.showModal) {
-            UserSelectionView(letterContent: $letterContent)
+            UserSelectionModalView(letterContent: $letterContent)
                 .presentationDetents([.height(300), .large])
         }
         .onAppear {

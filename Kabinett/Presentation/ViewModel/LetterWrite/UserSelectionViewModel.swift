@@ -27,7 +27,7 @@ class UserSelectionViewModel: ObservableObject {
     ]
     
     init() {
-        userKabi = nil
+        userKabi = 111111
         updateFromUser()
     }
     
