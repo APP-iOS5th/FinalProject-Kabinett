@@ -9,12 +9,18 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
+    //    @Environment(\.presentationMode) var presentationMode
+    @State private var shouldNavigateToProfileView = false
     
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(viewModel: viewModel)) {
+//                    NavigationLink(destination: ProfileView(viewModel: viewModel),
+//                                   isActive: $shouldNavigateToProfileView) {
+//                        EmptyView()
+//                    }
+                    NavigationLink(destination: ProfileSettingsView(viewModel: viewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -61,7 +67,7 @@ struct SettingsView: View {
                             .foregroundColor(.contentPrimary)
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
-
+                    
                     Spacer()
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -69,19 +75,6 @@ struct SettingsView: View {
                 .background(Color.background)
                 .navigationTitle("설정")
                 .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            
-                        }) {
-                            Text("완료")
-                                .fontWeight(.medium)
-                                .font(.system(size: 18))
-                                .foregroundColor(.contentPrimary)
-                                .padding(.trailing, 8)
-                        }
-                    }
-                }
             }
         }
     }

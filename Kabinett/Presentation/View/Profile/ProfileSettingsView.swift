@@ -10,6 +10,8 @@ import PhotosUI
 
 struct ProfileSettingsView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var shouldNavigateToProfileView: Bool
     
     var body: some View {
         NavigationStack {
@@ -69,6 +71,8 @@ struct ProfileSettingsView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.completeProfileUpdate()
+                        shouldNavigateToProfileView = true
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("완료")
                             .fontWeight(.medium)
@@ -77,9 +81,6 @@ struct ProfileSettingsView: View {
                             .padding(.trailing, 8)
                     }
                 }
-            }
-            .navigationDestination(isPresented: $viewModel.shouldNavigateToProfile) {
-                ProfileView(viewModel: viewModel)
             }
         }
         .sheet(isPresented: $viewModel.isShowingCropper) {
@@ -90,6 +91,11 @@ struct ProfileSettingsView: View {
             }
         }
         .onDisappear {
+            if shouldNavigateToProfileView {
+                DispatchQueue.main.async {
+                    shouldNavigateToProfileView = true
+                }
+            }
             if !viewModel.isProfileUpdated {
                 viewModel.croppedImage = nil
             }
@@ -140,10 +146,6 @@ struct ImageCropper: View {
                     }
                 Spacer()
                 Button("이미지 적용하기", action: {
-//                    croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
-//                    if let croppedImage = croppedImage {
-//                        viewModel.updateProfileImage(with: croppedImage)
-//                    }
                     let croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
                     viewModel.croppedImage = croppedImage
                     isShowingCropper = false
@@ -184,6 +186,6 @@ struct ImageCropper: View {
     }
 }
 
-#Preview {
-    ProfileSettingsView(viewModel: ProfileSettingsViewModel())
-}
+//#Preview {
+//    ProfileSettingsView(viewModel: ProfileSettingsViewModel(), shouldNavigateToProfileView: <#Binding<Bool>#>)
+//}

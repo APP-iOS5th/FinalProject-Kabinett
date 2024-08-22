@@ -16,7 +16,6 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var kabinettNumber: String
     @Published var appleID: String
     @Published var shouldNavigateToSettings = false
-    @Published var shouldNavigateToProfile = false
     @Published var selectedImageItem: PhotosPickerItem?
     @Published var selectedImage: UIImage?
     @Published var isShowingImagePicker = false
@@ -66,6 +65,6 @@ class ProfileSettingsViewModel: ObservableObject {
     func completeProfileUpdate() {
         updateUserName()
         updateProfileImage()
-        shouldNavigateToProfile = true
+        objectWillChange.send()
     }
 }

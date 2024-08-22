@@ -40,22 +40,16 @@ struct ProfileView: View {
             .background(Color.background)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        viewModel.shouldNavigateToSettings = true
-                    }) {
+                    NavigationLink(destination: SettingsView(viewModel: viewModel)) {
                         Image(systemName: "gearshape")
                             .font(.system(size: 19))
                             .foregroundColor(.contentPrimary)
                     }
                 }
             }
-            .navigationDestination(isPresented: $viewModel.shouldNavigateToSettings) {
-                SettingsView(viewModel: viewModel)
-            }
         }
     }
 }
-
 #Preview {
     ProfileView(viewModel: ProfileSettingsViewModel())
 }
