@@ -10,76 +10,64 @@ import SwiftUI
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var dummyData = DummyData()
-    
-    @State private var showModal = true
-    @State private var selectedIndex: (Int, Int) = (0, 0)
+    @ObservedObject private var viewModel = StationerySelectionViewModel()
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
-            
-            VStack {
-                List {
-                    ForEach(0..<dummyData.dummyStationerys.count / 2, id: \.self) { i in
-                        HStack {
-                            ForEach(0..<2, id: \.self) { j in
-                                let index = i * 2 + j
-                                ZStack(alignment: .topTrailing) {
-                                    AsyncImage(url: URL(string: dummyData.dummyStationerys[index])) { image in
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                            .padding(10)
-                                            .shadow(radius: 5, x: 5, y: 5)
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .onTapGesture {
-                                        selectedIndex = (i, j)
-                                        letterContent.stationeryImageUrlString = dummyData.dummyStationerys[index]
-                                    }
-                                    if selectedIndex == (i, j) {
-                                        Image("checked")
-                                            .resizable()
-                                            .frame(width: 32, height: 32)
-                                            .padding([.top, .trailing], 20)
+            GeometryReader { geometry in
+                Color("Background").ignoresSafeArea()
+                
+                VStack {
+                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+                    
+                    List {
+                        ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
+                            HStack {
+                                ForEach(0..<2, id: \.self) { columnIndex in
+                                    let index = viewModel.index(row: rowIndex, column: columnIndex)
+                                    
+                                    ZStack(alignment: .topTrailing) {
+                                        AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
+                                            image
+                                                .resizable()
+                                                .scaledToFill()
+                                                .padding(10)
+                                                .shadow(radius: 5, x: 5, y: 5)
+                                        } placeholder: {
+                                            ProgressView()
+                                        }
+                                        .onTapGesture {
+                                            viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
+                                            letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
+                                        }
+                                        
+                                        if viewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
+                                            Image("checked")
+                                                .resizable()
+                                                .frame(width: 32, height: 32)
+                                                .padding([.top, .trailing], 20)
+                                        }
                                     }
                                 }
                             }
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
                         }
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
                     }
+                    .listStyle(.plain)
+                    .padding([.leading, .trailing], -10)
                 }
-                .listStyle(.plain)
+                .padding(.horizontal, geometry.size.width * 0.06)
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationTitle("편지지 고르기")
-        .toolbar {
-            ToolbarItem(placement: .topBarLeading) {
-                Button (action: {
-                    self.presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.backward")
-                        .aspectRatio(contentMode: .fit)
-                        .foregroundStyle(Color("ContentPrimary"))
-                }
-                .padding(.leading, 8)
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink("완료") {
-                    FontSelectionView(letterContent: $letterContent)
-                }
-                .foregroundStyle(Color.black)
-                .padding(.trailing, 8)
-            }
-        }
-        .toolbarBackground(Color("Background"), for: .navigationBar)
-        .sheet(isPresented: self.$showModal) {
-            UserSelectionView(letterContent: $letterContent)
+        .sheet(isPresented: $viewModel.showModal) {
+            UserSelectionModalView(letterContent: $letterContent)
                 .presentationDetents([.height(300), .large])
+        }
+        .onAppear {
+            viewModel.showModal = true
         }
     }
 }
