@@ -7,18 +7,9 @@
 
 import SwiftUI
 
-enum LetterBoxType: String, CaseIterable, Identifiable {
-    case All = "전체 편지"
-    case Tome = "나에게 보낸 편지"
-    case Sent = "보낸 편지"
-    case Recieved = "받은 편지"
-    
-    var id: String { self.rawValue }
-}
-
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
-    @StateObject var viewModel: LetterBoxViewModel
+    @StateObject var letterBoxViewModel: LetterBoxViewModel
     
     @State private var showToast: Bool = false
     
@@ -39,7 +30,7 @@ struct LetterBoxView: View {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(LetterBoxType.allCases) { type in
                             NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
-//                                LetterBoxCell(type: "\(type)", typeName: type.rawValue)
+                                LetterBoxCell(type: "\(type)", typeName: type.rawValue, letters: letterBoxViewModel.getSomeLetters(for: type.toLetterType()))
                             }
                         }
                     }
@@ -94,6 +85,6 @@ struct LetterBoxView: View {
     }
 }
 
-//#Preview {
-//    LetterBoxView()
-//}
+#Preview {
+    LetterBoxView(letterBoxViewModel: LetterBoxViewModel())
+}

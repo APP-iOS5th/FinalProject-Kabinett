@@ -8,6 +8,28 @@
 //import Combine
 import SwiftUI
 
+enum LetterBoxType: String, CaseIterable, Identifiable {
+    case All = "전체 편지"
+    case Tome = "나에게 보낸 편지"
+    case Sent = "보낸 편지"
+    case Recieved = "받은 편지"
+    
+    var id: String { self.rawValue }
+    
+    func toLetterType() -> LetterType {
+            switch self {
+            case .All:
+                return .all
+            case .Tome:
+                return .toMe
+            case .Sent:
+                return .sent
+            case .Recieved:
+                return .received
+            }
+        }
+}
+
 class LetterBoxViewModel: ObservableObject {
     private let letterBoxUseCase: LetterBoxUseCase
 //    private var cancellables = Set<AnyCancellable>()

@@ -17,7 +17,7 @@ struct LetterBoxCell: View {
     var body: some View {
         VStack {
             ZStack {
-                ForEach(letters.prefix(3)) { letter in
+                ForEach(letters.prefix(3).reversed()) { letter in
                     LetterBoxEnvelopeCell(letter: letter)
                         .offset(x: CGFloat(Int.random(in: -10...5)), y: 0)
                 }
