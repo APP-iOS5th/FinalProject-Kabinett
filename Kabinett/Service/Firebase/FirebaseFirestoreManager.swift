@@ -52,7 +52,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         
         do {
             try await validateFromUser(fromUserId: fromUserId)
-            
             let photoContentStringUrl: [String]
             if !photoContents.isEmpty {
                 photoContentStringUrl = try await convertPhotoToUrl(photoContents: photoContents)
