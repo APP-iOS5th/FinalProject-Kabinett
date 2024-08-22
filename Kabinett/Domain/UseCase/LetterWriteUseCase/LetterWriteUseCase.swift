@@ -8,20 +8,8 @@
 import Foundation
 
 protocol LetterWriteUseCase {
-    func saveLetter(font: String, 
-                    postScript: String?,
-                    envelope: String,
-                    stamp: String,
-                    fromUserId: String?, 
-                    fromUserName: String,
-                    fromUserKabinettNumber: Int?,
-                    toUserId: String?, 
-                    toUserName: String,
-                    toUserKabinettNumber: Int?,
-                    content: String?, 
-                    photoContents: [Data],
-                    date: Date,
-                    stationery: String,
-                    isRead: Bool
-    ) async -> Result<Bool, any Error>
+    func saveLetter(font: String, postScript: String?, envelope: String, stamp: String, 
+                    fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
+                    toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
+                    content: String?, photoContents: [String], date: Date, stationery: String, isRead: Bool) async -> Result<Void, any Error>
 }

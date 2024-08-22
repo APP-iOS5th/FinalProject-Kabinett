@@ -1,5 +1,5 @@
 //
-//  FirebaseLetterService.swift
+//  FirebaseFirestoreManager.swift
 //  Kabinett
 //
 //  Created by JIHYE SEOK on 8/13/24.
@@ -31,7 +31,7 @@ enum LetterSaveError: Error {
     case bothUsersNotFound
 }
 
-final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
+final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
     
