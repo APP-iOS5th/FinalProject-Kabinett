@@ -21,6 +21,8 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var selectedImage: UIImage?
     @Published var isShowingImagePicker = false
     @Published var isShowingCropper = false
+    @Published var croppedImage: UIImage?
+    @Published var isProfileUpdated = false
     
     init(userName: String = "Yule",
          profileImage: UIImage? = nil,
@@ -47,9 +49,10 @@ class ProfileSettingsViewModel: ObservableObject {
         }
     }
     
-    func updateProfileImage(with croppedImage: UIImage?) {
+    func updateProfileImage() {
         if let croppedImage = croppedImage {
             self.profileImage = croppedImage
+            isProfileUpdated = true
             print("Profile image updated in ViewModel. New image size: \(croppedImage.size)")
         } else {
             print("No image to update")
@@ -62,7 +65,7 @@ class ProfileSettingsViewModel: ObservableObject {
     
     func completeProfileUpdate() {
         updateUserName()
-        updateProfileImage(with: profileImage)
+        updateProfileImage()
         shouldNavigateToProfile = true
     }
 }

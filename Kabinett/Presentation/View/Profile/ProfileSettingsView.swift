@@ -23,17 +23,16 @@ struct ProfileSettingsView: View {
                         Circle()
                             .foregroundColor(.primary300)
                             .frame(width: 110, height: 110)
-                        if let image = viewModel.profileImage {
+                        if let image = viewModel.croppedImage {
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 110, height: 110)
                                 .clipShape(Circle())
-                        } else {
-                            Image(systemName: "photo")
-                                .font(.system(size: 36))
-                                .foregroundColor(.white)
                         }
+                        Image(systemName: "photo")
+                            .font(.system(size: 36))
+                            .foregroundColor(.white)
                     }
                 }
                 .onChange(of: viewModel.selectedImageItem) { newItem in
@@ -90,6 +89,12 @@ struct ProfileSettingsView: View {
                 Text("No image available for cropping.")
             }
         }
+        .onDisappear {
+            if !viewModel.isProfileUpdated {
+                viewModel.croppedImage = nil
+            }
+            viewModel.selectedImageItem = nil
+        }
     }
 }
 
@@ -135,10 +140,12 @@ struct ImageCropper: View {
                     }
                 Spacer()
                 Button("이미지 적용하기", action: {
-                    croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
-                    if let croppedImage = croppedImage {
-                        viewModel.updateProfileImage(with: croppedImage)
-                    }
+//                    croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
+//                    if let croppedImage = croppedImage {
+//                        viewModel.updateProfileImage(with: croppedImage)
+//                    }
+                    let croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
+                    viewModel.croppedImage = croppedImage
                     isShowingCropper = false
                 })
                 .foregroundStyle(.white)
