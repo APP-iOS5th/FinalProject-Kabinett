@@ -11,6 +11,7 @@ struct LetterBoxCell: View {
     var type: String = "All"
     var typeName: String = "전체 편지"
     var letters: [Letter]
+    var unreadCount: Int
     
     let rotationValues: [Double] = [-10, 0, 10]
     
@@ -30,7 +31,7 @@ struct LetterBoxCell: View {
                     .frame(width: 125, height: 180)
 //                    .opacity(0.5)
                     .padding(.top, 37)
-                    .shadow(radius: 1, y: CGFloat(2))
+                    .shadow(radius: 2, y: CGFloat(2))
                     .blendMode(.luminosity)
                 
                 Text(type)
@@ -45,15 +46,17 @@ struct LetterBoxCell: View {
                     .foregroundStyle(.contentSecondary)
                 
 //                새로 도착한 편지에 대한 알림
-//                ZStack {
-//                    Circle()
-//                        .fill(.red)
-//                        .frame(width: 17)
-//                    Text("1")
-//                        .font(.system(size: 9))
-//                        .foregroundStyle(.white)
-//                }
-//                .padding(.leading, -2)
+                if unreadCount > 0 {
+                    ZStack {
+                        Circle()
+                            .fill(.secondary900)
+                            .frame(width: 17)
+                        Text("\(unreadCount)")
+                            .font(.system(size: 10, weight: .regular))
+                            .foregroundStyle(.white)
+                    }
+                    .padding(.leading, -2)
+                }
             }
             
         }
@@ -63,5 +66,5 @@ struct LetterBoxCell: View {
 }
 
 #Preview {
-    LetterBoxCell(letters: LetterBoxViewModel().letterBoxDetailLetters)
+    LetterBoxCell(letters: LetterBoxViewModel().letterBoxDetailLetters, unreadCount: 1)
 }

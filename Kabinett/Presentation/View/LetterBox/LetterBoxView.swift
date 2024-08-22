@@ -29,8 +29,10 @@ struct LetterBoxView: View {
                     
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(LetterBoxType.allCases) { type in
+                            let unreadCount = letterBoxViewModel.isReadLetters[type.toLetterType()] ?? 0
+                            
                             NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
-                                LetterBoxCell(type: "\(type)", typeName: type.rawValue, letters: letterBoxViewModel.getSomeLetters(for: type.toLetterType()))
+                                LetterBoxCell(type: "\(type)", typeName: type.rawValue, letters: letterBoxViewModel.getSomeLetters(for: type.toLetterType()), unreadCount: unreadCount)
                             }
                         }
                     }

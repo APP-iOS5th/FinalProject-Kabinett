@@ -16,9 +16,9 @@ class MockLetterBoxUseCase: LetterBoxUseCase {
         return .success(LetterBoxViewModel.sampleLetters)
     }
     
-//    func getIsRead(userId: String) async -> Result<[LetterType : Int], any Error> {
-//        return .success([LetterType : Int])
-//    }
+    func getIsRead(userId: String) async -> Result<[LetterType : Int], any Error> {
+        return .success(LetterBoxViewModel.sampleLetterIsRead)
+    }
     
     func searchBy(userId: String, findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
         return .success(LetterBoxViewModel.sampleLetters)

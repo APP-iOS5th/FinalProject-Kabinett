@@ -38,10 +38,12 @@ class LetterBoxViewModel: ObservableObject {
         self.letterBoxUseCase = letterBoxUseCase
         self.letterBoxLetters = LetterBoxViewModel.sampleLetterDictionary
         self.letterBoxDetailLetters = LetterBoxViewModel.sampleLetters
+        self.isReadLetters = LetterBoxViewModel.sampleLetterIsRead
     }
     
     @Published var letterBoxLetters: [LetterType: [Letter]] = [:]
     @Published var letterBoxDetailLetters: [Letter] = []
+    @Published var isReadLetters: [LetterType: Int] = [:]
     
     @Published var errorMessage: String?
     
@@ -58,6 +60,14 @@ class LetterBoxViewModel: ObservableObject {
             .received: sampleLetters,
             .toMe: sampleLetters,
             .all: sampleLetters
+        ]
+    }
+    
+    static var sampleLetterIsRead: [LetterType: Int] {
+        return [
+            .toMe: 1,
+            .received: 2,
+            .all: 3,
         ]
     }
     
@@ -80,15 +90,14 @@ class LetterBoxViewModel: ObservableObject {
         return letterBoxLetters[type] ?? []
     }
     
-    
-    // func getLetterBoxDetailLetters
-    func fetchLetterBoxDetailLetters(for userId: String, letterType: LetterType) {
+    // func getIsRead
+    func fetchIsRead(for userId: String) {
         Task {
-            let result = await letterBoxUseCase.getLetterBoxDetailLetters(userId: userId, letterType: letterType)
+            let result = await letterBoxUseCase.getIsRead(userId: userId)
             DispatchQueue.main.async { [weak self] in
                 switch result {
-                case .success(let letter):
-                    self?.letterBoxDetailLetters = letter
+                case .success(let isReadDictionary):
+                    self?.isReadLetters = isReadDictionary
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
                 }
@@ -96,7 +105,27 @@ class LetterBoxViewModel: ObservableObject {
         }
     }
     
-    func getAllLetters(for type: LetterType) -> [Letter] {
-        return letterBoxDetailLetters
+    func getIsReadLetters(for type: LetterType) -> Int {
+        return isReadLetters[type] ?? 0
     }
+    
+    
+//    // func getLetterBoxDetailLetters
+//    func fetchLetterBoxDetailLetters(for userId: String, letterType: LetterType) {
+//        Task {
+//            let result = await letterBoxUseCase.getLetterBoxDetailLetters(userId: userId, letterType: letterType)
+//            DispatchQueue.main.async { [weak self] in
+//                switch result {
+//                case .success(let letter):
+//                    self?.letterBoxDetailLetters = letter
+//                case .failure(let error):
+//                    self?.errorMessage = error.localizedDescription
+//                }
+//            }
+//        }
+//    }
+//    
+//    func getAllLetters(for type: LetterType) -> [Letter] {
+//        return letterBoxDetailLetters
+//    }
 }
