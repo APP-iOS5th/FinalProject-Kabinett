@@ -24,6 +24,8 @@
 		577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */; };
 		577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156F82C74CAF200E21162 /* Extension+Font.swift */; };
 		577157052C75DD9900E21162 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
+		5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* WriteLetterViewModel.swift */; };
+		5771570D2C770AB800E21162 /* SizeSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570C2C770AB700E21162 /* SizeSetting.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */; };
 		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
@@ -96,6 +98,8 @@
 		577156FC2C7584E000E21162 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicenseModalView.swift; sourceTree = "<group>"; };
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
+		5771570A2C77071300E21162 /* WriteLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterViewModel.swift; sourceTree = "<group>"; };
+		5771570C2C770AB700E21162 /* SizeSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeSetting.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionModalView.swift; sourceTree = "<group>"; };
 		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
@@ -317,6 +321,8 @@
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
 				57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */,
+				5771570A2C77071300E21162 /* WriteLetterViewModel.swift */,
+				5771570C2C770AB700E21162 /* SizeSetting.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -563,7 +569,7 @@
 			};
 			buildConfigurationList = 839CE0EE2C644BEF003635F3 /* Build configuration list for PBXProject "Kabinett" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = ko;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -628,6 +634,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FB2C7578FE00E21162 /* WriteLetterView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				5771570D2C770AB800E21162 /* SizeSetting.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
@@ -643,6 +650,7 @@
 				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
+				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,

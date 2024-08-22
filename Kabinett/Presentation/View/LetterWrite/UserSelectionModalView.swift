@@ -88,7 +88,6 @@ struct FormToUser: View {
     
     var body: some View {
         let fromName = letterContent.fromUserName == "" ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
-        let fromMe = fromName + viewModel.checkMe(kabi: viewModel.userKabi ?? 0)
         
         HStack {
             Text("보내는 사람")
@@ -96,7 +95,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(fromMe)")
+            Text("\(fromName) \(viewModel.checkMe(kabi: viewModel.userKabi ?? 0))")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -111,8 +110,9 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 37)
-            let toName = letterContent.toUserName == "" ? fromMe : letterContent.toUserName
-            Text("\(toName)")
+            let toName = letterContent.toUserName == "" ? fromName : letterContent.toUserName
+            let toKabi = letterContent.toUserName == "" ? viewModel.userKabi ?? 0 : letterContent.toUserKabinettNumber
+            Text("\(toName) \(viewModel.checkMe(kabi: toKabi ?? 0))")
                 .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)

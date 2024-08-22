@@ -30,7 +30,7 @@ struct StationerySelectionView: View {
                                         AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
                                             image
                                                 .resizable()
-                                                .scaledToFill()
+                                                .aspectRatio(9/13, contentMode: .fit)
                                                 .padding(10)
                                                 .shadow(radius: 5, x: 5, y: 5)
                                         } placeholder: {
