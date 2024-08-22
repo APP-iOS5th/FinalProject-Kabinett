@@ -67,6 +67,20 @@ struct ProfileSettingsView: View {
             .background(Color.background)
             .navigationTitle("프로필 설정")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .semibold))
+                        }
+                        .foregroundColor(.primary900)
+                    }
+                }
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -103,7 +117,6 @@ struct ProfileSettingsView: View {
         }
     }
 }
-
 
 struct OvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
@@ -145,14 +158,36 @@ struct ImageCropper: View {
                         }
                     }
                 Spacer()
-                Button("이미지 적용하기", action: {
-                    let croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
-                    viewModel.croppedImage = croppedImage
-                    isShowingCropper = false
-                })
-                .foregroundStyle(.white)
-                .padding(.bottom, 20)
-                
+                    .overlay(alignment: .bottom) {
+                        HStack {
+                            Button(action: {
+                                isShowingCropper = false
+                            }) {
+                                Image(systemName: "xmark")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                            }
+                            
+                            Spacer()
+                            
+                            Text("이미지 자르기")
+                                .foregroundColor(.white)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                let croppedImage = self.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
+                                viewModel.croppedImage = croppedImage
+                                isShowingCropper = false
+                            }) {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .frame(width: 350) // 이렇게 상수로 넣지않으면 면적 확보가 안됨
+                        .padding(.bottom, 10)
+                    }
                 if let croppedImage {
                     Image(uiImage: croppedImage)
                         .resizable()

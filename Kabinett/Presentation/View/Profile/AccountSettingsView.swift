@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AccountSettingsView: View {
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         NavigationStack {
         GeometryReader { geometry in
@@ -33,6 +35,20 @@ struct AccountSettingsView: View {
                         .foregroundColor(.contentSecondary)
                 }
                 .buttonStyle(PlainButtonStyle())
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 18, weight: .semibold))
+                            }
+                            .foregroundColor(.primary900)
+                        }
+                    }
+                }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.background)
