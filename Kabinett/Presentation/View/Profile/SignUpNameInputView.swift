@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @StateObject var viewModel: SignUpViewModel
+    @Environment(\.presentationMode) var presentationMode
     @State private var shouldNavigate = false
     
     var body: some View {
@@ -51,6 +52,20 @@ struct SignUpNameInputView: View {
                     .navigationDestination(isPresented: $shouldNavigate) {
                         SignUpKabinettNumberSelectView(viewModel: viewModel)
                     }
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left")
+                                        .font(.system(size: 18, weight: .semibold))
+                                }
+                                .foregroundColor(.primary900)
+                            }
+                        }
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
@@ -67,9 +82,9 @@ struct OvalTextFieldStyle: TextFieldStyle {
             .padding(.leading, 8)
             .padding(10)
             .background(
-            Capsule()
-                .stroke(Color.primary300, lineWidth: 1)
-                .background(Capsule().fill(Color.white))
+                Capsule()
+                    .stroke(Color.primary300, lineWidth: 1)
+                    .background(Capsule().fill(Color.white))
             )
             .frame(width: width, height: 54)
     }

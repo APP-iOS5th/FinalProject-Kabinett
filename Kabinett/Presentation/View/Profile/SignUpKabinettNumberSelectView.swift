@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
-    @ObservedObject var viewModel: SignUpViewModel
+    @StateObject var viewModel: SignUpViewModel
+    @Environment(\.presentationMode) var presentationMode
     @State private var shouldNavigatedToProfile = false
     
     var body: some View {
-        NavigationView{
+        NavigationView {
             GeometryReader { geometry in
                 VStack(alignment: .leading) {
                     Spacer()
@@ -67,13 +68,10 @@ struct SignUpKabinettNumberSelectView: View {
                     .padding(.leading, geometry.size.width * 0.06)
                     Spacer()
                     Button(action: {
-                        //                        if viewModel.selectedKabinettNumber != nil {
-                        //                            shouldNavigatedToProfile = true
                         print("UserName: \(viewModel.userName)")
                         if let selectedNumber = viewModel.selectedKabinettNumber {
                             print("Selected Kabinett Number: \(viewModel.kabinettNumbers[selectedNumber])")
                         }
-                        //                        }
                     }) {
                         Text("시작하기")
                             .fontWeight(.medium)
@@ -85,9 +83,20 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                     .disabled(viewModel.selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                    //                    .navigationDestination(isPresented: $shouldNavigatedToProfile) {
-                    //                        ProfileView(userName: userName, userNumber: kabinettNumbers[selectedKabinettNumber ?? 0])
-                    //                    }
+                }
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 18, weight: .semibold))
+                            }
+                            .foregroundColor(.primary900)
+                        }
+                    }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
