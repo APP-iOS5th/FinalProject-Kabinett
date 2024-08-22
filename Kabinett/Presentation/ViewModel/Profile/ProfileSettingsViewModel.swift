@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import PhotosUI
 
 class ProfileSettingsViewModel: ObservableObject {
     @Published var userName: String
@@ -16,6 +17,7 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var appleID: String
     @Published var shouldNavigateToSettings = false
     @Published var shouldNavigateToProfile = false
+    @Published var selectedImageItem: PhotosPickerItem?
     @Published var selectedImage: UIImage?
     @Published var isShowingImagePicker = false
     @Published var isShowingCropper = false
@@ -23,7 +25,8 @@ class ProfileSettingsViewModel: ObservableObject {
     init(userName: String = "Yule",
          profileImage: UIImage? = nil,
          kabinettNumber: String = "455-544",
-         appleID: String = "figfigure33@gmail.com") {
+         appleID: String = "figfigure33@gmail.com",
+         selectedImageItem: PhotosPickerItem? = nil) {
         self.userName = userName
         self.profileImage = profileImage
         self.kabinettNumber = kabinettNumber

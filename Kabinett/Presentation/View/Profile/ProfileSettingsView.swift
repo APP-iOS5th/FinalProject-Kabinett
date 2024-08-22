@@ -14,24 +14,36 @@ struct ProfileSettingsView: View {
     var body: some View {
         NavigationStack {
             VStack{
-                ZStack{
-                    Circle()
-                        .foregroundColor(.primary300)
-                        .frame(width: 110, height: 110)
-                    if let image = viewModel.profileImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
+                PhotosPicker(
+                    selection: $viewModel.selectedImageItem,
+                    matching: .images,
+                    photoLibrary: .shared()
+                ) {
+                    ZStack{
+                        Circle()
+                            .foregroundColor(.primary300)
                             .frame(width: 110, height: 110)
-                            .clipShape(Circle())
-                    } else {
-                        Image(systemName: "photo")
-                            .font(.system(size: 36))
-                            .foregroundColor(.white)
+                        if let image = viewModel.profileImage {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 110, height: 110)
+                                .clipShape(Circle())
+                        } else {
+                            Image(systemName: "photo")
+                                .font(.system(size: 36))
+                                .foregroundColor(.white)
+                        }
                     }
                 }
-                .onTapGesture {
-                    viewModel.selectProfileImage()
+                .onChange(of: viewModel.selectedImageItem) { newItem in
+                    Task {
+                        if let data = try? await newItem?.loadTransferable(type: Data.self),
+                           let uiImage = UIImage(data: data) {
+                            viewModel.selectedImage = uiImage
+                            viewModel.isShowingCropper = true
+                        }
+                    }
                 }
                 .padding(.bottom, 10)
                 
@@ -71,9 +83,6 @@ struct ProfileSettingsView: View {
                 ProfileView(viewModel: viewModel)
             }
         }
-        .sheet(isPresented: $viewModel.isShowingImagePicker) {
-            ImagePicker(image: $viewModel.selectedImage, isShowingCropper: $viewModel.isShowingCropper)
-        }
         .sheet(isPresented: $viewModel.isShowingCropper) {
             if let profileImage = viewModel.selectedImage {
                 ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, image: profileImage)
@@ -95,49 +104,6 @@ struct OvalTextFieldStyle: TextFieldStyle {
                     .background(Capsule().fill(Color.white))
             )
             .frame(width: 270, height: 54)
-    }
-}
-
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var image: UIImage?
-    @Binding var isShowingCropper: Bool
-    @Environment(\.presentationMode) private var presentationMode
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> PHPickerViewController {
-        var config = PHPickerConfiguration()
-        config.filter = .images
-        let picker = PHPickerViewController(configuration: config)
-        picker.delegate = context.coordinator
-        return picker
-    }
-    
-    func updateUIViewController(_ uiViewController: PHPickerViewController, context: UIViewControllerRepresentableContext<ImagePicker>) {}
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        let parent: ImagePicker
-        
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            parent.presentationMode.wrappedValue.dismiss()
-            
-            guard let provider = results.first?.itemProvider else { return }
-            
-            if provider.canLoadObject(ofClass: UIImage.self) {
-                provider.loadObject(ofClass: UIImage.self) { image, _ in
-                    DispatchQueue.main.async {
-                        self.parent.image = image as? UIImage
-                        self.parent.isShowingCropper = true
-                    }
-                }
-            }
-        }
     }
 }
 
