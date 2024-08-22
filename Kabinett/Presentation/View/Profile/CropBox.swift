@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 public struct CropBox: View {
-    @Binding public var rect: CGRect
+    @Binding public var rect: CGRect // 크롭박스 현재 위치와 크기
     public let minSize: CGSize
     
     @State private var initialRect: CGRect? = nil
-    @State private var frameSize: CGSize = .zero
-    @State private var draggedCorner: UIRectCorner? = nil
+    @State private var frameSize: CGSize = .zero // 현재 화면 크기
+    @State private var draggedCorner: UIRectCorner? = nil // 드래그 중인 크롭 박스 모서리 추적
     
     public init(
         rect: Binding<CGRect>,
@@ -47,7 +47,7 @@ public struct CropBox: View {
                     )
                 }
             }
-            .onEnded { gesture in
+            .onEnded { _ in
                 initialRect = nil
                 draggedCorner = nil
             }
@@ -61,10 +61,21 @@ public struct CropBox: View {
         .background {
             GeometryReader { geometry in
                 Color.clear
-                    .onAppear { self.frameSize = geometry.size }
-                    .onChange(of: geometry.size) { self.frameSize = $0 }
+                    .onAppear {
+                        self.frameSize = geometry.size
+                        self.centerCropBox()
+                    }
+                    .onChange(of: geometry.size) { newSize in
+                        self.frameSize = newSize
+                        self.centerCropBox()
+                    }
             }
         }
+    }
+    
+    private func centerCropBox() {
+        rect.origin.x = (frameSize.width - rect.width) / 2
+        rect.origin.y = (frameSize.height - rect.height) / 2
     }
     
     private var blur: some View {
@@ -164,11 +175,12 @@ public struct CropBox: View {
         
         guard (ldX || rdX) && (tdY || bdY) else { return nil }
         
-        return if ldX && tdY { .topLeft }
-        else if rdX && tdY { .topRight }
-        else if ldX && bdY { .bottomLeft }
-        else if rdX && bdY { .bottomRight }
-        else { nil }
+        if ldX && tdY { return .topLeft }
+        if rdX && tdY { return .topRight }
+        if ldX && bdY { return .bottomLeft }
+        if rdX && bdY { return .bottomRight }
+        
+        return nil
     }
     
     private func dragResize(initialRect: CGRect, draggedCorner: UIRectCorner, frameSize: CGSize, translation: CGSize) -> CGRect {
@@ -184,33 +196,22 @@ public struct CropBox: View {
         }
         
         let idealWidth = initialRect.size.width + offX * translation.width
-        var newWidth = max(idealWidth, minSize.width)
+        let idealHeight = initialRect.size.height + offY * translation.height // 드래그한 거리에 따라 크롭박스 크기 계산
         
-        let maxHeight = frameSize.height - initialRect.minY
-        let idealHeight = initialRect.size.height + offY * translation.height
+        var newWidth = max(idealWidth, minSize.width)
         var newHeight = max(idealHeight, minSize.height)
         
-        var newX = initialRect.minX
-        var newY = initialRect.minY
+        let centerX = initialRect.midX
+        let centerY = initialRect.midY
         
-        if offX < 0 {
-            let widthChange = newWidth - initialRect.width
-            newX = max(newX - widthChange, 0)
-            newWidth = min(newWidth, initialRect.maxX)
-        } else {
-            newWidth = min(newWidth, frameSize.width - initialRect.minX)
-        }
+        newWidth = min(newWidth, frameSize.width)
+        newHeight = min(newHeight, frameSize.height)
         
-        if offY < 0 {
-            let heightChange = newHeight - initialRect.height
-            newY = max(newY - heightChange, 0)
-            newHeight = min(initialRect.maxY, newHeight)
-        } else {
-            newHeight = min(newHeight, maxHeight)
-        }
+        let newX = centerX - newWidth / 2
+        let newY = centerY - newHeight / 2
         
-        return .init(origin: .init(x: newX, y: newY), size: .init(width: newWidth, height: newHeight))
-    }
+        return CGRect(origin: CGPoint(x: newX, y: newY), size: CGSize(width: newWidth, height: newHeight))
+    } // 크롭 박스를 중앙 점을 기준으로 확대, 축소
     
     private func drag(initialRect: CGRect, frameSize: CGSize, translation: CGSize) -> CGRect {
         let maxX = frameSize.width - initialRect.width
@@ -218,6 +219,6 @@ public struct CropBox: View {
         let maxY = frameSize.height - initialRect.height
         let newY = min(max(initialRect.origin.y + translation.height, 0), maxY)
         
-        return .init(origin: .init(x: newX, y: newY), size: initialRect.size)
+        return CGRect(origin: CGPoint(x: newX, y: newY), size: initialRect.size)
     }
 }

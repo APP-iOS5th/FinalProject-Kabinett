@@ -176,6 +176,7 @@ struct ImageCropper: View {
                     isShowingCropper = false
                 })
                 .foregroundStyle(.white)
+                .padding(.bottom, 20)
                 
                 if let croppedImage {
                     Image(uiImage: croppedImage)
