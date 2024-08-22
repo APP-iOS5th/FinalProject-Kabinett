@@ -36,10 +36,21 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     private let storage = Storage.storage()
     
     // MARK: - LetterWriteUseCase
-    func saveLetter(font: String, postScript: String?, envelope: String, stamp: String,
-                    fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
-                    toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
-                    content: String?, photoContents: [Data], date: Date, stationery: String, isRead: Bool
+    func saveLetter(font: String, 
+                    postScript: String?,
+                    envelope: String,
+                    stamp: String,
+                    fromUserId: String?, 
+                    fromUserName: String,
+                    fromUserKabinettNumber: Int?,
+                    toUserId: String?, 
+                    toUserName: String,
+                    toUserKabinettNumber: Int?,
+                    content: String?, 
+                    photoContents: [Data],
+                    date: Date,
+                    stationery: String,
+                    isRead: Bool
     ) async -> Result<Bool, any Error> {
         
         // Parameter 유효성 검사
@@ -85,10 +96,18 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - ComponentsUseCase
-    func saveLetter(postScript: String?, envelope: String, stamp: String,
-                    fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
-                    toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
-                    photoContents: [Data], date: Date, isRead: Bool
+    func saveLetter(postScript: String?, 
+                    envelope: String,
+                    stamp: String,
+                    fromUserId: String?, 
+                    fromUserName: String,
+                    fromUserKabinettNumber: Int?,
+                    toUserId: String?, 
+                    toUserName: String,
+                    toUserKabinettNumber: Int?,
+                    photoContents: [Data], 
+                    date: Date,
+                    isRead: Bool
     ) async -> Result<Bool, any Error> {
         
         // Parameter 유효성 검사
