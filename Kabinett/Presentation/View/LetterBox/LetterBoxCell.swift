@@ -10,20 +10,26 @@ import SwiftUI
 struct LetterBoxCell: View {
     var type: String = "All"
     var typeName: String = "전체 편지"
+    var letters: [Letter]
+    
+    let rotationValues: [Double] = [-10, 0, 10]
     
     var body: some View {
         VStack {
             ZStack {
-                LetterBoxEnvelopeCell()
+                ForEach(letters.prefix(3)) { letter in
+                    LetterBoxEnvelopeCell(letter: letter)
+                        .offset(x: CGFloat(Int.random(in: -10...5)), y: 0)
+                }
                 
                 Rectangle()
                     .fill(.clear)
                     .background(.clear.opacity(0.1))
-                    .background(TransparentBlurView(removeAllFilters: true).blur(radius: 2))
-                    .background(.ultraThinMaterial)
+                    .background(TransparentBlurView(removeAllFilters: true).blur(radius: 0.8))
+//                    .background(.ultraThinMaterial)
                     .frame(width: 125, height: 180)
-                    .opacity(0.8)
-                    .padding(.top, 31)
+//                    .opacity(0.5)
+                    .padding(.top, 37)
                     .shadow(radius: 1, y: CGFloat(2))
                     .blendMode(.luminosity)
                 
@@ -57,5 +63,5 @@ struct LetterBoxCell: View {
 }
 
 #Preview {
-    LetterBoxCell()
+    LetterBoxCell(letters: LetterBoxViewModel().letterBoxDetailLetters)
 }

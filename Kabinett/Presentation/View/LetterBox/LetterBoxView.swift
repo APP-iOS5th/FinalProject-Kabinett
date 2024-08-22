@@ -18,6 +18,8 @@ enum LetterBoxType: String, CaseIterable, Identifiable {
 
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
+    @StateObject var viewModel: LetterBoxViewModel
+    
     @State private var showToast: Bool = false
     
     @State private var searchText: String = ""
@@ -37,7 +39,7 @@ struct LetterBoxView: View {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(LetterBoxType.allCases) { type in
                             NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
-                                LetterBoxCell(type: "\(type)", typeName: type.rawValue)
+//                                LetterBoxCell(type: "\(type)", typeName: type.rawValue)
                             }
                         }
                     }
@@ -92,6 +94,6 @@ struct LetterBoxView: View {
     }
 }
 
-#Preview {
-    LetterBoxView()
-}
+//#Preview {
+//    LetterBoxView()
+//}
