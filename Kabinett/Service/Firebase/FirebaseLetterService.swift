@@ -487,7 +487,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         do {
             for photoContent in photoContents {
-                let photoRef = storageRef.child("PhotoContents/images/\(UUID().uuidString).jpg")
+                let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
                 
                 _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
                 
