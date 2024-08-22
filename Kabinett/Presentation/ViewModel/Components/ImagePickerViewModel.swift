@@ -14,7 +14,7 @@ class ImagePickerViewModel: ObservableObject {
     @Published var toUserName: String = ""
     @Published var postScript: String?
     @Published var date: Date = Date()
-    @Published var photoContents: [String] = []
+    @Published var photoContents: [Data] = []
     
     @Published var selectedItems: [PhotosPickerItem] = [] {
         didSet {
@@ -41,15 +41,12 @@ class ImagePickerViewModel: ObservableObject {
         error = nil
         
         do {
-            let newImageContents = try await withThrowingTaskGroup(of: String?.self) { group -> [String] in
+            let newImageContents = try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
                 for item in selectedItems {
                     group.addTask {
                         do {
-                            let data = try await item.loadTransferable(type: Data.self)
-                            if let data = data,
-                               let uiImage = UIImage(data: data),
-                               let jpegData = uiImage.jpegData(compressionQuality: 0.7) {
-                                return jpegData.base64EncodedString()
+                            if let data = try await item.loadTransferable(type: Data.self) {
+                                return data
                             }
                         } catch {
                             print("Failed to load image: \(error)")
@@ -58,7 +55,7 @@ class ImagePickerViewModel: ObservableObject {
                     }
                 }
                 
-                var results: [String] = []
+                var results: [Data] = []
                 for try await result in group {
                     if let result = result {
                         results.append(result)

@@ -106,10 +106,22 @@ struct LetterCompletionView: View {
     }
 }
 
-// 프리뷰 더미 데이터
+// Preview 더미 데이터
 struct MockComponentsUseCase: ComponentsUseCase {
-    func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?, toUserId: String?, toUserName: String, toUserKabinettNumber: Int?, photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
-        return .success(())
+    func saveLetter(postScript: String?,
+                    envelope: String,
+                    stamp: String,
+                    fromUserId: String?,
+                    fromUserName: String,
+                    fromUserKabinettNumber: Int?,
+                    toUserId: String?,
+                    toUserName: String,
+                    toUserKabinettNumber: Int?,
+                    photoContents: [Data],
+                    date: Date,
+                    isRead: Bool
+    ) async -> Result<Bool, any Error> {
+        return .success(true)
     }
 }
 

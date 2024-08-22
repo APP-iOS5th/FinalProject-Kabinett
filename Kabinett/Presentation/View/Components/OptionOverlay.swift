@@ -10,6 +10,7 @@ import SwiftUI
 struct OptionOverlay: View {
     @Binding var showOptions: Bool
     @Binding var showActionSheet: Bool
+    @Binding var showWriteLetterView: Bool
     
     var body: some View {
         Color.black.opacity(0.5)
@@ -37,6 +38,7 @@ struct OptionOverlay: View {
                 }
                 Button(action: {
                     showOptions = false
+                    showWriteLetterView = true
                 }) {
                     Text("편지 쓰기")
                         .font(.system(size: 14))

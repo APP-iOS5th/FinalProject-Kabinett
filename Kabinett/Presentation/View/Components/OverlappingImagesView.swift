@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct OverlappingImagesView: View {
-    let images: [String]
+    let images: [Data]
     @Binding var showDetailView: Bool
     
     var body: some View {
         ZStack {
-            ForEach(Array(images.enumerated()), id: \.offset) { index, imageString in
-                if let imageData = Data(base64Encoded: imageString),
-                   let uiImage = UIImage(data: imageData) {
+            ForEach(Array(images.enumerated()), id: \.offset) { index, imageData in
+                if let uiImage = UIImage(data: imageData) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)

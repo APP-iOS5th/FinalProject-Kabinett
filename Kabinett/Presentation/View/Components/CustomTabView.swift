@@ -10,12 +10,14 @@ import PhotosUI
 
 struct CustomTabView: View {
     @StateObject private var imagePickerViewModel: ImagePickerViewModel
+    @State private var letterWriteViewModel = LetterWriteViewModel()
     @State private var selectedTab = 0
     @State private var showOptions = false
     @State private var showActionSheet = false
     @State private var showCamera = false
     @State private var showPhotoLibrary = false
     @State private var showImagePreview = false
+    @State private var showWriteLetterView = false
     
     init(componentsUseCase: ComponentsUseCase) {
         self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase))
@@ -54,7 +56,7 @@ struct CustomTabView: View {
             }
             
             if showOptions {
-                OptionOverlay(showOptions: $showOptions, showActionSheet: $showActionSheet)
+                OptionOverlay(showOptions: $showOptions, showActionSheet: $showActionSheet, showWriteLetterView: $showWriteLetterView)
             }
         }
         .actionSheet(isPresented: $showActionSheet) {
@@ -89,21 +91,13 @@ struct CustomTabView: View {
         .sheet(isPresented: $showImagePreview) {
             ImagePreivew(showActionSheet: $showActionSheet, viewModel: imagePickerViewModel)
         }
-    }
-}
-
-// sample view
-struct LetterBoxView: View {
-    var body: some View {
-        ZStack{
-            Color("Background").edgesIgnoringSafeArea(.all)
-            VStack {
-                Text("받은 편지")
-            }
+        .sheet(isPresented: $showWriteLetterView) {
+            WriteLetterView(letterContent: $letterWriteViewModel)
         }
     }
 }
 
+// sample view
 
 struct ProfileView: View {
     var body: some View {
@@ -117,21 +111,23 @@ struct ProfileView: View {
 }
 
 
-struct WriteLetterView: View {
-    var body: some View {
-        Text("이곳에서 편지를 작성하세요!")
-            .padding()
-            .navigationTitle("편지 쓰기")
-    }
-}
-
-
-// MARK: - 프리뷰 더미 데이터
+// Preview 더미 데이터
 class DummyComponentsUseCase: ComponentsUseCase {
-    func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?, toUserId: String?, toUserName: String, toUserKabinettNumber: Int?, photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
-        return .success(())
+    func saveLetter(postScript: String?,
+                    envelope: String,
+                    stamp: String,
+                    fromUserId: String?,
+                    fromUserName: String,
+                    fromUserKabinettNumber: Int?,
+                    toUserId: String?,
+                    toUserName: String,
+                    toUserKabinettNumber: Int?,
+                    photoContents: [Data],
+                    date: Date,
+                    isRead: Bool
+    ) async -> Result<Bool, any Error> {
+        return .success(true)
     }
-    
 }
 
 #Preview {

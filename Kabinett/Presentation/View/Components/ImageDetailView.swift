@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageDetailView: View {
-    let images: [String]
+    let images: [Data]
     @Binding var showDetailView: Bool
     @State private var currentIndex = 0
     
@@ -17,8 +17,7 @@ struct ImageDetailView: View {
             ZStack {
                 TabView(selection: $currentIndex) {
                     ForEach(images.indices, id: \.self) { index in
-                        if let imageData = Data(base64Encoded: images[index]),
-                           let uiImage = UIImage(data: imageData) {
+                        if let uiImage = UIImage(data: images[index]) {
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)

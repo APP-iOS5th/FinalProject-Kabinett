@@ -18,8 +18,7 @@ struct CameraView: View {
             .onChange(of: viewModel.capturedImage) { _, newImage in
                 if let image = newImage,
                    let imageData = image.jpegData(compressionQuality: 0.5) {
-                    let base64String = imageData.base64EncodedString()
-                    imagePickerViewModel.photoContents.append(base64String)
+                    imagePickerViewModel.photoContents.append(imageData)
                     presentationMode.wrappedValue.dismiss()
                 }
             }
