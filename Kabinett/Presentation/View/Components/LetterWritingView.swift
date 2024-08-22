@@ -8,14 +8,10 @@
 import SwiftUI
 
 struct LetterWritingView: View {
-    let selectedImages: [IdentifiableImage]
-    
-    @State private var toUserId = "Y(나)"
-    @State private var fromUserId = "Y(나)"
-    @State private var toUserSearch = ""
-    @State private var fromUserSearch = ""
-    @State private var date = Date()
+    @ObservedObject var viewModel: ImagePickerViewModel
     @State private var showDatePicker = false
+    @State private var fromUserSearch = ""
+    @State private var toUserSearch = ""
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -24,8 +20,8 @@ struct LetterWritingView: View {
                 Color("Primary300").edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    userField(title: "보내는 사람", value: $fromUserId, search: $fromUserSearch)
-                    userField(title: "받는 사람", value: $toUserId, search: $toUserSearch)
+                    userField(title: "보내는 사람", value: $viewModel.fromUserName, search: $fromUserSearch)
+                    userField(title: "받는 사람", value: $viewModel.toUserName, search: $toUserSearch)
                     dateField()
                     Spacer()
                 }
@@ -55,7 +51,6 @@ struct LetterWritingView: View {
                     .clipShape(Capsule())
                     .multilineTextAlignment(.center)
             }
-            
             HStack(spacing: 10) {
                 Spacer()
                     .frame(width: 90)
@@ -74,7 +69,7 @@ struct LetterWritingView: View {
             Button(action: {
                 showDatePicker = true
             }) {
-                Text(dateFormatter.string(from: date))
+                Text(dateFormatter.string(from: viewModel.date))
                     .foregroundStyle(Color("ContentSecondary"))
                     .font(.system(size: 15))
                     .padding(.horizontal, 15)
@@ -86,7 +81,7 @@ struct LetterWritingView: View {
         }
         .sheet(isPresented: $showDatePicker) {
             VStack {
-                DatePicker("", selection: $date, displayedComponents: .date)
+                DatePicker("", selection: $viewModel.date, displayedComponents: .date)
                     .datePickerStyle(GraphicalDatePickerStyle())
                     .frame(width: 350, height: 330)
             }

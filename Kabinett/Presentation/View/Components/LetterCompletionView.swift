@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct LetterCompletionView: View {
-    let fromUser: String
-    let toUser: String
-    let date: Date
+    @ObservedObject var viewModel: ImagePickerViewModel
+    @Environment(\.dismiss) var dismiss
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
@@ -25,7 +24,7 @@ struct LetterCompletionView: View {
             VStack(spacing: 20) {
                 HStack {
                     Button(action: {
-                        // 이전 페이지 (다른분 작업뷰와 연결)
+                        dismiss()
                     }) {
                         Image(systemName: "chevron.left")
                             .foregroundColor(.black)
@@ -48,23 +47,23 @@ struct LetterCompletionView: View {
                                 Text("보내는 사람")
                                     .font(.system(size: 7))
                                 
-                                Text(fromUser)
+                                Text(viewModel.fromUserName)
                                     .font(.system(size: 14))
                             }
                             .position(x: 60, y: 35)
                             
-                            Text(dateFormatter.string(from: date))
+                            Text(dateFormatter.string(from: viewModel.date))
                                 .font(.system(size: 12))
                                 .position(x: geometry.size.width - 80, y: 25)
                             
-                            Text("사진 몇 장 같이 넣어뒀어!")
+                            Text(viewModel.postScript ?? "")
                                 .font(.system(size: 10))
                                 .position(x: 85, y: geometry.size.height - 35)
                             
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("받는 사람")
                                     .font(.system(size: 7))
-                                Text(toUser)
+                                Text(viewModel.toUserName)
                                     .font(.system(size: 14))
                             }
                             .position(x: geometry.size.width - 90, y: geometry.size.height - 30)
@@ -89,7 +88,9 @@ struct LetterCompletionView: View {
                 Spacer()
                 
                 Button(action: {
-                    // 편지 저장
+                    Task {
+                        await viewModel.saveLetterToFirestore()
+                    }
                 }) {
                     Text("편지 보관하기")
                         .font(.system(size: 16, weight: .medium))
@@ -105,6 +106,13 @@ struct LetterCompletionView: View {
     }
 }
 
+// 프리뷰 더미 데이터
+struct MockComponentsUseCase: ComponentsUseCase {
+    func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?, toUserId: String?, toUserName: String, toUserKabinettNumber: Int?, photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
+        return .success(())
+    }
+}
+
 #Preview {
-    LetterCompletionView(fromUser: "Dotorie", toUser: "YULE", date: Date())
+    LetterCompletionView(viewModel: ImagePickerViewModel(componentsUseCase: MockComponentsUseCase()))
 }

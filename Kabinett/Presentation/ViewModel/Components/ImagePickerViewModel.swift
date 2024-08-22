@@ -8,20 +8,14 @@
 import SwiftUI
 import PhotosUI
 
-
-struct IdentifiableImage: Identifiable, Equatable {
-    let id = UUID()
-    let image: UIImage
+class ImagePickerViewModel: ObservableObject {
+    // MARK: - Published Properties
+    @Published var fromUserName: String = ""
+    @Published var toUserName: String = ""
+    @Published var postScript: String?
+    @Published var date: Date = Date()
+    @Published var photoContents: [String] = []
     
-    static func == (lhs: IdentifiableImage, rhs: IdentifiableImage) -> Bool {
-        lhs.id == rhs.id
-    }
-}
-
-
-// MARK: - ViewModel
-final class ImagePickerViewModel: ObservableObject {
-    @Published var selectedImages: [IdentifiableImage] = []
     @Published var selectedItems: [PhotosPickerItem] = [] {
         didSet {
             Task {
@@ -29,35 +23,96 @@ final class ImagePickerViewModel: ObservableObject {
             }
         }
     }
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     
+    // MARK: - Private Properties
+    private let componentsUseCase: ComponentsUseCase
     
-    // MARK: Methods
+    // MARK: - Initializer
+    init(componentsUseCase: ComponentsUseCase) {
+        self.componentsUseCase = componentsUseCase
+    }
     
-    func loadImages() async {
-        let newImages: [IdentifiableImage] = await withTaskGroup(of: IdentifiableImage?.self) { group in
-            for item in selectedItems {
-                group.addTask {
-                    if let data = try? await item.loadTransferable(type: Data.self),
-                       let uiImage = UIImage(data: data) {
-                        return IdentifiableImage(image: uiImage)
+    // MARK: - Image Loading
+    @MainActor
+    private func loadImages() async {
+        isLoading = true
+        error = nil
+        
+        do {
+            let newImageContents = try await withThrowingTaskGroup(of: String?.self) { group -> [String] in
+                for item in selectedItems {
+                    group.addTask {
+                        do {
+                            let data = try await item.loadTransferable(type: Data.self)
+                            if let data = data,
+                               let uiImage = UIImage(data: data),
+                               let jpegData = uiImage.jpegData(compressionQuality: 0.7) {
+                                return jpegData.base64EncodedString()
+                            }
+                        } catch {
+                            print("Failed to load image: \(error)")
+                        }
+                        return nil
                     }
-                    return nil
                 }
-            }
-            var images: [IdentifiableImage] = []
-            for await image in group {
-                if let image = image {
-                    images.append(image)
+                
+                var results: [String] = []
+                for try await result in group {
+                    if let result = result {
+                        results.append(result)
+                    }
                 }
+                return results
             }
-            return images
-        }
-        await MainActor.run {
-            selectedImages = newImages
+            
+            self.photoContents = newImageContents
+            isLoading = false
+        } catch {
+            self.error = error
+            isLoading = false
         }
     }
     
-    func addImage(_ image: UIImage) {
-        selectedImages.append(IdentifiableImage(image: image))
+    // MARK: - Request to Save Letter Data
+    func saveLetterToFirestore() async {
+        isLoading = true
+        error = nil
+        
+        let result = await componentsUseCase.saveLetter(
+            postScript: postScript,
+            envelope: "default_envelope",
+            stamp: "default_stamp",
+            fromUserId: nil,
+            fromUserName: fromUserName,
+            fromUserKabinettNumber: nil,
+            toUserId: nil,
+            toUserName: toUserName,
+            toUserKabinettNumber: nil,
+            photoContents: photoContents,
+            date: date,
+            isRead: false
+        )
+        
+        await MainActor.run {
+            switch result {
+            case .success:
+                resetState()
+            case .failure(let error):
+                self.error = error
+            }
+            isLoading = false
+        }
+    }
+    
+    // MARK: - Methods (편지 저장 후 초기화)
+    private func resetState() {
+        fromUserName = ""
+        toUserName = ""
+        postScript = nil
+        date = Date()
+        photoContents = []
+        selectedItems = []
     }
 }

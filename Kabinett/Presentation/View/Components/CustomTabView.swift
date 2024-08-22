@@ -9,13 +9,17 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
-    @StateObject private var imagePickerViewModel = ImagePickerViewModel()
+    @StateObject private var imagePickerViewModel: ImagePickerViewModel
     @State private var selectedTab = 0
     @State private var showOptions = false
     @State private var showActionSheet = false
     @State private var showCamera = false
     @State private var showPhotoLibrary = false
     @State private var showImagePreview = false
+    
+    init(componentsUseCase: ComponentsUseCase) {
+        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase))
+    }
     
     var body: some View {
         ZStack {
@@ -40,12 +44,12 @@ struct CustomTabView: View {
                     }
                     .tag(2)
             }
-            .onChange(of: selectedTab) { PreviousTab, currentTab in
-                if currentTab == 1 {
+            .onChange(of: selectedTab) { oldValue, newValue in
+                if newValue == 1 {
                     withAnimation {
                         showOptions = true
                     }
-                    selectedTab = PreviousTab
+                    selectedTab = oldValue
                 }
             }
             
@@ -74,11 +78,11 @@ struct CustomTabView: View {
             matching: .images
         )
         .fullScreenCover(isPresented: $showCamera) {
-            CameraView()
+            CameraView(imagePickerViewModel: imagePickerViewModel)
                 .environmentObject(imagePickerViewModel)
         }
-        .onChange(of: imagePickerViewModel.selectedImages) { _, newImages in
-            if !newImages.isEmpty {
+        .onChange(of: imagePickerViewModel.photoContents) { _, newContents in
+            if !newContents.isEmpty {
                 showImagePreview = true
             }
         }
@@ -87,40 +91,49 @@ struct CustomTabView: View {
         }
     }
 }
-    
-    // sample view
-    struct LetterBoxView: View {
-        var body: some View {
-            ZStack{
-                Color("Background").edgesIgnoringSafeArea(.all)
-                VStack {
-                    Text("받은 편지")
-                }
+
+// sample view
+struct LetterBoxView: View {
+    var body: some View {
+        ZStack{
+            Color("Background").edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("받은 편지")
             }
         }
     }
-    
-    
-    struct ProfileView: View {
-        var body: some View {
-            ZStack {
-                Color("Background").edgesIgnoringSafeArea(.all)
-                VStack {
-                    Text("프로필")
-                }
+}
+
+
+struct ProfileView: View {
+    var body: some View {
+        ZStack {
+            Color("Background").edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("프로필")
             }
         }
     }
-    
-    
-    struct WriteLetterView: View {
-        var body: some View {
-            Text("이곳에서 편지를 작성하세요!")
-                .padding()
-                .navigationTitle("편지 쓰기")
-        }
+}
+
+
+struct WriteLetterView: View {
+    var body: some View {
+        Text("이곳에서 편지를 작성하세요!")
+            .padding()
+            .navigationTitle("편지 쓰기")
+    }
+}
+
+
+// MARK: - 프리뷰 더미 데이터
+class DummyComponentsUseCase: ComponentsUseCase {
+    func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?, toUserId: String?, toUserName: String, toUserKabinettNumber: Int?, photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
+        return .success(())
     }
     
-    #Preview {
-        CustomTabView()
-    }
+}
+
+#Preview {
+    CustomTabView(componentsUseCase: DummyComponentsUseCase())
+}

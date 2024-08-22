@@ -8,14 +8,14 @@
 import SwiftUI
 import AVFoundation
 
+// MARK: - ViewModel
 final class CameraViewModel: ObservableObject {
     @Published var capturedImage: UIImage?
     
-    // MARK: Image capture Methods
+    // MARK: Method(캡쳐된 이미지 처리)
     func captureImage(with info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             capturedImage = image
         }
     }
 }
-    

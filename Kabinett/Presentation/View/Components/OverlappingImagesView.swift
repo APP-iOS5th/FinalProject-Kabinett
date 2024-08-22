@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct OverlappingImagesView: View {
-    let images: [IdentifiableImage]
+    let images: [String]
     @Binding var showDetailView: Bool
     
     var body: some View {
         ZStack {
-            ZStack {
-                ForEach(Array(images.enumerated()), id: \.element.id) { index, imageItem in
-                    Image(uiImage: imageItem.image)
+            ForEach(Array(images.enumerated()), id: \.offset) { index, imageString in
+                if let imageData = Data(base64Encoded: imageString),
+                   let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 322, height: 201)
@@ -26,10 +27,10 @@ struct OverlappingImagesView: View {
                         .shadow(radius: 8)
                 }
             }
-            .frame(width: 350, height: 210)
-            .onTapGesture {
-                showDetailView = true
-            }
+        }
+        .frame(width: 350, height: 210)
+        .onTapGesture {
+            showDetailView = true
         }
     }
 }

@@ -9,15 +9,17 @@ import SwiftUI
 
 struct CameraView: View {
     @StateObject private var viewModel = CameraViewModel()
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     @Environment(\.presentationMode) private var presentationMode
     
     var body: some View {
         CameraViewRepresentable(viewModel: viewModel)
             .edgesIgnoringSafeArea(.all)
-            .onChange(of: viewModel.capturedImage) { _, _ in
-                if let image = viewModel.capturedImage {
-                    imagePickerViewModel.addImage(image)
+            .onChange(of: viewModel.capturedImage) { _, newImage in
+                if let image = newImage,
+                   let imageData = image.jpegData(compressionQuality: 0.5) {
+                    let base64String = imageData.base64EncodedString()
+                    imagePickerViewModel.photoContents.append(base64String)
                     presentationMode.wrappedValue.dismiss()
                 }
             }

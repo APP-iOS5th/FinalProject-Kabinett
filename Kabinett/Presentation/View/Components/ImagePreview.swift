@@ -19,7 +19,7 @@ struct ImagePreivew: View {
             ZStack {
                 VStack {
                     Spacer()
-                    OverlappingImagesView(images: viewModel.selectedImages, showDetailView: $showDetailView)
+                    OverlappingImagesView(images: viewModel.photoContents, showDetailView: $showDetailView)
                     Spacer()
                     Button(action: {
                         showLetterWritingView = true
@@ -45,10 +45,10 @@ struct ImagePreivew: View {
             })
             .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {
-                ImageDetailView(images: viewModel.selectedImages, showDetailView: $showDetailView)
+                ImageDetailView(images: viewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(selectedImages: viewModel.selectedImages)
+                LetterWritingView(viewModel: viewModel)
             }
             .background(Color("Background").edgesIgnoringSafeArea(.all))
         }
