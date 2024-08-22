@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @StateObject var viewModel: ProfileSettingsViewModel
     
     var body: some View {
         GeometryReader { geometry in

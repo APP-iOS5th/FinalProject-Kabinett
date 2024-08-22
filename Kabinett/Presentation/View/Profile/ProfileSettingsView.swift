@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileSettingsView: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @StateObject var viewModel: ProfileSettingsViewModel
     @Environment(\.presentationMode) var presentationMode
     @Binding var shouldNavigateToProfileView: Bool
     

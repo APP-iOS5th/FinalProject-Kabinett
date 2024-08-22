@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @StateObject var viewModel: ProfileSettingsViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var shouldNavigateToProfileView = false
     
