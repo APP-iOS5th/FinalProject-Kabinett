@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
 
 enum LetterError: Error {
     case invalidLetterId
@@ -26,17 +27,20 @@ enum LetterSaveError: Error {
     case failedToSaveSent
     case failedToSaveReceived
     case failedToSaveBoth
+    case failedConvertPhotoURL
     case bothUsersNotFound
 }
 
 final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
     private let db = Firestore.firestore()
+    private let storage = Storage.storage()
     
     // MARK: - LetterWriteUseCase
     func saveLetter(font: String, postScript: String?, envelope: String, stamp: String,
                     fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
                     toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
-                    content: String?, photoContents: [String], date: Date, stationery: String, isRead: Bool) async -> Result<Void, any Error> {
+                    content: String?, photoContents: [Data], date: Date, stationery: String, isRead: Bool
+    ) async -> Result<Bool, any Error> {
         
         // Parameter 유효성 검사
         guard !font.isEmpty else { return .failure(LetterError.invalidFont) }
@@ -48,6 +52,13 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         
         do {
             try await validateFromUser(fromUserId: fromUserId)
+            
+            let photoContentStringUrl: [String]
+            if !photoContents.isEmpty {
+                photoContentStringUrl = try await convertPhotoToUrl(photoContents: photoContents)
+            } else {
+                photoContentStringUrl = []
+            }
             
             let letter = Letter(
                 id: nil,
@@ -62,7 +73,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 toUserName: toUserName,
                 toUserKabinettNumber: toUserKabinettNumber ?? 0,
                 content: content ?? "",
-                photoContents: photoContents,
+                photoContents: photoContentStringUrl,
                 date: date,
                 stationeryImageUrlString: stationery,
                 isRead: isRead)
@@ -78,7 +89,8 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     func saveLetter(postScript: String?, envelope: String, stamp: String,
                     fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?,
                     toUserId: String?, toUserName: String, toUserKabinettNumber: Int?,
-                    photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error> {
+                    photoContents: [Data], date: Date, isRead: Bool
+    ) async -> Result<Bool, any Error> {
         
         // Parameter 유효성 검사
         guard !envelope.isEmpty else { return .failure(LetterError.invalidEnvelope) }
@@ -87,25 +99,31 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         guard !toUserName.isEmpty else { return .failure(LetterError.invalidToUserName) }
         guard !photoContents.isEmpty else { return .failure(LetterError.invalidPhotoContents) }
         
-        let letter = Letter(
-            id: nil,
-            fontString: nil,
-            postScript: postScript ?? "",
-            envelopeImageUrlString: envelope,
-            stampImageUrlString: stamp,
-            fromUserId: fromUserId ?? "",
-            fromUserName: fromUserName,
-            fromUserKabinettNumber: fromUserKabinettNumber ?? 0,
-            toUserId: toUserId ?? "",
-            toUserName: toUserName,
-            toUserKabinettNumber: toUserKabinettNumber ?? 0,
-            content: nil,
-            photoContents: photoContents,
-            date: date,
-            stationeryImageUrlString: nil,
-            isRead: isRead)
-        
-        return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
+        do {
+            let photoContentStringUrl = try await convertPhotoToUrl(photoContents: photoContents)
+            
+            let letter = Letter(
+                id: nil,
+                fontString: nil,
+                postScript: postScript ?? "",
+                envelopeImageUrlString: envelope,
+                stampImageUrlString: stamp,
+                fromUserId: fromUserId ?? "",
+                fromUserName: fromUserName,
+                fromUserKabinettNumber: fromUserKabinettNumber ?? 0,
+                toUserId: toUserId ?? "",
+                toUserName: toUserName,
+                toUserKabinettNumber: toUserKabinettNumber ?? 0,
+                content: nil,
+                photoContents: photoContentStringUrl,
+                date: date,
+                stationeryImageUrlString: nil,
+                isRead: isRead)
+            
+            return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
+        } catch {
+            return .failure(error)
+        }
     }
     
     // MARK: - LetterBoxUseCase
@@ -361,7 +379,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
     }
     
     // MARK: - Firestore Letter 저장
-    private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Void, any Error> {
+    private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Bool, any Error> {
         
         do {
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
@@ -375,7 +393,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 do {
                     let letterData = try Firestore.Encoder().encode(letter)
                     try await fromUserDoc!.collection("ToMe").addDocument(data: letterData)
-                    return .success(())
+                    return .success(true)
                 } catch {
                     return .failure(LetterSaveError.failedToSaveToMe)
                 }
@@ -409,7 +427,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 } else if let _ = receivedSaveError {
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
-                return .success(())
+                return .success(true)
                 // fromUser가 존재하고, toUser가 존재하지 않을 때 -> Sent
             } else if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists,
                       toUserSnapshot == nil || !toUserSnapshot!.exists {
@@ -419,7 +437,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                     
                     let letterSentData = try Firestore.Encoder().encode(sentLetter)
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
-                    return .success(())
+                    return .success(true)
                 } catch {
                     return .failure(LetterSaveError.failedToSaveSent)
                 }
@@ -429,7 +447,7 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
                 do {
                     let letterData = try Firestore.Encoder().encode(letter)
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
-                    return .success(())
+                    return .success(true)
                 } catch {
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
@@ -460,5 +478,25 @@ final class FirebaseLetterService: LetterWriteUseCase, ComponentsUseCase, Letter
         } catch {
             return .failure(error)
         }
+    }
+    
+    // MARK: - PhotoContents URL 변환
+    private func convertPhotoToUrl(photoContents: [Data]) async throws -> [String] {
+        let storageRef = storage.reference()
+        var photoContentUrlStrings: [String] = []
+        
+        do {
+            for photoContent in photoContents {
+                let photoRef = storageRef.child("PhotoContents/images/\(UUID().uuidString).jpg")
+                
+                _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
+                
+                let downloadURL = try await photoRef.downloadURL()
+                photoContentUrlStrings.append(downloadURL.absoluteString)
+            }
+        } catch {
+            throw LetterSaveError.failedConvertPhotoURL
+        }
+        return photoContentUrlStrings
     }
 }
