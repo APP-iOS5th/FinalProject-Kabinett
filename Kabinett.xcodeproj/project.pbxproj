@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
-		530C765C2C76CEFC007E09C6 /* MockLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* MockLetterBoxUseCase.swift */; };
+		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
@@ -86,7 +86,7 @@
 /* Begin PBXFileReference section */
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
-		530C765B2C76CEFC007E09C6 /* MockLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLetterBoxUseCase.swift; sourceTree = "<group>"; };
+		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
@@ -310,7 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */,
-				530C765B2C76CEFC007E09C6 /* MockLetterBoxUseCase.swift */,
+				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -647,7 +647,7 @@
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
-				530C765C2C76CEFC007E09C6 /* MockLetterBoxUseCase.swift in Sources */,
+				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,

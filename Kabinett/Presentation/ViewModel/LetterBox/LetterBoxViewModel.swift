@@ -5,7 +5,6 @@
 //  Created by uunwon on 8/22/24.
 //
 
-//import Combine
 import SwiftUI
 
 enum LetterBoxType: String, CaseIterable, Identifiable {
@@ -32,9 +31,8 @@ enum LetterBoxType: String, CaseIterable, Identifiable {
 
 class LetterBoxViewModel: ObservableObject {
     private let letterBoxUseCase: LetterBoxUseCase
-//    private var cancellables = Set<AnyCancellable>()
     
-    init(letterBoxUseCase: LetterBoxUseCase = MockLetterBoxUseCase()) {
+    init(letterBoxUseCase: LetterBoxUseCase = LetterBoxUseCaseStub()) {
         self.letterBoxUseCase = letterBoxUseCase
         self.letterBoxLetters = LetterBoxViewModel.sampleLetterDictionary
         self.letterBoxDetailLetters = LetterBoxViewModel.sampleLetters
@@ -71,7 +69,6 @@ class LetterBoxViewModel: ObservableObject {
         ]
     }
     
-    // func getLetterBoxLetters
     func fetchLetterBoxLetters(for userId: String) {
         Task {
             let result = await letterBoxUseCase.getLetterBoxLetters(userId: userId)
@@ -90,7 +87,6 @@ class LetterBoxViewModel: ObservableObject {
         return letterBoxLetters[type] ?? []
     }
     
-    // func getIsRead
     func fetchIsRead(for userId: String) {
         Task {
             let result = await letterBoxUseCase.getIsRead(userId: userId)
@@ -108,24 +104,4 @@ class LetterBoxViewModel: ObservableObject {
     func getIsReadLetters(for type: LetterType) -> Int {
         return isReadLetters[type] ?? 0
     }
-    
-    
-//    // func getLetterBoxDetailLetters
-//    func fetchLetterBoxDetailLetters(for userId: String, letterType: LetterType) {
-//        Task {
-//            let result = await letterBoxUseCase.getLetterBoxDetailLetters(userId: userId, letterType: letterType)
-//            DispatchQueue.main.async { [weak self] in
-//                switch result {
-//                case .success(let letter):
-//                    self?.letterBoxDetailLetters = letter
-//                case .failure(let error):
-//                    self?.errorMessage = error.localizedDescription
-//                }
-//            }
-//        }
-//    }
-//    
-//    func getAllLetters(for type: LetterType) -> [Letter] {
-//        return letterBoxDetailLetters
-//    }
 }

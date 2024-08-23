@@ -1,5 +1,5 @@
 //
-//  MockLetterBoxUseCase.swift
+//  LetterBoxUseCaseStub.swift
 //  Kabinett
 //
 //  Created by uunwon on 8/22/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockLetterBoxUseCase: LetterBoxUseCase {
+class LetterBoxUseCaseStub: LetterBoxUseCase {
     func getLetterBoxLetters(userId: String) async -> Result<[LetterType: [Letter]], any Error> {
         return .success(LetterBoxViewModel.sampleLetterDictionary)
     }

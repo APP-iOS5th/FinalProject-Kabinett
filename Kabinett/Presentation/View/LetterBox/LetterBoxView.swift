@@ -29,7 +29,7 @@ struct LetterBoxView: View {
                     
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(LetterBoxType.allCases) { type in
-                            let unreadCount = letterBoxViewModel.isReadLetters[type.toLetterType()] ?? 0
+                            let unreadCount = letterBoxViewModel.getIsReadLetters(for: type.toLetterType())
                             
                             NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
                                 LetterBoxCell(type: type, unreadCount: unreadCount)
@@ -61,6 +61,8 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
+                    letterBoxViewModel.fetchLetterBoxLetters(for: "anonymousUser")
+                    letterBoxViewModel.fetchIsRead(for: "anonymousUser")
                 }
             }
             .tint(.black)
