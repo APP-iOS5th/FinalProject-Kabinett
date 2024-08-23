@@ -11,6 +11,7 @@ import CryptoKit
 
 struct LoginView: View {
     @StateObject private var viewModel = SignUpViewModel(useCase: SignUpUseCaseStub())
+    @State private var navigateToSignUp = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -38,19 +39,7 @@ struct LoginView: View {
                     SignInWithAppleButton { request in
                         viewModel.handleSignInWithAppleRequest(request)
                     } onCompletion: { result in
-                        switch result {
-                        case .success(let authorization):
-                            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                                let userIdentifier = appleIDCredential.user
-                                let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
-                                print("사용자 ID: \(userIdentifier)")
-                                print("이메일: \(userEmail)")
-                            } else {
-                                print("Apple ID credential 변환에 실패했습니다.")
-                            }
-                        case .failure(let error):
-                            print("Authorization failed: \(error.localizedDescription)")
-                        }
+                        viewModel.handleAuthorization(result: result)
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
                     .frame(height: 54)

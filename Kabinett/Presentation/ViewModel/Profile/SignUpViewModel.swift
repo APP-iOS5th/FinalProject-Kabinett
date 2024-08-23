@@ -49,6 +49,22 @@ final class SignUpViewModel: ObservableObject {
         request.nonce = sha256(nonce)
     }
     
+    func handleAuthorization(result: Result<ASAuthorization, Error>) {
+        switch result {
+        case .success(let authorization):
+            if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+                let userIdentifier = appleIDCredential.user
+                let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
+                print("사용자 ID: \(userIdentifier)")
+                print("이메일: \(userEmail)")
+            } else {
+                print("Apple ID credential 변환에 실패했습니다.")
+            }
+        case .failure(let error):
+            print("Authorization failed: \(error.localizedDescription)")
+        }
+    }
+    
     func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: [Character] =
@@ -65,19 +81,16 @@ final class SignUpViewModel: ObservableObject {
                 }
                 return random
             }
-            
             randoms.forEach { random in
                 if remainingLength == 0 {
                     return
                 }
-                
                 if random < charset.count {
                     result.append(charset[Int(random)])
                     remainingLength -= 1
                 }
             }
         }
-        
         return result
     }
     

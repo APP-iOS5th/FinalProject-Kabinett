@@ -31,6 +31,4 @@ final class SignUpUseCaseStub: SignupUseCase {
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
         true
     }
-    
-   
 }
