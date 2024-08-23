@@ -25,15 +25,15 @@ struct SignUpKabinettNumberSelectView: View {
                         .padding(.bottom, 15)
                     
                     VStack{
-                        if viewModel.kabinettNumbers.count >= 3 {
+                        if viewModel.availablekabinettNumbers.count >= 3 {
                             ForEach(0..<3, id: \.self) { index in
-                                let kabinettNumber = viewModel.kabinettNumbers[index]
+                                let availablekabinettNumber = viewModel.availablekabinettNumbers[index]
                                 HStack{
                                     ZStack(alignment: .leading) {
                                         Capsule()
                                             .stroke(Color.primary300, lineWidth: 1)
                                             .background(Capsule().fill(Color.white))
-                                        Text(kabinettNumber)
+                                        Text(availablekabinettNumber)
                                             .fontWeight(.light)
                                             .font(.system(size: 20))
                                             .monospaced()
@@ -70,7 +70,7 @@ struct SignUpKabinettNumberSelectView: View {
                     Button(action: {
                         print("UserName: \(viewModel.userName)")
                         if let selectedNumber = viewModel.selectedKabinettNumber {
-                            print("Selected Kabinett Number: \(viewModel.kabinettNumbers[selectedNumber])")
+                            print("Selected Kabinett Number: \(viewModel.availablekabinettNumbers[selectedNumber])")
                         }
                     }) {
                         Text("시작하기")

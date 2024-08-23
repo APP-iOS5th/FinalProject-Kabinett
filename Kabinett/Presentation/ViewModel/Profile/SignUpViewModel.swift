@@ -11,7 +11,7 @@ import Combine
 final class SignUpViewModel: ObservableObject {
     private let useCase: any SignupUseCase
     @Published var userName: String = ""
-    @Published var kabinettNumbers: [String] = []
+    @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
     
     init(useCase: any SignupUseCase) {
@@ -21,7 +21,7 @@ final class SignUpViewModel: ObservableObject {
     @MainActor
     func getNumbers() async {
         let numbers = await useCase.getAvailableKabinettNumbers()
-        kabinettNumbers = numbers
+        availablekabinettNumbers = numbers
             .map {
                 formatNumber($0)
             }
