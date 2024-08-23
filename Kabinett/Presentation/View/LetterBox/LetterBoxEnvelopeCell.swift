@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct LetterBoxEnvelopeCell: View {
     var letter: Letter
@@ -22,11 +23,13 @@ struct LetterBoxEnvelopeCell: View {
                         .frame(maxWidth: 150, alignment: .leading)
                 }
                 
-                Image(systemName: "rectangle.portrait.fill")
+                KFImage(URL(string: letter.stampImageUrlString))
+                    .placeholder {
+                        Color.clear
+                    }
                     .resizable()
-                    .foregroundStyle(.green)
-                    .aspectRatio(contentMode: .fit)
                     .frame(width: 27, height: 30)
+                    .aspectRatio(contentMode: .fit)
             }
             .padding(.bottom, 15.0)
             
