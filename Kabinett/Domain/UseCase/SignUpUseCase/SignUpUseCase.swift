@@ -21,7 +21,7 @@ protocol SignupUseCase {
 
 final class SignUpUseCaseStub: SignupUseCase {
     func getAvailableKabinettNumbers() async -> [Int] {
-        [1, 100000, 455522]
+        [1, 100000, 445544]
     }
     
     func signUp(_ authorization: ASAuthorization) async -> Bool {

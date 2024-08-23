@@ -13,7 +13,7 @@ struct SignUpKabinettNumberSelectView: View {
     @State private var shouldNavigatedToProfile = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             GeometryReader { geometry in
                 VStack(alignment: .leading) {
                     Spacer()
