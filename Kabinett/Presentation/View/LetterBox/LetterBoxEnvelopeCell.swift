@@ -22,19 +22,11 @@ struct LetterBoxEnvelopeCell: View {
                         .frame(maxWidth: 150, alignment: .leading)
                 }
                 
-                AsyncImage(url: URL(string: letter.stampImageUrlString)) { image in
-                    image
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 27, height: 30)
-                        .clipped()
-                } placeholder: {
-                    Color.clear
-//                    Image(systemName: "rectangle.portrait.fill")
-//                        .resizable()
-//                        .foregroundStyle(.green)
-//                        .aspectRatio(contentMode: .fit)
-//                        .frame(width: 20)
-                }
+                Image(systemName: "rectangle.portrait.fill")
+                    .resizable()
+                    .foregroundStyle(.green)
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 27, height: 30)
             }
             .padding(.bottom, 15.0)
             
@@ -58,7 +50,7 @@ struct LetterBoxEnvelopeCell: View {
         .background(Color.white)
         .border(.gray, width: 0.1)
         .rotationEffect(.degrees(270))
-        .shadow(radius: 5, x: CGFloat(5), y: CGFloat(5))
+        .shadow(color: Color.primary300.opacity(0.7), radius: 5, x: CGFloat(5), y: CGFloat(5))
     }
 }
 
