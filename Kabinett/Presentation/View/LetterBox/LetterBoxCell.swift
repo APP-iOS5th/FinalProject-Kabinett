@@ -17,8 +17,6 @@ struct LetterBoxCell: View {
         return letterBoxViewModel.getSomeLetters(for: type.toLetterType())
     }
     
-    let rotationValues: [Double] = [-10, 0, 10]
-    
     var body: some View {
         VStack {
             ZStack {
