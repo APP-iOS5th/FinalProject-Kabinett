@@ -70,15 +70,13 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     func fetchLetterBoxLetters(for userId: String) {
-        Task {
+        Task { @MainActor in
             let result = await letterBoxUseCase.getLetterBoxLetters(userId: userId)
-            DispatchQueue.main.async { [weak self] in
-                switch result {
-                case .success(let letterDictionary):
-                    self?.letterBoxLetters = letterDictionary
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
-                }
+            switch result {
+            case .success(let letterDictionary):
+                self.letterBoxLetters = letterDictionary
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
             }
         }
     }
@@ -88,15 +86,13 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     func fetchIsRead(for userId: String) {
-        Task {
+        Task { @MainActor in
             let result = await letterBoxUseCase.getIsRead(userId: userId)
-            DispatchQueue.main.async { [weak self] in
-                switch result {
-                case .success(let isReadDictionary):
-                    self?.isReadLetters = isReadDictionary
-                case .failure(let error):
-                    self?.errorMessage = error.localizedDescription
-                }
+            switch result {
+            case .success(let isReadDictionary):
+                self.isReadLetters = isReadDictionary
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
             }
         }
     }
