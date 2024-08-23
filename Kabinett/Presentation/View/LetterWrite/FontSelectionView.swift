@@ -11,7 +11,7 @@ struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var viewModel = FontSelectionViewModel()
+    @StateObject var viewModel = FontSelectionViewModel()
     
     var body: some View {
         ZStack {

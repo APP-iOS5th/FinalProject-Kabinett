@@ -10,7 +10,7 @@ import SwiftUI
 struct UserSelectionModalView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentation
-    @ObservedObject private var viewModel = UserSelectionViewModel()
+    @StateObject private var viewModel = UserSelectionViewModel()
     
     var body: some View {
         NavigationStack {
@@ -188,7 +188,7 @@ struct SearchBar: View {
                                     .resizable()
                                     .frame(width: 25, height: 25)
                                     .clipShape(.circle)
-                                    .foregroundStyle(Color("background"))
+                                    .foregroundStyle(Color("Primary100"))
                             }
                             Text(user.name)
                                 .foregroundStyle(Color("Primary900"))

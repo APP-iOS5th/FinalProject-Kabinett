@@ -10,7 +10,7 @@ import SwiftUI
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var viewModel = StationerySelectionViewModel()
+    @StateObject private var viewModel = StationerySelectionViewModel()
     
     var body: some View {
         ZStack {
