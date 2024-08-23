@@ -30,6 +30,12 @@
 		57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */; };
 		57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */; };
 		57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */; };
+		57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */; };
+		57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CDF2C73749800A4312C /* Assets.xcassets */; };
+		57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */; };
+		57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE42C73760800A4312C /* goormSansOTF4.otf */; };
+		57ED9CE72C73780100A4312C /* Pecita.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE62C73780100A4312C /* Pecita.otf */; };
+		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */; };
 		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
 		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
@@ -37,16 +43,12 @@
 		7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E12C6E25500074568E /* CameraViewModel.swift */; };
 		7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */; };
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
+		7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868452C782F4A0083D204 /* CustomTabBar.swift */; };
+		7F7868482C782F820083D204 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868472C782F820083D204 /* TabBarButton.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
 		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
 		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
 		7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */; };
-		57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */; };
-		57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CDF2C73749800A4312C /* Assets.xcassets */; };
-		57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */; };
-		57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE42C73760800A4312C /* goormSansOTF4.otf */; };
-		57ED9CE72C73780100A4312C /* Pecita.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE62C73780100A4312C /* Pecita.otf */; };
-		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
 		83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
@@ -121,13 +123,15 @@
 		57ED9CE42C73760800A4312C /* goormSansOTF4.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = goormSansOTF4.otf; sourceTree = "<group>"; };
 		57ED9CE62C73780100A4312C /* Pecita.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pecita.otf; sourceTree = "<group>"; };
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
+		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
 		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
-		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
 		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E12C6E25500074568E /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		7F7868452C782F4A0083D204 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		7F7868472C782F820083D204 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
 		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
@@ -272,6 +276,8 @@
 				7F6CE9E52C6E28400074568E /* CameraView.swift */,
 				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
+				7F7868452C782F4A0083D204 /* CustomTabBar.swift */,
+				7F7868472C782F820083D204 /* TabBarButton.swift */,
 				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
 				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
@@ -661,6 +667,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FB2C7578FE00E21162 /* WriteLetterView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
@@ -676,7 +683,6 @@
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
-				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
 				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseFirestoreManager.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
@@ -703,6 +709,7 @@
 				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 			);
@@ -873,8 +880,8 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -908,8 +915,8 @@
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

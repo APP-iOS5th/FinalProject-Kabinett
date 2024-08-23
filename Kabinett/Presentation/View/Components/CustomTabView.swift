@@ -25,35 +25,26 @@ struct CustomTabView: View {
     
     var body: some View {
         ZStack {
+            Color("Background").edgesIgnoringSafeArea(.all)
+            
             TabView(selection: $selectedTab) {
                 LetterBoxView()
-                    .tabItem {
-                        Image(systemName: "tray.full")
-                        Text("받은편지")
-                    }
                     .tag(0)
                 
                 Color.clear
-                    .tabItem {
-                        Image(systemName: "plus")
-                    }
                     .tag(1)
                 
                 ProfileView()
-                    .tabItem {
-                        Image(systemName: "person.crop.circle")
-                        Text("프로필")
-                    }
                     .tag(2)
             }
-            .onChange(of: selectedTab) { oldValue, newValue in
-                if newValue == 1 {
-                    withAnimation {
-                        showOptions = true
-                    }
-                    selectedTab = oldValue
-                }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            VStack {
+                Spacer()
+                CustomTabBar(selectedTab: $selectedTab, showOptions: $showOptions)
+                    .padding(.horizontal, 20)
+                    .frame(height: 75)
             }
+            .edgesIgnoringSafeArea(.bottom)
             
             if showOptions {
                 OptionOverlay(showOptions: $showOptions, showActionSheet: $showActionSheet, showWriteLetterView: $showWriteLetterView)
