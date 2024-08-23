@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LetterBoxCell: View {
-    @ObservedObject var letterBoxViewModel = LetterBoxViewModel()
+    @ObservedObject var letterBoxViewModel: LetterBoxViewModel
     
     var type: LetterBoxType
     var unreadCount: Int
@@ -69,5 +69,5 @@ struct LetterBoxCell: View {
 }
 
 #Preview {
-    LetterBoxCell(type: .All, unreadCount: 1)
+    LetterBoxCell(letterBoxViewModel: LetterBoxViewModel(), type: .All, unreadCount: 1)
 }

@@ -118,5 +118,5 @@ struct LetterBoxDetailEnvelopeCell: View {
 }
 
 #Preview {
-    LetterBoxEnvelopeCell(letter: LetterBoxViewModel.sampleLetters[0])
+    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleLetters[0])
 }
