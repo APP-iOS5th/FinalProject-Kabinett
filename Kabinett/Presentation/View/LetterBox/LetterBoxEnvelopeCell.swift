@@ -70,12 +70,12 @@ struct LetterBoxDetailEnvelopeCell: View {
                     HStack(alignment: .top) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text("보내는 사람")
-                                .font(.system(size: 5))
+                                .font(.system(size: 7))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.fromUserName)
-                                .font(.system(size: 10, weight: .regular))
+                                .font(.system(size: 14, weight: .medium))
                                 .foregroundStyle(.contentPrimary)
-                                .frame(maxWidth: 190, alignment: .leading)
+                                .frame(maxWidth: 210, alignment: .leading)
                         }
                         
                         KFImage(URL(string: letter.stampImageUrlString))
@@ -83,23 +83,23 @@ struct LetterBoxDetailEnvelopeCell: View {
                                 Color.clear
                             }
                             .resizable()
-                            .frame(width: 27, height: 30)
+                            .frame(width: 34.96, height: 38.18)
                             .aspectRatio(contentMode: .fit)
                     }
-                    .padding(.bottom, 20.0)
+                    .padding(.bottom, 26.0)
                     
                     HStack(alignment: .top) {
                         Text(letter.postScript ?? "")
-                            .font(.system(size: 7))
+                            .font(.system(size: 10))
                             .foregroundStyle(.contentPrimary)
-                            .frame(width: 138, alignment: .leading)
+                            .frame(width: 163, alignment: .leading)
                         
                         VStack(alignment: .leading, spacing: 2) {
                             Text("받는 사람")
-                                .font(.system(size: 5))
+                                .font(.system(size: 7))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.toUserName)
-                                .font(.system(size: 10, weight: .regular))
+                                .font(.system(size: 14, weight: .medium))
                                 .foregroundStyle(.contentPrimary)
                                 .frame(maxWidth: 80, alignment: .leading)
                         }
@@ -115,11 +115,13 @@ struct LetterBoxDetailEnvelopeCell: View {
             )
     
             // 새로운 편지에 붙을 빨간 동그라미
-//            Circle()
-//                .fill(.alert)
-//                .frame(width: 25)
-//                .padding(.leading, 300)
-//                .padding(.bottom, 110)
+            if !letter.isRead {
+                Circle()
+                    .fill(.secondary900)
+                    .frame(width: 25)
+                    .padding(.leading, 303)
+                    .padding(.bottom, 105)
+            }
         }
     }
 }
