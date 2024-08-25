@@ -27,6 +27,19 @@ enum LetterBoxType: String, CaseIterable, Identifiable {
                 return .received
             }
         }
+    
+    func setEmptyMessage() -> String {
+        switch self {
+        case .All:
+            return "아직 편지가 없어요."
+        case .Tome:
+            return "아직 나에게 보낸 편지가 없어요."
+        case .Sent:
+            return "아직 보낸 편지가 없어요."
+        case .Recieved:
+            return "아직 받은 편지가 없어요."
+        }
+    }
 }
 
 class LetterBoxViewModel: ObservableObject {

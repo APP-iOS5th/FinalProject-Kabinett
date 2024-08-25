@@ -74,8 +74,9 @@ struct LetterBoxDetailView: View {
             
             ZStack {
                 if viewModel.letterBoxDetailLetters.isEmpty {
-                    Text("아직 나에게 보낸 편지가 없어요.")
+                    Text(letterBoxType.setEmptyMessage())
                         .font(.system(size: 16, weight: .semibold))
+                        .foregroundStyle(.contentPrimary)
                 }
                 else if viewModel.letterBoxDetailLetters.count < 3 {
                     VStack(spacing: 25) {
