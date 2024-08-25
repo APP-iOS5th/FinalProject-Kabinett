@@ -119,8 +119,8 @@ struct LetterBoxDetailEnvelopeCell: View {
                 Circle()
                     .fill(.secondary900)
                     .frame(width: 25)
-                    .padding(.leading, 303)
-                    .padding(.bottom, 105)
+                    .padding(.leading, 300)
+                    .padding(.bottom, 110)
             }
         }
     }

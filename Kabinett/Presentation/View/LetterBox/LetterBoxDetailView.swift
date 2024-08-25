@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LetterBoxDetailView: View {
-    @State var letterBoxType: String
-    @State private var letterCount: Int = 0
+    @StateObject var viewModel = LetterBoxDetailViewModel()
+    
+    @State var letterBoxType: LetterBoxType
     
     @State private var navigationBarHeight: CGFloat = 0
     
@@ -23,8 +24,9 @@ struct LetterBoxDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    let letters = Array(0...16) // dummy
+//    let letters = Array(0...16) // dummy
 //    let letters: [Int] = [] // empty dummy
+    @State private var letters: [Letter] = []
     
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
@@ -42,7 +44,11 @@ struct LetterBoxDetailView: View {
         }
     }
     
-    init(letterBoxType: String, showSearchBarView: Binding<Bool>, searchText: Binding<String>) {
+    init(
+         letterBoxType: LetterBoxType,
+         showSearchBarView: Binding<Bool>,
+         searchText: Binding<String>
+    ) {
         self.letterBoxType = letterBoxType
         self._showSearchBarView = showSearchBarView
         self._searchText = searchText
@@ -67,25 +73,25 @@ struct LetterBoxDetailView: View {
             }
             
             ZStack {
-                if letters.count == 0 {
+                if viewModel.letterBoxDetailLetters.isEmpty {
                     Text("아직 나에게 보낸 편지가 없어요.")
                         .font(.system(size: 16, weight: .semibold))
                 }
-                else if letters.count < 3 {
+                else if viewModel.letterBoxDetailLetters.count < 3 {
                     VStack(spacing: 25) {
-                        ForEach(letters, id: \.self) { letter in
-                            LetterBoxDetailEnvelopeCell()
+                        ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
+                            LetterBoxDetailEnvelopeCell(letter: letter)
                         }
                     }
                 } else {
                     ScrollView {
                         LazyVStack(spacing: -75) {
-                            ForEach(letters.indices, id: \.self) { idx in
+                            ForEach(Array(zip(letters.indices, letters)), id: \.0) { idx, letter in
                                 if idx < 2 {
-                                    LetterBoxDetailEnvelopeCell()
+                                    LetterBoxDetailEnvelopeCell(letter: letter)
                                         .padding(.bottom, idx == 0 ? 82 : 37)
                                 } else {
-                                    LetterBoxDetailEnvelopeCell()
+                                    LetterBoxDetailEnvelopeCell(letter: letter)
                                         .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                         .zIndex(Double(idx))
                                         .padding(.bottom, idx % 3 == 1 ? 37 : 0)
@@ -107,14 +113,14 @@ struct LetterBoxDetailView: View {
                 }
             }
             .onAppear {
-                letterCount = letters.count
+                viewModel.fetchLetterBoxDetailLetters(for: "annoymousUser", letterType: letterBoxType.toLetterType())
             }
             
             VStack {
                 Spacer()
                 
                 ZStack {
-                    Text("\(letterCount)")
+                    Text("\(viewModel.letterBoxDetailLetters.count)")
                         .padding(.horizontal, 17)
                         .padding(.vertical, 6)
                         .foregroundStyle(.black)
@@ -127,7 +133,7 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle(letterBoxType)
+        .navigationTitle(letterBoxType.rawValue)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .toolbar {
@@ -173,11 +179,10 @@ struct LetterBoxDetailView: View {
             }
         }
     }
-    
 }
 
 #Preview {
-    LetterBoxDetailView(letterBoxType: "All", showSearchBarView: .constant(false), searchText: .constant(""))
+    LetterBoxDetailView(letterBoxType: .All, showSearchBarView: .constant(false), searchText: .constant(""))
 }
 
 struct NavigationBarHeightKey: PreferenceKey {

@@ -31,7 +31,7 @@ struct LetterBoxView: View {
                         ForEach(LetterBoxType.allCases) { type in
                             let unreadCount = viewModel.getIsReadLetters(for: type.toLetterType())
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
+                            NavigationLink(destination: LetterBoxDetailView(letterBoxType: type, showSearchBarView: $showSearchBarView, searchText: $searchText)) {
                                 LetterBoxCell(letterBoxViewModel: viewModel, type: type, unreadCount: unreadCount)
                             }
                         }
