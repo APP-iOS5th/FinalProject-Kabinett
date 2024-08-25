@@ -19,8 +19,8 @@ struct CustomTabView: View {
     @State private var showImagePreview = false
     @State private var showWriteLetterView = false
     
-    init(componentsUseCase: ComponentsUseCase) {
-        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase))
+    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
+        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
     }
     
     var body: some View {
@@ -42,7 +42,7 @@ struct CustomTabView: View {
                 Spacer()
                 CustomTabBar(selectedTab: $selectedTab, showOptions: $showOptions)
                     .padding(.horizontal, 20)
-                    .frame(height: 75)
+                    .frame(height: 60)
             }
             .edgesIgnoringSafeArea(.bottom)
             
@@ -64,23 +64,17 @@ struct CustomTabView: View {
                 ]
             )
         }
-        .photosPicker(
-            isPresented: $showPhotoLibrary,
-            selection: $imagePickerViewModel.selectedItems,
-            maxSelectionCount: 3,
-            matching: .images
+        .overlay(
+            ImagePickerView(
+                viewModel: imagePickerViewModel,
+                showPhotoLibrary: $showPhotoLibrary,
+                showImagePreview: $showImagePreview,
+                showActionSheet: $showActionSheet
+            )
         )
         .fullScreenCover(isPresented: $showCamera) {
             CameraView(imagePickerViewModel: imagePickerViewModel)
                 .environmentObject(imagePickerViewModel)
-        }
-        .onChange(of: imagePickerViewModel.photoContents) { _, newContents in
-            if !newContents.isEmpty {
-                showImagePreview = true
-            }
-        }
-        .sheet(isPresented: $showImagePreview) {
-            ImagePreivew(showActionSheet: $showActionSheet, viewModel: imagePickerViewModel)
         }
         .sheet(isPresented: $showWriteLetterView) {
             WriteLetterView(letterContent: $letterWriteViewModel)
@@ -101,26 +95,6 @@ struct ProfileView: View {
     }
 }
 
-
-// Preview 더미 데이터
-class DummyComponentsUseCase: ComponentsUseCase {
-    func saveLetter(postScript: String?,
-                    envelope: String,
-                    stamp: String,
-                    fromUserId: String?,
-                    fromUserName: String,
-                    fromUserKabinettNumber: Int?,
-                    toUserId: String?,
-                    toUserName: String,
-                    toUserKabinettNumber: Int?,
-                    photoContents: [Data],
-                    date: Date,
-                    isRead: Bool
-    ) async -> Result<Bool, any Error> {
-        return .success(true)
-    }
-}
-
 #Preview {
-    CustomTabView(componentsUseCase: DummyComponentsUseCase())
+    CustomTabView(componentsUseCase: MockComponentsUseCase(), componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase())
 }

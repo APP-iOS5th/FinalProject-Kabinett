@@ -8,35 +8,38 @@
 import SwiftUI
 import PhotosUI
 
-class ImagePickerViewModel: ObservableObject {
-    // MARK: - Published Properties
-    @Published var fromUserName: String = ""
-    @Published var toUserName: String = ""
-    @Published var postScript: String?
-    @Published var date: Date = Date()
-    @Published var photoContents: [Data] = []
+final class ImagePickerViewModel: ObservableObject {
     
-    @Published var selectedItems: [PhotosPickerItem] = [] {
-        didSet {
-            Task {
-                await loadImages()
-            }
-        }
-    }
+    @Published var selectedItems: [PhotosPickerItem] = []
+    @Published var photoContents: [Data] = []
     @Published var isLoading: Bool = false
     @Published var error: Error?
+    @Published var fromUserName: String = ""
+    @Published var toUserName: String = ""
+    @Published var date: Date = Date()
+    @Published var postScript: String?
+    @Published var envelopeURL: String?
+    @Published var stampURL: String?
     
-    // MARK: - Private Properties
     private let componentsUseCase: ComponentsUseCase
+    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
     
     // MARK: - Initializer
-    init(componentsUseCase: ComponentsUseCase) {
+    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
         self.componentsUseCase = componentsUseCase
+        self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
     }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter.string(from: date)
+    }
+    
     
     // MARK: - Image Loading
     @MainActor
-    private func loadImages() async {
+    func loadImages() async {
         isLoading = true
         error = nil
         
@@ -72,15 +75,32 @@ class ImagePickerViewModel: ObservableObject {
         }
     }
     
+    
+    @MainActor
+    func loadEnvelopeAndStamp() async {
+        isLoading = true
+        error = nil
+        
+        do {
+            let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
+            let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
+        } catch {
+            self.error = error
+        }
+        
+        isLoading = false
+    }
+    
+    
     // MARK: - Request to Save Letter Data
-    func saveLetterToFirestore() async {
+    func saveImportingImage() async {
         isLoading = true
         error = nil
         
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
-            envelope: "default_envelope",
-            stamp: "default_stamp",
+            envelope: envelopeURL ?? "default_envelope",
+            stamp: stampURL ?? "default_stamp",
             fromUserId: nil,
             fromUserName: fromUserName,
             fromUserKabinettNumber: nil,
@@ -95,6 +115,7 @@ class ImagePickerViewModel: ObservableObject {
         await MainActor.run {
             switch result {
             case .success:
+                print("Letter saved successfully")
                 resetState()
             case .failure(let error):
                 self.error = error
@@ -105,10 +126,6 @@ class ImagePickerViewModel: ObservableObject {
     
     // MARK: - Methods (편지 저장 후 초기화)
     private func resetState() {
-        fromUserName = ""
-        toUserName = ""
-        postScript = nil
-        date = Date()
         photoContents = []
         selectedItems = []
     }

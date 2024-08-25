@@ -45,6 +45,8 @@
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
 		7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868452C782F4A0083D204 /* CustomTabBar.swift */; };
 		7F7868482C782F820083D204 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868472C782F820083D204 /* TabBarButton.swift */; };
+		7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F78684B2C78B41A0083D204 /* ImagePickerView.swift */; };
+		7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868552C7B14220083D204 /* HorizontalPadding.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
 		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
 		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
@@ -132,6 +134,8 @@
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		7F7868452C782F4A0083D204 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		7F7868472C782F820083D204 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
+		7F78684B2C78B41A0083D204 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		7F7868552C7B14220083D204 /* HorizontalPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPadding.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
 		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
@@ -284,6 +288,8 @@
 				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
 				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
 				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
+				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
+				7F7868552C7B14220083D204 /* HorizontalPadding.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -672,6 +678,7 @@
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
+				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
@@ -697,6 +704,7 @@
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
