@@ -12,7 +12,7 @@ class WriteLetterViewModel: ObservableObject {
     @Published var text: String = ""
     @Published var pageCnt: Int = 1
 
-    let maxLinesPerPage = 15
+    let maxLinesPerPage = 16
     let lineHeight: CGFloat = 20 // 한 줄의 높이 (예: 20 포인트)
 
     func formatDate(_ date: Date) -> String {

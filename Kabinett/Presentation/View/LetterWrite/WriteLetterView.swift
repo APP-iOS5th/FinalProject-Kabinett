@@ -44,10 +44,10 @@ struct WriteLetterView: View {
                                                 
                                                 // 편지지 위의 뷰
                                                 VStack {
-                                                    Text(letterContent.fromUserName)
+                                                    Text(i == 0 ? letterContent.fromUserName : "")
                                                         .padding(.top, 45)
                                                         .padding(.leading, 2)
-                                                        .padding(.bottom, 5)
+                                                        .padding(.bottom, 3)
                                                         .frame(maxWidth: .infinity, alignment: .leading)
                                                     
                                                     GeometryReader{ geo in
@@ -62,17 +62,15 @@ struct WriteLetterView: View {
                                                                 ),
                                                                 font: fontViewModel.uiFont(file: letterContent.fontString ?? "")
                                                             )
-                                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                            .aspectRatio(8/9, contentMode: .fit)
                                                         }
                                                     }
                                                     
-                                                    Text(letterContent.toUserName)
-                                                        .padding(.top, 5)
+                                                    Text(i == (viewModel.pageCnt-1) ? letterContent.toUserName : "")
+                                                        .padding(.top, 2)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                     
-                                                    Text(viewModel.formatDate(letterContent.date))
+                                                    Text(i == (viewModel.pageCnt-1) ? viewModel.formatDate(letterContent.date) : "")
                                                         .padding(.bottom, 27)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
