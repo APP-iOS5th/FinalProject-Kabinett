@@ -8,5 +8,17 @@
 import Foundation
 
 protocol ComponentsUseCase {
-    func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String, toUserId: String, photoContents: [String], date: Date, isRead: Bool) async -> Result<Void, any Error>
+    func saveLetter(postScript: String?, 
+                    envelope: String,
+                    stamp: String,
+                    fromUserId: String?, 
+                    fromUserName: String,
+                    fromUserKabinettNumber: Int?,
+                    toUserId: String?, 
+                    toUserName: String,
+                    toUserKabinettNumber: Int?,
+                    photoContents: [Data],
+                    date: Date,
+                    isRead: Bool
+    ) async -> Result<Bool, any Error>
 }

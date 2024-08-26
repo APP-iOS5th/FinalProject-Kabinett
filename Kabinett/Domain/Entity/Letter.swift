@@ -15,11 +15,15 @@ struct Letter: Codable, Identifiable {
     let postScript: String?
     let envelopeImageUrlString: String
     let stampImageUrlString: String
-    let fromUserId: String
-    let toUserId: String
+    let fromUserId: String?
+    let fromUserName: String
+    let fromUserKabinettNumber: Int?
+    let toUserId: String?
+    let toUserName: String
+    let toUserKabinettNumber: Int?
     let content: String?
     let photoContents: [String]
     let date: Date
     let stationeryImageUrlString: String?
-    let isRead: Bool
+    var isRead: Bool
 }
