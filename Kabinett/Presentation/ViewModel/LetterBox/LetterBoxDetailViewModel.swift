@@ -42,4 +42,28 @@ class LetterBoxDetailViewModel: ObservableObject {
             }
         }
     }
+    
+    func fetchSearchByKeyword(for userId: String, findKeyword: String, letterType: LetterType) {
+        Task { @MainActor in
+            let result = await letterBoxUseCase.searchBy(userId: userId, findKeyword: findKeyword, letterType: letterType)
+            switch result {
+            case .success(let resultLettersOfSearchKeyword):
+                self.letterBoxDetailLetters = resultLettersOfSearchKeyword ?? []
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    func fetchSearchByDate(for userId: String, letterType: LetterType, startDate: Date, endDate: Date) {
+        Task { @MainActor in
+            let result = await letterBoxUseCase.searchBy(userId: userId, letterType: letterType, startDate: startDate, endDate: endDate)
+            switch result {
+            case .success(let resultLettersOfSearchDate):
+                self.letterBoxDetailLetters = resultLettersOfSearchDate ?? []
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
 }
