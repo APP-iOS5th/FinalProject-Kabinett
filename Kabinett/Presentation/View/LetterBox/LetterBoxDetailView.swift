@@ -32,14 +32,6 @@ struct LetterBoxDetailView: View {
         return [-8, 10, 6, -2, 16]
     }
     
-    private func swipeAction(letter: Letter) -> some View {
-        Button(role: .destructive) {
-            viewModel.removeLetterBoxDetailLetter(for: "anonymous", letterId: letter.id ?? "", letterType: letterType)
-        } label: {
-            Label("삭제하기", systemImage: "trash")
-        }
-    }
-    
     var backButton: some View {
         Button {
             dismiss()
@@ -90,9 +82,6 @@ struct LetterBoxDetailView: View {
                     VStack(spacing: 25) {
                         ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
                             LetterBoxDetailEnvelopeCell(letter: letter)
-                                .swipeActions(edge: .trailing) {
-                                    swipeAction(letter: letter)
-                                }
                         }
                     }
                 } else {
@@ -102,17 +91,11 @@ struct LetterBoxDetailView: View {
                                 if idx < 2 {
                                     LetterBoxDetailEnvelopeCell(letter: letter)
                                         .padding(.bottom, idx == 0 ? 82 : 37)
-                                        .swipeActions(edge: .trailing) {
-                                            swipeAction(letter: letter)
-                                        }
                                 } else {
                                     LetterBoxDetailEnvelopeCell(letter: letter)
                                         .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                         .zIndex(Double(idx))
                                         .padding(.bottom, idx % 3 == 1 ? 37 : 0)
-                                        .swipeActions(edge: .trailing) {
-                                            swipeAction(letter: letter)
-                                        }
                                 }
                             }
                         }
@@ -133,6 +116,7 @@ struct LetterBoxDetailView: View {
             .onAppear {
                 viewModel.fetchLetterBoxDetailLetters(for: "annoymousUser", letterType: letterType)
             }
+
             
             VStack {
                 Spacer()
