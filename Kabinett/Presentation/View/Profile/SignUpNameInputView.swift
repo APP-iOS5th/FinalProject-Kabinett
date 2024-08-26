@@ -44,7 +44,7 @@ struct SignUpNameInputView: View {
                             .padding(.trailing, geometry.size.width * 0.06)
                         }
                     }
-                    .textFieldStyle(OvalTextFieldStyle(width: geometry.size.width * 0.72))
+                    .textFieldStyle(SignUpOvalTextFieldStyle(width: geometry.size.width * 0.72))
                     .font(Font.system(size: 24, design: .default))
                     .autocorrectionDisabled(true)
                     .keyboardType(.alphabet)
@@ -56,7 +56,7 @@ struct SignUpNameInputView: View {
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button(action: {
-                                presentationMode.wrappedValue.dismiss()
+                                dismiss()
                             }) {
                                 HStack {
                                     Image(systemName: "chevron.left")
@@ -75,7 +75,7 @@ struct SignUpNameInputView: View {
     }
 }
 
-struct OvalTextFieldStyle: TextFieldStyle {
+struct SignUpOvalTextFieldStyle: TextFieldStyle {
     var width: CGFloat
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
