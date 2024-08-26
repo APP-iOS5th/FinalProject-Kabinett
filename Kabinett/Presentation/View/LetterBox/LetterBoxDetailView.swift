@@ -10,7 +10,7 @@ import SwiftUI
 struct LetterBoxDetailView: View {
     @StateObject var viewModel = LetterBoxDetailViewModel()
     
-    @State var letterBoxType: LetterBoxType
+    @State var letterType: LetterType
     
     @State private var navigationBarHeight: CGFloat = 0
     
@@ -45,11 +45,11 @@ struct LetterBoxDetailView: View {
     }
     
     init(
-         letterBoxType: LetterBoxType,
+         letterType: LetterType,
          showSearchBarView: Binding<Bool>,
          searchText: Binding<String>
     ) {
-        self.letterBoxType = letterBoxType
+        self.letterType = letterType
         self._showSearchBarView = showSearchBarView
         self._searchText = searchText
         
@@ -74,7 +74,7 @@ struct LetterBoxDetailView: View {
             
             ZStack {
                 if viewModel.letterBoxDetailLetters.isEmpty {
-                    Text(letterBoxType.setEmptyMessage())
+                    Text(letterType.setEmptyMessage())
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundStyle(.contentPrimary)
                 }
@@ -114,7 +114,7 @@ struct LetterBoxDetailView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchLetterBoxDetailLetters(for: "annoymousUser", letterType: letterBoxType.toLetterType())
+                viewModel.fetchLetterBoxDetailLetters(for: "annoymousUser", letterType: letterType)
             }
             
             VStack {
@@ -134,7 +134,7 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle(letterBoxType.rawValue)
+        .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .toolbar {
@@ -183,7 +183,7 @@ struct LetterBoxDetailView: View {
 }
 
 #Preview {
-    LetterBoxDetailView(letterBoxType: .All, showSearchBarView: .constant(false), searchText: .constant(""))
+    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""))
 }
 
 struct NavigationBarHeightKey: PreferenceKey {
