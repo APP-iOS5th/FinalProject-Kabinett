@@ -13,7 +13,6 @@ class WriteLetterViewModel: ObservableObject {
     @Published var pageCnt: Int = 1
 
     let maxLinesPerPage = 16
-    let lineHeight: CGFloat = 20 // 한 줄의 높이 (예: 20 포인트)
 
     func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()
@@ -39,8 +38,22 @@ class WriteLetterViewModel: ObservableObject {
     }
 
     func adjustPageCount() {
-        // 총 줄 수 계산 (줄 바꿈 문자를 기준으로)
         let totalLines = text.components(separatedBy: "\n").count
         pageCnt = max(1, (totalLines + maxLinesPerPage - 1) / maxLinesPerPage)
     }
+    
+    /*
+     func adjustPageCount() {
+         var counter: Int = 0
+         text.components(separatedBy: "\n").forEach { line in
+             let label = UILabel()
+             label.font = .systemFont(ofSize: 13)
+             label.text = line
+             label.sizeToFit()
+             let currentTextWidth = label.frame.width
+             counter += Int(ceil(currentTextWidth / maxTextWidth))
+         }
+         pageCnt = max(1, (counter + maxLinesPerPage - 1) / maxLinesPerPage)
+     }
+     */
 }
