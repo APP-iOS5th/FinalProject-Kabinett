@@ -10,7 +10,7 @@ import SwiftUI
 struct CameraView: View {
     @StateObject private var viewModel = CameraViewModel()
     @ObservedObject var imagePickerViewModel: ImagePickerViewModel
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         CameraViewRepresentable(viewModel: viewModel)
@@ -19,7 +19,7 @@ struct CameraView: View {
                 if let image = newImage,
                    let imageData = image.jpegData(compressionQuality: 0.5) {
                     imagePickerViewModel.photoContents.append(imageData)
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }
             }
     }
