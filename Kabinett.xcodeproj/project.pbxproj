@@ -213,6 +213,39 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		7F397C4F2C7C381E00388645 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				7F6CE9E52C6E28400074568E /* CameraView.swift */,
+				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		7F397C502C7C382A00388645 /* CustomTabView */ = {
+			isa = PBXGroup;
+			children = (
+				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
+				7F7868452C782F4A0083D204 /* CustomTabBar.swift */,
+				7F7868472C782F820083D204 /* TabBarButton.swift */,
+				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
+			);
+			path = CustomTabView;
+			sourceTree = "<group>";
+		};
+		7F397C512C7C386500388645 /* PhotoImporting */ = {
+			isa = PBXGroup;
+			children = (
+				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
+				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
+				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
+				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
+				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
+				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
+			);
+			path = PhotoImporting;
+			sourceTree = "<group>";
+		};
 		831401392C69C21300F601FB /* ComponentsUseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -279,18 +312,9 @@
 		8366B6F12C65ECDB0021FAE0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				7F6CE9E52C6E28400074568E /* CameraView.swift */,
-				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
-				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
-				7F7868452C782F4A0083D204 /* CustomTabBar.swift */,
-				7F7868472C782F820083D204 /* TabBarButton.swift */,
-				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
-				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
-				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
-				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
-				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
-				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
-				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
+				7F397C512C7C386500388645 /* PhotoImporting */,
+				7F397C502C7C382A00388645 /* CustomTabView */,
+				7F397C4F2C7C381E00388645 /* Camera */,
 				7F7868552C7B14220083D204 /* HorizontalPadding.swift */,
 			);
 			path = Components;
