@@ -50,23 +50,22 @@ struct WriteLetterView: View {
                                                         .padding(.bottom, 5)
                                                         .frame(maxWidth: .infinity, alignment: .leading)
                                                     
-                                                    // 현재 페이지의 텍스트 범위 계산
-                                                    let pageText = viewModel.getPageText(for: i)
-                                                    
-                                                    // 편지 쓰는 뷰
-                                                    TextEditor(text: Binding(
-                                                        get: { pageText },
-                                                        set: { newValue in
-                                                            viewModel.updateText(for: i, with: newValue)
+                                                    GeometryReader{ geo in
+                                                        VStack {
+                                                            let pageText = viewModel.getPageText(for: i)
+                                                            UITextViewWrapper(
+                                                                text: Binding(
+                                                                    get: { pageText },
+                                                                    set: { newValue in
+                                                                        viewModel.updateText(for: i, with: newValue)
+                                                                    }
+                                                                ),
+                                                                font: fontViewModel.uiFont(file: letterContent.fontString ?? "")
+                                                            )
+                                                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                            .aspectRatio(8/9, contentMode: .fit)
                                                         }
-                                                    ))
-                                                    .lineLimit(viewModel.maxLinesPerPage)
-                                                    .kerning(22)
-                                                    .lineSpacing(5)
-                                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                    .aspectRatio(8/9, contentMode: .fit)
-                                                    
-                                                    Spacer()
+                                                    }
                                                     
                                                     Text(letterContent.toUserName)
                                                         .padding(.top, 5)
@@ -109,6 +108,51 @@ struct WriteLetterView: View {
         }
     }
 }
+
+
+// MARK: UITextViewWrapper
+struct UITextViewWrapper: UIViewRepresentable {
+    @Binding var text: String
+    var font: UIFont?
+    var lineSpacing: CGFloat = 5
+    
+    class Coordinator: NSObject, UITextViewDelegate {
+        var parent: UITextViewWrapper
+        
+        init(parent: UITextViewWrapper) {
+            self.parent = parent
+        }
+        
+        func textViewDidChange(_ textView: UITextView) {
+            parent.text = textView.text
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(parent: self)
+    }
+    
+    func makeUIView(context: Context) -> UITextView {
+        let textView = UITextView()
+        textView.delegate = context.coordinator
+        textView.backgroundColor = .clear
+        return textView
+    }
+    
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font ?? UIFont.systemFont(ofSize: 12),
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        let attributedString = NSAttributedString(string: text, attributes: attributes)
+        uiView.attributedText = attributedString
+    }
+}
+
 
 #Preview {
     ModalTestView()
