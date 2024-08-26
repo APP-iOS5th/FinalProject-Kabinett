@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E62C6C6C7300D289EA /* ProfileView.swift */; };
+		04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E82C6C799500D289EA /* SettingsView.swift */; };
+		04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */; };
+		04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */; };
+		04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */; };
+		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
+		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
+		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0DC2C6A3AD600D289EA /* LoginView.swift */; };
 		04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */; };
 		04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */; };
@@ -88,6 +96,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04DEC0E62C6C6C7300D289EA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		04DEC0E82C6C799500D289EA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
+		04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
+		04DEC0F02C6E136F00D289EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
+		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
+		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		04DEC0DC2C6A3AD600D289EA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNameInputView.swift; sourceTree = "<group>"; };
 		04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpKabinettNumberSelectView.swift; sourceTree = "<group>"; };
@@ -296,6 +313,11 @@
 		8366B6F42C65ECEC0021FAE0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0E62C6C6C7300D289EA /* ProfileView.swift */,
+				04DEC0E82C6C799500D289EA /* SettingsView.swift */,
+				04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */,
+				04DEC0F92C75863600D289EA /* CropBox.swift */,
+				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
 				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
 				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
 				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
@@ -343,6 +365,7 @@
 		8366B6F92C65ED150021FAE0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */,
 				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
 			);
 			path = Profile;
@@ -437,6 +460,7 @@
 		839CE0EA2C644BEF003635F3 = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F72C7423F200D289EA /* Settings.bundle */,
 				839CE0F52C644BEF003635F3 /* Kabinett */,
 				839CE1062C644BF0003635F3 /* KabinettTests */,
 				839CE1102C644BF0003635F3 /* KabinettUITests */,
@@ -457,7 +481,7 @@
 		839CE0F52C644BEF003635F3 /* Kabinett */ = {
 			isa = PBXGroup;
 			children = (
-				57ED9CD82C732F4600A4312C /* Info.plist */,
+				04DEC0F02C6E136F00D289EA /* Info.plist */,
 				838697C72C64B7FB00E76230 /* Application */,
 				838697C62C64B7EC00E76230 /* Domain */,
 				838697C52C64B7E600E76230 /* Service */,
@@ -612,6 +636,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */,
 				57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */,
 				57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */,
 				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
@@ -654,6 +679,7 @@
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
+				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
@@ -668,6 +694,12 @@
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
 				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
+				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
+				04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */,
+				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
+				AFA58F182C69DB1300A7C569 /* Writer.swift in Sources */,
+				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseFirestoreManager.swift in Sources */,
@@ -690,6 +722,7 @@
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
+				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -859,6 +892,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -892,6 +926,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
