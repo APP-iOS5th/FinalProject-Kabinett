@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignUpNameInputView: View {
     @StateObject var viewModel: SignUpViewModel
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @State private var shouldNavigate = false
     
     var body: some View {

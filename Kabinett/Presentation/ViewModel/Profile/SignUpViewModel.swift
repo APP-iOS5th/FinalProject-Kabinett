@@ -50,27 +50,26 @@ final class SignUpViewModel: ObservableObject {
         request.nonce = sha256(nonce)
     }
     
-    @MainActor
     func handleAuthorization(result: Result<ASAuthorization, Error>) {
         switch result {
         case .success(let authorization):
-            Task {
+            Task { @MainActor in
                 let sucess = await useCase.signUp(authorization)
                 await MainActor.run {
-                    if sucess {
-                        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-                            let userIdentifier = appleIDCredential.user
-                            let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
-                            self.loginSuccess = true
-                            self.loginError = nil
-                            print("사용자 ID: \(userIdentifier)")
-                            print("이메일: \(userEmail)")
-                            print("로그인 성공")
-                        }
-                    } else {
-                        self.loginError = "로그인에 실패했습니다."
-                        print("로그인 실패")
-                    }
+//                    if sucess {
+//                        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
+//                            let userIdentifier = appleIDCredential.user
+//                            let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
+//                            self.loginSuccess = true
+//                            self.loginError = nil
+//                            print("사용자 ID: \(userIdentifier)")
+//                            print("이메일: \(userEmail)")
+//                            print("로그인 성공")
+//                        }
+//                    } else {
+//                        self.loginError = "로그인에 실패했습니다."
+//                        print("로그인 실패")
+//                    }
                 }
             }
         case .failure(let error):

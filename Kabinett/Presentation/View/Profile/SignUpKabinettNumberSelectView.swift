@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
     @StateObject var viewModel: SignUpViewModel
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @State private var shouldNavigatedToProfile = false
     
     var body: some View {
