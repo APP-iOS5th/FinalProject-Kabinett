@@ -14,12 +14,12 @@ struct ContentView: View {
     var body: some View {
         CustomTabView(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase)
         {
-            LetterBoxView()
+            LetterBoxView(viewModel: LetterBoxViewModel())
                 .tag(0)
             // + OptionOverlay Button
             Color.clear
             
-            ProfileViewSample()
+            ProfileView(viewModel: ProfileSettingsViewModel())
                 .tag(2)
         }
     }
