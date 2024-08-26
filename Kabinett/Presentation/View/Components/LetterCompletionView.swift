@@ -138,13 +138,13 @@ struct LetterCompletionView: View {
 }
 
 // Preview 더미 데이터
-class MockComponentsUseCase: ComponentsUseCase {
+class MockComponentsUseCase: ObservableObject, ComponentsUseCase {
     func saveLetter(postScript: String?, envelope: String, stamp: String, fromUserId: String?, fromUserName: String, fromUserKabinettNumber: Int?, toUserId: String?, toUserName: String, toUserKabinettNumber: Int?, photoContents: [Data], date: Date, isRead: Bool) async -> Result<Bool, any Error> {
         return .success(true)
     }
 }
 
-class MockComponentsLoadStuffUseCase: ComponentsLoadStuffUseCase {
+class MockComponentsLoadStuffUseCase: ObservableObject, ComponentsLoadStuffUseCase {
     func loadEnvelopes() async -> Result<[String], any Error> {
         return .success(["https://envelopes.jpg"])
     }

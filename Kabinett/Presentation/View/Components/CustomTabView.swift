@@ -8,57 +8,48 @@
 import SwiftUI
 import PhotosUI
 
-struct CustomTabView: View {
+struct CustomTabView<Content: View>: View {
     @StateObject private var imagePickerViewModel: ImagePickerViewModel
+    @StateObject private var customTabViewModel: CustomTabViewModel
     @State private var letterWriteViewModel = LetterWriteViewModel()
-    @State private var selectedTab = 0
-    @State private var showOptions = false
-    @State private var showActionSheet = false
-    @State private var showCamera = false
-    @State private var showPhotoLibrary = false
-    @State private var showImagePreview = false
-    @State private var showWriteLetterView = false
+    let content: Content
     
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
+    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase, @ViewBuilder content: () -> Content) {
         self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
+        self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel(tabs: CustomTabViewModel.defaultTabs()))
+        self.content = content()
     }
     
     var body: some View {
         ZStack {
             Color("Background").edgesIgnoringSafeArea(.all)
             
-            TabView(selection: $selectedTab) {
-                LetterBoxView()
-                    .tag(0)
-                
-                Color.clear
-                    .tag(1)
-                
-                ProfileView()
-                    .tag(2)
+            TabView(selection: $customTabViewModel.selectedTab) {
+                content
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            
             VStack {
                 Spacer()
-                CustomTabBar(selectedTab: $selectedTab, showOptions: $showOptions)
+                CustomTabBar(selectedTab: $customTabViewModel.selectedTab, showOptions: $customTabViewModel.showOptions)
                     .padding(.horizontal, 20)
                     .frame(height: 60)
             }
             .edgesIgnoringSafeArea(.bottom)
             
-            if showOptions {
-                OptionOverlay(showOptions: $showOptions, showActionSheet: $showActionSheet, showWriteLetterView: $showWriteLetterView)
+            if customTabViewModel.showOptions {
+                OptionOverlay(showOptions: $customTabViewModel.showOptions, showActionSheet: $customTabViewModel.showActionSheet, showWriteLetterView: $customTabViewModel.showWriteLetterView)
             }
         }
-        .actionSheet(isPresented: $showActionSheet) {
+        .actionSheet(isPresented: $customTabViewModel.showActionSheet) {
             ActionSheet(
                 title: Text("편지를 불러올 방법을 선택하세요."),
                 buttons: [
                     .default(Text("촬영하기")) {
-                        showCamera = true
+                        customTabViewModel.showCamera = true
                     },
                     .default(Text("앨범에서 가져오기")) {
-                        showPhotoLibrary = true
+                        customTabViewModel.showPhotoLibrary = true
                     },
                     .cancel(Text("취소"))
                 ]
@@ -67,16 +58,16 @@ struct CustomTabView: View {
         .overlay(
             ImagePickerView(
                 viewModel: imagePickerViewModel,
-                showPhotoLibrary: $showPhotoLibrary,
-                showImagePreview: $showImagePreview,
-                showActionSheet: $showActionSheet
+                showPhotoLibrary: $customTabViewModel.showPhotoLibrary,
+                showImagePreview: $customTabViewModel.showImagePreview,
+                showActionSheet: $customTabViewModel.showActionSheet
             )
         )
-        .fullScreenCover(isPresented: $showCamera) {
+        .fullScreenCover(isPresented: $customTabViewModel.showCamera) {
             CameraView(imagePickerViewModel: imagePickerViewModel)
                 .environmentObject(imagePickerViewModel)
         }
-        .sheet(isPresented: $showWriteLetterView) {
+        .sheet(isPresented: $customTabViewModel.showWriteLetterView) {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
     }
@@ -84,7 +75,7 @@ struct CustomTabView: View {
 
 // sample view
 
-struct ProfileView: View {
+struct ProfileViewSample: View {
     var body: some View {
         ZStack {
             Color("Background").edgesIgnoringSafeArea(.all)
@@ -96,5 +87,14 @@ struct ProfileView: View {
 }
 
 #Preview {
-    CustomTabView(componentsUseCase: MockComponentsUseCase(), componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase())
+    CustomTabView(
+        componentsUseCase: MockComponentsUseCase(),
+        componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+    ) {
+        Text("편지보관")
+            .tag(0)
+        
+        ProfileViewSample()
+            .tag(2)
+    }
 }

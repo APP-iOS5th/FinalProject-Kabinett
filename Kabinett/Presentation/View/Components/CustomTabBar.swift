@@ -10,6 +10,7 @@ import SwiftUI
 struct CustomTabBar: View {
     @Binding var selectedTab: Int
     @Binding var showOptions: Bool
+    
     var body: some View {
         HStack {
             TabBarButton(imageName: "envelope", isSelected: selectedTab == 0, size: 21) {

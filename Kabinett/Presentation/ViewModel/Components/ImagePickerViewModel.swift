@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Combine
 
 final class ImagePickerViewModel: ObservableObject {
     
@@ -20,14 +21,26 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var postScript: String?
     @Published var envelopeURL: String?
     @Published var stampURL: String?
+    @Published var fromUser: Writer?
+    @Published var toUser: Writer?
+    @Published var fromUserSearchResults: [Writer] = []
+    @Published var toUserSearchResults: [Writer] = []
+    @Published var fromUserSearch: String = ""
+    @Published var toUserSearch: String = ""
     
+    private var cancellables = Set<AnyCancellable>()
+    private let mockWriter: MockWriter
     private let componentsUseCase: ComponentsUseCase
     private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
     
-    // MARK: - Initializer
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
+    init(componentsUseCase: ComponentsUseCase,
+         componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
+         writerRepository: MockWriter = MockWriter()) {
         self.componentsUseCase = componentsUseCase
         self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
+        self.mockWriter = writerRepository
+        
+        setupBindings()
     }
     
     var formattedDate: String {
@@ -82,8 +95,8 @@ final class ImagePickerViewModel: ObservableObject {
         error = nil
         
         do {
-            let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
-            let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
+            _ = try await componentsLoadStuffUseCase.loadEnvelopes().get()
+            _ = try await componentsLoadStuffUseCase.loadStamps().get()
         } catch {
             self.error = error
         }
@@ -124,9 +137,79 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
+    
     // MARK: - Methods (편지 저장 후 초기화)
     private func resetState() {
         photoContents = []
         selectedItems = []
+    }
+    
+    private func setupBindings() {
+        $fromUserSearch
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] searchText in
+                self?.searchUsers(searchText: searchText, isFromUser: true)
+            }
+            .store(in: &cancellables)
+        
+        $toUserSearch
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] searchText in
+                self?.searchUsers(searchText: searchText, isFromUser: false)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func searchUsers(searchText: String, isFromUser: Bool) {
+        guard !searchText.isEmpty else {
+            if isFromUser {
+                fromUserSearchResults = []
+            } else {
+                toUserSearchResults = []
+            }
+            return
+        }
+        
+        mockWriter.searchWriters(with: searchText) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let writers):
+                    if isFromUser {
+                        self?.fromUserSearchResults = writers
+                    } else {
+                        self?.toUserSearchResults = writers
+                    }
+                case .failure(let error):
+                    self?.error = error
+                }
+            }
+        }
+    }
+    
+    func selectUser(_ writer: Writer, isFromUser: Bool) {
+        if isFromUser {
+            fromUser = writer
+            fromUserName = writer.name
+            fromUserSearchResults = []
+        } else {
+            toUser = writer
+            toUserName = writer.name
+            toUserSearchResults = []
+        }
+    }
+}
+
+class MockWriter {
+    func searchWriters(with searchText: String, completion: @escaping (Result<[Writer], Error>) -> Void) {
+        
+        let mockWriters = [
+            Writer(id: "1", name: "John Doe", kabinettNumber: 101-201, profileImage: nil),
+            Writer(id: "2", name: "Jane Smith", kabinettNumber: 101-102, profileImage: nil)
+        ]
+        
+        let filteredWriters = mockWriters.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        completion(.success(filteredWriters))
     }
 }

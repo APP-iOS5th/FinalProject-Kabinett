@@ -10,23 +10,23 @@ import SwiftUI
 struct LetterWritingView: View {
     @ObservedObject var viewModel: ImagePickerViewModel
     @State private var showDatePicker = false
-    @State private var fromUserSearch = ""
-    @State private var toUserSearch = ""
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
-                Color("Primary300").edgesIgnoringSafeArea(.all)
+                Color("Primary100").edgesIgnoringSafeArea(.all)
                 
-                VStack(spacing: 20) {
-                    userField(title: "보내는 사람", value: $viewModel.fromUserName, search: $fromUserSearch)
-                    userField(title: "받는 사람", value: $viewModel.toUserName, search: $toUserSearch)
-                    dateField()
-                    Spacer()
+                ScrollView {
+                    VStack(spacing: 20) {
+                        userField(title: "보내는 사람", value: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
+                        userField(title: "받는 사람", value: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
+                        dateField()
+                        Spacer()
+                    }
+                    .padding([.leading, .trailing], 24)
+                    .padding(.top, 20)
                 }
-                .padding([.leading, .trailing], 24)
-                .padding(.top, 20)
             }
             .navigationBarItems(trailing: Button("완료") {
                 dismiss()
@@ -34,8 +34,8 @@ struct LetterWritingView: View {
         }
     }
     
-    private func userField(title: String, value: Binding<String>, search: Binding<String>) -> some View {
-        VStack(spacing: 10) {
+    private func userField(title: String, value: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 10) {
                 Text(title)
                     .foregroundStyle(Color("ContentPrimary"))
@@ -51,12 +51,73 @@ struct LetterWritingView: View {
                     .clipShape(Capsule())
                     .multilineTextAlignment(.center)
             }
+            
             HStack(spacing: 10) {
                 Spacer()
                     .frame(width: 90)
-                UserSearchBar(text: search)
+                VStack(alignment: .leading, spacing: 0) {
+                    UserSearchBar(text: search)
+                    
+                    if !search.wrappedValue.isEmpty {
+                        // 검색결과
+                        ScrollView {
+                            VStack(spacing: 0) {
+                                ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults) { writer in
+                                    userSearchResultButton(writer: writer, isFromUser: isFromUser)
+                                }
+                            }
+                        }
+                        .frame(maxHeight: 200)
+                        .background(Color.white)
+                        .cornerRadius(8)
+                        .shadow(radius: 4)
+                    }
+                }
             }
         }
+    }
+    
+    private func userSearchResultButton(writer: Writer, isFromUser: Bool) -> some View {
+        Button(action: {
+            if isFromUser {
+                viewModel.fromUserName = writer.name
+                viewModel.fromUserSearch = ""
+            } else {
+                viewModel.toUserName = writer.name
+                viewModel.toUserSearch = ""
+            }
+            viewModel.selectUser(writer, isFromUser: isFromUser)
+        }) {
+            VStack(alignment: .leading) {
+                HStack {
+                    if let profileImage = writer.profileImage {
+                        Image(profileImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Text(writer.name)
+                        .foregroundColor(.primary)
+                        .font(.system(size: 14, weight: .medium))
+                    Text("\(writer.kabinettNumber)")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 15))
+                }
+                
+                Spacer()
+            }
+            .padding(.vertical, 8)
+            .padding(.horizontal, 15)
+        }
+        .background(Color.white)
     }
     
     private func dateField() -> some View {
@@ -69,7 +130,7 @@ struct LetterWritingView: View {
             Button(action: {
                 showDatePicker = true
             }) {
-                Text(dateFormatter.string(from: viewModel.date))
+                Text(viewModel.formattedDate)
                     .foregroundStyle(Color("ContentSecondary"))
                     .font(.system(size: 15))
                     .padding(.horizontal, 15)
@@ -86,13 +147,8 @@ struct LetterWritingView: View {
                     .frame(width: 350, height: 330)
             }
             .presentationDetents([.height(450)])
+            .presentationDragIndicator(.visible)
         }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
-        return formatter
     }
 }
 
@@ -104,7 +160,7 @@ struct UserSearchBar: View {
                 .foregroundStyle(Color("ContentPrimary"))
             TextField("검색", text: $text)
                 .foregroundStyle(.primary)
-                .multilineTextAlignment(.center)
+                .multilineTextAlignment(.leading)
         }
         .padding(.horizontal, 15)
         .frame(height: 40)
