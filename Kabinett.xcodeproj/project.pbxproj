@@ -18,7 +18,6 @@
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
 		577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */; };
-		577156FB2C7578FE00E21162 /* WriteLetterView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FA2C7578FE00E21162 /* WriteLetterView2.swift */; };
 		577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FC2C7584E000E21162 /* NavigationBarView.swift */; };
 		577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */; };
 		577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577157002C75D73700E21162 /* Extension+UIApplication.swift */; };
@@ -95,7 +94,6 @@
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
 		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
 		577156F82C74CAF200E21162 /* Extension+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Font.swift"; sourceTree = "<group>"; };
-		577156FA2C7578FE00E21162 /* WriteLetterView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterView2.swift; sourceTree = "<group>"; };
 		577156FC2C7584E000E21162 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicenseModalView.swift; sourceTree = "<group>"; };
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
@@ -279,7 +277,6 @@
 				577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */,
 				57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */,
 				57485D3A2C772332000601BF /* WriteLetterView.swift */,
-				577156FA2C7578FE00E21162 /* WriteLetterView2.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -632,7 +629,6 @@
 			files = (
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
-				577156FB2C7578FE00E21162 /* WriteLetterView2.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
