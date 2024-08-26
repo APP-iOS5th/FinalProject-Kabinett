@@ -49,7 +49,7 @@ struct ProfileSettingsView: View {
                 .padding(.bottom, 10)
                 
                 TextField(viewModel.displayName, text: $viewModel.newUserName)
-                    .textFieldStyle(OvalTextFieldStyle())
+                    .textFieldStyle(ProfileOvalTextFieldStyle())
                     .autocorrectionDisabled(true)
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
@@ -118,7 +118,7 @@ struct ProfileSettingsView: View {
     }
 }
 
-struct OvalTextFieldStyle: TextFieldStyle {
+struct ProfileOvalTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .padding(10)
