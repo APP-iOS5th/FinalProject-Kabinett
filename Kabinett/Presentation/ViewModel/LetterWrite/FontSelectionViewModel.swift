@@ -59,35 +59,6 @@ class FontSelectionViewModel: ObservableObject {
         }
     }
     
-    func uiFont(file: String) -> UIFont {
-        switch file {
-        case "SFDisplay":
-            return .SFDisplay
-        case "SFDisplay_SemiBold":
-            return .SFDisplay_SemiBold
-        case "SFMONO":
-            return .SFMONO
-        case "SFMONO_Bold":
-            return .SFMONO_Bold
-        case "SourceHanSerifK-Regular":
-            return .SourceHanSerifK_Regular
-        case "SourceHanSerifK-Bold":
-            return .SourceHanSerifK_Bold
-        case "MaruBuriot-Regular":
-            return .MaruBuriot_Regular
-        case "MaruBuriot-Bold":
-            return .MaruBuriot_Bold
-        case "goormSansOTF4":
-            return .goormSansOTF4
-        case "Baskervville-Regular":
-            return .Baskervville_Regular
-        case "Pecita":
-            return .Pecita
-        default:
-            return .systemFont(ofSize: 13)
-        }
-    }
-    
     init() {
         updateText()
     }

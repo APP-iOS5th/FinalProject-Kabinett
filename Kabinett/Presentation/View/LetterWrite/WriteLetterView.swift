@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = WriteLetterViewModel()
     @ObservedObject private var fontViewModel = FontSelectionViewModel()
+    @State private var currentIndex: Int = 0
     
     var body: some View {
         ZStack {
@@ -30,7 +32,7 @@ struct WriteLetterView: View {
                             ZStack {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     LazyHStack(spacing: geometry.size.width * 0.04) {
-                                        ForEach(0..<viewModel.pageCnt, id: \.self) { i in
+                                        ForEach(0..<viewModel.texts.count, id: \.self) { i in
                                             ZStack {
                                                 // 편지지 이미지 뷰
                                                 AsyncImage(url: URL(string: letterContent.stationeryImageUrlString ?? "")) { image in
@@ -50,48 +52,49 @@ struct WriteLetterView: View {
                                                         .padding(.bottom, 3)
                                                         .frame(maxWidth: .infinity, alignment: .leading)
                                                     
-                                                    GeometryReader{ geo in
-                                                        VStack {
-                                                            let pageText = viewModel.getPageText(for: i)
-                                                            UITextViewWrapper(
-                                                                text: Binding(
-                                                                    get: { pageText },
-                                                                    set: { newValue in
-                                                                        viewModel.updateText(for: i, with: newValue)
-                                                                    }
-                                                                ),
-                                                                font: fontViewModel.uiFont(file: letterContent.fontString ?? "")
-                                                            )
+                                                    GeometryReader { geo in
+                                                        CustomTextEditor(text: $viewModel.texts[i],
+                                                                         height: $viewModel.textViewHeights[i],
+                                                                         maxWidth: UIScreen.main.bounds.height * 0.76,
+                                                                         font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13),
+                                                                         lineSpacing: 8)
+                                                        .onChange(of: viewModel.textViewHeights[i]) {
+                                                            print(viewModel.textViewHeights[i]) // Test
+                                                            if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
+                                                                viewModel.createNewLetter(idx: i)
+                                                                currentIndex = i + 1
+                                                            }
                                                         }
                                                     }
                                                     
-                                                    Text(i == (viewModel.pageCnt-1) ? letterContent.toUserName : "")
+                                                    Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
                                                         .padding(.top, 2)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                     
-                                                    Text(i == (viewModel.pageCnt-1) ? viewModel.formatDate(letterContent.date) : "")
+                                                    Text(i == (viewModel.texts.count-1) ? viewModel.formatDate(letterContent.date) : "")
                                                         .padding(.bottom, 27)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                 }
+                                                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                                                 
-                                                .padding(.horizontal, 24)
                                             }
                                             .aspectRatio(9/13, contentMode: .fit)
-                                            .frame(width: geometry.size.width * 0.88)
+                                            .frame(width: UIScreen.main.bounds.width * 0.88)
+                                            .id(i)
                                         }
                                     }
-                                    .padding(.horizontal, geometry.size.width * 0.06)
+                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                                 }
                                 .scrollTargetLayout()
                             }
                             .scrollTargetBehavior(.viewAligned)
                             .frame(height: geometry.size.height * 0.7)
                             .font(fontViewModel.font(file: letterContent.fontString ?? "SFDisplay"))
-                            .onChange(of: viewModel.pageCnt) {
+                            .onChange(of: viewModel.texts.count) {
                                 withAnimation {
-                                    scrollViewProxy.scrollTo(viewModel.pageCnt - 1, anchor: .center)
+                                    scrollViewProxy.scrollTo(currentIndex, anchor: .center)
                                 }
                             }
                         }
@@ -101,55 +104,89 @@ struct WriteLetterView: View {
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .onChange(of: viewModel.text) {
-            viewModel.adjustPageCount()
-        }
     }
 }
 
 
-// MARK: UITextViewWrapper
-struct UITextViewWrapper: UIViewRepresentable {
+// MARK: CustomTextEditor.swift
+struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
-    var font: UIFont?
-    var lineSpacing: CGFloat = 5
-    
+    @Binding var height: CGFloat
+    var maxWidth: CGFloat
+    var font: UIFont
+    var lineSpacing: CGFloat
+
     class Coordinator: NSObject, UITextViewDelegate {
-        var parent: UITextViewWrapper
+        var parent: CustomTextEditor
         
-        init(parent: UITextViewWrapper) {
+        init(parent: CustomTextEditor) {
             self.parent = parent
         }
         
         func textViewDidChange(_ textView: UITextView) {
             parent.text = textView.text
+            updateHeight(for: textView)
+        }
+        
+        private func updateHeight(for textView: UITextView) {
+            let newSize = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
+            DispatchQueue.main.async {
+                self.parent.height = newSize.height
+            }
         }
     }
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(parent: self)
+        Coordinator(parent: self)
     }
     
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.delegate = context.coordinator
+        textView.isScrollEnabled = false
         textView.backgroundColor = .clear
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        updateTextViewAttributes(textView: textView)
+        
+        let maxWidthConstraint = NSLayoutConstraint(item: textView,
+                                                    attribute: .width,
+                                                    relatedBy: .lessThanOrEqual,
+                                                    toItem: nil,
+                                                    attribute: .notAnAttribute,
+                                                    multiplier: 1.0,
+                                                    constant: maxWidth)
+        textView.addConstraint(maxWidthConstraint)
+        
         return textView
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+        
+        let newSize = uiView.sizeThatFits(CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude))
+        DispatchQueue.main.async {
+            self.height = newSize.height
+        }
+    }
+    
+    private func updateTextViewAttributes(textView: UITextView) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineSpacing
         
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: font ?? UIFont.systemFont(ofSize: 12),
+            .font: font,
             .paragraphStyle: paragraphStyle
         ]
         
         let attributedString = NSAttributedString(string: text, attributes: attributes)
-        uiView.attributedText = attributedString
+        textView.attributedText = attributedString
+        textView.typingAttributes = attributes
     }
 }
+
 
 
 #Preview {
