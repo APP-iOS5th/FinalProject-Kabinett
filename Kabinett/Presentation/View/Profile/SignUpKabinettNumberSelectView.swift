@@ -88,7 +88,7 @@ struct SignUpKabinettNumberSelectView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }) {
                             HStack {
                                 Image(systemName: "chevron.left")
