@@ -42,7 +42,9 @@ struct KabinettApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            ContentView()
+//            SignUpNameInputView(viewModel: SignUpViewModel(useCase: SignUpUseCaseStub()))
+            LoginView()
         }
     }
 }
