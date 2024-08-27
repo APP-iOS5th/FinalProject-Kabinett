@@ -54,22 +54,13 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let sucess = await useCase.signUp(authorization)
-                await MainActor.run {
-//                    if sucess {
-//                        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-//                            let userIdentifier = appleIDCredential.user
-//                            let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
-//                            self.loginSuccess = true
-//                            self.loginError = nil
-//                            print("사용자 ID: \(userIdentifier)")
-//                            print("이메일: \(userEmail)")
-//                            print("로그인 성공")
-//                        }
-//                    } else {
-//                        self.loginError = "로그인에 실패했습니다."
-//                        print("로그인 실패")
-//                    }
+                let success = await useCase.signUp(authorization)
+                if success {
+                    print("Sign up successed")
+                    self.loginSuccess = true
+                } else {
+                    print("Sign up failed")
+                    self.loginError = "Sign up failed"
                 }
             }
         case .failure(let error):
