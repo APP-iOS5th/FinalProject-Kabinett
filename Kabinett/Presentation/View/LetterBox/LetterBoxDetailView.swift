@@ -68,7 +68,7 @@ struct LetterBoxDetailView: View {
                 .edgesIgnoringSafeArea(.all)
             
             if startDateFiltering {
-                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate)
+                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate, letterType: letterType)
                     .zIndex(1)
             }
             
@@ -146,6 +146,7 @@ struct LetterBoxDetailView: View {
                             startDateFiltering = false
                             startDate = Date()
                             endDate = Date()
+                            viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
                         }
                         showSearchBarView.toggle()
                     }
@@ -215,7 +216,6 @@ struct SearchBarView: View {
                             viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
                         } else {
                             viewModel.fetchSearchByKeyword(for: "anonymousUser", findKeyword: searchText, letterType: letterType)
-                            let _ = print("searchText : \(searchText)")
                         }
                     }
                     .foregroundStyle(.primary)
@@ -248,9 +248,13 @@ struct SearchBarView: View {
 }
 
 struct CalendarBar: View {
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    
     @Binding var startDateFiltering: Bool
     @Binding var startDate: Date
     @Binding var endDate: Date
+    
+    var letterType: LetterType
     
     var body: some View {
         VStack {
@@ -275,6 +279,7 @@ struct CalendarBar: View {
                         startDateFiltering.toggle()
                         startDate = Date()
                         endDate = Date()
+                        viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -285,6 +290,9 @@ struct CalendarBar: View {
             .padding(.horizontal, 20)
             
             Spacer()
+        }
+        .onAppear {
+            viewModel.fetchSearchByDate(for: "anonymousUser", letterType: letterType, startDate: startDate, endDate: endDate)
         }
     }
     
