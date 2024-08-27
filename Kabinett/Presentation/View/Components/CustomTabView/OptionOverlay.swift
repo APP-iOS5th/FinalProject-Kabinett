@@ -16,7 +16,7 @@ struct OptionOverlay: View {
         Color.black.opacity(0.5)
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {
-                withAnimation{
+                withAnimation {
                     showOptions = false
                 }
             }
@@ -56,7 +56,7 @@ struct OptionOverlay: View {
     }
 }
 
-func getSafeAreaBottom() -> CGFloat {
+private func getSafeAreaBottom() -> CGFloat {
     let scenes = UIApplication.shared.connectedScenes
     let windowScene = scenes.first as? UIWindowScene
     return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0

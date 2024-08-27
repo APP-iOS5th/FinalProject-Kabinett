@@ -8,49 +8,66 @@
 import SwiftUI
 import PhotosUI
 
-struct CustomTabView<Content: View>: View {
+struct CustomTabView: View {
+    @StateObject private var viewModel: CustomTabViewModel
     @StateObject private var imagePickerViewModel: ImagePickerViewModel
-    @StateObject private var customTabViewModel: CustomTabViewModel
     @State private var letterWriteViewModel = LetterWriteViewModel()
-    let content: Content
     
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase, @ViewBuilder content: () -> Content) {
+    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
+        self._viewModel = StateObject(wrappedValue: CustomTabViewModel())
         self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
-        self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel(tabs: CustomTabViewModel.defaultTabs()))
-        self.content = content()
     }
     
     var body: some View {
-        ZStack {
-            Color("Background").edgesIgnoringSafeArea(.all)
-            
-            TabView(selection: $customTabViewModel.selectedTab) {
-                content
-            }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            
-            VStack {
-                Spacer()
-                CustomTabBar(selectedTab: $customTabViewModel.selectedTab, showOptions: $customTabViewModel.showOptions)
-                    .padding(.horizontal, 20)
-                    .frame(height: 60)
-            }
-            .edgesIgnoringSafeArea(.bottom)
-            
-            if customTabViewModel.showOptions {
-                OptionOverlay(showOptions: $customTabViewModel.showOptions, showActionSheet: $customTabViewModel.showActionSheet, showWriteLetterView: $customTabViewModel.showWriteLetterView)
+        ZStack() {
+            TabView(selection: $viewModel.selectedTab) {
+                LetterBoxView(viewModel: LetterBoxViewModel())
+                    .tabItem {
+                        Image(uiImage: viewModel.envelopeImage)
+                    }
+                    .tag(0)
+                
+                Color.clear
+                    .tabItem {
+                        Image(uiImage: viewModel.plusImage)
+                    }
+                    .tag(1)
+                
+                ProfileView(viewModel: ProfileSettingsViewModel())
+                    .tabItem {
+                        Image(uiImage: viewModel.profileImage)
+                    }
+                    .tag(2)
             }
         }
-        .actionSheet(isPresented: $customTabViewModel.showActionSheet) {
+        .onAppear {
+            viewModel.setupTabBarAppearance()
+        }
+        .onChange(of: viewModel.selectedTab) { oldValue, newValue in
+            if newValue == 1 {
+                withAnimation {
+                    viewModel.showOptions = true
+                }
+                viewModel.selectedTab = oldValue
+            }
+        }
+        .overlay(
+            Group {
+                if viewModel.showOptions {
+                    OptionOverlay(
+                        showOptions: $viewModel.showOptions,
+                        showActionSheet: $viewModel.showActionSheet,
+                        showWriteLetterView: $viewModel.showWriteLetterView
+                    )
+                }
+            }
+        )
+        .actionSheet(isPresented: $viewModel.showActionSheet) {
             ActionSheet(
                 title: Text("편지를 불러올 방법을 선택하세요."),
                 buttons: [
-                    .default(Text("촬영하기")) {
-                        customTabViewModel.showCamera = true
-                    },
-                    .default(Text("앨범에서 가져오기")) {
-                        customTabViewModel.showPhotoLibrary = true
-                    },
+                    .default(Text("촬영하기")) { viewModel.showCamera = true },
+                    .default(Text("앨범에서 가져오기")) { viewModel.showPhotoLibrary = true },
                     .cancel(Text("취소"))
                 ]
             )
@@ -58,43 +75,27 @@ struct CustomTabView<Content: View>: View {
         .overlay(
             ImagePickerView(
                 viewModel: imagePickerViewModel,
-                showPhotoLibrary: $customTabViewModel.showPhotoLibrary,
-                showImagePreview: $customTabViewModel.showImagePreview,
-                showActionSheet: $customTabViewModel.showActionSheet
+                showPhotoLibrary: $viewModel.showPhotoLibrary,
+                showImagePreview: $viewModel.showImagePreview,
+                showActionSheet: $viewModel.showActionSheet
             )
         )
-        .fullScreenCover(isPresented: $customTabViewModel.showCamera) {
+        .fullScreenCover(isPresented: $viewModel.showCamera) {
             CameraView(imagePickerViewModel: imagePickerViewModel)
                 .environmentObject(imagePickerViewModel)
         }
-        .sheet(isPresented: $customTabViewModel.showWriteLetterView) {
+        .sheet(isPresented: $viewModel.showWriteLetterView) {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
     }
+    
 }
 
-// sample view
 
-struct ProfileViewSample: View {
-    var body: some View {
-        ZStack {
-            Color("Background").edgesIgnoringSafeArea(.all)
-            VStack {
-                Text("프로필")
-            }
-        }
-    }
-}
 
 #Preview {
     CustomTabView(
         componentsUseCase: MockComponentsUseCase(),
         componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-    ) {
-        Text("편지보관")
-            .tag(0)
-        
-        ProfileViewSample()
-            .tag(2)
-    }
+    )
 }
