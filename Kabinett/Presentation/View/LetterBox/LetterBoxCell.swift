@@ -20,9 +20,12 @@ struct LetterBoxCell: View {
     var body: some View {
         VStack {
             ZStack {
-                ForEach(letters.reversed()) { letter in
+                ForEach(Array(letters.reversed().enumerated()), id: \.element.id) { index, letter in
+                    let (xOffset, yOffset, rotation) = calculateOffsetAndRotation(for: index, totalCount: letters.count)
+                    
                     LetterBoxEnvelopeCell(letter: letter)
-                        .offset(x: CGFloat(Int.random(in: -10...5)), y: 0)
+                        .offset(x: xOffset, y: yOffset)
+                        .rotationEffect(.degrees(rotation))
                 }
                 .onAppear { }
                 
@@ -31,7 +34,7 @@ struct LetterBoxCell: View {
                     .background(.clear.opacity(0.1))
                     .background(TransparentBlurView(removeAllFilters: true).blur(radius: 0.8))
 //                    .background(.ultraThinMaterial)
-                    .frame(width: 125, height: 180)
+                    .frame(width: 142, height: 215)
 //                    .opacity(0.5)
                     .padding(.top, 34)
                     .shadow(radius: 1, y: CGFloat(2))
@@ -61,10 +64,25 @@ struct LetterBoxCell: View {
                     .padding(.leading, -2)
                 }
             }
-            
         }
-        
-        
+    }
+    
+    func calculateOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
+        switch totalCount {
+        case 1:
+            return (xOffset: CGFloat(-8), yOffset: CGFloat(-3.7), rotation: Double(-1.5))
+        case 2:
+            let xOffset = index == 0 ? -5 : 5
+            let yOffset = index == 0 ? -13 : -4
+            let rotation = index == 0 ? -1 : 0
+            return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: Double(rotation))
+        case 3:
+            let xOffset = [-14, -10, 10][index]
+            let yOffset = [-4, -13, -4][index]
+            return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: 0)
+        default:
+            return (xOffset: 0, yOffset: 0, rotation: 0)
+        }
     }
 }
 
