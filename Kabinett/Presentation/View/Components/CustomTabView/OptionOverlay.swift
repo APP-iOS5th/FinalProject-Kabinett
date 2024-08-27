@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct OptionOverlay: View {
-    @Binding var showOptions: Bool
-    @Binding var showActionSheet: Bool
-    @Binding var showWriteLetterView: Bool
+    @ObservedObject var viewModel: CustomTabViewModel
     
     var body: some View {
         Color.black.opacity(0.5)
             .edgesIgnoringSafeArea(.all)
             .onTapGesture {
                 withAnimation {
-                    showOptions = false
+                    viewModel.hideOptions()
                 }
             }
         
@@ -26,8 +24,7 @@ struct OptionOverlay: View {
             
             HStack(spacing: 1) {
                 Button(action: {
-                    showOptions = false
-                    showActionSheet = true
+                    viewModel.showActionSheetAndHideOptions()
                 }) {
                     Text("편지 불러오기")
                         .font(.system(size: 14))
@@ -37,8 +34,7 @@ struct OptionOverlay: View {
                         .foregroundColor(.black)
                 }
                 Button(action: {
-                    showOptions = false
-                    showWriteLetterView = true
+                    viewModel.showWriteLetterViewAndHideOptions()
                 }) {
                     Text("편지 쓰기")
                         .font(.system(size: 14))
@@ -50,15 +46,10 @@ struct OptionOverlay: View {
             }
             .cornerRadius(10)
             .padding(.horizontal)
-            .padding(.bottom, getSafeAreaBottom() + 25)
+            .padding(.bottom, viewModel.getSafeAreaBottom() + 25)
         }
         .transition(.move(edge: .bottom))
     }
 }
 
-private func getSafeAreaBottom() -> CGFloat {
-    let scenes = UIApplication.shared.connectedScenes
-    let windowScene = scenes.first as? UIWindowScene
-    return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
-}
 

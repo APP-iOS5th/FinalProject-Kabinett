@@ -54,11 +54,7 @@ struct CustomTabView: View {
         .overlay(
             Group {
                 if viewModel.showOptions {
-                    OptionOverlay(
-                        showOptions: $viewModel.showOptions,
-                        showActionSheet: $viewModel.showActionSheet,
-                        showWriteLetterView: $viewModel.showWriteLetterView
-                    )
+                    OptionOverlay(viewModel: viewModel)
                 }
             }
         )

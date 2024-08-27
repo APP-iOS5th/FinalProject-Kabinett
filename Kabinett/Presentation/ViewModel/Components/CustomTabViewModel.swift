@@ -15,6 +15,7 @@ class CustomTabViewModel: ObservableObject {
     @Published var showPhotoLibrary: Bool = false
     @Published var showImagePreview: Bool = false
     @Published var showWriteLetterView: Bool = false
+    @Published var safeAreaBottom: CGFloat = 0
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -54,6 +55,28 @@ class CustomTabViewModel: ObservableObject {
         UITabBar.centerTabItems()
     }
     
+    // MARK: OptionOverlay sheet 관련 Method
+    func hideOptions() {
+        showOptions = false
+    }
+    
+    func showActionSheetAndHideOptions() {
+        showOptions = false
+        showActionSheet = true
+    }
+    
+    func showWriteLetterViewAndHideOptions() {
+        showOptions = false
+        showWriteLetterView = true
+    }
+    
+    // MARK: OptionOverlay Button 위치 관련 Method
+    func getSafeAreaBottom() -> CGFloat {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
+    }
+    
 }
 
 // MARK: tabview items Y 축 중앙 위치
@@ -79,3 +102,5 @@ extension UITabBar {
         }
     }
 }
+
+
