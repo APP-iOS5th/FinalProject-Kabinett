@@ -15,13 +15,13 @@ class UserSelectionViewModel: ObservableObject {
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
     @Published var dummyUsers: [Writer] = [
-        Writer(id: "user_1", name: "Alice", kabinettNumber: 111111, profileImage: "https://cdn.pixabay.com/photo/2022/06/25/13/33/landscape-7283516_1280.jpg"),
-        Writer(id: "user_2", name: "Bob", kabinettNumber: 234234, profileImage: nil),
-        Writer(id: "user_3", name: "Charlie", kabinettNumber: 1112, profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpxjfCS04oKkgLWiCPCQg026DciIS5ayfvTg&s"),
-        Writer(id: "user_4", name: "David", kabinettNumber: 11131, profileImage: nil),
-        Writer(id: "user_5", name: "Eve", kabinettNumber: 114141, profileImage: nil),
-        Writer(id: "user_6", name: "Frank", kabinettNumber: 1151, profileImage: nil),
-        Writer(id: "user_7", name: "Grace", kabinettNumber: 111161, profileImage: nil),
+        Writer(name: "Alice", kabinettNumber: 111111, profileImage: "https://cdn.pixabay.com/photo/2022/06/25/13/33/landscape-7283516_1280.jpg"),
+        Writer(name: "Bob", kabinettNumber: 234234, profileImage: nil),
+        Writer(name: "Charlie", kabinettNumber: 1112, profileImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpxjfCS04oKkgLWiCPCQg026DciIS5ayfvTg&s"),
+        Writer(name: "David", kabinettNumber: 11131, profileImage: nil),
+        Writer(name: "Eve", kabinettNumber: 114141, profileImage: nil),
+        Writer(name: "Frank", kabinettNumber: 1151, profileImage: nil),
+        Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
     ]
     
     init() {
@@ -32,7 +32,7 @@ class UserSelectionViewModel: ObservableObject {
     private func updateFromUser() {
         if let user = dummyUsers.first(where: { $0.kabinettNumber == userKabi }) {
             checkLogin = true
-            fromUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
+            fromUser = Writer(name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {
             checkLogin = false
             fromUser = Writer(name: "나", kabinettNumber: 0, profileImage: nil)
@@ -42,7 +42,7 @@ class UserSelectionViewModel: ObservableObject {
     
     func updateToUser(_ letterContent: inout LetterWriteViewModel, toUserName: String) {
         if let user = dummyUsers.first(where: { $0.name == toUserName }) {
-            toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
+            toUser = Writer(name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
             letterContent.toUserId = toUser?.id
             letterContent.toUserName = toUser?.name ?? ""
             letterContent.toUserKabinettNumber = toUser?.kabinettNumber
