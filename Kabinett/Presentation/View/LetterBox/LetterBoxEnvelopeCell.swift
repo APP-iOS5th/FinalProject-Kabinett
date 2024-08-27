@@ -21,7 +21,7 @@ struct LetterBoxEnvelopeCell: View {
                     Text(letter.fromUserName)
                         .font(.system(size: 10, weight: .regular))
                         .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: 170, alignment: .leading)
+                        .frame(maxWidth: 150, alignment: .leading)
                 }
                 
                 KFImage(URL(string: letter.stampImageUrlString))
@@ -32,12 +32,12 @@ struct LetterBoxEnvelopeCell: View {
                     .frame(width: 27.63, height: 30.18)
                     .aspectRatio(contentMode: .fit)
             }
-            .padding(.bottom, 20.0)
+            .padding(.bottom, 15.0)
             
             HStack(alignment: .top) {
                 Text(letter.postScript ?? "")
                     .font(.system(size: 7))
-                    .frame(width: 120, alignment: .leading)
+                    .frame(width: 117, alignment: .leading)
                     .foregroundStyle(.contentPrimary)
                 
                 VStack(alignment: .leading, spacing: 2) {
@@ -47,14 +47,13 @@ struct LetterBoxEnvelopeCell: View {
                     Text(letter.toUserName)
                         .font(.system(size: 10, weight: .regular))
                         .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: 79.04, alignment: .leading)
+                        .frame(maxWidth: 60, alignment: .leading)
                         .padding(.bottom, 5.0)
                 }
             }
         }
-        .frame(width: 248.96, height: 114.6)
+        .padding(15)
         .background(Color.white)
-        .border(.gray, width: 0.1)
         .rotationEffect(.degrees(270))
         .shadow(color: Color.primary300.opacity(0.7), radius: 5, x: CGFloat(5), y: CGFloat(5))
     }

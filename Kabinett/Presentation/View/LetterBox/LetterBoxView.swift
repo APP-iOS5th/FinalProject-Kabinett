@@ -20,7 +20,7 @@ struct LetterBoxView: View {
     @State private var showSearchBarView = false
     
     let columns = [
-        GridItem(.flexible(minimum: 220), spacing: -55),
+        GridItem(.flexible(minimum: 220), spacing: -60),
         GridItem(.flexible(minimum: 220))
     ]
     

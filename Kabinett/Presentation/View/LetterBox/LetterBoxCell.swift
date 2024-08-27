@@ -34,7 +34,7 @@ struct LetterBoxCell: View {
                     .background(.clear.opacity(0.1))
                     .background(TransparentBlurView(removeAllFilters: true).blur(radius: 0.8))
 //                    .background(.ultraThinMaterial)
-                    .frame(width: 142, height: 215)
+                    .frame(width: 135, height: 185)
 //                    .opacity(0.5)
                     .padding(.top, 34)
                     .shadow(radius: 1, y: CGFloat(2))
@@ -42,9 +42,11 @@ struct LetterBoxCell: View {
                 
                 Text(type.description)
                     .font(.custom("Pecita", size: 20))
-                    .offset(y: 100)
+                    .offset(y: 90)
             }
-            .padding(.bottom, 10)
+            .padding(.bottom, 13)
+            
+            Spacer(minLength: 0)
             
             HStack {
                 Text(type.koName())
@@ -70,15 +72,15 @@ struct LetterBoxCell: View {
     func calculateOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
         switch totalCount {
         case 1:
-            return (xOffset: CGFloat(-8), yOffset: CGFloat(-3.7), rotation: Double(-1.5))
+            return (xOffset: CGFloat(-6.5), yOffset: CGFloat(-1.5), rotation: Double(-1.5))
         case 2:
-            let xOffset = index == 0 ? -5 : 5
-            let yOffset = index == 0 ? -13 : -4
+            let xOffset = index == 0 ? -7 : 6
+            let yOffset = index == 0 ? -10 : -2
             let rotation = index == 0 ? -1 : 0
             return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: Double(rotation))
         case 3:
-            let xOffset = [-14, -10, 10][index]
-            let yOffset = [-4, -13, -4][index]
+            let xOffset = [-12, -5, 12][index]
+            let yOffset = [-3, -12, -2][index]
             return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: 0)
         default:
             return (xOffset: 0, yOffset: 0, rotation: 0)

@@ -186,6 +186,7 @@ struct LetterBoxDetailView: View {
 
 #Preview {
     LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""))
+        .environmentObject(LetterBoxDetailViewModel())
 }
 
 struct NavigationBarHeightKey: PreferenceKey {

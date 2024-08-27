@@ -58,7 +58,7 @@ extension LetterType {
             case .all:
                 return "All"
             case .toMe:
-                return "Tome"
+                return "To me"
             case .sent:
                 return "Sent"
             case .received:
