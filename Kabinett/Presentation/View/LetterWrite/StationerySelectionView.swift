@@ -9,7 +9,6 @@ import SwiftUI
 
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = StationerySelectionViewModel()
     
     var body: some View {

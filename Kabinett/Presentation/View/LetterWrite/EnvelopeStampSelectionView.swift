@@ -9,7 +9,6 @@ import SwiftUI
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
 
     @State private var currentIndex: Int = 0
     

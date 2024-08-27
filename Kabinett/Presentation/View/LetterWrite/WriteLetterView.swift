@@ -10,9 +10,9 @@ import UIKit
 
 struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = WriteLetterViewModel()
     @ObservedObject private var fontViewModel = FontSelectionViewModel()
+    
     @State private var currentIndex: Int = 0
     
     var body: some View {

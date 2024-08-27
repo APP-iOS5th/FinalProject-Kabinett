@@ -9,7 +9,6 @@ import SwiftUI
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
     
     @StateObject var viewModel = FontSelectionViewModel()
     

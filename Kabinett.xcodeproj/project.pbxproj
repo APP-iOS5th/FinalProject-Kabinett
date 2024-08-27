@@ -683,7 +683,7 @@
 			};
 			buildConfigurationList = 839CE0EE2C644BEF003635F3 /* Build configuration list for PBXProject "Kabinett" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
