@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LetterBoxDetailView: View {
-    @StateObject var viewModel = LetterBoxDetailViewModel()
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
     
     @State var letterType: LetterType
     
@@ -75,7 +75,7 @@ struct LetterBoxDetailView: View {
             ZStack {
                 if viewModel.letterBoxDetailLetters.isEmpty {
                     Text(letterType.setEmptyMessage())
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(.system(size: 16, weight: .bold))
                         .foregroundStyle(.contentPrimary)
                 }
                 else if viewModel.letterBoxDetailLetters.count < 3 {
@@ -87,7 +87,7 @@ struct LetterBoxDetailView: View {
                 } else {
                     ScrollView {
                         LazyVStack(spacing: -75) {
-                            ForEach(Array(zip(letters.indices, letters)), id: \.0) { idx, letter in
+                            ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
                                 if idx < 2 {
                                     LetterBoxDetailEnvelopeCell(letter: letter)
                                         .padding(.bottom, idx == 0 ? 82 : 37)
@@ -198,8 +198,11 @@ struct NavigationBarHeightKey: PreferenceKey {
 }
 
 struct SearchBarView: View {
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
+    var letterType: LetterType
     
     var body: some View {
         HStack {
@@ -207,6 +210,9 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
+                    .onChange(of: searchText) { oldValue, newValue in
+                        viewModel.fetchSearchByKeyword(for: "anonymousUser", findKeyword: searchText, letterType: letterType)
+                    }
                     .foregroundStyle(.primary)
                 Image(systemName: "mic.fill")
             }

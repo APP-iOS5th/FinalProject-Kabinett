@@ -44,6 +44,8 @@ class LetterBoxDetailViewModel: ObservableObject {
     }
     
     func fetchSearchByKeyword(for userId: String, findKeyword: String, letterType: LetterType) {
+        if findKeyword.isEmpty { return }
+        
         Task { @MainActor in
             let result = await letterBoxUseCase.searchBy(userId: userId, findKeyword: findKeyword, letterType: letterType)
             switch result {
