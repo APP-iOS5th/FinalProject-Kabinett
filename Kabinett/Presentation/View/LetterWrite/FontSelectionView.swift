@@ -9,9 +9,8 @@ import SwiftUI
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
     
-    @ObservedObject var viewModel = FontSelectionViewModel()
+    @StateObject var viewModel = FontSelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -49,6 +48,11 @@ struct FontSelectionView: View {
                                     .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                     .background(Color.white)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
+                                    .onAppear {
+                                        if letterContent.fontString == nil {
+                                            letterContent.fontString = viewModel.dummyFonts[viewModel.selectedIndex].regularFont
+                                        }
+                                    }
                                     Button {
                                         viewModel.selectedIndex = i
                                         letterContent.fontString = viewModel.dummyFonts[i].regularFont
