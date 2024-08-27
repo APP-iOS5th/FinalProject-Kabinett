@@ -8,7 +8,6 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
-import FirebaseAuth
 import Combine
 
 enum LetterError: Error {
@@ -38,8 +37,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
     private let authManager: AuthManager
-    private var cancellables = Set<AnyCancellable>()
-    let auth = Auth.auth()
     
     init(authManager: AuthManager) {
         self.authManager = authManager
@@ -441,7 +438,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     
     // MARK: - Firestore Letter 저장
     private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Bool, any Error> {
-        
         do {
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             let toUserDoc = toUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
@@ -544,20 +540,26 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     // MARK: - PhotoContents URL 변환
     private func convertPhotoToUrl(photoContents: [Data]) async throws -> [String] {
         let storageRef = storage.reference()
-        var photoContentUrlStrings: [String] = []
         
-        do {
+        return try await withThrowingTaskGroup(of: String.self) { taskGroup in
+            var photoContentUrlStrings: [String] = []
+            
             for photoContent in photoContents {
-                let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
-                
-                _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
-                
-                let downloadURL = try await photoRef.downloadURL()
-                photoContentUrlStrings.append(downloadURL.absoluteString)
+                taskGroup.addTask {
+                    let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
+                    
+                    _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
+                    
+                    let downloadURL = try await photoRef.downloadURL()
+                    return downloadURL.absoluteString
+                }
             }
-        } catch {
-            throw LetterSaveError.failedConvertPhotoURL
+            
+            for try await urlString in taskGroup {
+                photoContentUrlStrings.append(urlString)
+            }
+            
+            return photoContentUrlStrings
         }
-        return photoContentUrlStrings
     }
 }
