@@ -51,35 +51,38 @@ final class ImagePickerViewModel: ObservableObject {
     
     
     // MARK: - Image Loading
+    private func loadImagesTask() async throws -> [Data] {
+        try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
+            for item in selectedItems {
+                group.addTask {
+                    do {
+                        if let data = try await item.loadTransferable(type: Data.self) {
+                            return data
+                        }
+                    } catch {
+                        print("Failed to load image: \(error)")
+                    }
+                    return nil
+                }
+            }
+            
+            var results: [Data] = []
+            for try await result in group {
+                if let result = result {
+                    results.append(result)
+                }
+            }
+            return results
+        }
+    }
+
     @MainActor
     func loadImages() async {
         isLoading = true
         error = nil
         
         do {
-            let newImageContents = try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
-                for item in selectedItems {
-                    group.addTask {
-                        do {
-                            if let data = try await item.loadTransferable(type: Data.self) {
-                                return data
-                            }
-                        } catch {
-                            print("Failed to load image: \(error)")
-                        }
-                        return nil
-                    }
-                }
-                
-                var results: [Data] = []
-                for try await result in group {
-                    if let result = result {
-                        results.append(result)
-                    }
-                }
-                return results
-            }
-            
+            let newImageContents = try await loadImagesTask()
             self.photoContents = newImageContents
             isLoading = false
         } catch {
