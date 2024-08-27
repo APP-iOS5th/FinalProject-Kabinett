@@ -28,7 +28,7 @@ struct ImagePreivew: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.black)
+                            .background(Color("Primary900"))
                             .cornerRadius(15)
                     }
                     .padding()
@@ -41,7 +41,7 @@ struct ImagePreivew: View {
                 }
             }) {
                 Image(systemName: "chevron.left")
-                    .foregroundColor(.black)
+                    .foregroundStyle(Color("ContentPrimary"))
             })
             .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {
