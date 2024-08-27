@@ -42,9 +42,9 @@ struct LetterBoxCell: View {
                 
                 Text(type.description)
                     .font(.custom("Pecita", size: 20))
-                    .offset(y: 90)
+                    .offset(y: 100)
             }
-            .padding(.bottom, 12)
+            .padding(.bottom, 10)
             
             HStack {
                 Text(type.koName())
@@ -54,11 +54,11 @@ struct LetterBoxCell: View {
 //                새로 도착한 편지에 대한 알림
                 if unreadCount > 0 {
                     ZStack {
-                        Circle()
-                            .fill(.secondary900)
-                            .frame(width: 17)
+                        Image("RedSticker")
+                            .resizable()
+                            .frame(width: 22, height: 22)
                         Text("\(unreadCount)")
-                            .font(.system(size: 10, weight: .regular))
+                            .font(.system(size: 13, weight: .medium))
                             .foregroundStyle(.white)
                     }
                     .padding(.leading, -2)

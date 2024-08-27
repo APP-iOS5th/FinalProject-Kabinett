@@ -116,11 +116,11 @@ struct LetterBoxDetailEnvelopeCell: View {
     
             // 새로운 편지에 붙을 빨간 동그라미
             if !letter.isRead {
-                Circle()
-                    .fill(.secondary900)
-                    .frame(width: 25)
+                Image("RedSticker")
+                    .resizable()
+                    .frame(width: 25, height: 25)
                     .padding(.leading, 300)
-                    .padding(.bottom, 110)
+                    .padding(.bottom, 113)
             }
         }
     }
