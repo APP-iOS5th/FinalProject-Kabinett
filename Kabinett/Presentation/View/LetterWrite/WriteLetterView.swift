@@ -108,8 +108,6 @@ struct WriteLetterView: View {
 
 
 // MARK: CustomTextEditor.swift
-import SwiftUI
-
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
     @Binding var height: CGFloat

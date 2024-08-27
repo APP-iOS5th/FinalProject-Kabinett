@@ -11,7 +11,7 @@ import SwiftUI
 class UserSelectionViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var checkLogin: Bool = false
-    @Published var userKabi: Int? = nil
+    @Published var userKabiNumber: Int? = nil
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
     @Published var dummyUsers: [Writer] = [
@@ -25,12 +25,12 @@ class UserSelectionViewModel: ObservableObject {
     ]
     
     init() {
-        userKabi = 111111
+        userKabiNumber = 111111
         updateFromUser()
     }
     
     private func updateFromUser() {
-        if let user = dummyUsers.first(where: { $0.kabinettNumber == userKabi }) {
+        if let user = dummyUsers.first(where: { $0.kabinettNumber == userKabiNumber }) {
             checkLogin = true
             fromUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {
@@ -54,7 +54,7 @@ class UserSelectionViewModel: ObservableObject {
         }
     }
     
-    func checkMe(kabi: Int) -> String {
-        userKabi == kabi ? "(나)" : ""
+    func checkMe(kabiNumber: Int) -> String {
+        userKabiNumber == kabiNumber ? "(나)" : ""
     }
 }

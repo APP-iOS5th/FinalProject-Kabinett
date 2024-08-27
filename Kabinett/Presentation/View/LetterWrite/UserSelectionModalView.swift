@@ -95,7 +95,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(fromName) \(viewModel.checkMe(kabi: viewModel.userKabi ?? 0))")
+            Text("\(fromName) \(viewModel.checkMe(kabiNumber: viewModel.userKabiNumber ?? 0))")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -111,8 +111,8 @@ struct FormToUser: View {
                 .bold()
             Spacer(minLength: 37)
             let toName = letterContent.toUserName == "" ? fromName : letterContent.toUserName
-            let toKabi = letterContent.toUserName == "" ? viewModel.userKabi ?? 0 : letterContent.toUserKabinettNumber
-            Text("\(toName) \(viewModel.checkMe(kabi: toKabi ?? 0))")
+            let toKabi = letterContent.toUserName == "" ? viewModel.userKabiNumber ?? 0 : letterContent.toUserKabinettNumber
+            Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
                 .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
