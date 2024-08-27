@@ -6,38 +6,45 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct LetterBoxEnvelopeCell: View {
+    var letter: Letter
+    
     var body: some View {
         VStack {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("보내는 사람")
-                        .font(.system(size: 6))
-                    Text("Dotorie")
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.system(size: 5))
+                    Text(letter.fromUserName)
+                        .font(.system(size: 10, weight: .regular))
+                        .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: 150, alignment: .leading)
                 }
                 
-                Image(systemName: "rectangle.portrait.fill")
+                KFImage(URL(string: letter.stampImageUrlString))
+                    .placeholder {
+                        Color.clear
+                    }
                     .resizable()
-                    .foregroundStyle(.green)
+                    .frame(width: 27, height: 30)
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 20)
             }
             .padding(.bottom, 15.0)
             
             HStack(alignment: .top) {
-                Text("사진 몇 장 같이 넣어뒀어!")
+                Text(letter.postScript ?? "")
                     .font(.system(size: 7))
                     .frame(width: 110, alignment: .leading)
                     .padding(.top, -3.0)
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("받는 사람")
-                        .font(.system(size: 6))
-                    Text("Yule")
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.system(size: 5))
+                    Text(letter.toUserName)
+                        .font(.system(size: 10, weight: .regular))
+                        .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: 60, alignment: .leading)
                 }
             }
@@ -46,7 +53,7 @@ struct LetterBoxEnvelopeCell: View {
         .background(Color.white)
         .border(.gray, width: 0.1)
         .rotationEffect(.degrees(270))
-        .shadow(radius: 5, x: CGFloat(5), y: CGFloat(5))
+        .shadow(color: Color.primary300.opacity(0.7), radius: 5, x: CGFloat(5), y: CGFloat(5))
     }
 }
 
@@ -111,5 +118,5 @@ struct LetterBoxDetailEnvelopeCell: View {
 }
 
 #Preview {
-    LetterBoxDetailEnvelopeCell()
+    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleLetters[0])
 }
