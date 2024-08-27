@@ -18,8 +18,8 @@ class WriteLetterViewModel: ObservableObject {
         return formatter.string(from: date)
     }
     
-    func createNewLetter(idx: Int) {
-        texts.insert("", at: idx+1)
-        textViewHeights.insert(.zero, at: idx+1)
+    func createNewLetter() {
+        texts.append("")
+        textViewHeights.append(.zero)
     }
 }

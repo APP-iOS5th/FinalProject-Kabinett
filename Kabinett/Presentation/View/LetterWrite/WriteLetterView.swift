@@ -21,11 +21,8 @@ struct WriteLetterView: View {
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "")
+                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "")
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                        .onTapGesture {
-                            UIApplication.shared.endEditing()
-                        }
                     
                     HStack {
                         ScrollViewReader { scrollViewProxy in
@@ -53,18 +50,19 @@ struct WriteLetterView: View {
                                                         .frame(maxWidth: .infinity, alignment: .leading)
                                                     
                                                     GeometryReader { geo in
-                                                        CustomTextEditor(text: $viewModel.texts[i],
+                                                        CustomTextEditor(text: $viewModel.texts[i], 
                                                                          height: $viewModel.textViewHeights[i],
-                                                                         maxWidth: UIScreen.main.bounds.height * 0.76,
-                                                                         font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13),
-                                                                         lineSpacing: 8)
-                                                        .onChange(of: viewModel.textViewHeights[i]) {
-//                                                            print(viewModel.textViewHeights[i]) 
-                                                            if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
-                                                                viewModel.createNewLetter(idx: i)
-                                                                currentIndex = i + 1
+                                                                         maxWidth: geo.size.width,
+                                                                         maxHeight: UIScreen.main.bounds.height * 0.42,
+                                                                         font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13))
+                                                            .onChange(of: viewModel.textViewHeights[i]) {
+                                                                if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
+                                                                    viewModel.createNewLetter()
+                                                                }
                                                             }
-                                                        }
+                                                            .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
+                                                                letterContent.content = viewModel.texts[0]
+                                                            }
                                                     }
                                                     
                                                     Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
@@ -94,6 +92,7 @@ struct WriteLetterView: View {
                             .font(fontViewModel.font(file: letterContent.fontString ?? "SFDisplay"))
                             .onChange(of: viewModel.texts.count) {
                                 withAnimation {
+                                    currentIndex = viewModel.texts.count - 1
                                     scrollViewProxy.scrollTo(currentIndex, anchor: .center)
                                 }
                             }
@@ -109,12 +108,14 @@ struct WriteLetterView: View {
 
 
 // MARK: CustomTextEditor.swift
+import SwiftUI
+
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
     @Binding var height: CGFloat
     var maxWidth: CGFloat
+    var maxHeight: CGFloat
     var font: UIFont
-    var lineSpacing: CGFloat
 
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
@@ -124,14 +125,15 @@ struct CustomTextEditor: UIViewRepresentable {
         }
         
         func textViewDidChange(_ textView: UITextView) {
-            parent.text = textView.text
-            updateHeight(for: textView)
-        }
-        
-        private func updateHeight(for textView: UITextView) {
             let newSize = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
-            DispatchQueue.main.async {
-                self.parent.height = newSize.height
+            
+            if newSize.height <= parent.maxHeight {
+                parent.text = textView.text
+                DispatchQueue.main.async {
+                    self.parent.height = newSize.height
+                }
+            } else {
+                textView.text = parent.text
             }
         }
     }
@@ -148,8 +150,7 @@ struct CustomTextEditor: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.translatesAutoresizingMaskIntoConstraints = false
-        
-        updateTextViewAttributes(textView: textView)
+        textView.font = font
         
         let maxWidthConstraint = NSLayoutConstraint(item: textView,
                                                     attribute: .width,
@@ -165,30 +166,13 @@ struct CustomTextEditor: UIViewRepresentable {
     
     func updateUIView(_ uiView: UITextView, context: Context) {
         uiView.text = text
+        uiView.font = font
         
         let newSize = uiView.sizeThatFits(CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude))
         DispatchQueue.main.async {
-            self.height = newSize.height
+            if newSize.height <= maxHeight {
+                self.height = newSize.height
+            }
         }
     }
-    
-    private func updateTextViewAttributes(textView: UITextView) {
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
-        
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        let attributedString = NSAttributedString(string: text, attributes: attributes)
-        textView.attributedText = attributedString
-        textView.typingAttributes = attributes
-    }
-}
-
-
-
-#Preview {
-    ModalTestView()
 }
