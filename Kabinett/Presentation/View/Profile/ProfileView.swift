@@ -32,7 +32,7 @@ struct ProfileView: View {
                         .fontWeight(.regular)
                         .font(.system(size: 36))
                         .padding(.bottom, 0.1)
-                    Text(viewModel.kabinettNumber)
+                    Text(viewModel.formattedKabinettNumber)
                         .fontWeight(.light)
                         .font(.system(size: 16))
                         .monospaced()
@@ -55,5 +55,5 @@ struct ProfileView: View {
     }
 }
 #Preview {
-    ProfileView(viewModel: ProfileSettingsViewModel())
+    ProfileView(viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
 }

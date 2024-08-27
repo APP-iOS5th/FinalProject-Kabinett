@@ -91,5 +91,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: ProfileSettingsViewModel())
+    SettingsView(viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
 }

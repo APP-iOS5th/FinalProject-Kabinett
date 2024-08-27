@@ -18,3 +18,25 @@ protocol ProfileUseCase {
     func signout() async -> Bool
     func deleteId() async -> Bool
 }
+
+final class ProfileUseCaseStub: ProfileUseCase {
+    func isAnonymous() async -> AnyPublisher<Bool, Never> {
+        Just(false)
+            .eraseToAnyPublisher()
+    }
+    func getCurrentWriter() async -> Writer {
+        return Writer(
+            name: "Yule",
+            kabinettNumber: 455444,
+            profileImage: nil)
+    }
+    func updateWriter(newWriterName: String, profileImage: Data?) async -> Bool {
+        true
+    }
+    func signout() async -> Bool {
+        false
+    }
+    func deleteId() async -> Bool {
+        false
+    }
+}
