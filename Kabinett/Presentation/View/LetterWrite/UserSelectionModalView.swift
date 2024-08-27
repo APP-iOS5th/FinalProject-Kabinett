@@ -30,6 +30,7 @@ struct UserSelectionModalView: View {
                                 letterContent.toUserName = viewModel.toUser?.name ?? ""
                                 letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
                                 
+                                letterContent.date = Date()
                                 presentation.wrappedValue.dismiss()
                             }
                         }

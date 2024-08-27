@@ -70,7 +70,7 @@ struct WriteLetterView: View {
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                     
-                                                    Text(i == (viewModel.texts.count-1) ? viewModel.formatDate(letterContent.date) : "")
+                                                    Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                                         .padding(.bottom, 27)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
