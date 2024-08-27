@@ -8,17 +8,22 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var componentsUseCase = MockComponentsUseCase()
+    @StateObject private var componentsLoadStuffUseCase = MockComponentsLoadStuffUseCase()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        CustomTabView(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase)
+        {
+            LetterBoxView(viewModel: LetterBoxViewModel())
+                .tag(0)
+            // + OptionOverlay Button
+            Color.clear
+            
+            ProfileView(viewModel: ProfileSettingsViewModel())
+                .tag(2)
         }
-        .padding()
     }
 }
-
 #Preview {
     ContentView()
 }

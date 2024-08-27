@@ -51,6 +51,22 @@
 		57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE42C73760800A4312C /* goormSansOTF4.otf */; };
 		57ED9CE72C73780100A4312C /* Pecita.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE62C73780100A4312C /* Pecita.otf */; };
 		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
+		7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */; };
+		7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */; };
+		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
+		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
+		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
+		7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E12C6E25500074568E /* CameraViewModel.swift */; };
+		7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */; };
+		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
+		7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868452C782F4A0083D204 /* CustomTabBar.swift */; };
+		7F7868482C782F820083D204 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868472C782F820083D204 /* TabBarButton.swift */; };
+		7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F78684B2C78B41A0083D204 /* ImagePickerView.swift */; };
+		7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868552C7B14220083D204 /* HorizontalPadding.swift */; };
+		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
+		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
+		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
+		7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
@@ -139,6 +155,22 @@
 		57ED9CE42C73760800A4312C /* goormSansOTF4.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = goormSansOTF4.otf; sourceTree = "<group>"; };
 		57ED9CE62C73780100A4312C /* Pecita.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pecita.otf; sourceTree = "<group>"; };
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
+		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
+		7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewModel.swift; sourceTree = "<group>"; };
+		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
+		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
+		7F6CE9E12C6E25500074568E /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
+		7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
+		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		7F7868452C782F4A0083D204 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		7F7868472C782F820083D204 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
+		7F78684B2C78B41A0083D204 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		7F7868552C7B14220083D204 /* HorizontalPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPadding.swift; sourceTree = "<group>"; };
+		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
+		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
+		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
+		7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritingView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
@@ -211,6 +243,39 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		7F397C4F2C7C381E00388645 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				7F6CE9E52C6E28400074568E /* CameraView.swift */,
+				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
+			);
+			path = Camera;
+			sourceTree = "<group>";
+		};
+		7F397C502C7C382A00388645 /* CustomTabView */ = {
+			isa = PBXGroup;
+			children = (
+				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
+				7F7868452C782F4A0083D204 /* CustomTabBar.swift */,
+				7F7868472C782F820083D204 /* TabBarButton.swift */,
+				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
+			);
+			path = CustomTabView;
+			sourceTree = "<group>";
+		};
+		7F397C512C7C386500388645 /* PhotoImporting */ = {
+			isa = PBXGroup;
+			children = (
+				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
+				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
+				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
+				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
+				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
+				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
+			);
+			path = PhotoImporting;
+			sourceTree = "<group>";
+		};
 		831401392C69C21300F601FB /* ComponentsUseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +342,10 @@
 		8366B6F12C65ECDB0021FAE0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7F397C512C7C386500388645 /* PhotoImporting */,
+				7F397C502C7C382A00388645 /* CustomTabView */,
+				7F397C4F2C7C381E00388645 /* Camera */,
+				7F7868552C7B14220083D204 /* HorizontalPadding.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -334,6 +403,9 @@
 		8366B6F62C65ECFF0021FAE0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */,
+				7F6CE9E12C6E25500074568E /* CameraViewModel.swift */,
+				7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -677,10 +749,15 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FB2C7578FE00E21162 /* WriteLetterView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */,
+				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
+				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
+				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
@@ -692,6 +769,7 @@
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
+				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
 				04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */,
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
@@ -705,6 +783,8 @@
 				AFA58F262C6AE33D00A7C569 /* FirebaseFirestoreManager.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
+				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
+				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
@@ -713,13 +793,21 @@
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
+				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */,
+				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
+				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
+				7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */,
+				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
+				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
@@ -892,12 +980,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -926,12 +1016,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
