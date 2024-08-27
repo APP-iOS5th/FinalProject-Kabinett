@@ -211,7 +211,12 @@ struct SearchBarView: View {
                     .tint(.black)
                 TextField("Search", text: $searchText)
                     .onChange(of: searchText) { oldValue, newValue in
-                        viewModel.fetchSearchByKeyword(for: "anonymousUser", findKeyword: searchText, letterType: letterType)
+                        if newValue.isEmpty {
+                            viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
+                        } else {
+                            viewModel.fetchSearchByKeyword(for: "anonymousUser", findKeyword: searchText, letterType: letterType)
+                            let _ = print("searchText : \(searchText)")
+                        }
                     }
                     .foregroundStyle(.primary)
                 Image(systemName: "mic.fill")
@@ -227,6 +232,7 @@ struct SearchBarView: View {
                     withAnimation {
                         showSearchBarView.toggle()
                         self.searchText = ""
+                        viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
