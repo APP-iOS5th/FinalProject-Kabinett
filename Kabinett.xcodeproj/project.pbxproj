@@ -41,6 +41,8 @@
 		5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* WriteLetterViewModel.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
 		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
+		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */; };
+		57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9D2C7DB266008D650B /* Extension+TextField.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */; };
 		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
@@ -146,6 +148,8 @@
 		5771570A2C77071300E21162 /* WriteLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterViewModel.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
 		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
+		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModal.swift; sourceTree = "<group>"; };
+		57966B9D2C7DB266008D650B /* Extension+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+TextField.swift"; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionModalView.swift; sourceTree = "<group>"; };
 		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
@@ -430,12 +434,14 @@
 				577156F82C74CAF200E21162 /* Extension+Font.swift */,
 				577157002C75D73700E21162 /* Extension+UIApplication.swift */,
 				57966B992C7D8B45008D650B /* Extension+Date.swift */,
+				57966B9D2C7DB266008D650B /* Extension+TextField.swift */,
 				57ED9CE12C7375AC00A4312C /* fonts */,
 				57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
 				57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */,
 				5771570A2C77071300E21162 /* WriteLetterViewModel.swift */,
+				57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -798,6 +804,7 @@
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
@@ -806,6 +813,7 @@
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
 				7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
+				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,

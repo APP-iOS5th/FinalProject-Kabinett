@@ -104,6 +104,19 @@ struct FormToUser: View {
                 .clipShape(Capsule())
         }
         .padding(.top, 24)
+        .onAppear {
+            letterContent.fromUserId = viewModel.fromUser?.id
+            letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+            if letterContent.toUserName == "" {
+                viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
+            }
+            letterContent.toUserId = viewModel.toUser?.id
+            letterContent.toUserName = viewModel.toUser?.name ?? ""
+            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+            
+            letterContent.date = Date()
+        }
         
         HStack {
             Text("받는 사람")
