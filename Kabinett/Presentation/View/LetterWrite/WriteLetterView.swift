@@ -59,7 +59,7 @@ struct WriteLetterView: View {
                                                                          font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13),
                                                                          lineSpacing: 8)
                                                         .onChange(of: viewModel.textViewHeights[i]) {
-                                                            print(viewModel.textViewHeights[i]) // Test
+//                                                            print(viewModel.textViewHeights[i]) 
                                                             if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
                                                                 viewModel.createNewLetter(idx: i)
                                                                 currentIndex = i + 1
