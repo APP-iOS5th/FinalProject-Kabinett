@@ -9,8 +9,7 @@ import SwiftUI
 
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var viewModel = StationerySelectionViewModel()
+    @StateObject private var viewModel = StationerySelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -30,7 +29,7 @@ struct StationerySelectionView: View {
                                         AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
                                             image
                                                 .resizable()
-                                                .scaledToFill()
+                                                .aspectRatio(9/13, contentMode: .fit)
                                                 .padding(10)
                                                 .shadow(radius: 5, x: 5, y: 5)
                                         } placeholder: {
@@ -46,6 +45,9 @@ struct StationerySelectionView: View {
                                                 .resizable()
                                                 .frame(width: 32, height: 32)
                                                 .padding([.top, .trailing], 20)
+                                                .onAppear {
+                                                    letterContent.stationeryImageUrlString = viewModel.dummyStationerys[viewModel.index(row: rowIndex, column: columnIndex)]
+                                                }
                                         }
                                     }
                                 }
