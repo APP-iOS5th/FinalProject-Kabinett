@@ -10,7 +10,7 @@ import SwiftUI
 class CustomTabViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
     @Published var showOptions: Bool = false
-    @Published var showActionSheet: Bool = false
+    @Published var showImportDialog: Bool = false
     @Published var showCamera: Bool = false
     @Published var showPhotoLibrary: Bool = false
     @Published var showImagePreview: Bool = false
@@ -60,9 +60,9 @@ class CustomTabViewModel: ObservableObject {
         showOptions = false
     }
     
-    func showActionSheetAndHideOptions() {
+    func showImportDialogAndHideOptions() {
         showOptions = false
-        showActionSheet = true
+        showImportDialog = true
     }
     
     func showWriteLetterViewAndHideOptions() {

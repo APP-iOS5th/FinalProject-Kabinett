@@ -19,7 +19,7 @@ struct CustomTabView: View {
     }
     
     var body: some View {
-        ZStack() {
+        ZStack {
             TabView(selection: $viewModel.selectedTab) {
                 LetterBoxView(viewModel: LetterBoxViewModel())
                     .tabItem {
@@ -58,22 +58,15 @@ struct CustomTabView: View {
                 }
             }
         )
-        .actionSheet(isPresented: $viewModel.showActionSheet) {
-            ActionSheet(
-                title: Text("편지를 불러올 방법을 선택하세요."),
-                buttons: [
-                    .default(Text("촬영하기")) { viewModel.showCamera = true },
-                    .default(Text("앨범에서 가져오기")) { viewModel.showPhotoLibrary = true },
-                    .cancel(Text("취소"))
-                ]
-            )
-        }
+        .overlay(
+            ImportDialog(viewModel: viewModel)
+        )
         .overlay(
             ImagePickerView(
                 viewModel: imagePickerViewModel,
                 showPhotoLibrary: $viewModel.showPhotoLibrary,
                 showImagePreview: $viewModel.showImagePreview,
-                showActionSheet: $viewModel.showActionSheet
+                showActionSheet: $viewModel.showImportDialog
             )
         )
         .fullScreenCover(isPresented: $viewModel.showCamera) {

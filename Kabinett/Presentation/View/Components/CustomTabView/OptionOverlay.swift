@@ -24,7 +24,7 @@ struct OptionOverlay: View {
             
             HStack(spacing: 1) {
                 Button(action: {
-                    viewModel.showActionSheetAndHideOptions()
+                    viewModel.showImportDialogAndHideOptions()
                 }) {
                     Text("편지 불러오기")
                         .font(.system(size: 14))
