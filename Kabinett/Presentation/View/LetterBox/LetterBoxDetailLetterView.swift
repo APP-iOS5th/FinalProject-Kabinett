@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LetterBoxDetailLetterView: View {
+    @StateObject var viewModel = LetterViewModel()
+    @State private var showDetailLetter = false
+    
     var letterType: LetterType
     var letter: Letter
     
@@ -19,6 +22,15 @@ struct LetterBoxDetailLetterView: View {
                 .edgesIgnoringSafeArea(.all)
             
             LetterBoxDetailEnvelopeCell(letter: letter)
+                .onTapGesture {
+                    if !letter.isRead {
+                        guard let letterId = letter.id else {
+                            return
+                        }
+                        viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
+                        showDetailLetter = true
+                    }
+                }
         }
         .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
