@@ -18,7 +18,6 @@ final class SignUpViewModel: ObservableObject {
     @Published var selectedKabinettNumber: Int? = nil
     @Published var currentNonce: String?
     @Published var userIdentifier: String?
-    @Published var userEmail: String?
     @Published var loginError: String?
     @Published var loginSuccess: Bool = false
     
@@ -41,16 +40,8 @@ final class SignUpViewModel: ObservableObject {
         let numbers = await signUpUseCase.getAvailableKabinettNumbers()
         availablekabinettNumbers = numbers
             .map {
-                formatNumber($0)
+                formatKabinettNumber($0)
             }
-    }
-    private func formatNumber(_ number: Int) -> String {
-        let formattedNumber = String(format: "%06d", number)
-        let startIndex = formattedNumber.index(formattedNumber.startIndex, offsetBy: 3)
-        let part1 = formattedNumber[..<startIndex]
-        let part2 = formattedNumber[startIndex...]
-        
-        return "\(part1)-\(part2)"
     }
     
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
@@ -70,11 +61,11 @@ final class SignUpViewModel: ObservableObject {
                     self.loginSuccess = true
                 } else {
                     print("Sign up failed")
-                    self.loginError = "Sign up failed"
+                    self.loginError = "로그인에 실패했습니다."
                 }
             }
         case .failure(let error):
-            print("Authorization failed: \(error.localizedDescription)")
+            print("애플 로그인에 실패했습니다: \(error.localizedDescription)")
         }
     }
     

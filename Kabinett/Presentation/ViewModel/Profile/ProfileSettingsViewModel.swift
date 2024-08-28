@@ -14,16 +14,16 @@ class ProfileSettingsViewModel: ObservableObject {
     
     @Published var userName: String = ""
     @Published var newUserName: String = ""
-    @Published var profileImage: UIImage?
     @Published var formattedKabinettNumber: String = ""
-    @Published var appleID: String = "figfigure33@gmail.com"
-    @Published var shouldNavigateToSettings = false
+    @Published var appleID: String = "figfigure33@gmail.com" //추후 유즈케이스에 추가
+    @Published var profileImage: UIImage?
+    @Published var isShowingImagePicker = false
     @Published var selectedImageItem: PhotosPickerItem?
     @Published var selectedImage: UIImage?
-    @Published var isShowingImagePicker = false
     @Published var isShowingCropper = false
     @Published var croppedImage: UIImage?
     @Published var isProfileUpdated = false
+    @Published var shouldNavigateToSettings = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -37,8 +37,8 @@ class ProfileSettingsViewModel: ObservableObject {
         let writer = await profileUseCase.getCurrentWriter()
         DispatchQueue.main.async {
             self.userName = writer.name
-            self.formattedKabinettNumber = self.formatKabinettNumber(writer.kabinettNumber)
-            if let imageUrlString = writer.profileImage, // 이미지 url로 저장하는지? 유즈케이스랑 라이터랑 타입이 다름
+            self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
+            if let imageUrlString = writer.profileImage,
                let imageUrl = URL(string: imageUrlString),
                let imageData = try? Data(contentsOf: imageUrl),
                let image = UIImage(data: imageData) {
@@ -48,10 +48,6 @@ class ProfileSettingsViewModel: ObservableObject {
             }
         }
     } // 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    
-    private func formatKabinettNumber(_ number: Int) -> String {
-        return String(format: "%03d-%03d", number / 1000, number % 1000)
-    }
     
     var isUserNameVaild: Bool {
         return !newUserName.isEmpty
@@ -79,6 +75,17 @@ class ProfileSettingsViewModel: ObservableObject {
     
     func selectProfileImage() {
         isShowingImagePicker = true
+    }
+    
+    func handleImageSelection(newItem: PhotosPickerItem?) {
+        Task {
+            if let item = newItem,
+               let data = try? await item.loadTransferable(type: Data.self),
+               let uiImage = UIImage(data: data) {
+                selectedImage = uiImage
+                isShowingCropper = true
+            }
+        }
     }
     
     func completeProfileUpdate() {
