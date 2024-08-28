@@ -11,6 +11,8 @@ struct SignUpKabinettNumberSelectView: View {
     @StateObject var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigatedToProfile = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -68,9 +70,25 @@ struct SignUpKabinettNumberSelectView: View {
                     .padding(.leading, geometry.size.width * 0.06)
                     Spacer()
                     Button(action: {
-                        print("UserName: \(viewModel.userName)")
-                        if let selectedNumber = viewModel.selectedKabinettNumber {
-                            print("Selected Kabinett Number: \(viewModel.availablekabinettNumbers[selectedNumber])")
+                        Task {
+                            if let selectedIndex = viewModel.selectedKabinettNumber {
+                                let selectedKabinettNumber = viewModel.availablekabinettNumbers[selectedIndex]
+                                
+                                print("UserName: \(viewModel.userName)")
+                                print("Selected Kabinett Number: \(selectedKabinettNumber)")
+                                
+                                let success = await viewModel.startLoginUser(
+                                    with: viewModel.userName,
+                                    kabinettNumber: selectedKabinettNumber
+                                )
+                                if success {
+                                    shouldNavigatedToProfile = true
+                                } else {
+                                    alertMessage = "로그인에 실패했습니다."
+                                    showAlert = true
+                                    print("Login failed")
+                                }
+                            }
                         }
                     }) {
                         Text("시작하기")
@@ -83,27 +101,37 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                     .disabled(viewModel.selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                }
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                    .font(.system(size: 18, weight: .semibold))
+                    .alert(isPresented: $showAlert) {
+                        Alert(title: Text("오류"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+                    }
+
+                    .navigationDestination(isPresented:$shouldNavigatedToProfile) {
+                        ProfileView(
+                            viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()),
+                            shouldHideBackButton: true
+                        )
+                    }
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left")
+                                        .font(.system(size: 18, weight: .semibold))
+                                }
+                                .foregroundColor(.primary900)
                             }
-                            .foregroundColor(.primary900)
                         }
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
             }
-        }
-        .task {
-            await viewModel.getNumbers()
+            .task {
+                await viewModel.getNumbers()
+            }
         }
     }
 }

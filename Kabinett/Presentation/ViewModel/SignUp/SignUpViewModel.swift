@@ -11,7 +11,7 @@ import AuthenticationServices
 import CryptoKit
 
 final class SignUpViewModel: ObservableObject {
-    private let useCase: any SignupUseCase
+    private let signUpUseCase: any SignupUseCase
     
     @Published var userName: String = ""
     @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
@@ -22,13 +22,23 @@ final class SignUpViewModel: ObservableObject {
     @Published var loginError: String?
     @Published var loginSuccess: Bool = false
     
-    init(useCase: any SignupUseCase) {
-        self.useCase = useCase
+    init(signUpUseCase: any SignupUseCase) {
+        self.signUpUseCase = signUpUseCase
     }
     
     @MainActor
+       func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
+           guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
+               print("Invalid Kabinett number format")
+               return false
+           }
+           
+           return await signUpUseCase.startLoginUser(with: userName, kabinettNumber: kabinettNumberInt)
+       }
+    
+    @MainActor
     func getNumbers() async {
-        let numbers = await useCase.getAvailableKabinettNumbers()
+        let numbers = await signUpUseCase.getAvailableKabinettNumbers()
         availablekabinettNumbers = numbers
             .map {
                 formatNumber($0)
@@ -54,7 +64,7 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let success = await useCase.signUp(authorization)
+                let success = await signUpUseCase.signUp(authorization)
                 if success {
                     print("Sign up successed")
                     self.loginSuccess = true

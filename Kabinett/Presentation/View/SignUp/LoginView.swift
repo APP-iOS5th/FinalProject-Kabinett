@@ -9,7 +9,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @StateObject private var viewModel = SignUpViewModel(useCase: SignUpUseCaseStub())
+    @StateObject private var viewModel = SignUpViewModel(signUpUseCase: SignUpUseCaseStub())
     
     var body: some View {
         NavigationStack {
