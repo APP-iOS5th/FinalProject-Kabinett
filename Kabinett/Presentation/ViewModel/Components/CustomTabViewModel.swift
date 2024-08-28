@@ -70,10 +70,11 @@ final class CustomTabViewModel: ObservableObject {
     }
     
     // MARK: OptionOverlay Button 위치 관련 Method
-    func getSafeAreaBottom() -> CGFloat {
+    func getSafeAreaBottom(additionalPadding: CGFloat = 25) -> CGFloat {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
-        return windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
+        let safeAreaBottom = windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
+        return safeAreaBottom + additionalPadding
     }
     
 }

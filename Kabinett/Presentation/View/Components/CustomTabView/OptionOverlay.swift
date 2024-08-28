@@ -46,7 +46,7 @@ struct OptionOverlay: View {
             }
             .cornerRadius(10)
             .padding(.horizontal)
-            .padding(.bottom, viewModel.getSafeAreaBottom() + 25)
+            .padding(.bottom, viewModel.getSafeAreaBottom())
         }
         .transition(.move(edge: .bottom))
     }
