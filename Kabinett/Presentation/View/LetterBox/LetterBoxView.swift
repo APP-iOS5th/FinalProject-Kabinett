@@ -36,7 +36,7 @@ struct LetterBoxView: View {
                             
                             NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText)
                                 .environmentObject(letterBoxDetailViewModel)) {
-                                LetterBoxCell(letterBoxViewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
+                                LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
                                 currentLetterType = type

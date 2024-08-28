@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct LetterBoxCell: View {
-    @ObservedObject var letterBoxViewModel: LetterBoxViewModel
+    @ObservedObject var viewModel: LetterBoxViewModel
     
     var type: LetterType
     var unreadCount: Int
     
     private var letters: [Letter] {
-        return letterBoxViewModel.getSomeLetters(for: type)
+        return viewModel.getSomeLetters(for: type)
     }
     
     var body: some View {
         VStack {
             ZStack {
                 ForEach(Array(letters.reversed().enumerated()), id: \.element.id) { index, letter in
-                    let (xOffset, yOffset, rotation) = calculateOffsetAndRotation(for: index, totalCount: letters.count)
+                    let (xOffset, yOffset, rotation) = viewModel.calculateOffsetAndRotation(for: index, totalCount: letters.count)
                     
                     LetterBoxEnvelopeCell(letter: letter)
                         .offset(x: xOffset, y: yOffset)
@@ -68,26 +68,8 @@ struct LetterBoxCell: View {
             }
         }
     }
-    
-    func calculateOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
-        switch totalCount {
-        case 1:
-            return (xOffset: CGFloat(-6.5), yOffset: CGFloat(-1.5), rotation: Double(-1.5))
-        case 2:
-            let xOffset = index == 0 ? -7 : 6
-            let yOffset = index == 0 ? -10 : -2
-            let rotation = index == 0 ? -1 : 0
-            return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: Double(rotation))
-        case 3:
-            let xOffset = [-12, -5, 12][index]
-            let yOffset = [-3, -12, -2][index]
-            return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: 0)
-        default:
-            return (xOffset: 0, yOffset: 0, rotation: 0)
-        }
-    }
 }
 
 #Preview {
-    LetterBoxCell(letterBoxViewModel: LetterBoxViewModel(), type: .all, unreadCount: 1)
+    LetterBoxCell(viewModel: LetterBoxViewModel(), type: .all, unreadCount: 1)
 }
