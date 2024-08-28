@@ -21,7 +21,7 @@ class LetterBoxViewModel: ObservableObject {
     
     func fetchLetterBoxLetters(for userId: String) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.getLetterBoxLetters(userId: userId)
+            let result = await letterBoxUseCase.getLetterBoxLetters()
             switch result {
             case .success(let letterDictionary):
                 self.letterBoxLetters = letterDictionary
@@ -37,7 +37,7 @@ class LetterBoxViewModel: ObservableObject {
     
     func fetchIsRead(for userId: String) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.getIsRead(userId: userId)
+            let result = await letterBoxUseCase.getIsRead()
             switch result {
             case .success(let isReadDictionary):
                 self.isReadLetters = isReadDictionary

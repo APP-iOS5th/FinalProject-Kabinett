@@ -21,7 +21,7 @@ struct Letter: Codable, Identifiable {
     let toUserId: String?
     let toUserName: String
     let toUserKabinettNumber: Int?
-    let content: String?
+    let content: [String]
     let photoContents: [String]
     let date: Date
     let stationeryImageUrlString: String?
