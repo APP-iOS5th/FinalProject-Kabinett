@@ -56,16 +56,9 @@ struct ProfileSettingsView: View {
         .sheet(isPresented: $viewModel.isShowingCropper) {
             if let profileImage = viewModel.selectedImage {
                 ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, image: profileImage)
-            } else {
-                Text("No image available for cropping.")
             }
         }
         .onDisappear {
-            if shouldNavigateToProfileView {
-                DispatchQueue.main.async {
-                    shouldNavigateToProfileView = true
-                }
-            }
             if !viewModel.isProfileUpdated {
                 viewModel.croppedImage = nil
             }
