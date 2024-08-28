@@ -44,7 +44,7 @@ struct ImageCropper: View {
                         .onAppear {
                             self.imageViewSize = geometry.size
                         }
-                        .onChange(of: geometry.size) {
+                        .onChange(of: geometry.size) { oldValue, newValue in
                             self.imageViewSize = geometry.size
                         }
                 }
