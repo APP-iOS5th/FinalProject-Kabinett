@@ -105,6 +105,9 @@ struct EnvelopeStampSelectionView: View {
                                 .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .onChange(of: text) {
+                                    letterContent.postScript = text
+                                }
                         }
                         .padding(.bottom, 30)
                     }
