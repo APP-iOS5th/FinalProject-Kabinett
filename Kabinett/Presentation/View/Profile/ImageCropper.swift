@@ -10,18 +10,18 @@ import SwiftUI
 struct ImageCropper: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
     @Binding var isShowingCropper: Bool
-    let image: UIImage?
+    let imageToCrop: UIImage?
     @State var cropArea: CGRect = .init(x: 0, y: 0, width: 110, height: 110)
     @State var imageViewSize: CGSize = .zero
     @State var croppedImage: UIImage? = nil
 
     var body: some View {
-        if let image = image {
+        if let imageToCrop = imageToCrop {
             VStack {
                 Spacer()
-                imageView(image: image)
+                imageView(image: imageToCrop)
                 Spacer()
-                actionButtons(image: image)
+                actionButtons(image: imageToCrop)
                 if let croppedImage = croppedImage {
                     croppedImageView(croppedImage: croppedImage)
                 }

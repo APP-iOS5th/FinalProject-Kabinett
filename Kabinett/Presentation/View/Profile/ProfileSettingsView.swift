@@ -55,7 +55,7 @@ struct ProfileSettingsView: View {
         }
         .sheet(isPresented: $viewModel.isShowingCropper) {
             if let profileImage = viewModel.selectedImage {
-                ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, image: profileImage)
+                ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
             }
         }
         .onDisappear {
