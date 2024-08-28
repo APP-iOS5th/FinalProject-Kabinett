@@ -32,7 +32,6 @@ struct AccountSettingsView: View {
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .contentShape(Rectangle())
                     
                     Spacer()
                     
@@ -51,7 +50,6 @@ struct AccountSettingsView: View {
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .contentShape(Rectangle())
                 }
                 .navigationBarBackButtonHidden(true)
                 .toolbar {
