@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
+import Combine
 
 enum LetterError: Error {
     case invalidLetterId
@@ -18,6 +19,7 @@ enum LetterError: Error {
     case invalidToUserName
     case invalidPhotoContents
     case invalidStationery
+    case invalidUser
 }
 
 enum LetterSaveError: Error {
@@ -34,6 +36,11 @@ enum LetterSaveError: Error {
 final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
+    private let authManager: AuthManager
+    
+    init(authManager: AuthManager) {
+        self.authManager = authManager
+    }
     
     // MARK: - LetterWriteUseCase
     func saveLetter(font: String, 
@@ -46,7 +53,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                     toUserId: String?, 
                     toUserName: String,
                     toUserKabinettNumber: Int?,
-                    content: String?, 
+                    content: [String],
                     photoContents: [Data],
                     date: Date,
                     stationery: String,
@@ -63,7 +70,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         
         do {
             try await validateFromUser(fromUserId: fromUserId)
-            
             let photoContentStringUrl: [String]
             if !photoContents.isEmpty {
                 photoContentStringUrl = try await convertPhotoToUrl(photoContents: photoContents)
@@ -83,7 +89,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                 toUserId: toUserId ?? "",
                 toUserName: toUserName,
                 toUserKabinettNumber: toUserKabinettNumber ?? 0,
-                content: content ?? "",
+                content: content,
                 photoContents: photoContentStringUrl,
                 date: date,
                 stationeryImageUrlString: stationery,
@@ -133,7 +139,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                 toUserId: toUserId ?? "",
                 toUserName: toUserName,
                 toUserKabinettNumber: toUserKabinettNumber ?? 0,
-                content: nil,
+                content: [],
                 photoContents: photoContentStringUrl,
                 date: date,
                 stationeryImageUrlString: nil,
@@ -147,8 +153,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     
     // MARK: - LetterBoxUseCase
     // letter 타입별 로딩
-    func getLetterBoxDetailLetters(userId: String, letterType: LetterType) async -> Result<[Letter], any Error> {
+    func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
         do {
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             let collectionName: String
@@ -175,11 +182,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // main 편지함 letter 3개 로딩
-    func getLetterBoxLetters(userId: String) async -> Result<[LetterType : [Letter]], any Error> {
+    func getLetterBoxLetters() async -> Result<[LetterType : [Letter]], any Error> {
         var result: [LetterType: [Letter]] = [:]
         
         for type in [LetterType.toMe, .sent, .received, .all] {
-            let lettersResult = await getLetterBoxDetailLetters(userId: userId, letterType: type)
+            let lettersResult = await getLetterBoxDetailLetters(letterType: type)
             
             switch lettersResult {
             case .success(let letters):
@@ -193,7 +200,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // 안읽은 letter 개수 로딩
-    func getIsRead(userId: String) async -> Result<[LetterType: Int], any Error> {
+    func getIsRead() async -> Result<[LetterType: Int], any Error> {
         var result: [LetterType: Int] = [:]
         
         let typeToCollectionName: [LetterType: String] = [
@@ -202,6 +209,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         ]
         
         do {
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             for type in [LetterType.toMe, .received] {
@@ -222,10 +230,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // keyword 기준 letter 검색
-    func searchBy(userId: String, findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
+    func searchBy(findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             let collectionNames: [String]
@@ -266,10 +275,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // date 기준 letter 검색
-    func searchBy(userId: String, letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
+    func searchBy(letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             let collectionNames: [String]
@@ -305,9 +315,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // letter 삭제
-    func removeLetter(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func removeLetter(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
         do {
             var removeSucceeded = false
+            
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             let collectionNames: [String]
@@ -344,9 +356,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // 안읽음->읽음 update
-    func updateIsRead(userId: String, letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func updateIsRead(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
         do {
             var updateSucceeded = false
+            
+            let userId = try await getCurrentUserId()
             try await validateFromUser(fromUserId: userId)
             
             let collectionNames: [String]
@@ -397,9 +411,33 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         guard letterSnapshot.exists else { throw LetterError.invalidLetterId }
     }
     
+    // MARK: - 유저 DocumentID 가져오기
+    private func getCurrentUserId() async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            var cancellable: AnyCancellable?
+            cancellable = authManager.getCurrentUser()
+                .first()
+                .sink { completion in
+                    switch completion {
+                    case .finished:
+                        break
+                    case .failure(let error):
+                        continuation.resume(throwing: error)
+                    }
+                    cancellable?.cancel()
+                } receiveValue: { user in
+                    if let uid = user?.uid {
+                        continuation.resume(returning: uid)
+                    } else {
+                        continuation.resume(throwing: LetterError.invalidUser)
+                    }
+                    cancellable?.cancel()
+                }
+        }
+    }
+    
     // MARK: - Firestore Letter 저장
     private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Bool, any Error> {
-        
         do {
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             let toUserDoc = toUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
@@ -502,20 +540,26 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     // MARK: - PhotoContents URL 변환
     private func convertPhotoToUrl(photoContents: [Data]) async throws -> [String] {
         let storageRef = storage.reference()
-        var photoContentUrlStrings: [String] = []
         
-        do {
+        return try await withThrowingTaskGroup(of: String.self) { taskGroup in
+            var photoContentUrlStrings: [String] = []
+            
             for photoContent in photoContents {
-                let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
-                
-                _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
-                
-                let downloadURL = try await photoRef.downloadURL()
-                photoContentUrlStrings.append(downloadURL.absoluteString)
+                taskGroup.addTask {
+                    let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
+                    
+                    _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
+                    
+                    let downloadURL = try await photoRef.downloadURL()
+                    return downloadURL.absoluteString
+                }
             }
-        } catch {
-            throw LetterSaveError.failedConvertPhotoURL
+            
+            for try await urlString in taskGroup {
+                photoContentUrlStrings.append(urlString)
+            }
+            
+            return photoContentUrlStrings
         }
-        return photoContentUrlStrings
     }
 }

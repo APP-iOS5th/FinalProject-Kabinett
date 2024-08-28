@@ -9,15 +9,18 @@ import SwiftUI
 
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
-    @StateObject var viewModel: LetterBoxViewModel
     
+    @StateObject var letterBoxViewModel: LetterBoxViewModel
+    @StateObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    
+    @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
     
     @State private var searchText: String = ""
     @State private var showSearchBarView = false
     
     let columns = [
-        GridItem(.flexible(minimum: 220), spacing: -70),
+        GridItem(.flexible(minimum: 220), spacing: -60),
         GridItem(.flexible(minimum: 220))
     ]
     
@@ -28,19 +31,23 @@ struct LetterBoxView: View {
                     Color.background
                     
                     LazyVGrid(columns: columns, spacing: 40) {
-                        ForEach(LetterBoxType.allCases) { type in
-                            let unreadCount = viewModel.getIsReadLetters(for: type.toLetterType())
+                        ForEach(LetterType.allCases, id: \.self) { type in
+                            let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterBoxType: "\(type)", showSearchBarView: $showSearchBarView, searchText: $searchText)) {
-                                LetterBoxCell(letterBoxViewModel: viewModel, type: type, unreadCount: unreadCount)
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText)
+                                .environmentObject(letterBoxDetailViewModel)) {
+                                LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
+                            .simultaneousGesture(TapGesture().onEnded {
+                                currentLetterType = type
+                            })
                         }
                     }
                     
                     VStack {
                         if showToast {
                             Spacer()
-                            ToastView(message: "편지가 도착했습니다.", horizontalPadding: 50)
+                            ToastView(message: "카비넷 팀이 보낸 편지가 도착했습니다.", horizontalPadding: 50)
                                 .transition(.move(edge: .bottom))
                                 .zIndex(1)
                                 .onAppear {
@@ -61,8 +68,8 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
-                    viewModel.fetchLetterBoxLetters(for: "anonymousUser")
-                    viewModel.fetchIsRead(for: "anonymousUser")
+                    letterBoxViewModel.fetchLetterBoxLetters()
+                    letterBoxViewModel.fetchIsRead()
                 }
             }
             .tint(.black)
@@ -75,7 +82,8 @@ struct LetterBoxView: View {
                             .background(Material.ultraThinMaterial)
                             .blur(radius: 1.5)
 
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView)
+                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, letterType: currentLetterType)
+                            .environmentObject(letterBoxDetailViewModel)
                             .padding(.top, 50)
                             .edgesIgnoringSafeArea(.top)
                             .zIndex(1)
@@ -90,5 +98,6 @@ struct LetterBoxView: View {
 }
 
 #Preview {
-    LetterBoxView(viewModel: LetterBoxViewModel())
+    LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
+        .environmentObject(LetterBoxDetailViewModel())
 }
