@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject var viewModel: ProfileSettingsViewModel
+    @ObservedObject var profileViewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigateToProfileView = false
     
@@ -16,7 +16,7 @@ struct SettingsView: View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(viewModel: viewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
+                    NavigationLink(destination: ProfileSettingsView(viewModel: profileViewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -60,7 +60,7 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 10)
-                        Text(viewModel.appleID)
+                        Text(profileViewModel.appleID)
                             .font(.system(size: 17))
                             .foregroundColor(.contentSecondary)
                     }
@@ -93,5 +93,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
 }
