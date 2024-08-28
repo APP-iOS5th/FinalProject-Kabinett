@@ -18,47 +18,6 @@ struct ProfileSettingsView: View {
             VStack{
                 photoPickerView()
                 userInfoInputFields()
-                //                    ZStack{
-                //                        Circle()
-                //                            .foregroundColor(.primary300)
-                //                            .frame(width: 110, height: 110)
-                //                        if let image: UIImage = viewModel.croppedImage {
-                //                            Image(uiImage: image)
-                //                                .resizable()
-                //                                .scaledToFill()
-                //                                .frame(width: 110, height: 110)
-                //                                .clipShape(Circle())
-                //                        }
-                //                        Image(systemName: "photo")
-                //                            .font(.system(size: 36))
-                //                            .foregroundColor(.white)
-                //                    }
-                //                }
-                //                .onChange(of: viewModel.selectedImageItem) { newItem in
-                //                    Task {
-                //                        if let data = try? await newItem?.loadTransferable(type: Data.self),
-                //                           let uiImage = UIImage(data: data) {
-                //                            viewModel.selectedImage = uiImage
-                //                            viewModel.isShowingCropper = true
-                //                        }
-                //                    }
-                //                }
-                //                .padding(.bottom, 10)
-                //
-                //                TextField(viewModel.displayName, text: $viewModel.newUserName)
-                //                    .textFieldStyle(ProfileOvalTextFieldStyle())
-                //                    .autocorrectionDisabled(true)
-                //                    .keyboardType(.alphabet)
-                //                    .submitLabel(.done)
-                //                    .frame(alignment: .center)
-                //                    .multilineTextAlignment(.center)
-                //                    .font(Font.system(size: 25, design: .default))
-                //                    .padding(.bottom, 10)
-                //
-                //                Text(viewModel.kabinettNumber)
-                //                    .fontWeight(.light)
-                //                    .font(.system(size: 16))
-                //                    .monospaced()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.background)
@@ -137,20 +96,9 @@ struct ProfileSettingsView: View {
             }
         }
         .onChange(of: viewModel.selectedImageItem) { oldItem, newItem in
-            handleImageSelection(newItem: newItem)
+            viewModel.handleImageSelection(newItem: newItem)
         }
         .padding(.bottom, 10)
-    }
-    
-    private func handleImageSelection(newItem: PhotosPickerItem?) {
-        Task {
-            if let item = newItem,
-               let data = try? await item.loadTransferable(type: Data.self),
-               let uiImage = UIImage(data: data) {
-                viewModel.selectedImage = uiImage
-                viewModel.isShowingCropper = true
-            }
-        }
     }
     
     @ViewBuilder
