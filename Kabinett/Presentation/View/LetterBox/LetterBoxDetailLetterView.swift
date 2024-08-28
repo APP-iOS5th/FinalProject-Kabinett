@@ -21,22 +21,53 @@ struct LetterBoxDetailLetterView: View {
             Color.background
                 .edgesIgnoringSafeArea(.all)
             
-            LetterBoxDetailEnvelopeCell(letter: letter)
-                .onTapGesture {
-                    if !letter.isRead {
-                        guard let letterId = letter.id else {
-                            return
-                        }
-                        viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
-                        showDetailLetter = true
+            ZStack(alignment: .trailing) {
+                if viewModel.showDeleteButton {
+                    Button(action: {
+                        guard let letterId = letter.id else { return }
+                        viewModel.deleteLetter(letterId: letterId, letterType: letterType)
+                        dismiss()
+                    }) {
+                        Text("삭제하기")
+                            .font(.system(size: 16))
+                            .foregroundColor(.alert)
                     }
+                    .padding(.trailing, letter.isRead ? -20 : -5)
                 }
+                
+                HStack {
+                    LetterBoxDetailEnvelopeCell(letter: letter)
+                        .onTapGesture {
+                            if !letter.isRead {
+                                guard let letterId = letter.id else { return }
+                                viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
+                                showDetailLetter = true
+                            }
+                        }
+                }
+                .offset(x: viewModel.offset)
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            viewModel.handleDragGesture(value: value)
+                        }
+                        .onEnded { _ in
+                            viewModel.handleDragEnd()
+                        }
+                )
+                .animation(.spring(), value: viewModel.offset)
+            }
         }
         .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
+        .fullScreenCover(isPresented: $showDetailLetter) {
+            // 이동할 편지 뷰
+        }
     }
 }
+
+
 
 #Preview {
     LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])

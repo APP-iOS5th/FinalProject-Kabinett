@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class LetterViewModel: ObservableObject {
     private let letterBoxUseCase: LetterBoxUseCase
@@ -16,6 +17,9 @@ class LetterViewModel: ObservableObject {
     
     @Published var isRemove: Bool = false
     @Published var isRead: Bool = false
+    
+    @Published var offset: CGFloat = 0
+    @Published var showDeleteButton = false
     
     @Published var errorMessage: String?
     
@@ -40,6 +44,24 @@ class LetterViewModel: ObservableObject {
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
             }
+        }
+    }
+    
+    func handleDragGesture(value: DragGesture.Value) {
+        if value.translation.width < 0 {
+            offset = value.translation.width
+            if offset < -60 {
+                showDeleteButton = true
+            }
+        }
+    }
+    
+    func handleDragEnd() {
+        if offset < -60 {
+            offset = -60
+        } else {
+            offset = 0
+            showDeleteButton = false
         }
     }
 }
