@@ -22,23 +22,15 @@ struct CustomTabView: View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
                 LetterBoxView(viewModel: LetterBoxViewModel())
-                    .tabItem {
-                        Image(uiImage: viewModel.envelopeImage)
-                    }
                     .tag(0)
                 
                 Color.clear
-                    .tabItem {
-                        Image(uiImage: viewModel.plusImage)
-                    }
                     .tag(1)
                 
                 ProfileView(viewModel: ProfileSettingsViewModel())
-                    .tabItem {
-                        Image(uiImage: viewModel.profileImage)
-                    }
                     .tag(2)
             }
+            .overlay(CustomTabBar(viewModel: viewModel), alignment: .bottom)
         }
         .onAppear {
             viewModel.setupTabBarAppearance()
@@ -58,17 +50,8 @@ struct CustomTabView: View {
                 }
             }
         )
-        .overlay(
-            ImportDialog(viewModel: viewModel)
-        )
-        .overlay(
-            ImagePickerView(
-                viewModel: imagePickerViewModel,
-                showPhotoLibrary: $viewModel.showPhotoLibrary,
-                showImagePreview: $viewModel.showImagePreview,
-                showActionSheet: $viewModel.showImportDialog
-            )
-        )
+        .overlay(ImportDialog(viewModel: viewModel))
+        .overlay(ImagePickerView(imageViewModel: imagePickerViewModel, customViewModel: viewModel))
         .fullScreenCover(isPresented: $viewModel.showCamera) {
             CameraView(imagePickerViewModel: imagePickerViewModel)
                 .environmentObject(imagePickerViewModel)
@@ -77,10 +60,7 @@ struct CustomTabView: View {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
     }
-    
 }
-
-
 
 #Preview {
     CustomTabView(

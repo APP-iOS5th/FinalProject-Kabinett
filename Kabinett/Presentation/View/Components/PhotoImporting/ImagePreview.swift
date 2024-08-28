@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct ImagePreivew: View {
-    @Binding var showActionSheet: Bool
+struct ImagePreview: View {
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var viewModel: ImagePickerViewModel
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
     
@@ -19,7 +19,7 @@ struct ImagePreivew: View {
             ZStack {
                 VStack {
                     Spacer()
-                    OverlappingImagesView(images: viewModel.photoContents, showDetailView: $showDetailView)
+                    OverlappingImagesView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
                     Spacer()
                     Button(action: {
                         showLetterWritingView = true
@@ -37,7 +37,7 @@ struct ImagePreivew: View {
             .navigationBarItems(leading: Button(action: {
                 dismiss()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    showActionSheet = true
+                    customViewModel.showImportDialog = true
                 }
             }) {
                 Image(systemName: "chevron.left")
@@ -45,10 +45,10 @@ struct ImagePreivew: View {
             })
             .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {
-                ImageDetailView(images: viewModel.photoContents, showDetailView: $showDetailView)
+                ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(viewModel: viewModel)
+                LetterWritingView(viewModel: imageViewModel, customViewModel: customViewModel)
             }
             .background(Color("Background").edgesIgnoringSafeArea(.all))
         }

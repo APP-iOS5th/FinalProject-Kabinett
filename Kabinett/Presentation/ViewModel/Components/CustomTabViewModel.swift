@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class CustomTabViewModel: ObservableObject {
+final class CustomTabViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
     @Published var showOptions: Bool = false
     @Published var showImportDialog: Bool = false
@@ -30,29 +30,15 @@ class CustomTabViewModel: ObservableObject {
     
     func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
-        appearance.configureWithTransparentBackground()
-        
         let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        blurView.frame = UIScreen.main.bounds
         
+        appearance.configureWithTransparentBackground()
         appearance.backgroundEffect = blurEffect
-        
-        appearance.backgroundColor = UIColor.clear
         appearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(0.01)
-        
-        
         appearance.shadowColor = UIColor.black.withAlphaComponent(0.05)
-        
-        
-        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(Color("Primary300"))
-        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(Color("Primary600"))
-        
         
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
-        
-        UITabBar.centerTabItems()
     }
     
     // MARK: OptionOverlay sheet 관련 Method
@@ -70,6 +56,19 @@ class CustomTabViewModel: ObservableObject {
         showWriteLetterView = true
     }
     
+    // MARK: ImagePicker sheet 관련 Method
+    func togglePhotoLibrary() {
+        showPhotoLibrary.toggle()
+    }
+    
+    func toggleImagePreview() {
+        showImagePreview.toggle()
+    }
+    
+    func toggleImportDialog() {
+        showImportDialog.toggle()
+    }
+    
     // MARK: OptionOverlay Button 위치 관련 Method
     func getSafeAreaBottom() -> CGFloat {
         let scenes = UIApplication.shared.connectedScenes
@@ -78,29 +77,3 @@ class CustomTabViewModel: ObservableObject {
     }
     
 }
-
-// MARK: tabview items Y 축 중앙 위치
-extension UITabBar {
-    static func centerTabItems() {
-        UITabBar.appearance().itemPositioning = .centered
-        
-        if let originalMethod = class_getInstanceMethod(UITabBar.self, #selector(layoutSubviews)),
-           let swizzledMethod = class_getInstanceMethod(UITabBar.self, #selector(swizzled_layoutSubviews)) {
-            method_exchangeImplementations(originalMethod, swizzledMethod)
-        }
-    }
-    @objc func swizzled_layoutSubviews() {
-        swizzled_layoutSubviews()
-        let centerY = self.bounds.height / 2
-        
-        self.subviews.forEach { subview in
-            if let itemView = subview as? UIControl {
-                var center = itemView.center
-                center.y = centerY
-                itemView.center = center
-            }
-        }
-    }
-}
-
-
