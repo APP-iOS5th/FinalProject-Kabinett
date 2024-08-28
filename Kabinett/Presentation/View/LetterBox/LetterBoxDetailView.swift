@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct LetterBoxDetailView: View {
-    @State var letterBoxType: String
-    @State private var letterCount: Int = 0
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    
+    @State var letterType: LetterType
     
     @State private var navigationBarHeight: CGFloat = 0
     
@@ -23,8 +24,9 @@ struct LetterBoxDetailView: View {
     
     @Environment(\.dismiss) private var dismiss
     
-    let letters = Array(0...16) // dummy
+//    let letters = Array(0...16) // dummy
 //    let letters: [Int] = [] // empty dummy
+    @State private var letters: [Letter] = []
     
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
@@ -42,8 +44,12 @@ struct LetterBoxDetailView: View {
         }
     }
     
-    init(letterBoxType: String, showSearchBarView: Binding<Bool>, searchText: Binding<String>) {
-        self.letterBoxType = letterBoxType
+    init(
+         letterType: LetterType,
+         showSearchBarView: Binding<Bool>,
+         searchText: Binding<String>
+    ) {
+        self.letterType = letterType
         self._showSearchBarView = showSearchBarView
         self._searchText = searchText
         
@@ -62,30 +68,31 @@ struct LetterBoxDetailView: View {
                 .edgesIgnoringSafeArea(.all)
             
             if startDateFiltering {
-                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate)
+                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate, letterType: letterType)
                     .zIndex(1)
             }
             
             ZStack {
-                if letters.count == 0 {
-                    Text("아직 나에게 보낸 편지가 없어요.")
-                        .font(.system(size: 16, weight: .semibold))
+                if viewModel.letterBoxDetailLetters.isEmpty {
+                    Text(letterType.setEmptyMessage())
+                        .font(.system(size: 16, weight: .bold))
+                        .foregroundStyle(.contentPrimary)
                 }
-                else if letters.count < 3 {
+                else if viewModel.letterBoxDetailLetters.count < 3 {
                     VStack(spacing: 25) {
-                        ForEach(letters, id: \.self) { letter in
-                            LetterBoxDetailEnvelopeCell()
+                        ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
+                            LetterBoxDetailEnvelopeCell(letter: letter)
                         }
                     }
                 } else {
                     ScrollView {
                         LazyVStack(spacing: -75) {
-                            ForEach(letters.indices, id: \.self) { idx in
+                            ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
                                 if idx < 2 {
-                                    LetterBoxDetailEnvelopeCell()
+                                    LetterBoxDetailEnvelopeCell(letter: letter)
                                         .padding(.bottom, idx == 0 ? 82 : 37)
                                 } else {
-                                    LetterBoxDetailEnvelopeCell()
+                                    LetterBoxDetailEnvelopeCell(letter: letter)
                                         .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                         .zIndex(Double(idx))
                                         .padding(.bottom, idx % 3 == 1 ? 37 : 0)
@@ -107,14 +114,15 @@ struct LetterBoxDetailView: View {
                 }
             }
             .onAppear {
-                letterCount = letters.count
+                viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
             }
+
             
             VStack {
                 Spacer()
                 
                 ZStack {
-                    Text("\(letterCount)")
+                    Text("\(viewModel.letterBoxDetailLetters.count)")
                         .padding(.horizontal, 17)
                         .padding(.vertical, 6)
                         .foregroundStyle(.black)
@@ -127,7 +135,7 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle(letterBoxType)
+        .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: backButton)
         .toolbar {
@@ -138,6 +146,7 @@ struct LetterBoxDetailView: View {
                             startDateFiltering = false
                             startDate = Date()
                             endDate = Date()
+                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         }
                         showSearchBarView.toggle()
                     }
@@ -173,11 +182,11 @@ struct LetterBoxDetailView: View {
             }
         }
     }
-    
 }
 
 #Preview {
-    LetterBoxDetailView(letterBoxType: "All", showSearchBarView: .constant(false), searchText: .constant(""))
+    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""))
+        .environmentObject(LetterBoxDetailViewModel())
 }
 
 struct NavigationBarHeightKey: PreferenceKey {
@@ -191,8 +200,11 @@ struct NavigationBarHeightKey: PreferenceKey {
 }
 
 struct SearchBarView: View {
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
+    var letterType: LetterType
     
     var body: some View {
         HStack {
@@ -200,6 +212,13 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
+                    .onChange(of: searchText) { oldValue, newValue in
+                        if newValue.isEmpty {
+                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                        } else {
+                            viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
+                        }
+                    }
                     .foregroundStyle(.primary)
                 Image(systemName: "mic.fill")
             }
@@ -214,6 +233,7 @@ struct SearchBarView: View {
                     withAnimation {
                         showSearchBarView.toggle()
                         self.searchText = ""
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -229,9 +249,13 @@ struct SearchBarView: View {
 }
 
 struct CalendarBar: View {
+    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    
     @Binding var startDateFiltering: Bool
     @Binding var startDate: Date
     @Binding var endDate: Date
+    
+    var letterType: LetterType
     
     var body: some View {
         VStack {
@@ -256,6 +280,7 @@ struct CalendarBar: View {
                         startDateFiltering.toggle()
                         startDate = Date()
                         endDate = Date()
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -266,6 +291,9 @@ struct CalendarBar: View {
             .padding(.horizontal, 20)
             
             Spacer()
+        }
+        .onAppear {
+            viewModel.fetchSearchByDate(letterType: letterType, startDate: startDate, endDate: endDate)
         }
     }
     

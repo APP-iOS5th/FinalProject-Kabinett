@@ -14,7 +14,7 @@ struct ContentView: View {
     var body: some View {
         CustomTabView(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase)
         {
-            LetterBoxView(viewModel: LetterBoxViewModel())
+            LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
                 .tag(0)
             // + OptionOverlay Button
             Color.clear

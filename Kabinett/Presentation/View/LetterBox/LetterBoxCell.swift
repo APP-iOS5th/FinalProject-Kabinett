@@ -8,21 +8,24 @@
 import SwiftUI
 
 struct LetterBoxCell: View {
-    @ObservedObject var letterBoxViewModel: LetterBoxViewModel
+    @ObservedObject var viewModel: LetterBoxViewModel
     
-    var type: LetterBoxType
+    var type: LetterType
     var unreadCount: Int
     
     private var letters: [Letter] {
-        return letterBoxViewModel.getSomeLetters(for: type.toLetterType())
+        return viewModel.getSomeLetters(for: type)
     }
     
     var body: some View {
         VStack {
             ZStack {
-                ForEach(letters.prefix(3).reversed()) { letter in
+                ForEach(Array(letters.reversed().enumerated()), id: \.element.id) { index, letter in
+                    let (xOffset, yOffset, rotation) = viewModel.calculateOffsetAndRotation(for: index, totalCount: letters.count)
+                    
                     LetterBoxEnvelopeCell(letter: letter)
-                        .offset(x: CGFloat(Int.random(in: -10...5)), y: 0)
+                        .offset(x: xOffset, y: yOffset)
+                        .rotationEffect(.degrees(rotation))
                 }
                 .onAppear { }
                 
@@ -31,43 +34,42 @@ struct LetterBoxCell: View {
                     .background(.clear.opacity(0.1))
                     .background(TransparentBlurView(removeAllFilters: true).blur(radius: 0.8))
 //                    .background(.ultraThinMaterial)
-                    .frame(width: 125, height: 180)
+                    .frame(width: 135, height: 185)
 //                    .opacity(0.5)
                     .padding(.top, 34)
                     .shadow(radius: 1, y: CGFloat(2))
                     .blendMode(.luminosity)
                 
-                Text("\(type)")
+                Text(type.description)
                     .font(.custom("Pecita", size: 20))
                     .offset(y: 90)
             }
-            .padding(.bottom, 12)
+            .padding(.bottom, 13)
+            
+            Spacer(minLength: 0)
             
             HStack {
-                Text(type.rawValue)
+                Text(type.koName())
                     .font(.system(size: 11))
                     .foregroundStyle(.contentSecondary)
                 
 //                새로 도착한 편지에 대한 알림
                 if unreadCount > 0 {
                     ZStack {
-                        Circle()
-                            .fill(.secondary900)
-                            .frame(width: 17)
+                        Image("RedSticker")
+                            .resizable()
+                            .frame(width: 22, height: 22)
                         Text("\(unreadCount)")
-                            .font(.system(size: 10, weight: .regular))
+                            .font(.system(size: 13, weight: .medium))
                             .foregroundStyle(.white)
                     }
                     .padding(.leading, -2)
                 }
             }
-            
         }
-        
-        
     }
 }
 
 #Preview {
-    LetterBoxCell(letterBoxViewModel: LetterBoxViewModel(), type: .All, unreadCount: 1)
+    LetterBoxCell(viewModel: LetterBoxViewModel(), type: .all, unreadCount: 1)
 }

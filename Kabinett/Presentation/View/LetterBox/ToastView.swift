@@ -30,5 +30,5 @@ struct ToastView: View {
 }
 
 #Preview {
-    ToastView(message: "편지가 도착했어요.", horizontalPadding: 40)
+    ToastView(message: "카비넷 팀이 보낸 편지가 도착했어요.", horizontalPadding: 40)
 }
