@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel: ProfileSettingsViewModel
-    var shouldHideBackButton: Bool = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -41,7 +40,7 @@ struct ProfileView: View {
                 .padding(.horizontal, geometry.size.width * 0.06)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
-                .navigationBarBackButtonHidden(shouldHideBackButton)
+                .navigationBarBackButtonHidden()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: SettingsView(viewModel: viewModel)) {

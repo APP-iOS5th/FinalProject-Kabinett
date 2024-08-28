@@ -112,8 +112,7 @@ struct SignUpKabinettNumberSelectView: View {
 
                     .navigationDestination(isPresented:$shouldNavigatedToProfile) {
                         ProfileView(
-                            viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()),
-                            shouldHideBackButton: true
+                            viewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
                         )
                     }
                     .navigationBarBackButtonHidden(true)
