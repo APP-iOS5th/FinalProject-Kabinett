@@ -11,6 +11,7 @@ import Combine
 protocol ProfileUseCase {
     func isAnonymous() async -> AnyPublisher<Bool, Never>
     func getCurrentWriter() async -> Writer
+    func getAppleID() async -> String
     func updateWriter(
         newWriterName: String,
         profileImage: Data?
@@ -30,6 +31,11 @@ final class ProfileUseCaseStub: ProfileUseCase {
             kabinettNumber: 455444,
             profileImage: nil)
     }
+
+    func getAppleID() async -> String {
+        "figfigure13@gmail.com"
+    }
+    
     func updateWriter(newWriterName: String, profileImage: Data?) async -> Bool {
         true
     }

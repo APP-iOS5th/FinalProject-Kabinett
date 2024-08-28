@@ -15,7 +15,7 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var userName: String = ""
     @Published var newUserName: String = ""
     @Published var formattedKabinettNumber: String = ""
-    @Published var appleID: String = "figfigure33@gmail.com" //추후 유즈케이스에 추가
+    @Published var appleID: String = ""
     @Published var profileImage: UIImage?
     @Published var isShowingImagePicker = false
     @Published var selectedImageItem: PhotosPickerItem?
@@ -30,6 +30,7 @@ class ProfileSettingsViewModel: ObservableObject {
         
         Task {
             await loadInitialData()
+            await fetchAppleID()
         }
     }
     
@@ -48,6 +49,11 @@ class ProfileSettingsViewModel: ObservableObject {
             }
         }
     } // 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    
+    private func fetchAppleID() async {
+        let ID = await profileUseCase.getAppleID()
+        self.appleID = ID
+    }
     
     var isUserNameVaild: Bool {
         return !newUserName.isEmpty
