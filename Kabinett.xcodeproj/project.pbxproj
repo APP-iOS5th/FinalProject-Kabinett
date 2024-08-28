@@ -18,6 +18,7 @@
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
+		5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */; };
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
 		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
@@ -126,6 +127,7 @@
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
+		5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailLetterView.swift; sourceTree = "<group>"; };
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				530912CB2C7045F200964130 /* ToastView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
 				535961902C74F5870031E181 /* CalendarView.swift */,
+				5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
 				7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
@@ -782,7 +786,6 @@
 				04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
-				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
 				AFA58F262C6AE33D00A7C569 /* FirebaseFirestoreManager.swift in Sources */,

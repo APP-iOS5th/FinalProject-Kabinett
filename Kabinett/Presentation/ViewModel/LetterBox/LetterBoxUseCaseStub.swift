@@ -51,7 +51,7 @@ class LetterBoxUseCaseStub: LetterBoxUseCase {
     }
     
     func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
-        return .success(LetterBoxUseCaseStub.sampleLetters)
+        return .success(LetterBoxUseCaseStub.sampleLetterDictionary[letterType]!)
     }
     
     func getIsRead() async -> Result<[LetterType : Int], any Error> {
