@@ -100,8 +100,14 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                     .disabled(viewModel.selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                    .alert(isPresented: $showAlert) {
-                        Alert(title: Text("오류"), message: Text(alertMessage), dismissButton: .default(Text("확인")))
+                    .alert(
+                        "오류",
+                        isPresented: $showAlert
+                    ) {
+                        Button("확인", role: .cancel) {
+                        }
+                    } message: {
+                        Text(alertMessage)
                     }
 
                     .navigationDestination(isPresented:$shouldNavigatedToProfile) {

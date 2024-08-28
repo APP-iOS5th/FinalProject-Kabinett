@@ -53,15 +53,23 @@ struct LoginView: View {
                 .navigationDestination(isPresented: $viewModel.loginSuccess) {
                     SignUpNameInputView(viewModel: viewModel)
                 }
-                .alert(isPresented: $showAlert) {
-                    Alert(title: Text("오류"),
-                          message: Text(viewModel.loginError ?? "알 수 없는 로그인 오류가 발생했습니다."),
-                          dismissButton: .default(Text("확인"))
-                    )
+                .alert(
+                    "오류",
+                    isPresented: $showAlert
+                ) {
+                    Button("확인", role: .cancel) {
+                    }
+                } message: {
+                    Text(viewModel.loginError ?? "알 수 없는 로그인 오류가 발생했습니다.")
                 }
             }
         }
     }
+}
+
+struct LoginErrorDetails: Identifiable {
+    let id = UUID()
+    let message: String
 }
 
 #Preview {
