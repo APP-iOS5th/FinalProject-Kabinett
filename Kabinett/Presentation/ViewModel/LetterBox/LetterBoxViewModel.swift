@@ -19,7 +19,7 @@ class LetterBoxViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
-    func fetchLetterBoxLetters(for userId: String) {
+    func fetchLetterBoxLetters() {
         Task { @MainActor in
             let result = await letterBoxUseCase.getLetterBoxLetters()
             switch result {
@@ -35,7 +35,7 @@ class LetterBoxViewModel: ObservableObject {
         return letterBoxLetters[type] ?? []
     }
     
-    func fetchIsRead(for userId: String) {
+    func fetchIsRead() {
         Task { @MainActor in
             let result = await letterBoxUseCase.getIsRead()
             switch result {

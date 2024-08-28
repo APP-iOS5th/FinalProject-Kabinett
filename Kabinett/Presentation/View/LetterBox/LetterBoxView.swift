@@ -68,8 +68,8 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
-                    letterBoxViewModel.fetchLetterBoxLetters(for: "anonymousUser")
-                    letterBoxViewModel.fetchIsRead(for: "anonymousUser")
+                    letterBoxViewModel.fetchLetterBoxLetters()
+                    letterBoxViewModel.fetchIsRead()
                 }
             }
             .tint(.black)

@@ -114,7 +114,7 @@ struct LetterBoxDetailView: View {
                 }
             }
             .onAppear {
-                viewModel.fetchLetterBoxDetailLetters(for: "annoymousUser", letterType: letterType)
+                viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
             }
 
             
@@ -146,7 +146,7 @@ struct LetterBoxDetailView: View {
                             startDateFiltering = false
                             startDate = Date()
                             endDate = Date()
-                            viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
+                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         }
                         showSearchBarView.toggle()
                     }
@@ -214,9 +214,9 @@ struct SearchBarView: View {
                 TextField("Search", text: $searchText)
                     .onChange(of: searchText) { oldValue, newValue in
                         if newValue.isEmpty {
-                            viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
+                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         } else {
-                            viewModel.fetchSearchByKeyword(for: "anonymousUser", findKeyword: searchText, letterType: letterType)
+                            viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
                         }
                     }
                     .foregroundStyle(.primary)
@@ -233,7 +233,7 @@ struct SearchBarView: View {
                     withAnimation {
                         showSearchBarView.toggle()
                         self.searchText = ""
-                        viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -280,7 +280,7 @@ struct CalendarBar: View {
                         startDateFiltering.toggle()
                         startDate = Date()
                         endDate = Date()
-                        viewModel.fetchLetterBoxDetailLetters(for: "anonymousUser", letterType: letterType)
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
@@ -293,7 +293,7 @@ struct CalendarBar: View {
             Spacer()
         }
         .onAppear {
-            viewModel.fetchSearchByDate(for: "anonymousUser", letterType: letterType, startDate: startDate, endDate: endDate)
+            viewModel.fetchSearchByDate(letterType: letterType, startDate: startDate, endDate: endDate)
         }
     }
     

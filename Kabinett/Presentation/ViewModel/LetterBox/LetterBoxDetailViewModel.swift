@@ -19,9 +19,9 @@ class LetterBoxDetailViewModel: ObservableObject {
     
     @Published var errorMessage: String?
     
-    func fetchLetterBoxDetailLetters(for userId: String, letterType: LetterType) {
+    func fetchLetterBoxDetailLetters(letterType: LetterType) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.getLetterBoxDetailLetters(userId: userId, letterType: letterType)
+            let result = await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
             switch result {
             case .success(let letterArray):
                 self.letterBoxDetailLetters = letterArray
@@ -31,9 +31,9 @@ class LetterBoxDetailViewModel: ObservableObject {
         }
     }
     
-    func removeLetterBoxDetailLetter(for userId: String, letterId: String, letterType: LetterType) {
+    func removeLetterBoxDetailLetter(letterId: String, letterType: LetterType) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.removeLetter(userId: userId, letterId: letterId, letterType: letterType)
+            let result = await letterBoxUseCase.removeLetter(letterId: letterId, letterType: letterType)
             switch result {
             case .success(let isRemove):
                 self.isRemoveLetter = isRemove
@@ -43,11 +43,11 @@ class LetterBoxDetailViewModel: ObservableObject {
         }
     }
     
-    func fetchSearchByKeyword(for userId: String, findKeyword: String, letterType: LetterType) {
+    func fetchSearchByKeyword(findKeyword: String, letterType: LetterType) {
         if findKeyword.isEmpty { return }
         
         Task { @MainActor in
-            let result = await letterBoxUseCase.searchBy(userId: userId, findKeyword: findKeyword, letterType: letterType)
+            let result = await letterBoxUseCase.searchBy(findKeyword: findKeyword, letterType: letterType)
             switch result {
             case .success(let resultLettersOfSearchKeyword):
                 self.letterBoxDetailLetters = resultLettersOfSearchKeyword ?? []
@@ -57,9 +57,9 @@ class LetterBoxDetailViewModel: ObservableObject {
         }
     }
     
-    func fetchSearchByDate(for userId: String, letterType: LetterType, startDate: Date, endDate: Date) {
+    func fetchSearchByDate(letterType: LetterType, startDate: Date, endDate: Date) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.searchBy(userId: userId, letterType: letterType, startDate: startDate, endDate: endDate)
+            let result = await letterBoxUseCase.searchBy(letterType: letterType, startDate: startDate, endDate: endDate)
             switch result {
             case .success(let resultLettersOfSearchDate):
                 self.letterBoxDetailLetters = resultLettersOfSearchDate ?? []
