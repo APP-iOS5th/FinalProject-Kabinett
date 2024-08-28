@@ -29,6 +29,7 @@ struct AccountSettingsView: View {
                         }
                         .padding(.top, 20)
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     .contentShape(Rectangle())
@@ -47,6 +48,7 @@ struct AccountSettingsView: View {
                                 .foregroundColor(.contentSecondary)
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     .contentShape(Rectangle())

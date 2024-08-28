@@ -30,6 +30,7 @@ struct SettingsView: View {
                         .padding(.top, 20)
                         .padding(.bottom, 30)
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -45,6 +46,7 @@ struct SettingsView: View {
                                 .foregroundColor(.contentPrimary)
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     
