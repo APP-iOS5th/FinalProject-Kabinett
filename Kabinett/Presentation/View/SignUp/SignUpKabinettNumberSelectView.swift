@@ -84,9 +84,8 @@ struct SignUpKabinettNumberSelectView: View {
                                 if success {
                                     shouldNavigatedToProfile = true
                                 } else {
-                                    alertMessage = "로그인에 실패했습니다."
+                                    alertMessage = "회원가입에 실패했습니다."
                                     showAlert = true
-                                    print("Login failed")
                                 }
                             }
                         }
