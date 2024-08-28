@@ -24,6 +24,7 @@
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
+		53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */; };
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
@@ -134,6 +135,7 @@
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailViewModel.swift; sourceTree = "<group>"; };
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 			children = (
 				530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */,
 				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
+				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -793,6 +796,10 @@
 				04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
+				AFA58F262C6AE33D00A7C569 /* FirebaseLetterService.swift in Sources */,
+				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
+				83949C8A2C71BC0F0080D72C /* DefaultProfileUseCase.swift in Sources */,
+				AFA58F262C6AE33D00A7C569 /* FirebaseFirestoreManager.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,

@@ -18,7 +18,7 @@ protocol LetterWriteUseCase {
                     toUserId: String?, 
                     toUserName: String,
                     toUserKabinettNumber: Int?,
-                    content: String?, 
+                    content: [String],
                     photoContents: [Data],
                     date: Date,
                     stationery: String,
