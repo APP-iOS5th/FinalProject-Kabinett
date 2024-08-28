@@ -21,7 +21,7 @@ struct CustomTabView: View {
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                LetterBoxView(viewModel: LetterBoxViewModel())
+                LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
                     .tag(0)
                 
                 Color.clear
