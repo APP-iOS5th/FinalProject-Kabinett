@@ -8,13 +8,24 @@
 import SwiftUI
 
 struct LetterBoxDetailLetterView: View {
+    var letterType: LetterType
     var letter: Letter
     
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        LetterBoxDetailEnvelopeCell(letter: letter)
+        ZStack {
+            Color.background
+                .edgesIgnoringSafeArea(.all)
+            
+            LetterBoxDetailEnvelopeCell(letter: letter)
+        }
+        .navigationTitle(letterType.description)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
     }
 }
 
 #Preview {
-    LetterBoxDetailLetterView(letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
+    LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
 }
