@@ -27,7 +27,7 @@ struct CustomTabView: View {
                 Color.clear
                     .tag(1)
                 
-                ProfileView(viewModel: ProfileSettingsViewModel())
+                ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
                     .tag(2)
             }
             .overlay(CustomTabBar(viewModel: viewModel), alignment: .bottom)
