@@ -8,11 +8,17 @@
 import Foundation
 import AuthenticationServices
 
+enum SignUpResult {
+    case newUser
+    case alreadyRegistered
+    case appleSignInOnly
+}
+
 protocol SignupUseCase {
     func getAvailableKabinettNumbers() async -> [Int]
     func signUp(
         _ authorization: ASAuthorization
-    ) async -> Bool
+    ) async -> SignUpResult
     func startLoginUser(
         with userName: String,
         kabinettNumber: Int
@@ -24,8 +30,8 @@ final class SignUpUseCaseStub: SignupUseCase {
         [1, 100000, 445544]
     }
     
-    func signUp(_ authorization: ASAuthorization) async -> Bool {
-        true
+    func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
+        .newUser
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
