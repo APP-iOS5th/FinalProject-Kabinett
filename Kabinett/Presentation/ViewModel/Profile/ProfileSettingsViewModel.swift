@@ -88,7 +88,7 @@ class ProfileSettingsViewModel: ObservableObject {
             if let item = newItem,
                let data = try? await item.loadTransferable(type: Data.self),
                let uiImage = UIImage(data: data) {
-                DispatchQueue.main.async {
+                await MainActor.run {
                     self.selectedImage = uiImage
                     self.isShowingCropper = true
                 }

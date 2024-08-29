@@ -43,7 +43,7 @@ struct LoginView: View {
 //                            signUpViewModel.handleAuthorization(result: .failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "테스트를 위한 로그인 실패"])))
                             
                             signUpViewModel.handleAuthorization(result: result)
-                            if signUpViewModel.appleLoginError != nil {
+                            if signUpViewModel.loginError != nil {
                                 signUpViewModel.showAlert = true
                             }
                             
@@ -88,7 +88,7 @@ struct LoginView: View {
                     Button("확인", role: .cancel) {
                     }
                 } message: {
-                    Text(signUpViewModel.appleLoginError ?? "알 수 없는 로그인 오류가 발생했어요.")
+                    Text(signUpViewModel.loginError ?? "알 수 없는 로그인 오류가 발생했어요.")
                 }
             }
         }

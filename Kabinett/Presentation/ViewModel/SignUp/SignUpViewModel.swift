@@ -19,7 +19,7 @@ final class SignUpViewModel: ObservableObject {
     @Published var selectedKabinettNumber: Int? = nil
     @Published var currentNonce: String?
     @Published var userIdentifier: String?
-    @Published var appleLoginError: String?
+    @Published var loginError: String?
     @Published var signUpError: String?
     @Published var loginSuccess: Bool = false
     @Published var signUpSuccess: Bool = false
@@ -68,14 +68,14 @@ final class SignUpViewModel: ObservableObject {
                     self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()) //프로필 뷰 오류 테스트하려면 여기 주석처리
                     print("Sign up State: Already Registered")
                     self.signUpSuccess = true
-                case .appleSignInOnly:
+                case .signInOnly:
                     print("Sign up State: Apple SignIn Only")
                     self.loginSuccess = true
                 }
             }
         case .failure(let error):
             print("애플 로그인 실패: \(error.localizedDescription)")
-            self.appleLoginError = "애플 로그인에 실패했어요."
+            self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }
     }

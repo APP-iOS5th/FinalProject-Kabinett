@@ -11,7 +11,7 @@ import AuthenticationServices
 enum SignUpResult {
     case newUser
     case alreadyRegistered
-    case appleSignInOnly
+    case signInOnly
 }
 
 protocol SignupUseCase {
@@ -33,7 +33,7 @@ final class SignUpUseCaseStub: SignupUseCase {
     func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
         .newUser
 //        .alreadyRegistered
-//        .appleSignInOnly
+//        .signInOnly
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
