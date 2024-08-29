@@ -8,8 +8,14 @@
 import Foundation
 import Combine
 
+enum UserStatus {
+    case anonymous
+    case registered
+    case incomplete
+}
+
 protocol ProfileUseCase {
-    func isAnonymous() async -> AnyPublisher<Bool, Never>
+    func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never>
     func getCurrentWriter() async -> Writer
     func getAppleID() async -> String
     func updateWriter(
@@ -21,8 +27,8 @@ protocol ProfileUseCase {
 }
 
 final class ProfileUseCaseStub: ProfileUseCase {
-    func isAnonymous() async -> AnyPublisher<Bool, Never> {
-        Just(false)
+    func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never> {
+        Just(.anonymous)
             .eraseToAnyPublisher()
     }
     func getCurrentWriter() async -> Writer {
