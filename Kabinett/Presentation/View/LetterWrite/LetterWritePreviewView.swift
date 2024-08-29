@@ -24,7 +24,6 @@ struct LetterWritePreviewView: View {
                         KFImage(URL(string: letterContent.envelopeImageUrlString))
                             .resizable()
                             .shadow(radius: 5, x: 5, y: 5)
-                            .frame(width: .infinity, height: .infinity)
                         
                         VStack {
                             HStack(alignment: .top) {
@@ -42,7 +41,7 @@ struct LetterWritePreviewView: View {
                                 KFImage(URL(string: letterContent.stampImageUrlString))
                                     .resizable()
                                     .aspectRatio(9/9.7, contentMode: .fit)
-                                    .frame(width: geo.size.width * 0.1, height: .infinity)
+                                    .frame(width: geo.size.width * 0.1)
                                     .padding(.trailing, 25)
                             }
                             .padding(.top, 25)
@@ -74,7 +73,6 @@ struct LetterWritePreviewView: View {
                     .aspectRatio(9/4, contentMode: .fit)
                     .padding(.bottom, 30)
                     
-                    // 문구
                     VStack {
                         Text("편지가 완성되었어요.")
                             .font(.system(size: 18, weight: .semibold))
@@ -89,7 +87,7 @@ struct LetterWritePreviewView: View {
                     }
                     
                     Spacer()
-                    // 버튼
+
                     Button {
                         
                     } label : {

@@ -39,9 +39,10 @@ struct EnvelopeStampSelectionView: View {
                             KFImage(URL(string: envelopeImageUrl))
                                 .resizable()
                                 .shadow(radius: 5, x: 5, y: 5)
-                                .frame(width: .infinity, height: .infinity)
                                 .onAppear {
-                                    envelopeImageUrl = viewModel.dummyEnvelopes[0]
+                                    if letterContent.envelopeImageUrlString == "" {
+                                        envelopeImageUrl = viewModel.dummyEnvelopes[0]
+                                    }
                                     letterContent.envelopeImageUrlString = envelopeImageUrl
                                 }
                             
@@ -61,10 +62,12 @@ struct EnvelopeStampSelectionView: View {
                                     KFImage(URL(string: stampImageUrl))
                                         .resizable()
                                         .aspectRatio(9/9.7, contentMode: .fit)
-                                        .frame(width: geometry.size.width * 0.1, height: .infinity)
+                                        .frame(width: geometry.size.width * 0.1)
                                         .padding(.trailing, 25)
                                         .onAppear {
-                                            stampImageUrl = viewModel.dummyStamps[0]
+                                            if letterContent.stampImageUrlString == "" {
+                                                stampImageUrl = viewModel.dummyStamps[0]
+                                            }
                                             letterContent.stampImageUrlString = stampImageUrl
                                         }
                                 }
