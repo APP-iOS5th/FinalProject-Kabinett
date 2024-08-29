@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @StateObject var viewModel: ProfileSettingsViewModel
+    @StateObject var profileViewModel: ProfileSettingsViewModel
     
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack{
-                    if let image = viewModel.profileImage {
+                    if let image = profileViewModel.profileImage {
                         Image(uiImage: image)
                             .resizable()
                             .scaledToFill()
@@ -28,11 +28,11 @@ struct ProfileView: View {
                             .padding(.bottom, -1)
                     }
                     
-                    Text(viewModel.userName)
+                    Text(profileViewModel.userName)
                         .fontWeight(.regular)
                         .font(.system(size: 36))
                         .padding(.bottom, 0.1)
-                    Text(viewModel.kabinettNumber)
+                    Text(profileViewModel.formattedKabinettNumber)
                         .fontWeight(.light)
                         .font(.system(size: 16))
                         .monospaced()
@@ -40,9 +40,10 @@ struct ProfileView: View {
                 .padding(.horizontal, geometry.size.width * 0.06)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
+                .navigationBarBackButtonHidden()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: SettingsView(viewModel: viewModel)) {
+                        NavigationLink(destination: SettingsView(profileViewModel: profileViewModel)) {
                             Image(systemName: "gearshape")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))
@@ -55,5 +56,5 @@ struct ProfileView: View {
     }
 }
 #Preview {
-    ProfileView(viewModel: ProfileSettingsViewModel())
+    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
 }

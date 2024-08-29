@@ -18,6 +18,8 @@
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
+		04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */; };
+		04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */; };
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
 		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
@@ -125,6 +127,8 @@
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
+		04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettNumberFormatter.swift; sourceTree = "<group>"; };
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
@@ -386,11 +390,9 @@
 				04DEC0E62C6C6C7300D289EA /* ProfileView.swift */,
 				04DEC0E82C6C799500D289EA /* SettingsView.swift */,
 				04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */,
-				04DEC0F92C75863600D289EA /* CropBox.swift */,
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
-				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
-				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
-				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
+				04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */,
+				04DEC0F92C75863600D289EA /* CropBox.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -398,6 +400,9 @@
 		8366B6F52C65ECF70021FAE0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
+				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
+				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -441,7 +446,6 @@
 			isa = PBXGroup;
 			children = (
 				04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */,
-				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -449,6 +453,8 @@
 		8366B6FA2C65ED1A0021FAE0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
+				04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -749,6 +755,7 @@
 				AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */,
 				AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
+				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
@@ -809,6 +816,8 @@
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
+				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
