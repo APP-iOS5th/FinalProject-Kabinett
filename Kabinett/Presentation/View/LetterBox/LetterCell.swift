@@ -119,7 +119,6 @@ struct ContentRectangleView: View {
                     .shadow(radius: 5, x: 5, y: 5)
                 
                 VStack {
-                    // TODO: - 첫번째 페이지에서는 toUserName 만, 마지막 페이지에서는 date, fromUserName 만 보이도록 opacity 조절
                     Text("\(toUserName)에게")
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
