@@ -29,13 +29,27 @@ struct LetterCell: View {
                 }
                 
                 TabView(selection: $selectedIndex) {
+                    // content가 있는 경우
                     ForEach(Array(zip(letter.content.indices, letter.content)), id: \.0) { index, page in
                         VStack {
-                            ContentRectangleView2(stationeryImageUrlString: letter.stationeryImageUrlString, fromUserName: letter.fromUserName, toUserName: letter.toUserName, letterContent: page, fontString: letter.fontString ?? "SFDisplay", date: letter.date)
-                            
+                            ContentRectangleView(stationeryImageUrlString: letter.stationeryImageUrlString, fromUserName: letter.fromUserName, toUserName: letter.toUserName, letterContent: page, fontString: letter.fontString ?? "SFDisplay", date: letter.date, currentPageIndex: index, totalPages: letter.content.count)
                         }
                         .tag(index)
                     }
+                    
+                    // photoContents가 있는 경우
+                    ForEach(Array(zip(letter.photoContents.indices, letter.photoContents)), id: \.0) { index, photoUrl in
+                        VStack {
+                            KFImage(URL(string: photoUrl))
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: UIScreen.main.bounds.width * 0.88)
+                                .shadow(radius: 5, x: 5, y: 5)
+                                .padding(.bottom, 30)
+                        }
+                        .tag(letter.content.count + index)
+                    }
+                    
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
@@ -86,33 +100,8 @@ struct ContentRectangleView: View {
     var fontString: String
     var date: Date
     
-    var body: some View {
-        GeometryReader { geometry in
-            Rectangle()
-                .aspectRatio(9/13, contentMode: .fit)
-                .frame(width: geometry.size.width * 0.88)
-                .foregroundColor(.contentPrimary)
-                .overlay(
-                    Text(letterContent)
-                        .foregroundColor(.white)
-                        .padding()
-                )
-                .font(.custom(fontString, size: 13))
-                .shadow(radius: 5, x: 5, y: 5)
-                .padding(.horizontal, geometry.size.width * 0.06)
-                .padding(.bottom, 30)
-                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-        }
-    }
-}
-
-struct ContentRectangleView2: View {
-    var stationeryImageUrlString: String?
-    var fromUserName: String
-    var toUserName: String
-    var letterContent: String
-    var fontString: String
-    var date: Date
+    var currentPageIndex: Int
+    var totalPages: Int
     
     var body: some View {
         GeometryReader { geometry in
@@ -137,6 +126,7 @@ struct ContentRectangleView2: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, geometry.size.height * 0.2)
                         .padding(.leading, 10)
+                        .opacity(currentPageIndex == 0 ? 1 : 0)
                     
                     Text(letterContent)
                         .font(.custom(fontString, size: 14))
@@ -153,17 +143,19 @@ struct ContentRectangleView2: View {
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, 0.1)
+                        .opacity(currentPageIndex == totalPages - 1 ? 1 : 0)
                     
                     Text("\(fromUserName)가")
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, geometry.size.height * 0.2)
+                        .opacity(currentPageIndex == totalPages - 1 ? 1 : 0)
                 }
                 .padding(.horizontal, geometry.size.width * 0.06)
                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height)
             }
-            .padding(.bottom, 20)
+            .padding(.bottom, 30)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         }
     }
@@ -174,14 +166,6 @@ struct ContentRectangleView2: View {
         return formatter.string(from: date)
     }
 }
-
-
-//// Array safe index extension
-//extension Collection {
-//    subscript(safe index: Index) -> Element? {
-//        return indices.contains(index) ? self[index] : nil
-//    }
-//}
 
 #Preview {
     LetterCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
