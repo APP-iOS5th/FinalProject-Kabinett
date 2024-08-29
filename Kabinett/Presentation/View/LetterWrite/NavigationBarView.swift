@@ -37,7 +37,7 @@ struct NavigationBarView<Destination: View>: View {
 
                 if isNavigation {
                     NavigationLink(destination: destination) {
-                        Text("완료")
+                        Text("다음")
                             .foregroundColor(Color.black)
                     }
                 }

@@ -10,7 +10,7 @@ import Kingfisher
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModal()
+    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
     
     @State private var text: String = ""
     @State private var envelopeImageUrl: String

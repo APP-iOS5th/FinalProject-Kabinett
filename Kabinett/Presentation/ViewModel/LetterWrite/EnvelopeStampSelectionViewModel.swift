@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class EnvelopeStampSelectionViewModal: ObservableObject {
+class EnvelopeStampSelectionViewModel: ObservableObject {
     @Published var envelopeSelectedIndex: (Int, Int) = (0, 0)
     @Published var stampSelectedIndex: (Int, Int) = (0, 0)
     

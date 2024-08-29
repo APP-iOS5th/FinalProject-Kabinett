@@ -44,7 +44,7 @@
 		5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* WriteLetterViewModel.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
 		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
-		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */; };
+		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */; };
 		57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9D2C7DB266008D650B /* Extension+TextField.swift */; };
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */; };
@@ -156,7 +156,7 @@
 		5771570A2C77071300E21162 /* WriteLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterViewModel.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
 		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
-		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModal.swift; sourceTree = "<group>"; };
+		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModel.swift; sourceTree = "<group>"; };
 		57966B9D2C7DB266008D650B /* Extension+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+TextField.swift"; sourceTree = "<group>"; };
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritePreviewView.swift; sourceTree = "<group>"; };
@@ -455,7 +455,7 @@
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
 				57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */,
 				5771570A2C77071300E21162 /* WriteLetterViewModel.swift */,
-				57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift */,
+				57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -832,7 +832,7 @@
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
 				7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
-				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModal.swift in Sources */,
+				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
