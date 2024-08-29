@@ -13,7 +13,7 @@ struct ImageDetailView: View {
     @State private var currentIndex = 0
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 TabView(selection: $currentIndex) {
                     ForEach(images.indices, id: \.self) { index in
@@ -46,8 +46,9 @@ struct ImageDetailView: View {
             }
             .navigationBarItems(leading: Button(action: { showDetailView = false }) {
                 Image(systemName: "chevron.left")
+                    .foregroundStyle(Color("ContentPrimary"))
             })
-            .padding()
+            .background(Color("Background").edgesIgnoringSafeArea(.all))
         }
     }
 }
