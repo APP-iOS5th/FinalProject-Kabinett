@@ -130,7 +130,7 @@ struct EnvelopeStampSelectionView: View {
 struct EnvelopeCell: View {
     @Binding var letterContent: LetterWriteViewModel
     @Binding var envelopeImageUrl: String
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModal()
+    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -187,7 +187,7 @@ struct EnvelopeCell: View {
 struct StampCell: View {
     @Binding var letterContent: LetterWriteViewModel
     @Binding var stampImageUrl: String
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModal()
+    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
     
     var body: some View {
         ZStack {
