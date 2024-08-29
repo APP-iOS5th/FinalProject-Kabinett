@@ -13,13 +13,17 @@ import CryptoKit
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignupUseCase
     
+    @Published var profileViewModel: ProfileSettingsViewModel?
     @Published var userName: String = ""
     @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
     @Published var currentNonce: String?
     @Published var userIdentifier: String?
-    @Published var loginError: String?
+    @Published var appleLoginError: String?
+    @Published var signUpError: String?
     @Published var loginSuccess: Bool = false
+    @Published var signUpSuccess: Bool = false
+    @Published var showAlert: Bool = false
     
     init(signUpUseCase: any SignupUseCase) {
         self.signUpUseCase = signUpUseCase
@@ -55,17 +59,24 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let success = await signUpUseCase.signUp(authorization)
-                if success {
-                    print("Sign up successed")
+                let signUpResult = await signUpUseCase.signUp(authorization)
+                switch signUpResult {
+                case .newUser:
+                    print("Sign up State: New User")
                     self.loginSuccess = true
-                } else {
-                    print("Sign up failed")
-                    self.loginError = "로그인에 실패했습니다."
+                case .alreadyRegistered:
+                    self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
+                    print("Sign up State: Already Registered")
+                    self.signUpSuccess = true
+                case .appleSignInOnly:
+                    print("Sign up State: Apple SignIn Only")
+                    self.loginSuccess = true
                 }
             }
         case .failure(let error):
-            print("애플 로그인에 실패했습니다: \(error.localizedDescription)")
+            print("애플 로그인 실패: \(error.localizedDescription)")
+            self.appleLoginError = "애플 로그인에 실패했어요."
+            self.showAlert = true
         }
     }
     
