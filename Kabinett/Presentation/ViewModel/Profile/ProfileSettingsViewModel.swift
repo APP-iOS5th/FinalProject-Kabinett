@@ -34,22 +34,22 @@ class ProfileSettingsViewModel: ObservableObject {
         }
     }
     
+    @MainActor
     private func loadInitialData() async {
         let writer = await profileUseCase.getCurrentWriter()
-        DispatchQueue.main.async {
-            self.userName = writer.name
-            self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
-            if let imageUrlString = writer.profileImage,
-               let imageUrl = URL(string: imageUrlString),
-               let imageData = try? Data(contentsOf: imageUrl),
-               let image = UIImage(data: imageData) {
-                self.profileImage = image
-            } else {
-                self.profileImage = nil
-            }
+        self.userName = writer.name
+        self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
+        if let imageUrlString = writer.profileImage,
+           let imageUrl = URL(string: imageUrlString),
+           let imageData = try? Data(contentsOf: imageUrl),
+           let image = UIImage(data: imageData) {
+            self.profileImage = image
+        } else {
+            self.profileImage = nil
         }
-    } // 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    }// 프로필 이미지 없을 때 탭바 이미지도 설정하기
     
+    @MainActor
     private func fetchAppleID() async {
         let ID = await profileUseCase.getAppleID()
         self.appleID = ID
@@ -88,8 +88,10 @@ class ProfileSettingsViewModel: ObservableObject {
             if let item = newItem,
                let data = try? await item.loadTransferable(type: Data.self),
                let uiImage = UIImage(data: data) {
-                selectedImage = uiImage
-                isShowingCropper = true
+                DispatchQueue.main.async {
+                    self.selectedImage = uiImage
+                    self.isShowingCropper = true
+                }
             }
         }
     }
