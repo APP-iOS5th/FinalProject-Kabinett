@@ -42,7 +42,10 @@ struct KabinettApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CustomTabView(
+                componentsUseCase: MockComponentsUseCase(),
+                componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+            )
         }
     }
 }

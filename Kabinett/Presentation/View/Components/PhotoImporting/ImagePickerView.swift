@@ -8,31 +8,29 @@
 import SwiftUI
 
 struct ImagePickerView: View {
-    @ObservedObject var viewModel: ImagePickerViewModel
-    @Binding var showPhotoLibrary: Bool
-    @Binding var showImagePreview: Bool
-    @Binding var showActionSheet: Bool
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
     
     var body: some View {
         EmptyView()
             .photosPicker(
-                isPresented: $showPhotoLibrary,
-                selection: $viewModel.selectedItems,
+                isPresented: $customViewModel.showPhotoLibrary,
+                selection: $imageViewModel.selectedItems,
                 maxSelectionCount: 3,
                 matching: .images
             )
-            .onChange(of: viewModel.selectedItems) {
+            .onChange(of: imageViewModel.selectedItems) {
                 Task {
-                    await viewModel.loadImages()
+                    await imageViewModel.loadImages()
                 }
             }
-            .onChange(of: viewModel.photoContents) { _, newContents in
+            .onChange(of: imageViewModel.photoContents) { _, newContents in
                 if !newContents.isEmpty {
-                    showImagePreview = true
+                    customViewModel.showImagePreview = true
                 }
             }
-            .sheet(isPresented: $showImagePreview) {
-                ImagePreivew(showActionSheet: $showActionSheet, viewModel: viewModel)
+            .sheet(isPresented: $customViewModel.showImagePreview) {
+                ImagePreview(customViewModel: customViewModel, imageViewModel: imageViewModel)
             }
     }
 }

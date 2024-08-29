@@ -18,6 +18,8 @@
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
+		04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */; };
+		04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */; };
 		5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */; };
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
@@ -44,6 +46,11 @@
 		577157052C75DD9900E21162 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* WriteLetterViewModel.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
+		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
+		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */; };
+		57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9D2C7DB266008D650B /* Extension+TextField.swift */; };
+		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
+		57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */; };
 		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
@@ -58,16 +65,15 @@
 		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */; };
 		7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */; };
+		7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C542C7DF20C00388645 /* ImportDialog.swift */; };
 		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
 		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
 		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
 		7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E12C6E25500074568E /* CameraViewModel.swift */; };
-		7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */; };
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
-		7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868452C782F4A0083D204 /* CustomTabBar.swift */; };
-		7F7868482C782F820083D204 /* TabBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868472C782F820083D204 /* TabBarButton.swift */; };
 		7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F78684B2C78B41A0083D204 /* ImagePickerView.swift */; };
 		7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868552C7B14220083D204 /* HorizontalPadding.swift */; };
+		7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
 		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
 		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
@@ -129,6 +135,8 @@
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
+		04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
+		04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettNumberFormatter.swift; sourceTree = "<group>"; };
 		5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailLetterView.swift; sourceTree = "<group>"; };
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
@@ -152,6 +160,11 @@
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		5771570A2C77071300E21162 /* WriteLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterViewModel.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
+		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
+		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModel.swift; sourceTree = "<group>"; };
+		57966B9D2C7DB266008D650B /* Extension+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+TextField.swift"; sourceTree = "<group>"; };
+		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
+		57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritePreviewView.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionModalView.swift; sourceTree = "<group>"; };
 		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
@@ -167,16 +180,15 @@
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
 		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
 		7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewModel.swift; sourceTree = "<group>"; };
+		7F397C542C7DF20C00388645 /* ImportDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDialog.swift; sourceTree = "<group>"; };
 		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
 		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
 		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E12C6E25500074568E /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
-		7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewRepresentable.swift; sourceTree = "<group>"; };
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
-		7F7868452C782F4A0083D204 /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
-		7F7868472C782F820083D204 /* TabBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarButton.swift; sourceTree = "<group>"; };
 		7F78684B2C78B41A0083D204 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		7F7868552C7B14220083D204 /* HorizontalPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPadding.swift; sourceTree = "<group>"; };
+		7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
 		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
@@ -257,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				7F6CE9E52C6E28400074568E /* CameraView.swift */,
-				7F6CE9E32C6E26B10074568E /* CameraViewRepresentable.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -266,9 +277,9 @@
 			isa = PBXGroup;
 			children = (
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
-				7F7868452C782F4A0083D204 /* CustomTabBar.swift */,
-				7F7868472C782F820083D204 /* TabBarButton.swift */,
+				7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */,
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
+				7F397C542C7DF20C00388645 /* ImportDialog.swift */,
 			);
 			path = CustomTabView;
 			sourceTree = "<group>";
@@ -387,6 +398,8 @@
 				57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */,
 				57485D3A2C772332000601BF /* WriteLetterView.swift */,
 				57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */,
+				57966B9F2C7EC452008D650B /* SelectionTabView.swift */,
+				57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -397,11 +410,9 @@
 				04DEC0E62C6C6C7300D289EA /* ProfileView.swift */,
 				04DEC0E82C6C799500D289EA /* SettingsView.swift */,
 				04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */,
-				04DEC0F92C75863600D289EA /* CropBox.swift */,
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
-				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
-				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
-				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
+				04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */,
+				04DEC0F92C75863600D289EA /* CropBox.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -409,6 +420,9 @@
 		8366B6F52C65ECF70021FAE0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
+				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
+				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -439,12 +453,15 @@
 			children = (
 				577156F82C74CAF200E21162 /* Extension+Font.swift */,
 				577157002C75D73700E21162 /* Extension+UIApplication.swift */,
+				57966B992C7D8B45008D650B /* Extension+Date.swift */,
+				57966B9D2C7DB266008D650B /* Extension+TextField.swift */,
 				57ED9CE12C7375AC00A4312C /* fonts */,
 				57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
 				57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */,
 				5771570A2C77071300E21162 /* WriteLetterViewModel.swift */,
+				57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */,
 			);
 			path = LetterWrite;
 			sourceTree = "<group>";
@@ -453,7 +470,6 @@
 			isa = PBXGroup;
 			children = (
 				04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */,
-				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -461,6 +477,8 @@
 		8366B6FA2C65ED1A0021FAE0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
+				04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */,
+				04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -761,6 +779,7 @@
 				AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */,
 				AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
+				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
@@ -770,6 +789,7 @@
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
+				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
@@ -784,8 +804,10 @@
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
 				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
+				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
+				57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */,
 				04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */,
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
@@ -809,21 +831,25 @@
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
+				57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */,
 				04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
-				7F6CE9E42C6E26B10074568E /* CameraViewRepresentable.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
+				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
 				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
+				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
 				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,

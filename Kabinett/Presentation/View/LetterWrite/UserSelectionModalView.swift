@@ -30,6 +30,7 @@ struct UserSelectionModalView: View {
                                 letterContent.toUserName = viewModel.toUser?.name ?? ""
                                 letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
                                 
+                                letterContent.date = Date()
                                 presentation.wrappedValue.dismiss()
                             }
                         }
@@ -95,7 +96,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(fromName) \(viewModel.checkMe(kabi: viewModel.userKabi ?? 0))")
+            Text("\(fromName) \(viewModel.checkMe(kabiNumber: viewModel.userKabiNumber ?? 0))")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -103,6 +104,19 @@ struct FormToUser: View {
                 .clipShape(Capsule())
         }
         .padding(.top, 24)
+        .onAppear {
+            letterContent.fromUserId = viewModel.fromUser?.id
+            letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+            if letterContent.toUserName == "" {
+                viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
+            }
+            letterContent.toUserId = viewModel.toUser?.id
+            letterContent.toUserName = viewModel.toUser?.name ?? ""
+            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+            
+            letterContent.date = Date()
+        }
         
         HStack {
             Text("받는 사람")
@@ -111,8 +125,8 @@ struct FormToUser: View {
                 .bold()
             Spacer(minLength: 37)
             let toName = letterContent.toUserName == "" ? fromName : letterContent.toUserName
-            let toKabi = letterContent.toUserName == "" ? viewModel.userKabi ?? 0 : letterContent.toUserKabinettNumber
-            Text("\(toName) \(viewModel.checkMe(kabi: toKabi ?? 0))")
+            let toKabi = letterContent.toUserName == "" ? viewModel.userKabiNumber ?? 0 : letterContent.toUserKabinettNumber
+            Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
                 .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)

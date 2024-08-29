@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @StateObject var viewModel: ProfileSettingsViewModel
-    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject var profileViewModel: ProfileSettingsViewModel
+    @Environment(\.dismiss) var dismiss
     @State private var shouldNavigateToProfileView = false
     
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(viewModel: viewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
+                    NavigationLink(destination: ProfileSettingsView(viewModel: profileViewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -30,6 +30,7 @@ struct SettingsView: View {
                         .padding(.top, 20)
                         .padding(.bottom, 30)
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -45,6 +46,7 @@ struct SettingsView: View {
                                 .foregroundColor(.contentPrimary)
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
                     
@@ -58,7 +60,7 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 10)
-                        Text(viewModel.appleID)
+                        Text(profileViewModel.appleID)
                             .font(.system(size: 17))
                             .foregroundColor(.contentSecondary)
                     }
@@ -75,7 +77,7 @@ struct SettingsView: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }) {
                             HStack {
                                 Image(systemName: "chevron.left")
@@ -91,5 +93,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView(viewModel: ProfileSettingsViewModel())
+    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
 }

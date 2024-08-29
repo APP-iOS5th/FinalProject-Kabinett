@@ -11,6 +11,8 @@ struct SignUpKabinettNumberSelectView: View {
     @StateObject var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigatedToProfile = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -68,9 +70,24 @@ struct SignUpKabinettNumberSelectView: View {
                     .padding(.leading, geometry.size.width * 0.06)
                     Spacer()
                     Button(action: {
-                        print("UserName: \(viewModel.userName)")
-                        if let selectedNumber = viewModel.selectedKabinettNumber {
-                            print("Selected Kabinett Number: \(viewModel.availablekabinettNumbers[selectedNumber])")
+                        Task {
+                            if let selectedIndex = viewModel.selectedKabinettNumber {
+                                let selectedKabinettNumber = viewModel.availablekabinettNumbers[selectedIndex]
+                                
+                                print("UserName: \(viewModel.userName)")
+                                print("Selected Kabinett Number: \(selectedKabinettNumber)")
+                                
+                                let success = await viewModel.startLoginUser(
+                                    with: viewModel.userName,
+                                    kabinettNumber: selectedKabinettNumber
+                                )
+                                if success {
+                                    shouldNavigatedToProfile = true
+                                } else {
+                                    alertMessage = "회원가입에 실패했습니다."
+                                    showAlert = true
+                                }
+                            }
                         }
                     }) {
                         Text("시작하기")
@@ -83,27 +100,42 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                     .disabled(viewModel.selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
-                }
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                    .font(.system(size: 18, weight: .semibold))
+                    .alert(
+                        "오류",
+                        isPresented: $showAlert
+                    ) {
+                        Button("확인", role: .cancel) {
+                        }
+                    } message: {
+                        Text(alertMessage)
+                    }
+
+                    .navigationDestination(isPresented:$shouldNavigatedToProfile) {
+                        ProfileView(
+                            profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
+                        )
+                    }
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Image(systemName: "chevron.left")
+                                        .font(.system(size: 18, weight: .semibold))
+                                }
+                                .foregroundColor(.primary900)
                             }
-                            .foregroundColor(.primary900)
                         }
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
             }
-        }
-        .task {
-            await viewModel.getNumbers()
+            .task {
+                await viewModel.getNumbers()
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LetterWritingView: View {
     @ObservedObject var viewModel: ImagePickerViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
     @State private var showDatePicker = false
     @Environment(\.dismiss) var dismiss
     

@@ -29,6 +29,8 @@ final class SignUpUseCaseStub: SignupUseCase {
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
-        true
+        print("Received userName in UseCase: \(userName)")
+        print("Received Kabinett Number in UseCase: \(kabinettNumber)")
+        return true
     }
 }
