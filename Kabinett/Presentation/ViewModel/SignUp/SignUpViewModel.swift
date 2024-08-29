@@ -11,36 +11,37 @@ import AuthenticationServices
 import CryptoKit
 
 final class SignUpViewModel: ObservableObject {
-    private let useCase: any SignupUseCase
+    private let signUpUseCase: any SignupUseCase
     
     @Published var userName: String = ""
     @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
     @Published var currentNonce: String?
     @Published var userIdentifier: String?
-    @Published var userEmail: String?
     @Published var loginError: String?
     @Published var loginSuccess: Bool = false
     
-    init(useCase: any SignupUseCase) {
-        self.useCase = useCase
+    init(signUpUseCase: any SignupUseCase) {
+        self.signUpUseCase = signUpUseCase
     }
     
     @MainActor
+       func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
+           guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
+               print("Invalid Kabinett number format")
+               return false
+           }
+           
+           return await signUpUseCase.startLoginUser(with: userName, kabinettNumber: kabinettNumberInt)
+       }
+    
+    @MainActor
     func getNumbers() async {
-        let numbers = await useCase.getAvailableKabinettNumbers()
+        let numbers = await signUpUseCase.getAvailableKabinettNumbers()
         availablekabinettNumbers = numbers
             .map {
-                formatNumber($0)
+                formatKabinettNumber($0)
             }
-    }
-    private func formatNumber(_ number: Int) -> String {
-        let formattedNumber = String(format: "%06d", number)
-        let startIndex = formattedNumber.index(formattedNumber.startIndex, offsetBy: 3)
-        let part1 = formattedNumber[..<startIndex]
-        let part2 = formattedNumber[startIndex...]
-        
-        return "\(part1)-\(part2)"
     }
     
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
@@ -54,26 +55,17 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let sucess = await useCase.signUp(authorization)
-                await MainActor.run {
-//                    if sucess {
-//                        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-//                            let userIdentifier = appleIDCredential.user
-//                            let userEmail = appleIDCredential.email ?? "이메일 정보 없음"
-//                            self.loginSuccess = true
-//                            self.loginError = nil
-//                            print("사용자 ID: \(userIdentifier)")
-//                            print("이메일: \(userEmail)")
-//                            print("로그인 성공")
-//                        }
-//                    } else {
-//                        self.loginError = "로그인에 실패했습니다."
-//                        print("로그인 실패")
-//                    }
+                let success = await signUpUseCase.signUp(authorization)
+                if success {
+                    print("Sign up successed")
+                    self.loginSuccess = true
+                } else {
+                    print("Sign up failed")
+                    self.loginError = "로그인에 실패했습니다."
                 }
             }
         case .failure(let error):
-            print("Authorization failed: \(error.localizedDescription)")
+            print("애플 로그인에 실패했습니다: \(error.localizedDescription)")
         }
     }
     

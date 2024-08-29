@@ -27,7 +27,7 @@ struct CustomTabView<Content: View>: View {
             TabView(selection: $customTabViewModel.selectedTab) {
                 content
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+//            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             
             VStack {
                 Spacer()

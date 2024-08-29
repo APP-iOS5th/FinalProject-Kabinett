@@ -19,7 +19,7 @@ struct ContentView: View {
             // + OptionOverlay Button
             Color.clear
             
-            ProfileView(viewModel: ProfileSettingsViewModel())
+            ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
                 .tag(2)
         }
     }
