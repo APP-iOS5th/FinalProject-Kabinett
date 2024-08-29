@@ -22,7 +22,7 @@ struct FontSelectionView: View {
             GeometryReader { geometry in
                 
                 VStack(alignment: .leading) {
-                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "서체 고르기")
+                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
                     
                     List {
                         ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in

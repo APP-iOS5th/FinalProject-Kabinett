@@ -7,21 +7,24 @@
 
 import SwiftUI
 import UIKit
+import Kingfisher
 
 struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteViewModel
     @StateObject private var viewModel = WriteLetterViewModel()
-    @ObservedObject private var fontViewModel = FontSelectionViewModel()
     
     @State private var currentIndex: Int = 0
     
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "")
+                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     
                     HStack {
@@ -32,14 +35,14 @@ struct WriteLetterView: View {
                                         ForEach(0..<viewModel.texts.count, id: \.self) { i in
                                             ZStack {
                                                 // 편지지 이미지 뷰
-                                                AsyncImage(url: URL(string: letterContent.stationeryImageUrlString ?? "")) { image in
-                                                    image
-                                                        .resizable()
-                                                        .shadow(radius: 5, x: 5, y: 5)
-                                                        .padding(.top, 10)
-                                                } placeholder: {
-                                                    ProgressView()
-                                                }
+                                                KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                                    .placeholder {
+                                                        Image(systemName: "arrow.down.circle.dotted")
+                                                    }
+                                                    .resizable()
+                                                    .shadow(radius: 5, x: 5, y: 5)
+                                                    .padding(.top, 10)
+                                                
                                                 
                                                 // 편지지 위의 뷰
                                                 VStack {
@@ -48,21 +51,24 @@ struct WriteLetterView: View {
                                                         .padding(.leading, 2)
                                                         .padding(.bottom, 3)
                                                         .frame(maxWidth: .infinity, alignment: .leading)
+                                                        .onTapGesture {
+                                                            UIApplication.shared.endEditing()
+                                                        }
                                                     
                                                     GeometryReader { geo in
-                                                        CustomTextEditor(text: $viewModel.texts[i], 
+                                                        CustomTextEditor(text: $viewModel.texts[i],
                                                                          height: $viewModel.textViewHeights[i],
                                                                          maxWidth: geo.size.width,
                                                                          maxHeight: UIScreen.main.bounds.height * 0.42,
                                                                          font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13))
-                                                            .onChange(of: viewModel.textViewHeights[i]) {
-                                                                if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
-                                                                    viewModel.createNewLetter()
-                                                                }
+                                                        .onChange(of: viewModel.textViewHeights[i]) {
+                                                            if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
+                                                                viewModel.createNewLetter()
                                                             }
-                                                            .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                                                letterContent.content = viewModel.texts[0]
-                                                            }
+                                                        }
+                                                        .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
+                                                            letterContent.content = viewModel.texts[0]
+                                                        }
                                                     }
                                                     
                                                     Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
@@ -70,7 +76,7 @@ struct WriteLetterView: View {
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                     
-                                                    Text(i == (viewModel.texts.count-1) ? viewModel.formatDate(letterContent.date) : "")
+                                                    Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                                         .padding(.bottom, 27)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -89,7 +95,7 @@ struct WriteLetterView: View {
                             }
                             .scrollTargetBehavior(.viewAligned)
                             .frame(height: geometry.size.height * 0.7)
-                            .font(fontViewModel.font(file: letterContent.fontString ?? "SFDisplay"))
+                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 13))
                             .onChange(of: viewModel.texts.count) {
                                 withAnimation {
                                     currentIndex = viewModel.texts.count - 1
@@ -108,15 +114,13 @@ struct WriteLetterView: View {
 
 
 // MARK: CustomTextEditor.swift
-import SwiftUI
-
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
     @Binding var height: CGFloat
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
-
+    
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
         

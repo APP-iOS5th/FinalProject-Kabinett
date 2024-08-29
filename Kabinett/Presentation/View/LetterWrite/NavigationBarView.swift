@@ -11,6 +11,7 @@ struct NavigationBarView<Destination: View>: View {
     @Environment(\.presentationMode) var presentationMode
     let destination: Destination
     let titleName: String
+    let isNavigation: Bool
 
     var body: some View {
         ZStack {
@@ -34,9 +35,11 @@ struct NavigationBarView<Destination: View>: View {
             HStack {
                 Spacer()
 
-                NavigationLink(destination: destination) {
-                    Text("완료")
-                        .foregroundColor(Color.black)
+                if isNavigation {
+                    NavigationLink(destination: destination) {
+                        Text("다음")
+                            .foregroundColor(Color.black)
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
@@ -17,7 +18,7 @@ struct StationerySelectionView: View {
                 Color("Background").ignoresSafeArea()
                 
                 VStack {
-                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
                     
                     List {
                         ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
@@ -26,19 +27,18 @@ struct StationerySelectionView: View {
                                     let index = viewModel.index(row: rowIndex, column: columnIndex)
                                     
                                     ZStack(alignment: .topTrailing) {
-                                        AsyncImage(url: URL(string: viewModel.dummyStationerys[index])) { image in
-                                            image
-                                                .resizable()
-                                                .aspectRatio(9/13, contentMode: .fit)
-                                                .padding(10)
-                                                .shadow(radius: 5, x: 5, y: 5)
-                                        } placeholder: {
-                                            ProgressView()
-                                        }
-                                        .onTapGesture {
-                                            viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
-                                            letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
-                                        }
+                                        KFImage(URL(string: viewModel.dummyStationerys[index]))
+                                            .placeholder {
+                                                Image(systemName: "arrow.down.circle.dotted")
+                                            }
+                                            .resizable()
+                                            .aspectRatio(9/13, contentMode: .fit)
+                                            .padding(10)
+                                            .shadow(radius: 5, x: 5, y: 5)
+                                            .onTapGesture {
+                                                viewModel.selectStationery(coordinates: (rowIndex, columnIndex))
+                                                letterContent.stationeryImageUrlString = viewModel.dummyStationerys[index]
+                                            }
                                         
                                         if viewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
                                             Image("checked")
