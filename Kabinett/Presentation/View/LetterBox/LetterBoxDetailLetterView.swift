@@ -41,8 +41,8 @@ struct LetterBoxDetailLetterView: View {
                             if !letter.isRead {
                                 guard let letterId = letter.id else { return }
                                 viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
-                                showDetailLetter = true
                             }
+                            showDetailLetter = true
                         }
                 }
                 .offset(x: viewModel.offset)
@@ -62,7 +62,7 @@ struct LetterBoxDetailLetterView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
         .fullScreenCover(isPresented: $showDetailLetter) {
-            // 이동할 편지 뷰
+            LetterCell(letter: letter)
         }
     }
 }

@@ -228,7 +228,8 @@ struct BackButtonView: View {
         Button(action: action) {
             HStack {
                 Image(systemName: "chevron.left")
-                    .font(.system(size: 19, weight: .regular))
+                    .frame(width: 17, height: 36)
+                    .foregroundStyle(.contentPrimary)
                     .padding(.leading, 4)
             }
         }
@@ -248,7 +249,7 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
-                    .onChange(of: searchText) { oldValue, newValue in
+                    .onChange(of: searchText) { _, newValue in
                         if newValue.isEmpty {
                             viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         } else {
