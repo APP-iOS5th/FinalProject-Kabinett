@@ -25,10 +25,13 @@ struct EnvelopeStampSelectionView: View {
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "봉투와 우표 고르기")
+                    NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
                         .padding(.bottom, 25)
                     
                     VStack {

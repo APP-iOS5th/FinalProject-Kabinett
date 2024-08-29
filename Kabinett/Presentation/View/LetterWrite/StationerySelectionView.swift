@@ -18,7 +18,7 @@ struct StationerySelectionView: View {
                 Color("Background").ignoresSafeArea()
                 
                 VStack {
-                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기")
+                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
                     
                     List {
                         ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in

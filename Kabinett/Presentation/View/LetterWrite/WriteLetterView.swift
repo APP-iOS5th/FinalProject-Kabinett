@@ -18,10 +18,13 @@ struct WriteLetterView: View {
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "")
+                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     
                     HStack {
