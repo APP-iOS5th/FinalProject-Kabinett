@@ -71,6 +71,7 @@ struct LetterBoxDetailView: View {
                     
                     ZStack {
                         Text("\(viewModel.letterBoxDetailLetters.count)")
+                            .font(.custom("SFDisplay", size: 16))
                             .padding(.horizontal, 17)
                             .padding(.vertical, 6)
                             .foregroundStyle(.black)
@@ -78,7 +79,6 @@ struct LetterBoxDetailView: View {
                             .background(TransparentBlurView(removeAllFilters: true))
                             .cornerRadius(20)
                             .padding()
-                            .font(.system(size: 16, weight: .regular))
                     }
                     .padding(.bottom, 20)
                 }
@@ -174,6 +174,7 @@ struct LetterBoxDetailView: View {
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.contentPrimary)
             }
 
             Button {
@@ -182,6 +183,7 @@ struct LetterBoxDetailView: View {
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
+                    .foregroundStyle(.contentPrimary)
             }
             .padding(5)
         }
