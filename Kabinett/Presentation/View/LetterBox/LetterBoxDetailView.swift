@@ -32,18 +32,6 @@ struct LetterBoxDetailView: View {
         return [-8, 10, 6, -2, 16]
     }
     
-    var backButton: some View {
-        Button {
-            dismiss()
-        } label: {
-            HStack {
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 19, weight: .regular))
-                    .padding(.leading, 4)
-            }
-        }
-    }
-    
     init(
          letterType: LetterType,
          showSearchBarView: Binding<Bool>,
@@ -63,122 +51,158 @@ struct LetterBoxDetailView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.background
-                .edgesIgnoringSafeArea(.all)
-            
-            if startDateFiltering {
-                CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate, letterType: letterType)
-                    .zIndex(1)
-            }
-            
+        NavigationStack {
             ZStack {
-                if viewModel.letterBoxDetailLetters.isEmpty {
-                    Text(letterType.setEmptyMessage())
-                        .font(.system(size: 16, weight: .bold))
-                        .foregroundStyle(.contentPrimary)
+                Color.background
+                    .edgesIgnoringSafeArea(.all)
+                
+                if startDateFiltering {
+                    CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate, letterType: letterType)
+                        .zIndex(1)
                 }
-                else if viewModel.letterBoxDetailLetters.count < 3 {
-                    VStack(spacing: 25) {
-                        ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
-                            LetterBoxDetailEnvelopeCell(letter: letter)
-                        }
+                
+                letterBoxDetailListView()
+                .onAppear {
+                    viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                }
+                
+                VStack {
+                    Spacer()
+                    
+                    ZStack {
+                        Text("\(viewModel.letterBoxDetailLetters.count)")
+                            .font(.custom("SFDisplay", size: 16))
+                            .padding(.horizontal, 17)
+                            .padding(.vertical, 6)
+                            .foregroundStyle(.black)
+                            .background(.black.opacity(0.2))
+                            .background(TransparentBlurView(removeAllFilters: true))
+                            .cornerRadius(20)
+                            .padding()
                     }
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: -75) {
-                            ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
-                                if idx < 2 {
-                                    LetterBoxDetailEnvelopeCell(letter: letter)
-                                        .padding(.bottom, idx == 0 ? 82 : 37)
-                                } else {
-                                    LetterBoxDetailEnvelopeCell(letter: letter)
-                                        .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
-                                        .zIndex(Double(idx))
-                                        .padding(.bottom, idx % 3 == 1 ? 37 : 0)
-                                }
-                            }
-                        }
-                        .padding(.top, navigationBarHeight)
-                        .padding(.top, startDateFiltering ? 40 : 0)
-                        .background(
-                            GeometryReader { geometry in
-                                Color.clear
-                                    .preference(key: NavigationBarHeightKey.self, value: geometry.safeAreaInsets.top + geometry.frame(in: .global).minY)
-                            }
-                        )
-                    }
-                    .onPreferenceChange(NavigationBarHeightKey.self) { value in
-                        navigationBarHeight = value + 15
-                    }
+                    .padding(.bottom, 20)
                 }
             }
-            .onAppear {
-                viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+            .navigationTitle(letterType.description)
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
+            .toolbar {
+                toolbarItems()
+            }
+            .overlay {
+                calendarOverlay()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func letterBoxDetailListView() -> some View {
+        if viewModel.letterBoxDetailLetters.isEmpty {
+            Text(letterType.setEmptyMessage())
+                .font(.system(size: 16, weight: .bold))
+                .foregroundStyle(.contentPrimary)
+        }
+        else if viewModel.letterBoxDetailLetters.count < 3 {
+            VStack(spacing: 25) {
+                ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
+                    NavigationLink(destination: LetterBoxDetailLetterView(letterType: letterType, letter: letter)) {
+                        LetterBoxDetailEnvelopeCell(letter: letter)
+                    }
+                    .simultaneousGesture(TapGesture().onEnded {
+                        if showSearchBarView {
+                            showSearchBarView.toggle()
+                        }
+                        
+                        if startDateFiltering {
+                            startDateFiltering.toggle()
+                        }
+                    })
+                }
+            }
+        } else {
+            ScrollView {
+                LazyVStack(spacing: -75) {
+                    ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
+                        NavigationLink(destination: LetterBoxDetailLetterView(letterType: letterType, letter: letter)) {
+                            if idx < 2 {
+                                LetterBoxDetailEnvelopeCell(letter: letter)
+                                    .padding(.bottom, idx == 0 ? 82 : 37)
+                            } else {
+                                LetterBoxDetailEnvelopeCell(letter: letter)
+                                    .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
+                                    .zIndex(Double(idx))
+                                    .padding(.bottom, idx % 3 == 1 ? 37 : 0)
+                            }
+                        }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            if showSearchBarView {
+                                showSearchBarView.toggle()
+                            }
+                            
+                            if startDateFiltering {
+                                startDateFiltering.toggle()
+                            }
+                        })
+                    }
+                }
+                .padding(.top, navigationBarHeight)
+                .padding(.top, startDateFiltering ? 40 : 0)
+                .background(
+                    GeometryReader { geometry in
+                        Color.clear
+                            .preference(key: NavigationBarHeightKey.self, value: geometry.safeAreaInsets.top + geometry.frame(in: .global).minY)
+                    }
+                )
+            }
+            .onPreferenceChange(NavigationBarHeightKey.self) { value in
+                navigationBarHeight = value + 15
+            }
+        }
+    }
+    
+    func toolbarItems() -> some ToolbarContent {
+        return ToolbarItemGroup {
+            Button {
+                withAnimation {
+                    if startDateFiltering {
+                        startDateFiltering = false
+                        startDate = Date()
+                        endDate = Date()
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                    }
+                    showSearchBarView.toggle()
+                }
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.contentPrimary)
             }
 
-            
-            VStack {
-                Spacer()
+            Button {
+                withAnimation {
+                    showCalendarView.toggle()
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease.circle")
+                    .foregroundStyle(.contentPrimary)
+            }
+            .padding(5)
+        }
+    }
+    
+    @ViewBuilder
+    func calendarOverlay() -> some View {
+        if showCalendarView {
+            ZStack {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation {
+                            showCalendarView.toggle()
+                        }
+                    }
                 
-                ZStack {
-                    Text("\(viewModel.letterBoxDetailLetters.count)")
-                        .padding(.horizontal, 17)
-                        .padding(.vertical, 6)
-                        .foregroundStyle(.black)
-                        .background(.black.opacity(0.2))
-                        .background(TransparentBlurView(removeAllFilters: true))
-                        .cornerRadius(20)
-                        .padding()
-                        .font(.system(size: 16, weight: .regular))
-                }
-                .padding(.bottom, 20)
-            }
-        }
-        .navigationTitle(letterType.description)
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton)
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button{
-                    withAnimation {
-                        if startDateFiltering {
-                            startDateFiltering = false
-                            startDate = Date()
-                            endDate = Date()
-                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                        }
-                        showSearchBarView.toggle()
-                    }
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                }
-            }
-            ToolbarItem(placement: .topBarTrailing) {
-                Button{
-                    withAnimation {
-                        showCalendarView.toggle()
-                    }
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
-                }
-                .padding(5)
-            }
-        }
-        .overlay {
-            if showCalendarView {
-                ZStack {
-                    Color.black.opacity(0.4)
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            withAnimation {
-                                showCalendarView.toggle()
-                            }
-                        }
-                    
-                    CalendarView(showCalendarView: $showCalendarView, startDateFiltering: $startDateFiltering ,startDate: $startDate, endDate: $endDate)
-                        .cornerRadius(20)
-                }
+                CalendarView(showCalendarView: $showCalendarView, startDateFiltering: $startDateFiltering ,startDate: $startDate, endDate: $endDate)
+                    .cornerRadius(20)
             }
         }
     }
@@ -199,6 +223,21 @@ struct NavigationBarHeightKey: PreferenceKey {
     }
 }
 
+struct BackButtonView: View {
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                Image(systemName: "chevron.left")
+                    .frame(width: 17, height: 36)
+                    .foregroundStyle(.contentPrimary)
+                    .padding(.leading, 4)
+            }
+        }
+    }
+}
+
 struct SearchBarView: View {
     @EnvironmentObject var viewModel: LetterBoxDetailViewModel
     
@@ -212,7 +251,7 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
-                    .onChange(of: searchText) { oldValue, newValue in
+                    .onChange(of: searchText) { _, newValue in
                         if newValue.isEmpty {
                             viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         } else {
