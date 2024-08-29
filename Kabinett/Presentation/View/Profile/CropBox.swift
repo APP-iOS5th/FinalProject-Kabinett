@@ -65,7 +65,7 @@ public struct CropBox: View {
                         self.frameSize = geometry.size
                         self.centerCropBox()
                     }
-                    .onChange(of: geometry.size) { newSize in
+                    .onChange(of: geometry.size) { oldSize, newSize in
                         self.frameSize = newSize
                         self.centerCropBox()
                     }
