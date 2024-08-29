@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
-    @StateObject var viewModel: SignUpViewModel
+    @ObservedObject var signUpViewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigatedToProfile = false
     @State private var showAlert = false
-    @State private var alertMessage = ""
     
     var body: some View {
         NavigationStack {
@@ -27,9 +26,9 @@ struct SignUpKabinettNumberSelectView: View {
                         .padding(.bottom, 15)
                     
                     VStack{
-                        if viewModel.availablekabinettNumbers.count >= 3 {
+                        if signUpViewModel.availablekabinettNumbers.count >= 3 {
                             ForEach(0..<3, id: \.self) { index in
-                                let availablekabinettNumber = viewModel.availablekabinettNumbers[index]
+                                let availablekabinettNumber = signUpViewModel.availablekabinettNumbers[index]
                                 HStack{
                                     ZStack(alignment: .leading) {
                                         Capsule()
@@ -47,11 +46,11 @@ struct SignUpKabinettNumberSelectView: View {
                                     .padding(.bottom, 8)
                                     
                                     Button(action: {
-                                        viewModel.selectedKabinettNumber = index
+                                        signUpViewModel.selectedKabinettNumber = index
                                     }) {
                                         ZStack{
                                             Circle()
-                                                .foregroundColor(viewModel.selectedKabinettNumber == index ? .contentPrimary : .primary300)
+                                                .foregroundColor(signUpViewModel.selectedKabinettNumber == index ? .contentPrimary : .primary300)
                                                 .frame(width: 53)
                                             Image(systemName: "checkmark")
                                                 .fontWeight(.light)
@@ -71,20 +70,20 @@ struct SignUpKabinettNumberSelectView: View {
                     Spacer()
                     Button(action: {
                         Task {
-                            if let selectedIndex = viewModel.selectedKabinettNumber {
-                                let selectedKabinettNumber = viewModel.availablekabinettNumbers[selectedIndex]
+                            if let selectedIndex = signUpViewModel.selectedKabinettNumber {
+                                let selectedKabinettNumber = signUpViewModel.availablekabinettNumbers[selectedIndex]
                                 
-                                print("UserName: \(viewModel.userName)")
+                                print("UserName: \(signUpViewModel.userName)")
                                 print("Selected Kabinett Number: \(selectedKabinettNumber)")
                                 
-                                let success = await viewModel.startLoginUser(
-                                    with: viewModel.userName,
+                                let success = await signUpViewModel.startLoginUser(
+                                    with: signUpViewModel.userName,
                                     kabinettNumber: selectedKabinettNumber
                                 )
                                 if success {
                                     shouldNavigatedToProfile = true
                                 } else {
-                                    alertMessage = "회원가입에 실패했습니다."
+                                    signUpViewModel.signUpError = "회원 가입에 실패했어요. 다시 시도해주세요."
                                     showAlert = true
                                 }
                             }
@@ -96,9 +95,9 @@ struct SignUpKabinettNumberSelectView: View {
                             .foregroundColor(.white)
                             .frame(width: geometry.size.width * 0.86, height: 56)
                             .background(RoundedRectangle(cornerRadius: 14)
-                                .fill(viewModel.selectedKabinettNumber != nil ? Color.primary900 : Color.primary300))
+                                .fill(signUpViewModel.selectedKabinettNumber != nil ? Color.primary900 : Color.primary300))
                     }
-                    .disabled(viewModel.selectedKabinettNumber == nil)
+                    .disabled(signUpViewModel.selectedKabinettNumber == nil)
                     .padding(.horizontal, geometry.size.width * 0.06)
                     .alert(
                         "오류",
@@ -107,7 +106,7 @@ struct SignUpKabinettNumberSelectView: View {
                         Button("확인", role: .cancel) {
                         }
                     } message: {
-                        Text(alertMessage)
+                        Text(signUpViewModel.signUpError ?? "알 수 없는 회원 가입 오류가 발생했어요. 다시 시도해주세요.")
                     }
 
                     .navigationDestination(isPresented:$shouldNavigatedToProfile) {
@@ -134,7 +133,7 @@ struct SignUpKabinettNumberSelectView: View {
                 .background(Color.background)
             }
             .task {
-                await viewModel.getNumbers()
+                await signUpViewModel.getNumbers()
             }
         }
     }

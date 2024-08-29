@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @StateObject var viewModel: SignUpViewModel
+    @ObservedObject var signUpViewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigate = false
     
@@ -23,18 +23,18 @@ struct SignUpNameInputView: View {
                         .padding(.leading, geometry.size.width * 0.06)
                         .padding(.bottom, 15)
                     HStack{
-                        TextField("", text: $viewModel.userName)
+                        TextField("", text: $signUpViewModel.userName)
                             .padding(.leading, geometry.size.width * 0.06)
                         Spacer()
                         
                         Button(action: {
-                            if !viewModel.userName.isEmpty {
+                            if !signUpViewModel.userName.isEmpty {
                                 shouldNavigate = true
                             }
                         }) {
                             ZStack{
                                 Circle()
-                                    .foregroundColor(viewModel.userName.isEmpty ? .primary300 : .primary900)
+                                    .foregroundColor(signUpViewModel.userName.isEmpty ? .primary300 : .primary900)
                                     .frame(width: 53)
                                 Image(systemName: "arrow.right")
                                     .fontWeight(.light)
@@ -50,22 +50,9 @@ struct SignUpNameInputView: View {
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
                     .navigationDestination(isPresented: $shouldNavigate) {
-                        SignUpKabinettNumberSelectView(viewModel: viewModel)
+                        SignUpKabinettNumberSelectView(signUpViewModel: signUpViewModel)
                     }
-                    .navigationBarBackButtonHidden(true)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: {
-                                dismiss()
-                            }) {
-                                HStack {
-                                    Image(systemName: "chevron.left")
-                                        .font(.system(size: 18, weight: .semibold))
-                                }
-                                .foregroundColor(.primary900)
-                            }
-                        }
-                    }
+                    .navigationBarBackButtonHidden()
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
@@ -91,5 +78,5 @@ struct SignUpOvalTextFieldStyle: TextFieldStyle {
 }
 
 #Preview {
-    SignUpNameInputView(viewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
+    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
 }
