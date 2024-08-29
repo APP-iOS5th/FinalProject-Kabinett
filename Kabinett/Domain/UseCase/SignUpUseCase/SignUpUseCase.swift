@@ -34,7 +34,6 @@ final class SignUpUseCaseStub: SignupUseCase {
         .newUser
 //        .alreadyRegistered
 //        .appleSignInOnly
-//        fatalError("테스트용 실패")
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {

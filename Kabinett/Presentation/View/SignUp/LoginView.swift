@@ -39,11 +39,14 @@ struct LoginView: View {
                         SignInWithAppleButton { request in
                             signUpViewModel.handleSignInWithAppleRequest(request)
                         } onCompletion: { result in
+                            
 //                            signUpViewModel.handleAuthorization(result: .failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "테스트를 위한 로그인 실패"])))
+                            
                             signUpViewModel.handleAuthorization(result: result)
                             if signUpViewModel.appleLoginError != nil {
                                 signUpViewModel.showAlert = true
                             }
+                            
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
                         .frame(height: 54)
@@ -73,6 +76,8 @@ struct LoginView: View {
                                     .cornerRadius(8)
                             }
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.background)
                         .navigationBarBackButtonHidden()
                     }
                 }
