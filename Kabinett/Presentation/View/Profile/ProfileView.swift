@@ -68,10 +68,8 @@ struct ProfileView: View {
                 .navigationBarBackButtonHidden()
             }
         }
-        .onAppear {
-            Task {
-                await profileViewModel.checkUserStatus()
-            }
+        .task {
+            await profileViewModel.checkUserStatus()
         }
     }
 }
