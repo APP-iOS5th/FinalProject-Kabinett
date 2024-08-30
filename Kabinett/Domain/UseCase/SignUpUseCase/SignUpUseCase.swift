@@ -31,8 +31,8 @@ final class SignUpUseCaseStub: SignupUseCase {
     }
     
     func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
-        .newUser
-//        .registered
+//        .newUser
+        .registered
 //        .signInOnly
     }
     
