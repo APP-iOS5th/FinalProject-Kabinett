@@ -43,9 +43,7 @@ class StationerySelectionViewModel: ObservableObject {
         let result = await useCase.loadStationeries()
         switch result {
         case .success(let urls):
-            DispatchQueue.main.async {
-                self.stationerys = urls
-            }
+            self.stationerys = urls
         case .failure(let error):
             print("Failed to load stationeries: \(error.localizedDescription)")
         }

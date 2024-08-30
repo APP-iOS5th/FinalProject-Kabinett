@@ -64,9 +64,7 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
         let result = await useCase.loadEnvelopes()
         switch result {
         case .success(let urls):
-            DispatchQueue.main.async {
-                self.envelopes = urls
-            }
+            self.envelopes = urls
         case .failure(let error):
             print("Failed to load envelopes: \(error.localizedDescription)")
         }
@@ -77,9 +75,7 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
         let result = await useCase.loadStamps()
         switch result {
         case .success(let urls):
-            DispatchQueue.main.async {
-                self.stamps = urls
-            }
+            self.stamps = urls
         case .failure(let error):
             print("Failed to load stamps: \(error.localizedDescription)")
         }
