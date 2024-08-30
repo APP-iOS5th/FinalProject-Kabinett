@@ -11,6 +11,7 @@ struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
@@ -70,6 +71,10 @@ struct LetterBoxView: View {
                     showSearchBarView = false
                     searchText = ""
                     
+                    if calendarViewModel.startDateFiltering {
+                        calendarViewModel.startDateFiltering.toggle()
+                    }
+                    
                     letterBoxViewModel.fetchLetterBoxLetters()
                     letterBoxViewModel.fetchIsRead()
                 }
@@ -101,4 +106,5 @@ struct LetterBoxView: View {
 #Preview {
     LetterBoxView()
         .environmentObject(LetterBoxViewModel())
+        .environmentObject(CalendarViewModel())
 }
