@@ -50,10 +50,10 @@ final class ProfileUseCaseStub: ProfileUseCase {
     }
     
     func signout() async -> Bool {
-        false
+        true
     }
     
     func deleteId() async -> Bool {
-        false
+        true
     }
 }

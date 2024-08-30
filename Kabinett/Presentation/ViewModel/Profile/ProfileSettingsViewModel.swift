@@ -29,6 +29,8 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var shouldNavigateToProfile: Bool = false
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
+    @Published var isLoggedOut = false
+    @Published var isDeleteID = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -155,6 +157,22 @@ class ProfileSettingsViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.croppedImage = croppedImage
             self.isShowingCropper = false
+        }
+    }
+    
+    @MainActor
+    func signout() async {
+        let success = await profileUseCase.signout()
+        if success {
+            isLoggedOut = true
+        }
+    }
+    
+    @MainActor
+    func deletieID() async {
+        let success = await profileUseCase.deleteId()
+        if success {
+            isDeleteID = true
         }
     }
 }
