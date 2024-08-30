@@ -21,7 +21,7 @@ struct CustomTabView: View {
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
+                LetterBoxView()
                     .tag(0)
                 
                 Color.clear
@@ -48,6 +48,7 @@ struct CustomTabView: View {
                 if viewModel.showOptions {
                     OptionOverlay(viewModel: viewModel)
                 }
+                CalendarOverlayView()
             }
         )
         .overlay(ImportDialog(viewModel: viewModel))
@@ -67,4 +68,7 @@ struct CustomTabView: View {
         componentsUseCase: MockComponentsUseCase(),
         componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
     )
+    .environmentObject(LetterBoxViewModel())
+    .environmentObject(LetterBoxDetailViewModel())
+    .environmentObject(CalendarViewModel())
 }

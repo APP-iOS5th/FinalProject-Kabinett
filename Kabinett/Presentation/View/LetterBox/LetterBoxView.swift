@@ -10,8 +10,7 @@ import SwiftUI
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     
-    @StateObject var letterBoxViewModel: LetterBoxViewModel
-    @StateObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     
     @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
@@ -35,9 +34,8 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)
-                                .environmentObject(letterBoxDetailViewModel)) {
-                                LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)) {
+                                LetterBoxCell(type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
                                 currentLetterType = type
@@ -69,6 +67,9 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
+                    showSearchBarView = false
+                    searchText = ""
+                    
                     letterBoxViewModel.fetchLetterBoxLetters()
                     letterBoxViewModel.fetchIsRead()
                 }
@@ -84,7 +85,6 @@ struct LetterBoxView: View {
                             .blur(radius: 1.5)
 
                         SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: currentLetterType)
-                            .environmentObject(letterBoxDetailViewModel)
                             .padding(.top, 50)
                             .edgesIgnoringSafeArea(.top)
                             .zIndex(1)
@@ -99,6 +99,6 @@ struct LetterBoxView: View {
 }
 
 #Preview {
-    LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
-        .environmentObject(LetterBoxDetailViewModel())
+    LetterBoxView()
+        .environmentObject(LetterBoxViewModel())
 }

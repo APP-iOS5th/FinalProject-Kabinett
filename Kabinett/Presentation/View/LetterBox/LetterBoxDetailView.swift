@@ -10,6 +10,7 @@ import UIKit
 
 struct LetterBoxDetailView: View {
     @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State var letterType: LetterType
     
@@ -18,11 +19,6 @@ struct LetterBoxDetailView: View {
     @Binding var showSearchBarView: Bool
     @Binding var searchText: String
     @Binding var isTextFieldFocused: Bool
-    
-    @State private var showCalendarView = false
-    @State private var startDateFiltering = false
-    @State private var startDate = Date()
-    @State private var endDate = Date()
     
     @Environment(\.dismiss) private var dismiss
     
@@ -60,24 +56,12 @@ struct LetterBoxDetailView: View {
                 Color.background
                     .edgesIgnoringSafeArea(.all)
                 
-                if startDateFiltering {
-                    CalendarBar(startDateFiltering: $startDateFiltering, startDate: $startDate, endDate: $endDate, letterType: letterType)
+                if calendarViewModel.startDateFiltering {
+                    CalendarBar(letterType: letterType)
                         .zIndex(1)
                 }
                 
                 letterBoxDetailListView()
-                .onAppear {
-                    if showSearchBarView {
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            isTextFieldFocused = false
-                        }
-                        viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
-                    } else if startDateFiltering {
-                        viewModel.fetchSearchByDate(letterType: letterType, startDate: startDate, endDate: endDate)
-                    } else {
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                    }
-                }
                 
                 VStack {
                     Spacer()
@@ -103,8 +87,17 @@ struct LetterBoxDetailView: View {
             .toolbar {
                 toolbarItems()
             }
-            .overlay {
-                calendarOverlay()
+            .onAppear {
+                if showSearchBarView {
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        isTextFieldFocused = false
+                    }
+                    viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
+                } else if calendarViewModel.startDateFiltering {
+                    viewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                } else {
+                    viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                }
             }
         }
     }
@@ -128,8 +121,8 @@ struct LetterBoxDetailView: View {
                             showSearchBarView.toggle()
                         }
                         
-                        if startDateFiltering {
-                            startDateFiltering.toggle()
+                        if calendarViewModel.startDateFiltering {
+                            calendarViewModel.startDateFiltering.toggle()
                         }
                     })
                 }
@@ -155,14 +148,14 @@ struct LetterBoxDetailView: View {
                                 showSearchBarView.toggle()
                             }
                             
-                            if startDateFiltering {
-                                startDateFiltering.toggle()
+                            if calendarViewModel.startDateFiltering {
+                                calendarViewModel.startDateFiltering.toggle()
                             }
                         })
                     }
                 }
                 .padding(.top, navigationBarHeight)
-                .padding(.top, startDateFiltering ? 40 : 0)
+                .padding(.top, calendarViewModel.startDateFiltering ? 40 : 0)
                 .background(
                     GeometryReader { geometry in
                         Color.clear
@@ -180,10 +173,10 @@ struct LetterBoxDetailView: View {
         return ToolbarItemGroup {
             Button {
                 withAnimation {
-                    if startDateFiltering {
-                        startDateFiltering = false
-                        startDate = Date()
-                        endDate = Date()
+                    if calendarViewModel.startDateFiltering {
+                        calendarViewModel.startDateFiltering = false
+                        calendarViewModel.startDate = Date()
+                        calendarViewModel.endDate = Date()
                         viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                     showSearchBarView.toggle()
@@ -196,7 +189,7 @@ struct LetterBoxDetailView: View {
 
             Button {
                 withAnimation {
-                    showCalendarView.toggle()
+                    calendarViewModel.showCalendarView.toggle()
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
@@ -205,29 +198,12 @@ struct LetterBoxDetailView: View {
             .padding(5)
         }
     }
-    
-    @ViewBuilder
-    func calendarOverlay() -> some View {
-        if showCalendarView {
-            ZStack {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-                    .onTapGesture {
-                        withAnimation {
-                            showCalendarView.toggle()
-                        }
-                    }
-                
-                CalendarView(showCalendarView: $showCalendarView, startDateFiltering: $startDateFiltering ,startDate: $startDate, endDate: $endDate)
-                    .cornerRadius(20)
-            }
-        }
-    }
 }
 
 #Preview {
     LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""), isTextFieldFocused: .constant(false))
         .environmentObject(LetterBoxDetailViewModel())
+        .environmentObject(CalendarViewModel())
 }
 
 struct NavigationBarHeightKey: PreferenceKey {
@@ -252,124 +228,5 @@ struct BackButtonView: View {
                     .padding(.leading, 4)
             }
         }
-    }
-}
-
-struct SearchBarView: View {
-    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
-    
-    @Binding var searchText: String
-    @Binding var showSearchBarView: Bool
-    
-    @Binding var isTextFieldFocused: Bool
-    @FocusState private var textFieldFocused: Bool
-    
-    var letterType: LetterType
-    
-    var body: some View {
-        HStack {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .tint(.black)
-                TextField("Search", text: $searchText)
-                    .focused($textFieldFocused)
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            textFieldFocused = isTextFieldFocused
-                        }
-                    }
-                    .onChange(of: textFieldFocused) { _, newValue in
-                        isTextFieldFocused = newValue
-                    }
-                    .onChange(of: searchText) { _, newValue in
-                        if newValue.isEmpty {
-                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                        } else {
-                            viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
-                        }
-                    }
-                    .foregroundStyle(.primary)
-                Image(systemName: "mic.fill")
-            }
-            .padding(7)
-            .foregroundStyle(.primary600)
-            .background(.primary300.opacity(0.2))
-            .background(TransparentBlurView(removeAllFilters: false))
-            .cornerRadius(10)
-            
-            if !searchText.isEmpty {
-                Button(action: {
-                    withAnimation {
-                        showSearchBarView.toggle()
-                        self.searchText = ""
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.primary600)
-                }
-            } else {
-                EmptyView()
-            }
-        }
-        .padding(.top, 10)
-        .padding(.horizontal, 15)
-    }
-}
-
-struct CalendarBar: View {
-    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
-    
-    @Binding var startDateFiltering: Bool
-    @Binding var startDate: Date
-    @Binding var endDate: Date
-    
-    var letterType: LetterType
-    
-    var body: some View {
-        VStack {
-            HStack {
-                HStack {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
-                        .tint(.primary300)
-                    Text("\(formattedDate(date: startDate))부터 \(formattedDate(date: endDate))까지")
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundStyle(.primary)
-                    
-                    Spacer()
-                }
-                .padding(8)
-                .foregroundStyle(.primary600)
-                .background(.primary300.opacity(0.4))
-                .background(TransparentBlurView(removeAllFilters: false))
-                .cornerRadius(10)
-                
-                Button(action: {
-                    withAnimation {
-                        startDateFiltering.toggle()
-                        startDate = Date()
-                        endDate = Date()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.primary600)
-                }
-            }
-            .padding(.top, 10)
-            .padding(.horizontal, 20)
-            
-            Spacer()
-        }
-        .onAppear {
-            viewModel.fetchSearchByDate(letterType: letterType, startDate: startDate, endDate: endDate)
-        }
-    }
-    
-    private func formattedDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MMM d일"
-        formatter.locale = Locale(identifier: "ko_KR")
-        return formatter.string(from: date)
     }
 }
