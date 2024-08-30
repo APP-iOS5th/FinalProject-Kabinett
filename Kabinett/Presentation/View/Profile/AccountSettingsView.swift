@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct AccountSettingsView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
+    @State private var showLogoutAlert = false
+    @State private var showAccountDeletionAlert = false
+    @ObservedObject var profileViewModel: ProfileSettingsViewModel
     
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
                 VStack {
                     Button(action: {
-                        print("로그아웃")
+                        showLogoutAlert = true
                     }) {
                         HStack{
                             Text("로그아웃하기")
@@ -31,31 +34,54 @@ struct AccountSettingsView: View {
                         .padding(.horizontal, geometry.size.width * 0.06)
                         .contentShape(Rectangle())
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        print("회원탈퇴")
-                    }) {
-                        VStack {
-                            Text("회원 탈퇴하기")
-                                .foregroundColor(.alert)
-                                .padding(.bottom, 5)
-                            Text("저장된 데이터가 모두 사라집니다.")
-                                .font(.system(size: 12))
-                                .foregroundColor(.contentSecondary)
+                    .alert(
+                        "로그아웃하시겠어요?",
+                        isPresented: $showLogoutAlert
+                    ) {
+                        Button("로그아웃", role: .destructive) {
+                            Task {
+                                await profileViewModel.signout()
+                            }
                         }
-                        .padding(.horizontal, geometry.size.width * 0.06)
-                        .contentShape(Rectangle())
+                        Button("취소", role: .cancel) {}
                     }
-                    .buttonStyle(PlainButtonStyle())
-                }
+                    
+                        Spacer()
+                        
+                        Button(action: {
+                            showAccountDeletionAlert = true
+                        }) {
+                            VStack {
+                                Text("회원 탈퇴하기")
+                                    .foregroundColor(.alert)
+                                    .padding(.bottom, 3)
+                                Text("저장된 데이터가 모두 사라져요.")
+                                    .font(.system(size: 12))
+                                    .foregroundColor(.contentSecondary)
+                                    .padding(.bottom, 20)
+                            }
+                            .padding(.horizontal, geometry.size.width * 0.06)
+                            .contentShape(Rectangle())
+                        }
+                        .alert(
+                            "회원 탈퇴하시겠어요?",
+                            isPresented: $showAccountDeletionAlert
+                        ) {
+                            Button("회원탈퇴", role: .destructive) {
+                                Task {
+                                    await profileViewModel.deletieID()
+                                }
+                            }
+                            Button("취소", role: .cancel) {}
+                        } message: {
+                            Text("저장된 데이터가 모두 사라져요.")
+                        }
+                    }
                 .navigationBarBackButtonHidden(true)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {
-                            presentationMode.wrappedValue.dismiss()
+                            dismiss()
                         }) {
                             HStack {
                                 Image(systemName: "chevron.left")
@@ -74,6 +100,6 @@ struct AccountSettingsView: View {
     }
 }
 
-#Preview {
-    AccountSettingsView()
-}
+//#Preview {
+//    AccountSettingsView()
+//}
