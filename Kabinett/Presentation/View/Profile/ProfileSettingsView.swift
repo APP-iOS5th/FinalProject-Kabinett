@@ -40,9 +40,11 @@ struct ProfileSettingsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        viewModel.completeProfileUpdate()
-                        shouldNavigateToProfileView = true
-                        dismiss()
+                        Task {
+                            await viewModel.completeProfileUpdate()
+                            shouldNavigateToProfileView = true
+                            dismiss()
+                        }
                     }) {
                         Text("완료")
                             .fontWeight(.medium)

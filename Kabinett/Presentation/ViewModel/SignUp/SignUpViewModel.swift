@@ -13,13 +13,17 @@ import CryptoKit
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignupUseCase
     
+    @Published var profileViewModel: ProfileSettingsViewModel?
     @Published var userName: String = ""
     @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
     @Published var currentNonce: String?
     @Published var userIdentifier: String?
     @Published var loginError: String?
+    @Published var signUpError: String?
     @Published var loginSuccess: Bool = false
+    @Published var signUpSuccess: Bool = false
+    @Published var showAlert: Bool = false
     
     init(signUpUseCase: any SignupUseCase) {
         self.signUpUseCase = signUpUseCase
@@ -28,7 +32,6 @@ final class SignUpViewModel: ObservableObject {
     @MainActor
        func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
            guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
-               print("Invalid Kabinett number format")
                return false
            }
            
@@ -55,17 +58,20 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let success = await signUpUseCase.signUp(authorization)
-                if success {
-                    print("Sign up successed")
+                let signUpResult = await signUpUseCase.signUp(authorization)
+                switch signUpResult {
+                case .newUser:
                     self.loginSuccess = true
-                } else {
-                    print("Sign up failed")
-                    self.loginError = "로그인에 실패했습니다."
+                case .registered:
+                    self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()) //프로필 뷰 오류 테스트하려면 여기 주석처리
+                    self.signUpSuccess = true
+                case .signInOnly:
+                    self.loginSuccess = true
                 }
             }
-        case .failure(let error):
-            print("애플 로그인에 실패했습니다: \(error.localizedDescription)")
+        case .failure(_):
+            self.loginError = "애플 로그인에 실패했어요."
+            self.showAlert = true
         }
     }
     
