@@ -15,9 +15,10 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
     @Published var envelopes: [String] = []
     @Published var stamps: [String] = []
     
-    private let storageManager = FirebaseStorageManager()
+    private let useCase: LetterWriteLoadStuffUseCase
     
-    init() {
+    init(useCase: LetterWriteLoadStuffUseCase) {
+        self.useCase = useCase
         if envelopes.isEmpty {
             Task {
                 await loadEnvelopes()
@@ -60,7 +61,7 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
     
     @MainActor
     func loadEnvelopes() async {
-        let result = await storageManager.loadEnvelopes()
+        let result = await useCase.loadEnvelopes()
         switch result {
         case .success(let urls):
             DispatchQueue.main.async {
@@ -73,11 +74,11 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
     
     @MainActor
     func loadStamps() async {
-        let result = await storageManager.loadStamps()
+        let result = await useCase.loadStamps()
         switch result {
         case .success(let urls):
             DispatchQueue.main.async {
-                self.stamps = urls 
+                self.stamps = urls
             }
         case .failure(let error):
             print("Failed to load stamps: \(error.localizedDescription)")

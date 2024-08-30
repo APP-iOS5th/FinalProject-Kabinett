@@ -13,9 +13,10 @@ class StationerySelectionViewModel: ObservableObject {
     @Published var selectedIndex: (Int, Int) = (0, 0)
     @Published var stationerys: [String] = []
     
-    private let storageManager = FirebaseStorageManager()
+    private let useCase: LetterWriteLoadStuffUseCase
     
-    init() {
+    init(useCase: LetterWriteLoadStuffUseCase) {
+        self.useCase = useCase
         Task {
             await loadStationeries()
         }
@@ -39,7 +40,7 @@ class StationerySelectionViewModel: ObservableObject {
     
     @MainActor
     func loadStationeries() async {
-        let result = await storageManager.loadStationeries()
+        let result = await useCase.loadStationeries()
         switch result {
         case .success(let urls):
             DispatchQueue.main.async {

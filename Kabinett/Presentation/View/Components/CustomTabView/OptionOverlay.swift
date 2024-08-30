@@ -10,8 +10,8 @@ import SwiftUI
 struct OptionOverlay: View {
     @ObservedObject var viewModel: CustomTabViewModel
     @State var letterContent = LetterWriteViewModel()
-    @StateObject private var stationerySelectionViewModel = StationerySelectionViewModel()
-    @StateObject private var envelopeStampSelectionViewModel = EnvelopeStampSelectionViewModel()
+    @StateObject private var stationerySelectionViewModel = StationerySelectionViewModel(useCase: FirebaseStorageManager())
+    @StateObject private var envelopeStampSelectionViewModel = EnvelopeStampSelectionViewModel(useCase: FirebaseStorageManager())
     
     @State private var isWritingLetter = false
     
