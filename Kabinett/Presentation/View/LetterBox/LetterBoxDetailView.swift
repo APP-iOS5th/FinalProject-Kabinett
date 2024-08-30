@@ -17,6 +17,7 @@ struct LetterBoxDetailView: View {
     
     @Binding var showSearchBarView: Bool
     @Binding var searchText: String
+    @Binding var isTextFieldFocused: Bool
     
     @State private var showCalendarView = false
     @State private var startDateFiltering = false
@@ -36,11 +37,13 @@ struct LetterBoxDetailView: View {
     init(
          letterType: LetterType,
          showSearchBarView: Binding<Bool>,
-         searchText: Binding<String>
+         searchText: Binding<String>,
+         isTextFieldFocused: Binding<Bool>
     ) {
         self.letterType = letterType
         self._showSearchBarView = showSearchBarView
         self._searchText = searchText
+        self._isTextFieldFocused = isTextFieldFocused
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -64,7 +67,16 @@ struct LetterBoxDetailView: View {
                 
                 letterBoxDetailListView()
                 .onAppear {
-                    viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                    if showSearchBarView {
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            isTextFieldFocused = false
+                        }
+                        viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
+                    } else if startDateFiltering {
+                        viewModel.fetchSearchByDate(letterType: letterType, startDate: startDate, endDate: endDate)
+                    } else {
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                    }
                 }
                 
                 VStack {
@@ -112,6 +124,7 @@ struct LetterBoxDetailView: View {
                     }
                     .simultaneousGesture(TapGesture().onEnded {
                         if showSearchBarView {
+                            searchText = ""
                             showSearchBarView.toggle()
                         }
                         
@@ -138,6 +151,7 @@ struct LetterBoxDetailView: View {
                         }
                         .simultaneousGesture(TapGesture().onEnded {
                             if showSearchBarView {
+                                searchText = ""
                                 showSearchBarView.toggle()
                             }
                             
@@ -173,6 +187,7 @@ struct LetterBoxDetailView: View {
                         viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
                     showSearchBarView.toggle()
+                    isTextFieldFocused = true
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
@@ -211,7 +226,7 @@ struct LetterBoxDetailView: View {
 }
 
 #Preview {
-    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""))
+    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""), isTextFieldFocused: .constant(false))
         .environmentObject(LetterBoxDetailViewModel())
 }
 
@@ -245,7 +260,9 @@ struct SearchBarView: View {
     
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
-    @FocusState private var isTextFieldFocused: Bool
+    
+    @Binding var isTextFieldFocused: Bool
+    @FocusState private var textFieldFocused: Bool
     
     var letterType: LetterType
     
@@ -255,11 +272,14 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
-                    .focused($isTextFieldFocused)
+                    .focused($textFieldFocused)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self.isTextFieldFocused = true
+                        DispatchQueue.main.asyncAfter(deadline: .now()) {
+                            textFieldFocused = isTextFieldFocused
                         }
+                    }
+                    .onChange(of: textFieldFocused) { _, newValue in
+                        isTextFieldFocused = newValue
                     }
                     .onChange(of: searchText) { _, newValue in
                         if newValue.isEmpty {

@@ -18,6 +18,7 @@ struct LetterBoxView: View {
     
     @State private var searchText: String = ""
     @State private var showSearchBarView = false
+    @State private var isTextFieldFocused = false
     
     let columns = [
         GridItem(.flexible(minimum: 220), spacing: -60),
@@ -34,7 +35,7 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText)
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)
                                 .environmentObject(letterBoxDetailViewModel)) {
                                 LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
@@ -82,7 +83,7 @@ struct LetterBoxView: View {
                             .background(Material.ultraThinMaterial)
                             .blur(radius: 1.5)
 
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, letterType: currentLetterType)
+                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: currentLetterType)
                             .environmentObject(letterBoxDetailViewModel)
                             .padding(.top, 50)
                             .edgesIgnoringSafeArea(.top)
