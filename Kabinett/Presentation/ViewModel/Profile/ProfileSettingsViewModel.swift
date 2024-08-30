@@ -11,6 +11,7 @@ import PhotosUI
 
 class ProfileSettingsViewModel: ObservableObject {
     private let profileUseCase: ProfileUseCase
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var userName: String = ""
     @Published var newUserName: String = ""
@@ -23,33 +24,56 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var isShowingCropper = false
     @Published var croppedImage: UIImage?
     @Published var isProfileUpdated = false
-    @Published var shouldNavigateToSettings = false
+    @Published var userStatus: UserStatus?
+    @Published var shouldNavigateToLogin: Bool = false
+    @Published var shouldNavigateToProfile: Bool = false
+    @Published var profileUpdateError: String?
+    @Published var showProfileAlert = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
         
         Task {
             await loadInitialData()
+            await checkUserStatus()
             await fetchAppleID()
         }
     }
     
+    @MainActor
     private func loadInitialData() async {
         let writer = await profileUseCase.getCurrentWriter()
-        DispatchQueue.main.async {
-            self.userName = writer.name
-            self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
-            if let imageUrlString = writer.profileImage,
-               let imageUrl = URL(string: imageUrlString),
-               let imageData = try? Data(contentsOf: imageUrl),
-               let image = UIImage(data: imageData) {
-                self.profileImage = image
-            } else {
-                self.profileImage = nil
-            }
+        self.userName = writer.name
+        self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
+        if let imageUrlString = writer.profileImage,
+           let imageUrl = URL(string: imageUrlString),
+           let imageData = try? Data(contentsOf: imageUrl),
+           let image = UIImage(data: imageData) {
+            self.profileImage = image
+        } else {
+            self.profileImage = nil
         }
-    } // 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    }// 프로필 이미지 없을 때 탭바 이미지도 설정하기
     
+    @MainActor
+    func checkUserStatus() async {
+        await profileUseCase.getCurrentUserStatus()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                self?.userStatus = status
+                switch status {
+                case .anonymous:
+                    self?.shouldNavigateToLogin = true
+                case .incomplete:
+                    self?.shouldNavigateToLogin = true
+                case .registered:
+                    self?.shouldNavigateToProfile = true
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    @MainActor
     private func fetchAppleID() async {
         let ID = await profileUseCase.getAppleID()
         self.appleID = ID
@@ -63,6 +87,25 @@ class ProfileSettingsViewModel: ObservableObject {
         return newUserName.isEmpty ? userName : newUserName
     }
     
+    @MainActor
+    func completeProfileUpdate() async {
+        updateUserName()
+        updateProfileImage()
+        objectWillChange.send()
+        
+        let success = await profileUseCase.updateWriter(
+            newWriterName: userName,
+            profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
+        )
+        
+        if success {
+            isProfileUpdated = true
+        } else {
+            profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
+            showProfileAlert = true
+        }
+    }
+
     func updateUserName() {
         if isUserNameVaild {
             userName = newUserName
@@ -73,9 +116,6 @@ class ProfileSettingsViewModel: ObservableObject {
         if let croppedImage = croppedImage {
             self.profileImage = croppedImage
             isProfileUpdated = true
-            print("Profile image updated in ViewModel. New image size: \(croppedImage.size)")
-        } else {
-            print("No image to update")
         }
     }
     
@@ -88,16 +128,12 @@ class ProfileSettingsViewModel: ObservableObject {
             if let item = newItem,
                let data = try? await item.loadTransferable(type: Data.self),
                let uiImage = UIImage(data: data) {
-                selectedImage = uiImage
-                isShowingCropper = true
+                await MainActor.run {
+                    self.selectedImage = uiImage
+                    self.isShowingCropper = true
+                }
             }
         }
-    }
-    
-    func completeProfileUpdate() {
-        updateUserName()
-        updateProfileImage()
-        objectWillChange.send()
     }
     
     func crop(image: UIImage, cropArea: CGRect, imageViewSize: CGSize) {
