@@ -27,6 +27,8 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var userStatus: UserStatus?
     @Published var shouldNavigateToLogin: Bool = false
     @Published var shouldNavigateToProfile: Bool = false
+    @Published var profileUpdateError: String?
+    @Published var showProfileAlert = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -71,7 +73,6 @@ class ProfileSettingsViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    
     @MainActor
     private func fetchAppleID() async {
         let ID = await profileUseCase.getAppleID()
@@ -86,6 +87,25 @@ class ProfileSettingsViewModel: ObservableObject {
         return newUserName.isEmpty ? userName : newUserName
     }
     
+    @MainActor
+    func completeProfileUpdate() async {
+        updateUserName()
+        updateProfileImage()
+        objectWillChange.send()
+        
+        let success = await profileUseCase.updateWriter(
+            newWriterName: userName,
+            profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
+        )
+        
+        if success {
+            isProfileUpdated = true
+        } else {
+            profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
+            showProfileAlert = true
+        }
+    }
+
     func updateUserName() {
         if isUserNameVaild {
             userName = newUserName
@@ -96,7 +116,6 @@ class ProfileSettingsViewModel: ObservableObject {
         if let croppedImage = croppedImage {
             self.profileImage = croppedImage
             isProfileUpdated = true
-        } else {
         }
     }
     
@@ -115,12 +134,6 @@ class ProfileSettingsViewModel: ObservableObject {
                 }
             }
         }
-    }
-    
-    func completeProfileUpdate() {
-        updateUserName()
-        updateProfileImage()
-        objectWillChange.send()
     }
     
     func crop(image: UIImage, cropArea: CGRect, imageViewSize: CGSize) {
