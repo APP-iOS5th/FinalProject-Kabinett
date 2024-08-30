@@ -28,31 +28,58 @@ struct LetterCell: View {
                     CloseButtonView { dismiss() }
                 }
                 
-                TabView(selection: $selectedIndex) {
-                    // content가 있는 경우
-                    ForEach(Array(zip(letter.content.indices, letter.content)), id: \.0) { index, page in
-                        VStack {
-                            ContentRectangleView(stationeryImageUrlString: letter.stationeryImageUrlString, fromUserName: letter.fromUserName, toUserName: letter.toUserName, letterContent: page, fontString: letter.fontString ?? "SFDisplay", date: letter.date, currentPageIndex: index, totalPages: letter.content.count)
+                GeometryReader { geometry in
+                    ZStack {
+                        ForEach(0..<totalPageCount, id: \.self) { index in
+                            if index == selectedIndex || index == selectedIndex + 1 {
+                                createPageView(index: index, geometry: geometry)
+                                    .offset(x: CGFloat(index - selectedIndex) * 10, y: CGFloat(index - selectedIndex) * 10)
+                                    .zIndex(index == selectedIndex ? 1 : 0)
+                                    .animation(.spring(), value: selectedIndex)
+                            }
                         }
-                        .tag(index)
                     }
-                    
-                    // photoContents가 있는 경우
-                    ForEach(Array(zip(letter.photoContents.indices, letter.photoContents)), id: \.0) { index, photoUrl in
-                        VStack {
-                            KFImage(URL(string: photoUrl))
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .shadow(radius: 5, x: 5, y: 5)
-                                .padding(.bottom, 30)
-                        }
-                        .tag(letter.content.count + index)
-                    }
-                    
+                    .gesture(
+                        DragGesture()
+                            .onEnded { value in
+                                if value.translation.width < -50 && selectedIndex < totalPageCount - 1 {
+                                    selectedIndex += 1
+                                } else if value.translation.width > 50 && selectedIndex > 0 {
+                                    selectedIndex -= 1
+                                }
+                            }
+                    )
                 }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             }
+        }
+    }
+    
+    private var totalPageCount: Int {
+        return letter.content.count + letter.photoContents.count
+    }
+    
+    @ViewBuilder
+    private func createPageView(index: Int, geometry: GeometryProxy) -> some View {
+        if index < letter.content.count {
+            ContentRectangleView(
+                stationeryImageUrlString: letter.stationeryImageUrlString,
+                fromUserName: letter.fromUserName,
+                toUserName: letter.toUserName,
+                letterContent: letter.content[index],
+                fontString: letter.fontString ?? "SFDisplay",
+                date: letter.date,
+                currentPageIndex: index,
+                totalPages: letter.content.count
+            )
+            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+        } else {
+            KFImage(URL(string: letter.photoContents[index - letter.content.count]))
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: geometry.size.width * 0.88)
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                .shadow(radius: 5, x: 5, y: 5)
+                .padding(.bottom, 30)
         }
     }
 }
