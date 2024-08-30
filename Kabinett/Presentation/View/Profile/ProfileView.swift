@@ -62,8 +62,6 @@ struct ProfileView: View {
         .onAppear {
             Task {
                 await profileViewModel.checkUserStatus()
-                print("User status after check: \(profileViewModel.userStatus))")
-                print("Should navigate to login: \(profileViewModel.shouldNavigateToLogin)")
             }
         }
     }

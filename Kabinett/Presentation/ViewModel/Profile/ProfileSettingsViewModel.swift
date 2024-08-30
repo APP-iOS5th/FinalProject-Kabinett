@@ -61,13 +61,10 @@ class ProfileSettingsViewModel: ObservableObject {
                 self?.userStatus = status
                 switch status {
                 case .anonymous:
-                    print("User status is anonymous")
                     self?.shouldNavigateToLogin = true
                 case .incomplete:
-                    print("User status is incomplete")
                     self?.shouldNavigateToLogin = true
                 case .registered:
-                    print("User status is registered")
                     self?.shouldNavigateToProfile = true
                 }
             }
@@ -99,9 +96,7 @@ class ProfileSettingsViewModel: ObservableObject {
         if let croppedImage = croppedImage {
             self.profileImage = croppedImage
             isProfileUpdated = true
-            print("Profile image updated in ViewModel. New image size: \(croppedImage.size)")
         } else {
-            print("No image to update")
         }
     }
     
