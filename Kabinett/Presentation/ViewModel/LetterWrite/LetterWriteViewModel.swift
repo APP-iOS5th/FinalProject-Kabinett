@@ -13,7 +13,7 @@ class LetterWriteViewModel: ObservableObject {
     @Published var postScript: String? = nil
     @Published var envelopeImageUrlString: String = ""
     @Published var stampImageUrlString: String = ""
-    
+
     @Published var fromUserId: String? = nil
     @Published var fromUserName: String = ""
     @Published var fromUserKabinettNumber: Int? = nil

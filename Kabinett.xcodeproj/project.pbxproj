@@ -49,7 +49,6 @@
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */; };
-		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */; };
 		57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */; };
@@ -160,7 +159,6 @@
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritePreviewView.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionModalView.swift; sourceTree = "<group>"; };
-		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
 		57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteViewModel.swift; sourceTree = "<group>"; };
 		57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionView.swift; sourceTree = "<group>"; };
@@ -383,7 +381,6 @@
 			isa = PBXGroup;
 			children = (
 				577156FC2C7584E000E21162 /* NavigationBarView.swift */,
-				57EBE5B12C69E653003ECD7F /* ModalTestView.swift */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */,
 				57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */,
 				577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */,
@@ -833,11 +830,9 @@
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
-				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
-				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
