@@ -87,6 +87,7 @@ struct LetterBoxDetailView: View {
             .navigationTitle(letterType.description)
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
+            .ignoresSafeArea(.keyboard, edges: .bottom)
             .toolbar {
                 toolbarItems()
             }
