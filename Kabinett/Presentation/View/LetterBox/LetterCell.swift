@@ -71,7 +71,6 @@ struct LetterCell: View {
                 currentPageIndex: index,
                 totalPages: letter.content.count
             )
-            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
         } else {
             KFImage(URL(string: letter.photoContents[index - letter.content.count]))
                 .resizable()
