@@ -34,7 +34,7 @@ struct SettingsView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
-                    NavigationLink(destination: AccountSettingsView()) {
+                    NavigationLink(destination: AccountSettingsView(profileViewModel: profileViewModel)) {
                         HStack{
                             Text("계정 설정")
                                 .fontWeight(.medium)
@@ -58,7 +58,7 @@ struct SettingsView: View {
                             Image(systemName: "apple.logo")
                                 .font(.system(size: 14))
                                 .foregroundColor(.white)
-                        }
+                        } //추후에 다른 소셜로그인 추가되면 이미지 변경 가능하게 수정하기
                         .padding(.leading, 10)
                         Text(profileViewModel.appleID)
                             .font(.system(size: 17))
@@ -68,7 +68,6 @@ struct SettingsView: View {
                     
                     Spacer()
                 }
-                .buttonStyle(PlainButtonStyle())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.background)
                 .navigationTitle("설정")
