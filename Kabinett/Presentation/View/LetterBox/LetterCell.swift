@@ -127,7 +127,7 @@ struct ContentRectangleView: View {
                         .padding(.leading, 10)
                         .opacity(currentPageIndex == 0 ? 1 : 0)
                     
-                    Text(letterContent)
+                    Text(letterContent.forceCharWrapping)
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .lineSpacing(11)
@@ -163,6 +163,12 @@ struct ContentRectangleView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 M월 d일"
         return formatter.string(from: date)
+    }
+}
+
+extension String {
+    var forceCharWrapping: Self {
+        self.map({ String($0) }).joined(separator: "\u{200B}")
     }
 }
 
