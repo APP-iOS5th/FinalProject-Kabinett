@@ -73,9 +73,6 @@ struct SignUpKabinettNumberSelectView: View {
                             if let selectedIndex = signUpViewModel.selectedKabinettNumber {
                                 let selectedKabinettNumber = signUpViewModel.availablekabinettNumbers[selectedIndex]
                                 
-                                print("UserName: \(signUpViewModel.userName)")
-                                print("Selected Kabinett Number: \(selectedKabinettNumber)")
-                                
                                 let success = await signUpViewModel.startLoginUser(
                                     with: signUpViewModel.userName,
                                     kabinettNumber: selectedKabinettNumber

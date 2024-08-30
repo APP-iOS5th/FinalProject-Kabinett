@@ -32,7 +32,6 @@ final class SignUpViewModel: ObservableObject {
     @MainActor
        func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
            guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
-               print("Invalid Kabinett number format")
                return false
            }
            
@@ -62,19 +61,15 @@ final class SignUpViewModel: ObservableObject {
                 let signUpResult = await signUpUseCase.signUp(authorization)
                 switch signUpResult {
                 case .newUser:
-                    print("Sign up State: New User")
                     self.loginSuccess = true
-                case .alreadyRegistered:
+                case .registered:
                     self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()) //프로필 뷰 오류 테스트하려면 여기 주석처리
-                    print("Sign up State: Already Registered")
                     self.signUpSuccess = true
                 case .signInOnly:
-                    print("Sign up State: Apple SignIn Only")
                     self.loginSuccess = true
                 }
             }
-        case .failure(let error):
-            print("애플 로그인 실패: \(error.localizedDescription)")
+        case .failure(_):
             self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }

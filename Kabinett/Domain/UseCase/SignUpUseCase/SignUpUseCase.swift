@@ -10,7 +10,7 @@ import AuthenticationServices
 
 enum SignUpResult {
     case newUser
-    case alreadyRegistered
+    case registered
     case signInOnly
 }
 
@@ -32,13 +32,11 @@ final class SignUpUseCaseStub: SignupUseCase {
     
     func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
         .newUser
-//        .alreadyRegistered
+//        .registered
 //        .signInOnly
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
-        print("Received userName in UseCase: \(userName)")
-        print("Received Kabinett Number in UseCase: \(kabinettNumber)")
         return true
     }
 }
