@@ -44,6 +44,15 @@ struct ProfileView: View {
                         .padding(.horizontal, geometry.size.width * 0.06)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.background)
+                        .alert(
+                            "오류",
+                            isPresented: $profileViewModel.showProfileAlert
+                        ) {
+                            Button("확인", role: .cancel) {
+                            }
+                        } message: {
+                            Text(profileViewModel.profileUpdateError ?? "알 수 없는 프로필 업데이트 오류가 발생했어요.")
+                        }
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 NavigationLink(destination: SettingsView(profileViewModel: profileViewModel)) {
