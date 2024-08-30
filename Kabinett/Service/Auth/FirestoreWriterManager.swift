@@ -21,12 +21,17 @@ final class FirestoreWriterManager {
     }
     
     func createWriterDocument(with writer: Writer, writerId: String) {
+    func saveWriterDocument(with writer: Writer, to writerId: String) -> Bool {
         do {
             try db.collection("Writers")
                 .document(writerId)
                 .setData(from: writer)
+            return true
         } catch {
             logger.error("Create Error: \(error.localizedDescription)")
+            return false
+        }
+    }
         }
     }
 }
