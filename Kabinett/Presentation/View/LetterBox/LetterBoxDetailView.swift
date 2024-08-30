@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct LetterBoxDetailView: View {
     @EnvironmentObject var viewModel: LetterBoxDetailViewModel
@@ -243,6 +244,8 @@ struct SearchBarView: View {
     
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
+    @FocusState private var isTextFieldFocused: Bool
+    
     var letterType: LetterType
     
     var body: some View {
@@ -251,6 +254,12 @@ struct SearchBarView: View {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
                 TextField("Search", text: $searchText)
+                    .focused($isTextFieldFocused)
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.isTextFieldFocused = true
+                        }
+                    }
                     .onChange(of: searchText) { _, newValue in
                         if newValue.isEmpty {
                             viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
