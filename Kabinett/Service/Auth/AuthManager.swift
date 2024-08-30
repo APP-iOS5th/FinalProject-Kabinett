@@ -31,6 +31,10 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
+    func getCurrentUser() -> User? {
+        Auth.auth().currentUser
+    }
+    
     func signout() -> Bool {
         logger.debug("Attempt to sign out.")
         do {
