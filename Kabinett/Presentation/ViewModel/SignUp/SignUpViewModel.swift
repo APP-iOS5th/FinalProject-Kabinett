@@ -64,7 +64,7 @@ final class SignUpViewModel: ObservableObject {
                 case .newUser:
                     print("Sign up State: New User")
                     self.loginSuccess = true
-                case .alreadyRegistered:
+                case .registered:
                     self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()) //프로필 뷰 오류 테스트하려면 여기 주석처리
                     print("Sign up State: Already Registered")
                     self.signUpSuccess = true

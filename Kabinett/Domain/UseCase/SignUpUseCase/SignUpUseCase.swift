@@ -10,7 +10,7 @@ import AuthenticationServices
 
 enum SignUpResult {
     case newUser
-    case alreadyRegistered
+    case registered
     case signInOnly
 }
 
@@ -32,7 +32,7 @@ final class SignUpUseCaseStub: SignupUseCase {
     
     func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
         .newUser
-//        .alreadyRegistered
+//        .registered
 //        .signInOnly
     }
     

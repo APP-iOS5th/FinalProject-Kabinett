@@ -11,6 +11,7 @@ import PhotosUI
 
 class ProfileSettingsViewModel: ObservableObject {
     private let profileUseCase: ProfileUseCase
+    private var cancellables = Set<AnyCancellable>()
     
     @Published var userName: String = ""
     @Published var newUserName: String = ""
@@ -23,13 +24,16 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var isShowingCropper = false
     @Published var croppedImage: UIImage?
     @Published var isProfileUpdated = false
-    @Published var shouldNavigateToSettings = false
+    @Published var userStatus: UserStatus?
+    @Published var shouldNavigateToLogin: Bool = false
+    @Published var shouldNavigateToProfile: Bool = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
         
         Task {
             await loadInitialData()
+            await checkUserStatus()
             await fetchAppleID()
         }
     }
@@ -48,6 +52,28 @@ class ProfileSettingsViewModel: ObservableObject {
             self.profileImage = nil
         }
     }// 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    
+    @MainActor
+    func checkUserStatus() async {
+        await profileUseCase.getCurrentUserStatus()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                self?.userStatus = status
+                switch status {
+                case .anonymous:
+                    print("User status is anonymous")
+                    self?.shouldNavigateToLogin = true
+                case .incomplete:
+                    print("User status is incomplete")
+                    self?.shouldNavigateToLogin = true
+                case .registered:
+                    print("User status is registered")
+                    self?.shouldNavigateToProfile = true
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
     
     @MainActor
     private func fetchAppleID() async {

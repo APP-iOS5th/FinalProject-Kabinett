@@ -29,6 +29,9 @@ protocol ProfileUseCase {
 final class ProfileUseCaseStub: ProfileUseCase {
     func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never> {
         Just(.anonymous)
+//        Just(.incomplete)
+//        Just(.registered)
+        
             .eraseToAnyPublisher()
     }
     func getCurrentWriter() async -> Writer {
