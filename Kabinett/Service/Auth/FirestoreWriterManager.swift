@@ -20,13 +20,26 @@ final class FirestoreWriterManager {
         )
     }
     
-    func createWriterDocument(with writer: Writer, writerId: String) {
+    func saveWriterDocument(with writer: Writer, to writerId: String) -> Bool {
         do {
             try db.collection("Writers")
                 .document(writerId)
                 .setData(from: writer)
+            return true
         } catch {
             logger.error("Create Error: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
+    func getWriterDocument(with writerId: String) async -> Writer {
+        do {
+            return try await db.collection("Writers")
+                .document(writerId)
+                .getDocument(as: Writer.self)
+        } catch {
+            logger.error("No writer was not found: \(writerId, privacy: .private)")
+            return .anonymousWriter
         }
     }
 }

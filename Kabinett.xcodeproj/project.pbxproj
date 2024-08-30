@@ -92,6 +92,8 @@
 		839CE12B2C645F65003635F3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE12A2C645F65003635F3 /* FirebaseStorage */; };
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
 		83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */; };
+		83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AA2C8160CB00DFB68B /* Publisher+.swift */; };
+		83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
@@ -206,6 +208,8 @@
 		839CE1202C645274003635F3 /* Kabinett.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kabinett.entitlements; sourceTree = "<group>"; };
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
+		83CA92AA2C8160CB00DFB68B /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
+		83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageWriterManager.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
@@ -483,9 +487,11 @@
 		8366B6FB2C65EF1B0021FAE0 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				83CA92A92C8160BF00DFB68B /* Utils */,
 				83F0D6842C705E42001B8733 /* AuthManager.swift */,
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
 				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
+				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -619,6 +625,14 @@
 				839CE1132C644BF0003635F3 /* KabinettUITestsLaunchTests.swift */,
 			);
 			path = KabinettUITests;
+			sourceTree = "<group>";
+		};
+		83CA92A92C8160BF00DFB68B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				83CA92AA2C8160CB00DFB68B /* Publisher+.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -780,7 +794,6 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
-				7F7868462C782F4A0083D204 /* CustomTabBar.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
@@ -788,6 +801,7 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
@@ -817,6 +831,7 @@
 				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
 				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
+				83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */,
 				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
