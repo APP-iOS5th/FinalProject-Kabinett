@@ -10,7 +10,7 @@ import Kingfisher
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
+    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var showNextView = false
     @State private var text: String = ""
@@ -169,7 +169,7 @@ struct EnvelopeStampSelectionView: View {
 struct EnvelopeCell: View {
     @Binding var letterContent: LetterWriteViewModel
     @Binding var envelopeImageUrl: String
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
+    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {
@@ -182,29 +182,31 @@ struct EnvelopeCell: View {
                             ForEach(0..<2, id: \.self) { columnIndex in
                                 let index = viewModel.envelopeIndex(row: rowIndex, column: columnIndex)
                                 
-                                ZStack(alignment: .topTrailing) {
-                                    KFImage(URL(string: viewModel.dummyEnvelopes[index]))
-                                        .placeholder {
-                                            Image(systemName: "arrow.down.circle.dotted")
-                                        }
-                                        .resizable()
-                                        .aspectRatio(9/4, contentMode: .fit)
-                                        .padding(10)
-                                        .shadow(radius: 5, x: 5, y: 5)
-                                        .onTapGesture {
-                                            viewModel.envelopeSelectStationery(coordinates: (rowIndex, columnIndex))
-                                            envelopeImageUrl = viewModel.dummyEnvelopes[index]
-                                            letterContent.envelopeImageUrlString = viewModel.dummyEnvelopes[index]
-                                        }
-                                    
-                                    if viewModel.isEnvelopeSelected(coordinates: (rowIndex, columnIndex)) {
-                                        Image("checked")
-                                            .resizable()
-                                            .frame(width: 27, height: 27)
-                                            .padding([.top, .trailing], 20)
-                                            .onAppear {
-                                                letterContent.envelopeImageUrlString = viewModel.dummyEnvelopes[viewModel.envelopeIndex(row: rowIndex, column: columnIndex)]
+                                if index < viewModel.envelopes.count {
+                                    ZStack(alignment: .topTrailing) {
+                                        KFImage(URL(string: viewModel.envelopes[index]))
+                                            .placeholder {
+                                                ProgressView()
                                             }
+                                            .resizable()
+                                            .aspectRatio(9/4, contentMode: .fit)
+                                            .padding(10)
+                                            .shadow(radius: 5, x: 5, y: 5)
+                                            .onTapGesture {
+                                                viewModel.envelopeSelectStationery(coordinates: (rowIndex, columnIndex))
+                                                envelopeImageUrl = viewModel.envelopes[index]
+                                                letterContent.envelopeImageUrlString = viewModel.envelopes[index]
+                                            }
+                                        
+                                        if viewModel.isEnvelopeSelected(coordinates: (rowIndex, columnIndex)) {
+                                            Image("checked")
+                                                .resizable()
+                                                .frame(width: 27, height: 27)
+                                                .padding([.top, .trailing], 20)
+                                                .onAppear {
+                                                    letterContent.envelopeImageUrlString = viewModel.envelopes[viewModel.envelopeIndex(row: rowIndex, column: columnIndex)]
+                                                }
+                                        }
                                     }
                                 }
                             }
@@ -226,7 +228,7 @@ struct EnvelopeCell: View {
 struct StampCell: View {
     @Binding var letterContent: LetterWriteViewModel
     @Binding var stampImageUrl: String
-    @StateObject private var viewModel = EnvelopeStampSelectionViewModel()
+    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {
@@ -239,29 +241,31 @@ struct StampCell: View {
                             ForEach(0..<3, id: \.self) { columnIndex in
                                 let index = viewModel.stampIndex(row: rowIndex, column: columnIndex)
                                 
-                                ZStack(alignment: .topTrailing) {
-                                    KFImage(URL(string: viewModel.dummyStamps[index]))
-                                        .placeholder {
-                                            Image(systemName: "arrow.down.circle.dotted")
-                                        }
-                                        .resizable()
-                                        .aspectRatio(9/9.7, contentMode: .fit)
-                                        .padding(10)
-                                        .shadow(radius: 5, x: 5, y: 5)
-                                        .onTapGesture {
-                                            viewModel.stampSelectStationery(coordinates: (rowIndex, columnIndex))
-                                            stampImageUrl = viewModel.dummyStamps[index]
-                                            letterContent.stampImageUrlString = viewModel.dummyStamps[index]
-                                        }
-                                    
-                                    if viewModel.isStampSelected(coordinates: (rowIndex, columnIndex)) {
-                                        Image("checked")
-                                            .resizable()
-                                            .frame(width: 27, height: 27)
-                                            .padding([.top, .trailing], 20)
-                                            .onAppear {
-                                                letterContent.stampImageUrlString = viewModel.dummyStamps[viewModel.stampIndex(row: rowIndex, column: columnIndex)]
+                                if index < viewModel.stamps.count {
+                                    ZStack(alignment: .topTrailing) {
+                                        KFImage(URL(string: viewModel.stamps[index]))
+                                            .placeholder {
+                                                ProgressView()
                                             }
+                                            .resizable()
+                                            .aspectRatio(9/9.7, contentMode: .fit)
+                                            .padding(10)
+                                            .shadow(radius: 5, x: 5, y: 5)
+                                            .onTapGesture {
+                                                viewModel.stampSelectStationery(coordinates: (rowIndex, columnIndex))
+                                                stampImageUrl = viewModel.stamps[index]
+                                                letterContent.stampImageUrlString = viewModel.stamps[index]
+                                            }
+                                        
+                                        if viewModel.isStampSelected(coordinates: (rowIndex, columnIndex)) {
+                                            Image("checked")
+                                                .resizable()
+                                                .frame(width: 27, height: 27)
+                                                .padding([.top, .trailing], 20)
+                                                .onAppear {
+                                                    letterContent.stampImageUrlString = viewModel.stamps[viewModel.stampIndex(row: rowIndex, column: columnIndex)]
+                                                }
+                                        }
                                     }
                                 }
                             }

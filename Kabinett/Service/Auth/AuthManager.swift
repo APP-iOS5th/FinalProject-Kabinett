@@ -31,6 +31,10 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
+    func getCurrentUser() -> User? {
+        Auth.auth().currentUser
+    }
+    
     func signout() -> Bool {
         logger.debug("Attempt to sign out.")
         do {
@@ -82,7 +86,7 @@ final class AuthManager {
             signInAnonymousIfNeeded()
         }
     }
-    
+
     private func signInWith(credential: AuthCredential) async {
         do {
             try await Auth.auth().signIn(with: credential)
@@ -108,9 +112,9 @@ final class AuthManager {
             Task { [weak self] in
                 do {
                     let result = try await Auth.auth().signInAnonymously()
-                    self?.writerManager.createWriterDocument(
+                    _ = self?.writerManager.saveWriterDocument(
                         with: .anonymousWriter,
-                        writerId: result.user.uid
+                        to: result.user.uid
                     )
                 } catch {
                     self?.logger.error("SignInAnonymously is failed: \(error.localizedDescription)")

@@ -11,21 +11,19 @@ import SwiftUI
 class StationerySelectionViewModel: ObservableObject {
     @Published var showModal = true
     @Published var selectedIndex: (Int, Int) = (0, 0)
-    @Published var dummyStationerys: [String] = [
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_122/imyubin__1474262528136yOuds_PNG/image_6979828871474262466901.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800",
-        "https://mblogthumb-phinf.pstatic.net/20160919_30/imyubin__1474262310932ObRLl_PNG/image_7947265321474262300520.png?type=w800"
-    ]
+    @Published var stationerys: [String] = []
+    
+    private let useCase: LetterWriteLoadStuffUseCase
+    
+    init(useCase: LetterWriteLoadStuffUseCase) {
+        self.useCase = useCase
+        Task {
+            await loadStationeries()
+        }
+    }
     
     var numberOfRows: Int {
-        (dummyStationerys.count + 1) / 2
+        (stationerys.count + 1) / 2
     }
     
     func index(row: Int, column: Int) -> Int {
@@ -38,5 +36,16 @@ class StationerySelectionViewModel: ObservableObject {
     
     func isSelected(coordinates: (Int, Int)) -> Bool {
         return selectedIndex == coordinates
+    }
+    
+    @MainActor
+    func loadStationeries() async {
+        let result = await useCase.loadStationeries()
+        switch result {
+        case .success(let urls):
+            self.stationerys = urls
+        case .failure(let error):
+            print("Failed to load stationeries: \(error.localizedDescription)")
+        }
     }
 }

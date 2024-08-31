@@ -20,10 +20,12 @@
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
 		04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */; };
 		04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */; };
+		5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */; };
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
 		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
+		534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterCell.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
 		53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */; };
@@ -31,6 +33,7 @@
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
+		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
 		57485D3B2C772332000601BF /* WriteLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* WriteLetterView.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
@@ -49,7 +52,6 @@
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */; };
-		57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B12C69E653003ECD7F /* ModalTestView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */; };
 		57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */; };
@@ -90,6 +92,8 @@
 		839CE12B2C645F65003635F3 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 839CE12A2C645F65003635F3 /* FirebaseStorage */; };
 		839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839CE12C2C645F89003635F3 /* GoogleService-Info.plist */; };
 		83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */; };
+		83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AA2C8160CB00DFB68B /* Publisher+.swift */; };
+		83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
@@ -134,9 +138,11 @@
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
 		04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
 		04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettNumberFormatter.swift; sourceTree = "<group>"; };
+		5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailLetterView.swift; sourceTree = "<group>"; };
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
+		534C67B62C7FF85700F0C175 /* LetterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCell.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailViewModel.swift; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
+		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* WriteLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterView.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
@@ -160,7 +167,6 @@
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritePreviewView.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionModalView.swift; sourceTree = "<group>"; };
-		57EBE5B12C69E653003ECD7F /* ModalTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalTestView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
 		57EBE5BC2C6C43A7003ECD7F /* LetterWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteViewModel.swift; sourceTree = "<group>"; };
 		57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionView.swift; sourceTree = "<group>"; };
@@ -202,6 +208,8 @@
 		839CE1202C645274003635F3 /* Kabinett.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Kabinett.entitlements; sourceTree = "<group>"; };
 		839CE12C2C645F89003635F3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
+		83CA92AA2C8160CB00DFB68B /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
+		83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageWriterManager.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
@@ -375,6 +383,8 @@
 				530912CB2C7045F200964130 /* ToastView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
 				535961902C74F5870031E181 /* CalendarView.swift */,
+				5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */,
+				534C67B62C7FF85700F0C175 /* LetterCell.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -383,7 +393,6 @@
 			isa = PBXGroup;
 			children = (
 				577156FC2C7584E000E21162 /* NavigationBarView.swift */,
-				57EBE5B12C69E653003ECD7F /* ModalTestView.swift */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */,
 				57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */,
 				577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */,
@@ -435,6 +444,7 @@
 				530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */,
 				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
 				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
+				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -477,9 +487,11 @@
 		8366B6FB2C65EF1B0021FAE0 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				83CA92A92C8160BF00DFB68B /* Utils */,
 				83F0D6842C705E42001B8733 /* AuthManager.swift */,
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
 				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
+				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -613,6 +625,14 @@
 				839CE1132C644BF0003635F3 /* KabinettUITestsLaunchTests.swift */,
 			);
 			path = KabinettUITests;
+			sourceTree = "<group>";
+		};
+		83CA92A92C8160BF00DFB68B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				83CA92AA2C8160CB00DFB68B /* Publisher+.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -773,6 +793,7 @@
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
@@ -780,7 +801,9 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
+				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
@@ -808,6 +831,7 @@
 				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
 				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
+				83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */,
 				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
@@ -832,12 +856,11 @@
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				57EBE5BD2C6C43A7003ECD7F /* LetterWriteViewModel.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
+				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
-				57EBE5B22C69E653003ECD7F /* ModalTestView.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
-				7F7868482C782F820083D204 /* TabBarButton.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,

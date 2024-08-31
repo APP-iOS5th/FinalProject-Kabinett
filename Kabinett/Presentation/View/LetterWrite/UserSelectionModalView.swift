@@ -77,7 +77,6 @@ struct UserSelectionModalView: View {
                 }
             }
         }
-        
     }
 }
 

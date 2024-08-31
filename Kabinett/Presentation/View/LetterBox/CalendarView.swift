@@ -30,7 +30,7 @@ struct CalendarView: View {
                     } label: {
                         Text("취소")
                             .font(.system(size: 17, weight: .bold))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.contentPrimary)
                     }
                     
                     Spacer()
@@ -45,7 +45,7 @@ struct CalendarView: View {
                     } label: {
                         Text("확인")
                             .font(.system(size: 17, weight: .bold))
-                            .foregroundStyle(.black)
+                            .foregroundStyle(.contentPrimary)
                     }
                 }
                 .padding(.top, 15)
@@ -53,6 +53,7 @@ struct CalendarView: View {
                 
                 HStack {
                     Text("시작")
+                        .foregroundStyle(.contentPrimary)
                     
                     Spacer()
                     
@@ -84,7 +85,7 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .tint(.black)
+                        .tint(.contentPrimary)
                 }
                 
                 Divider()
@@ -92,6 +93,7 @@ struct CalendarView: View {
 
                 HStack {
                     Text("종료")
+                        .foregroundStyle(.contentPrimary)
                     
                     Spacer()
                     
