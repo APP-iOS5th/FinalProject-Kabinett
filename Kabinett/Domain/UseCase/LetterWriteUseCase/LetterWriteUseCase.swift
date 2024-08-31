@@ -25,4 +25,5 @@ protocol LetterWriteUseCase {
                     isRead: Bool
     ) async -> Result<Bool, any Error>
     func findWriter(by query: String) -> [Writer]
+    func findWriter(by query: String) async -> [Writer]
 }
