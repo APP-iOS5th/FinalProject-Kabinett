@@ -396,6 +396,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         }
     }
     
+    // TODO: - Chnage this method
+    func findWriter(by query: String) -> [Writer] {
+        []
+    }
+    
     // MARK: - 유효성 검사
     private func validateFromUser(fromUserId: String?) async throws {
         let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
