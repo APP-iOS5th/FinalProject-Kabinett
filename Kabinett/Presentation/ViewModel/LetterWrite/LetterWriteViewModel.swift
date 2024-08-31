@@ -27,4 +27,10 @@ class LetterWriteViewModel: ObservableObject {
     @Published var date: Date = Date()
     @Published var stationeryImageUrlString: String? = nil
     @Published var isRead: Bool = false
+    @Published var dataSource: DataSource = .fromImagePicker
+    
+    enum DataSource {
+        case fromLetterWriting
+        case fromImagePicker
+    }
 }

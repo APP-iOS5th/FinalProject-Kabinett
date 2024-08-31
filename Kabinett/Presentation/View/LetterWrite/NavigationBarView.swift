@@ -12,7 +12,16 @@ struct NavigationBarView<Destination: View>: View {
     let destination: Destination
     let titleName: String
     let isNavigation: Bool
-
+    let action: (() -> Void)?
+    
+    init(destination: Destination, titleName: String, isNavigation: Bool, action: (() -> Void)? = nil) {
+        self.destination = destination
+        self.titleName = titleName
+        self.isNavigation = isNavigation
+        self.action = action
+    }
+    
+    
     var body: some View {
         ZStack {
             HStack {
@@ -25,21 +34,24 @@ struct NavigationBarView<Destination: View>: View {
                 }
                 Spacer()
             }
-
+            
             Text(titleName)
                 .font(.system(size: 16, weight: .semibold))
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-
+            
             HStack {
                 Spacer()
-
+                
                 if isNavigation {
                     NavigationLink(destination: destination) {
                         Text("다음")
                             .foregroundColor(Color.black)
                     }
+                } else if let action = action {
+                    Button("다음", action: action)
+                        .foregroundColor(Color.black)
                 }
             }
         }

@@ -9,14 +9,10 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
-    @StateObject private var viewModel: CustomTabViewModel
-    @StateObject private var imagePickerViewModel: ImagePickerViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var letterWriteViewModel = LetterWriteViewModel()
     
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
-        self._viewModel = StateObject(wrappedValue: CustomTabViewModel())
-        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
-    }
     
     var body: some View {
         ZStack {
@@ -51,20 +47,23 @@ struct CustomTabView: View {
             }
         )
         .overlay(ImportDialog(viewModel: viewModel))
-        .overlay(ImagePickerView(imageViewModel: imagePickerViewModel, customViewModel: viewModel))
+        .overlay(ImagePickerView())
         .fullScreenCover(isPresented: $viewModel.showCamera) {
-            CameraView(imagePickerViewModel: imagePickerViewModel)
-                .environmentObject(imagePickerViewModel)
+            CameraView()
         }
         .sheet(isPresented: $viewModel.showWriteLetterView) {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
+        .environmentObject(viewModel)
+                .environmentObject(imagePickerViewModel)
     }
 }
 
 #Preview {
-    CustomTabView(
-        componentsUseCase: MockComponentsUseCase(),
-        componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-    )
+    CustomTabView()
+        .environmentObject(CustomTabViewModel())
+        .environmentObject(ImagePickerViewModel(
+            componentsUseCase: MockComponentsUseCase(),
+            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+        ))
 }

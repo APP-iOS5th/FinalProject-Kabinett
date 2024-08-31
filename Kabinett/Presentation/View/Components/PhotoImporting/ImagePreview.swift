@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ImagePreview: View {
-    @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
@@ -48,7 +48,7 @@ struct ImagePreview: View {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(viewModel: imageViewModel, customViewModel: customViewModel)
+                LetterWritingView()
             }
             .background(Color("Background").edgesIgnoringSafeArea(.all))
         }

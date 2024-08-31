@@ -39,13 +39,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct KabinettApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject var imagePickerViewModel = ImagePickerViewModel(
+        componentsUseCase: MockComponentsUseCase(),
+        componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+    )
+    @StateObject var customTabViewModel = CustomTabViewModel()
     var body: some Scene {
         WindowGroup {
-            CustomTabView(
-                componentsUseCase: MockComponentsUseCase(),
-                componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-            )
+            CustomTabView()
+            .environmentObject(imagePickerViewModel)
+            .environmentObject(customTabViewModel)
         }
     }
 }

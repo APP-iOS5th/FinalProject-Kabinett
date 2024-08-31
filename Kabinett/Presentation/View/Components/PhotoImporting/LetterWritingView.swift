@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct LetterWritingView: View {
-    @ObservedObject var viewModel: ImagePickerViewModel
-    @ObservedObject var customViewModel: CustomTabViewModel
-    @State private var showDatePicker = false
+    @EnvironmentObject var viewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
+    @State private var showEnvelopeStampSelection = false
+    @State private var showCalendar = false
     @Environment(\.dismiss) var dismiss
+    @State private var letterWriteViewModel = LetterWriteViewModel()
     
     var body: some View {
         NavigationStack {
@@ -29,10 +31,27 @@ struct LetterWritingView: View {
                     .padding(.top, 20)
                 }
             }
-            .navigationBarItems(trailing: Button("완료") {
-                dismiss()
+            .navigationBarItems(trailing: Button("다음") {
+                updateLetterWriteViewModel()
+                showEnvelopeStampSelection = true
             })
+            .navigationDestination(isPresented: $showEnvelopeStampSelection) {
+                EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
+                    .environmentObject(viewModel)
+            }
         }
+    }
+    private func updateLetterWriteViewModel() {
+        letterWriteViewModel.fromUserName = viewModel.fromUserName
+        letterWriteViewModel.toUserName = viewModel.toUserName
+        letterWriteViewModel.date = viewModel.date
+        letterWriteViewModel.photoContents = viewModel.photoContents.map { $0.base64EncodedString() }
+        
+        print("Updated LetterWriteViewModel:")
+        print("From: \(letterWriteViewModel.fromUserName)")
+        print("To: \(letterWriteViewModel.toUserName)")
+        print("Date: \(letterWriteViewModel.date)")
+        print("Photo contents count: \(letterWriteViewModel.photoContents.count)")
     }
     
     private func userField(title: String, value: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
@@ -60,11 +79,10 @@ struct LetterWritingView: View {
                     UserSearchBar(text: search)
                     
                     if !search.wrappedValue.isEmpty {
-                        // 검색결과
                         ScrollView {
                             VStack(spacing: 0) {
-                                ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults) { writer in
-                                    userSearchResultButton(writer: writer, isFromUser: isFromUser)
+                                ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults, id: \.self) { userName in
+                                    userSearchResultButton(userName: userName, isFromUser: isFromUser)
                                 }
                             }
                         }
@@ -78,42 +96,27 @@ struct LetterWritingView: View {
         }
     }
     
-    private func userSearchResultButton(writer: Writer, isFromUser: Bool) -> some View {
+    private func userSearchResultButton(userName: String, isFromUser: Bool) -> some View {
         Button(action: {
             if isFromUser {
-                viewModel.fromUserName = writer.name
+                viewModel.fromUserName = userName
                 viewModel.fromUserSearch = ""
             } else {
-                viewModel.toUserName = writer.name
+                viewModel.toUserName = userName
                 viewModel.toUserSearch = ""
             }
-            viewModel.selectUser(writer, isFromUser: isFromUser)
+            viewModel.selectUser(userName, isFromUser: isFromUser)
         }) {
-            VStack(alignment: .leading) {
-                HStack {
-                    if let profileImage = writer.profileImage {
-                        Image(profileImage)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                    } else {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .foregroundColor(.gray)
-                    }
-                    
-                    Text(writer.name)
-                        .foregroundColor(.primary)
-                        .font(.system(size: 14, weight: .medium))
-                    Text("\(writer.kabinettNumber)")
-                        .foregroundColor(.secondary)
-                        .font(.system(size: 15))
-                }
+            HStack {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.gray)
                 
-                Spacer()
+                Text(userName)
+                    .foregroundColor(.primary)
+                    .font(.system(size: 14, weight: .medium))
             }
             .padding(.vertical, 8)
             .padding(.horizontal, 15)
@@ -122,33 +125,42 @@ struct LetterWritingView: View {
     }
     
     private func dateField() -> some View {
-        HStack(spacing: 10) {
-            Text("받을/보낼 날짜")
-                .foregroundStyle(Color("ContentPrimary"))
-                .font(.system(size: 16, weight: .bold))
-                .frame(width: 90, alignment: .leading)
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 10) {
+                Text("받을/보낼 날짜")
+                    .foregroundStyle(Color("ContentPrimary"))
+                    .font(.system(size: 16, weight: .bold))
+                    .frame(width: 90, alignment: .leading)
+                
+                Button(action: {
+                    showCalendar.toggle()
+                }) {
+                    Text(viewModel.formattedDate)
+                        .foregroundStyle(Color("ContentSecondary"))
+                        .font(.system(size: 15))
+                        .padding(.horizontal, 15)
+                        .frame(height: 40)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .background(Color.white)
+                        .clipShape(Capsule())
+                }
+            }
             
-            Button(action: {
-                showDatePicker = true
-            }) {
-                Text(viewModel.formattedDate)
-                    .foregroundStyle(Color("ContentSecondary"))
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 15)
-                    .frame(height: 40)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .background(Color.white)
-                    .clipShape(Capsule())
+            if showCalendar {
+                DatePicker(
+                    "",
+                    selection: $viewModel.date,
+                    displayedComponents: [.date]
+                )
+                .datePickerStyle(.graphical)
+                .frame(maxHeight: 400)
+                .background(Color("Primary600"))
+                .cornerRadius(6)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                .onChange(of: viewModel.date) { _, _ in
+                    showCalendar = false
+                }
             }
-        }
-        .sheet(isPresented: $showDatePicker) {
-            VStack {
-                DatePicker("", selection: $viewModel.date, displayedComponents: .date)
-                    .datePickerStyle(GraphicalDatePickerStyle())
-                    .frame(width: 350, height: 330)
-            }
-            .presentationDetents([.height(450)])
-            .presentationDragIndicator(.visible)
         }
     }
 }
