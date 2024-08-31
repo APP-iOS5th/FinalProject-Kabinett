@@ -397,8 +397,12 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // TODO: - Chnage this method
-    func findWriter(by query: String) -> [Writer] {
+    func findWriter(by query: String) async -> [Writer] {
         []
+    }
+    
+    func getCurrentWriter() async -> Writer {
+        .anonymousWriter
     }
     
     // MARK: - 유효성 검사
