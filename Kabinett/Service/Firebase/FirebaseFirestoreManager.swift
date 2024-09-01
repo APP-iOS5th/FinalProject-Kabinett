@@ -408,9 +408,25 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         }
     }
     
-    // TODO: - Chnage this method
+    // TODO: - Refactor this codes
     func findWriter(by query: String) async -> [Writer] {
-        []
+        do {
+            async let resultByName = findWriter(
+                by: Query(key: "name", value: query),
+                as: Writer.self
+            )
+            async let resultByNumber = findWriter(
+                by: Query(key: "kabinettNumber", value: query),
+                as: Writer.self
+            )
+            
+            return try await resultByName + resultByNumber
+        } catch {
+            logger.error("Find writer error: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
     private struct Query {
         let key: String
         let value: String
@@ -428,7 +444,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     func getCurrentWriter() async -> Writer {
-        .anonymousWriter
         if let user = authManager.getCurrentUser() {
             return await writerManager.getWriterDocument(with: user.uid)
         } else {
