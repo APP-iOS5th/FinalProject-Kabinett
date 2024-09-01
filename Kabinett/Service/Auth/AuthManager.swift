@@ -87,11 +87,17 @@ final class AuthManager {
         }
     }
 
-    private func signInWith(credential: AuthCredential) async {
+    // MARK: - Private Methods
+    private func signInWith(
+        credential: AuthCredential
+    ) async -> User? {
         do {
-            try await Auth.auth().signIn(with: credential)
+            return try await Auth.auth()
+                .signIn(with: credential)
+                .user
         } catch {
             logger.error("signInWith Error: \(error)")
+            return nil
         }
     }
     
