@@ -411,11 +411,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     // TODO: - Refactor this codes
     func findWriter(by query: String) async -> [Writer] {
         do {
-            async let resultByName = findWriter(
+            async let resultByName = findDocuments(
                 by: Query(key: "name", value: query),
                 as: Writer.self
             )
-            async let resultByNumber = findWriter(
+            async let resultByNumber = findDocuments(
                 by: Query(key: "kabinettNumber", value: query),
                 as: Writer.self
             )
@@ -432,7 +432,7 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         let value: String
     }
     
-    private func findWriter<T: Codable>(
+    private func findDocuments<T: Codable>(
         by query: Query,
         as type: T.Type
     ) async throws -> [T] {
