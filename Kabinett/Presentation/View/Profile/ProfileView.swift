@@ -9,6 +9,9 @@ import SwiftUI
 
 struct ProfileView: View {
     @ObservedObject var profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
+    @State private var showSettingsView = false
+    @State private var shouldNavigateToLogin = false
+    @State private var shouldNavigateToProfileView = false
     
     var body: some View {
         NavigationStack {
@@ -54,7 +57,9 @@ struct ProfileView: View {
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            NavigationLink(destination: SettingsView(profileViewModel: profileViewModel)) {
+                            Button(action: {
+                                showSettingsView = true
+                            }) {
                                 Image(systemName: "gearshape")
                                     .fontWeight(.medium)
                                     .font(.system(size: 19))
@@ -62,21 +67,32 @@ struct ProfileView: View {
                             }
                         }
                     }
+                    .sheet(isPresented: $showSettingsView) {
+                        SettingsView(
+                            profileViewModel: profileViewModel,
+                            shouldNavigateToProfileView: $shouldNavigateToProfileView,
+                            onAccountActionComplete: handleAccountActionComplete
+                        )
+                    }
                 }
                 .navigationBarBackButtonHidden()
             }
         }
         .task {
-            await profileViewModel.checkUserStatus()
+            await checkUserStatus()
         }
-        
-        .onChange(of: profileViewModel.isLoggedOut) { _ in
-            Task {
-                await profileViewModel.checkUserStatus()
-            }
+    }
+    
+    func handleAccountActionComplete() {
+        showSettingsView = false
+        Task {
+            await checkUserStatus()
         }
-       
-        
+    }
+    
+    func checkUserStatus() async {
+        await profileViewModel.checkUserStatus()
+        shouldNavigateToLogin = profileViewModel.shouldNavigateToLogin
     }
 }
 

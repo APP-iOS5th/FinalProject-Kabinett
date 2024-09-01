@@ -10,13 +10,14 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject var profileViewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var shouldNavigateToProfileView = false
+    @Binding var shouldNavigateToProfileView: Bool
+    var onAccountActionComplete: () -> Void
     
     var body: some View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(viewModel: profileViewModel, shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
+                    NavigationLink(destination: ProfileSettingsView(viewModel: profileViewModel,shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -34,7 +35,10 @@ struct SettingsView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
-                    NavigationLink(destination: AccountSettingsView(profileViewModel: profileViewModel)) {
+                    
+                    NavigationLink(destination: AccountSettingsView(profileViewModel: profileViewModel, onComplete: {
+                        onAccountActionComplete()
+                    })) {
                         HStack{
                             Text("계정 설정")
                                 .fontWeight(.medium)
@@ -91,6 +95,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-}
+//#Preview {
+//    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+//}

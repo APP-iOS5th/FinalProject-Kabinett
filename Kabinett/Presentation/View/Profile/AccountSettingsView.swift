@@ -12,6 +12,7 @@ struct AccountSettingsView: View {
     @State private var showLogoutAlert = false
     @State private var showAccountDeletionAlert = false
     @ObservedObject var profileViewModel: ProfileSettingsViewModel
+    var onComplete: () -> Void
     
     var body: some View {
         NavigationStack {
@@ -41,6 +42,7 @@ struct AccountSettingsView: View {
                         Button("로그아웃", role: .destructive) {
                             Task {
                                 await profileViewModel.signout()
+                                onComplete()
                             }
                         }
                         Button("취소", role: .cancel) {}
@@ -70,6 +72,7 @@ struct AccountSettingsView: View {
                             Button("회원탈퇴", role: .destructive) {
                                 Task {
                                     await profileViewModel.deletieID()
+                                    onComplete()
                                 }
                             }
                             Button("취소", role: .cancel) {}

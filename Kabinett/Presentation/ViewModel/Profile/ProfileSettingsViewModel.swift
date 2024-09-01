@@ -30,7 +30,7 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
     @Published var isLoggedOut = false
-    @Published var isDeleteID = false
+    @Published var isDeletedAccount = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -165,6 +165,8 @@ class ProfileSettingsViewModel: ObservableObject {
         let success = await profileUseCase.signout()
         if success {
             isLoggedOut = true
+        } else {
+            print("로그아웃에 실패했어요.")
         }
     }
     
@@ -172,7 +174,9 @@ class ProfileSettingsViewModel: ObservableObject {
     func deletieID() async {
         let success = await profileUseCase.deleteId()
         if success {
-            isDeleteID = true
+            isDeletedAccount = true
+        } else {
+            print("회원탈퇴에 실패했어요.")
         }
     }
 }
