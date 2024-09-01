@@ -10,11 +10,11 @@ import SwiftUI
 struct LetterWritingView: View {
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
+    @State private var letterWriteViewModel = LetterWriteViewModel()
+    @StateObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @State private var showEnvelopeStampSelection = false
     @State private var showCalendar = false
     @Environment(\.dismiss) var dismiss
-    @State private var letterWriteViewModel = LetterWriteViewModel()
-    @StateObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     init(componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
         let wrappedUseCase = LetterWriteLoadStuffUseCaseWrapper(componentsLoadStuffUseCase)
@@ -37,10 +37,16 @@ struct LetterWritingView: View {
                     .padding(.top, 5)
                 }
             }
-            .navigationBarItems(trailing: Button("완료") {
+            .navigationBarItems(trailing:
+                                    Button(action: {
                 updateLetterWriteViewModel()
                 showEnvelopeStampSelection = true
-            })
+            }) {
+                Text("완료")
+                    .foregroundStyle(Color.black)
+                    .font(.system(size: 16, weight: .medium))
+            }
+            )
             .navigationDestination(isPresented: $showEnvelopeStampSelection) {
                 EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
@@ -48,23 +54,8 @@ struct LetterWritingView: View {
         }
     }
     
-    private func updateLetterWriteViewModel() {
-        letterWriteViewModel.fromUserName = viewModel.fromUserName
-        letterWriteViewModel.toUserName = viewModel.toUserName
-        letterWriteViewModel.date = viewModel.date
-        letterWriteViewModel.photoContents = viewModel.photoContents.map { $0.base64EncodedString() }
-        letterWriteViewModel.dataSource = .fromImagePicker
-        
-        print("Updated LetterWriteViewModel:")
-        print("From: \(letterWriteViewModel.fromUserName)")
-        print("To: \(letterWriteViewModel.toUserName)")
-        print("Date: \(letterWriteViewModel.date)")
-        print("Photo contents count: \(letterWriteViewModel.photoContents.count)")
-        print("\(letterWriteViewModel.dataSource = .fromImagePicker)")
-    }
-    
     private func userField(title: String, value: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 5) {
             HStack(spacing: 10) {
                 Text(title)
                     .foregroundStyle(Color.contentPrimary)
@@ -75,7 +66,7 @@ struct LetterWritingView: View {
                     .foregroundStyle(Color.contentSecondary)
                     .font(.system(size: 15))
                     .padding(.horizontal, 15)
-                    .frame(height: 40)
+                    .frame(height: 38)
                     .background(Color.white)
                     .clipShape(Capsule())
                     .multilineTextAlignment(.center)
@@ -91,7 +82,7 @@ struct LetterWritingView: View {
                         }
                     if !search.wrappedValue.isEmpty {
                         Divider()
-                            .background(Color.gray.opacity(0.3))
+                            .background(Color.gray)
                             .padding(.horizontal, 15)
                     }
                     ZStack(alignment: .top) {
@@ -114,7 +105,7 @@ struct LetterWritingView: View {
                                                 .foregroundStyle(.black)
                                             Spacer()
                                         }
-                                        .padding(.vertical, 8)
+                                        .padding(.vertical, 10)
                                         .padding(.horizontal, 15)
                                     }
                                     
@@ -132,7 +123,6 @@ struct LetterWritingView: View {
             }
         }
     }
-    
     
     private func userSearchResultButton(userName: String, isFromUser: Bool) -> some View {
         Button(action: {
@@ -181,7 +171,7 @@ struct LetterWritingView: View {
                         .foregroundStyle(Color.blue)
                         .font(.system(size: 15))
                         .padding(.horizontal, 15)
-                        .frame(height: 40)
+                        .frame(height: 34)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .background(Color.primary300)
                         .tint(Color.blue)
@@ -206,6 +196,14 @@ struct LetterWritingView: View {
             }
         }
     }
+    
+    private func updateLetterWriteViewModel() {
+        letterWriteViewModel.fromUserName = viewModel.fromUserName
+        letterWriteViewModel.toUserName = viewModel.toUserName
+        letterWriteViewModel.date = viewModel.date
+        letterWriteViewModel.photoContents = viewModel.photoContents
+        letterWriteViewModel.dataSource = .fromImagePicker
+    }
 }
 
 struct UserSearchBar: View {
@@ -219,7 +217,7 @@ struct UserSearchBar: View {
                 .multilineTextAlignment(.leading)
         }
         .padding(.horizontal, 15)
-        .frame(height: 40)
+        .frame(height: 38)
         .background(Color.white)
         .clipShape(Capsule())
     }

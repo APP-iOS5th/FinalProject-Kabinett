@@ -12,6 +12,8 @@ struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var letterWriteViewModel = LetterWriteViewModel()
+    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     
     var body: some View {
@@ -37,6 +39,12 @@ struct CustomTabView: View {
                     viewModel.showOptions = true
                 }
                 viewModel.selectedTab = oldValue
+            } else {
+                if newValue == 0 {
+                    //                             LetterBoxViewState.reset()
+                } else if newValue == 2 {
+                    //                            ProfileViewState.reset()
+                }
             }
         }
         .overlay(
@@ -56,7 +64,8 @@ struct CustomTabView: View {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
         .environmentObject(viewModel)
-                .environmentObject(imagePickerViewModel)
+        .environmentObject(imagePickerViewModel)
+        
     }
 }
 
@@ -67,7 +76,7 @@ struct CustomTabView: View {
             componentsUseCase: MockComponentsUseCase(),
             componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
         ))
-    .environmentObject(CalendarViewModel())
-    .environmentObject(LetterBoxDetailViewModel())
-    .environmentObject(LetterBoxViewModel())
+        .environmentObject(CalendarViewModel())
+        .environmentObject(LetterBoxDetailViewModel())
+        .environmentObject(LetterBoxViewModel())
 }

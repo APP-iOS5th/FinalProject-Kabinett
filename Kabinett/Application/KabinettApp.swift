@@ -50,13 +50,13 @@ struct KabinettApp: App {
     @StateObject var calendarViewModel = CalendarViewModel()
     var body: some Scene {
         WindowGroup {
+            CustomTabView()
             .environmentObject(calendarViewModel)
             .environmentObject(letterBoxDetailViewModel)
             .environmentObject(letterBoxViewModel)
             .environmentObject(letterViewModel)
             .environmentObject(imagePickerViewModel)
             .environmentObject(customTabViewModel)
-            CustomTabView()
         }
     }
 }
