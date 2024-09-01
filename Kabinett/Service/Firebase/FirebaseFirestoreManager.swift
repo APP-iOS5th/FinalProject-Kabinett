@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 import Combine
+import os
 
 enum LetterError: Error {
     case invalidLetterId
@@ -34,12 +35,23 @@ enum LetterSaveError: Error {
 }
 
 final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
+    private let logger: Logger
+    
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
     private let authManager: AuthManager
+    private let writerManager: FirestoreWriterManager
     
-    init(authManager: AuthManager) {
+    init(
+        authManager: AuthManager,
+        writerManager: FirestoreWriterManager
+    ) {
+        self.logger = Logger(
+            subsystem: "co.kr.codegrove.Kabinett",
+            category: "FirebaseFirestoreManager"
+        )
         self.authManager = authManager
+        self.writerManager = writerManager
     }
     
     // MARK: - LetterWriteUseCase
