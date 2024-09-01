@@ -89,7 +89,7 @@ struct LetterWritePreviewView: View {
                     Spacer()
 
                     Button {
-                        
+                        letterContent.isRead = false
                     } label : {
                         Text("편지 보내기")
                             .font(.system(size: 15))
