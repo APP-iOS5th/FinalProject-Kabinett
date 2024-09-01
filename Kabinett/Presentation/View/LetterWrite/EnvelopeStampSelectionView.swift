@@ -11,158 +11,127 @@ import Kingfisher
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @State private var showNextView = false
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     
     init(letterContent: Binding<LetterWriteViewModel>) {
-        _letterContent = letterContent
+        self._letterContent = letterContent
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("Background").ignoresSafeArea()
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
+        ZStack {
+            Color("Background").ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
+            
+            GeometryReader { geometry in
+                VStack {
+                    if letterContent.dataSource == .fromImagePicker {
+                        NavigationBarView(destination: LetterCompletionView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                            .padding(.bottom, 25)
+                    } else {
+                        NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                            .padding(.bottom, 25)
                     }
-                
-                GeometryReader { geometry in
                     
                     VStack {
-                        NavigationBarView(
-                            destination: EmptyView(),
-                            titleName: "봉투와 우표 고르기",
-                            isNavigation: letterContent.dataSource == .fromLetterWriting,
-                            action: letterContent.dataSource == .fromLetterWriting ? nil : {
-                                updateViewModel()
-                                showNextView = true
-                            }
-                        )
-                        .padding(.bottom, 25)
-                        
-                        VStack {
-                            ZStack(alignment: .topLeading) {
+                        ZStack(alignment: .topLeading) {
+                            if let firstEnvelope = viewModel.envelopes.first {
                                 KFImage(URL(string: envelopeImageUrl))
                                     .resizable()
                                     .shadow(radius: 5, x: 5, y: 5)
                                     .onAppear {
-                                        if letterContent.envelopeImageUrlString == "" {
-                                            envelopeImageUrl = viewModel.dummyEnvelopes[0]
+                                        if letterContent.envelopeImageUrlString.isEmpty {
+                                            envelopeImageUrl = firstEnvelope
                                         }
                                         letterContent.envelopeImageUrlString = envelopeImageUrl
                                     }
-                                
-                                VStack {
-                                    HStack(alignment: .top) {
-                                        VStack {
-                                            Text("보내는 사람")
-                                                .font(.system(size: 7))
-                                                .padding(.bottom, 1)
-                                            Text(letterContent.fromUserName)
-                                                .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
-                                        }
-                                        .padding(.leading, 25)
-                                        
-                                        Spacer()
-                                        
+                            }
+                            
+                            VStack {
+                                HStack(alignment: .top) {
+                                    VStack {
+                                        Text("보내는 사람")
+                                            .font(.system(size: 7))
+                                            .padding(.bottom, 1)
+                                        Text(letterContent.fromUserName)
+                                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                    }
+                                    .padding(.leading, 25)
+                                    
+                                    Spacer()
+                                    
+                                    if let firstStamp = viewModel.stamps.first {
                                         KFImage(URL(string: stampImageUrl))
                                             .resizable()
                                             .aspectRatio(9/9.7, contentMode: .fit)
                                             .frame(width: geometry.size.width * 0.1)
                                             .padding(.trailing, 25)
                                             .onAppear {
-                                                if letterContent.stampImageUrlString == "" {
-                                                    stampImageUrl = viewModel.dummyStamps[0]
+                                                if letterContent.stampImageUrlString.isEmpty {
+                                                    stampImageUrl = firstStamp
                                                 }
                                                 letterContent.stampImageUrlString = stampImageUrl
                                             }
                                     }
-                                    .padding(.top, 25)
+                                }
+                                .padding(.top, 25)
+                                
+                                Spacer()
+                                
+                                HStack(alignment: .top) {
+                                    VStack {
+                                        Text(text)
+                                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
+                                    }
+                                    .padding(.leading, 25)
                                     
                                     Spacer()
                                     
-                                    HStack(alignment: .top) {
-                                        VStack {
-                                            Text(text)
-                                                .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
-                                        }
-                                        .padding(.leading, 25)
-                                        
-                                        Spacer()
-                                        
-                                        VStack {
-                                            Text("받는 사람")
-                                                .font(.system(size: 7))
-                                                .padding(.bottom, 1)
-                                            Text(letterContent.toUserName)
-                                                .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
-                                        }
-                                        .padding(.trailing, 100)
+                                    VStack {
+                                        Text("받는 사람")
+                                            .font(.system(size: 7))
+                                            .padding(.bottom, 1)
+                                        Text(letterContent.toUserName)
+                                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
                                     }
-                                    .padding(.bottom, 30)
+                                    .padding(.trailing, 100)
                                 }
-                                
+                                .padding(.bottom, 30)
                             }
-                            .aspectRatio(9/4, contentMode: .fit)
-                            .padding(.bottom, 50)
                             
-                            VStack(alignment: .leading) {
-                                Text("봉투에 적을 내용")
-                                    .font(.system(size: 13))
-                                    .padding(.bottom, 1)
-                                TextField("최대 15글자를 적을 수 있어요.", text: $text)
-                                    .maxLength(text: $text, 15)
-                                    .padding(.leading, 6)
-                                    .font(.system(size: 14))
-                                    .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
-                                    .background(Color.white)
-                                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                                    .onChange(of: text) {
-                                        letterContent.postScript = text
-                                    }
-                            }
-                            .padding(.bottom, 30)
                         }
-                        SelectionTabView(letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
+                        .aspectRatio(9/4, contentMode: .fit)
+                        .padding(.bottom, 50)
+                        
+                        VStack(alignment: .leading) {
+                            Text("봉투에 적을 내용")
+                                .font(.system(size: 13))
+                                .padding(.bottom, 1)
+                            TextField("최대 15글자를 적을 수 있어요.", text: $text)
+                                .maxLength(text: $text, 15)
+                                .padding(.leading, 6)
+                                .font(.system(size: 14))
+                                .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
+                                .background(Color.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                                .onChange(of: text) {
+                                    letterContent.postScript = text
+                                }
+                        }
+                        .padding(.bottom, 30)
                     }
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                    SelectionTabView(letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
                 }
-            }
-            .navigationBarBackButtonHidden()
-            .ignoresSafeArea(.keyboard)
-            .navigationDestination(isPresented: $showNextView) {
-                if letterContent.dataSource == .fromLetterWriting {
-                    LetterWritePreviewView(letterContent: $letterContent)
-                } else {
-                    LetterCompletionView()
-                        .environmentObject(imagePickerViewModel)
-                }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
         }
-    }
-    private func updateViewModel() {
-        if letterContent.dataSource == .fromLetterWriting {
-            letterContent.envelopeImageUrlString = envelopeImageUrl
-            letterContent.stampImageUrlString = stampImageUrl
-            letterContent.postScript = text
-            print("LetterWriteViewModel updated: \(imagePickerViewModel)")
-                    print("Envelope: \(letterContent.envelopeImageUrlString)")
-                    print("Stamp: \(letterContent.stampImageUrlString)")
-                    print("Postscript: \(letterContent.postScript ?? "")")
-        } else {
-            imagePickerViewModel.envelopeURL = envelopeImageUrl
-            imagePickerViewModel.stampURL = stampImageUrl
-            imagePickerViewModel.postScript = text
-            print("ImagePickerViewModel updated:")
-                  print("Envelope: \(imagePickerViewModel.envelopeURL ?? "")")
-                  print("Stamp: \(imagePickerViewModel.stampURL ?? "")")
-                  print("Postscript: \(imagePickerViewModel.postScript ?? "")")
-        }
+        .navigationBarBackButtonHidden()
+        .ignoresSafeArea(.keyboard)
     }
 }
 

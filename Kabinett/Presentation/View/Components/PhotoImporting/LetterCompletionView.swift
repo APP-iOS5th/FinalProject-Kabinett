@@ -9,13 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct LetterCompletionView: View {
+    @Binding var letterContent: LetterWriteViewModel
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("Background").edgesIgnoringSafeArea(.all)
+                Color.background.edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
                     Spacer()
@@ -41,27 +42,19 @@ struct LetterCompletionView: View {
             dismiss()
         }) {
             Image(systemName: "chevron.left")
-                .foregroundColor(Color("ContentPrimary"))
+                .foregroundColor(Color.contentPrimary)
                 .imageScale(.large)
         }
     }
     
     private var letterPreviewView: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 0)
-                .fill(Color.white)
+            KFImage(URL(string: letterContent.envelopeImageUrlString))
+                .resizable()
+                .placeholder {
+                    ProgressView()
+                }
                 .frame(width: 315, height: 145)
-                .shadow(radius: 5)
-            
-            if let envelopeURL = viewModel.envelopeURL {
-                KFImage(URL(string: envelopeURL))
-                    .resizable()
-                    .placeholder {
-                        ProgressView()
-                    }
-                    .frame(width: 315, height: 145)
-                    .id(envelopeURL)
-            }
             
             GeometryReader { geometry in
                 ZStack {
@@ -116,7 +109,7 @@ struct LetterCompletionView: View {
     private var saveButton: some View {
         Button(action: {
             Task {
-                print("Saving letter...")
+                print("Saving letter")
                 await viewModel.saveImportingImage()
             }
         }) {
@@ -125,7 +118,7 @@ struct LetterCompletionView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color("Primary900"))
+                .background(Color.primary900)
                 .cornerRadius(14)
         }
         .padding(.horizontal)
@@ -136,7 +129,7 @@ struct LetterCompletionView: View {
 
 
 #Preview {
-    LetterCompletionView()
+    LetterCompletionView(letterContent: .constant(LetterWriteViewModel()))
         .environmentObject(ImagePickerViewModel(
             componentsUseCase: MockComponentsUseCase(),
             componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()

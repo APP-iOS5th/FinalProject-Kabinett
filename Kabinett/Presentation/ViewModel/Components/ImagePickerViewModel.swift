@@ -31,7 +31,7 @@ final class ImagePickerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let mockWriter: MockWriter
     private let componentsUseCase: ComponentsUseCase
-    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
+    let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
     
     init(componentsUseCase: ComponentsUseCase,
          componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
@@ -45,7 +45,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.dateFormat = "MMM dd, yyyy"
         return formatter.string(from: date)
     }
     
@@ -190,7 +190,7 @@ final class ImagePickerViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    private func searchUsers(searchText: String, isFromUser: Bool) {
+    func searchUsers(searchText: String, isFromUser: Bool) {
         guard !searchText.isEmpty else {
             DispatchQueue.main.async {
                 if isFromUser {
