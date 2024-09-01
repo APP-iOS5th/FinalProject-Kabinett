@@ -41,7 +41,7 @@ class ProfileSettingsViewModel: ObservableObject {
             await fetchAppleID()
         }
     }
-    
+    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     @MainActor
     private func loadInitialData() async {
         let writer = await profileUseCase.getCurrentWriter()
@@ -55,7 +55,7 @@ class ProfileSettingsViewModel: ObservableObject {
         } else {
             self.profileImage = nil
         }
-    }// 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    }
     
     @MainActor
     func checkUserStatus() async {

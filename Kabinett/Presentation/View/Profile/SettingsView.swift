@@ -61,6 +61,7 @@ struct SettingsView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                     
+                    // TODO: - 추후에 다른 소셜로그인 추가되면 이미지 변경 가능하게 수정하기
                     HStack{
                         ZStack {
                             Rectangle()
@@ -69,7 +70,7 @@ struct SettingsView: View {
                             Image(systemName: "apple.logo")
                                 .font(.system(size: 14))
                                 .foregroundColor(.white)
-                        } //추후에 다른 소셜로그인 추가되면 이미지 변경 가능하게 수정하기
+                        }
                         .padding(.leading, 10)
                         Text(profileViewModel.appleID)
                             .font(.system(size: 17))

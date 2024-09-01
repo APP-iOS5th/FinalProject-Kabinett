@@ -10,7 +10,6 @@ import SwiftUI
 struct ProfileView: View {
     @ObservedObject var profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
     @State private var showSettingsView = false
-    @State private var shouldNavigateToLogin = false
     @State private var shouldNavigateToProfileView = false
     
     var body: some View {
@@ -79,25 +78,12 @@ struct ProfileView: View {
             }
         }
         .task {
-            await checkUserStatus()
-        }
-        .onChange(of: shouldNavigateToProfileView) { _, newValue in
-            if newValue {
-                shouldNavigateToProfileView = false
-            }
+            await profileViewModel.checkUserStatus()
         }
     }
     
     func handleAccountActionComplete() {
         showSettingsView = false
-        Task {
-            await checkUserStatus()
-        }
-    }
-    
-    func checkUserStatus() async {
-        await profileViewModel.checkUserStatus()
-        shouldNavigateToLogin = profileViewModel.shouldNavigateToLogin
     }
 }
 
