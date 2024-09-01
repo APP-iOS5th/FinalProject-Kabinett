@@ -42,4 +42,17 @@ final class FirestoreWriterManager {
             return .anonymousWriter
         }
     }
+    
+    func checkAvailability(of number: Int) async -> Bool {
+        do {
+            let result = try await db.collection("Writers")
+                .whereField("kabinettNumber", isEqualTo: number)
+                .limit(to: 1)
+                .getDocuments()
+            return result.isEmpty
+        } catch {
+            logger.error("Number checking Error: \(error)")
+            return false
+        }
+    }
 }
