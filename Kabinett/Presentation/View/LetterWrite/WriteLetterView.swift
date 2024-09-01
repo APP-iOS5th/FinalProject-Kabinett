@@ -67,7 +67,7 @@ struct WriteLetterView: View {
                                                             }
                                                         }
                                                         .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                                            letterContent.content = viewModel.texts[0]
+                                                            letterContent.content.append(viewModel.texts[0])
                                                         }
                                                     }
                                                     

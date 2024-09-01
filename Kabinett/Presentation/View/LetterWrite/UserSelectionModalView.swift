@@ -10,7 +10,7 @@ import SwiftUI
 struct UserSelectionModalView: View {
     @Binding var letterContent: LetterWriteViewModel
     @Environment(\.presentationMode) var presentation
-    @StateObject private var viewModel = UserSelectionViewModel()
+    @StateObject private var viewModel = UserSelectionViewModel(useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager())))
     
     var body: some View {
         NavigationStack {
@@ -23,7 +23,7 @@ struct UserSelectionModalView: View {
                                 letterContent.fromUserId = viewModel.fromUser?.id
                                 letterContent.fromUserName = viewModel.fromUser?.name ?? ""
                                 letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                                if letterContent.toUserName == "" {
+                                if letterContent.toUserName.isEmpty {
                                     viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
                                 }
                                 letterContent.toUserId = viewModel.toUser?.id
@@ -80,14 +80,13 @@ struct UserSelectionModalView: View {
     }
 }
 
-
 // MARK: - FormToUserView
 struct FormToUser: View {
     @Binding var letterContent: LetterWriteViewModel
     @ObservedObject var viewModel: UserSelectionViewModel
     
     var body: some View {
-        let fromName = letterContent.fromUserName == "" ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
+        let fromName = letterContent.fromUserName.isEmpty ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
         
         HStack {
             Text("보내는 사람")
@@ -95,7 +94,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(fromName) \(viewModel.checkMe(kabiNumber: viewModel.userKabiNumber ?? 0))")
+            Text("\(fromName) (나)")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -107,7 +106,7 @@ struct FormToUser: View {
             letterContent.fromUserId = viewModel.fromUser?.id
             letterContent.fromUserName = viewModel.fromUser?.name ?? ""
             letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-            if letterContent.toUserName == "" {
+            if letterContent.toUserName.isEmpty {
                 viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
             }
             letterContent.toUserId = viewModel.toUser?.id
@@ -123,8 +122,8 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 37)
-            let toName = letterContent.toUserName == "" ? fromName : letterContent.toUserName
-            let toKabi = letterContent.toUserName == "" ? viewModel.userKabiNumber ?? 0 : letterContent.toUserKabinettNumber
+            let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
+            let toKabi = letterContent.toUserName.isEmpty ? viewModel.userKabiNumber ?? 0 : letterContent.toUserKabinettNumber
             Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
                 .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
                 .font(.system(size: 15))
@@ -135,7 +134,6 @@ struct FormToUser: View {
         .padding(.top, 40)
     }
 }
-
 
 // MARK: - SearchBarView
 struct SearchBar: View {

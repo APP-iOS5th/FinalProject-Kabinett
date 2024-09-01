@@ -10,7 +10,15 @@ import Kingfisher
 
 struct LetterWritePreviewView: View {
     @Binding var letterContent: LetterWriteViewModel
-    
+    @StateObject private var viewModel: LetterWritePreviewViewModel
+
+    init(letterContent: Binding<LetterWriteViewModel>) {
+        _letterContent = letterContent
+        _viewModel = StateObject(wrappedValue: LetterWritePreviewViewModel(
+            useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()))
+        ))
+    }
+
     var body: some View {
         ZStack {
             Color("Background").ignoresSafeArea()
@@ -87,10 +95,25 @@ struct LetterWritePreviewView: View {
                     }
                     
                     Spacer()
-
+                    
                     Button {
                         letterContent.isRead = false
-                    } label : {
+                        viewModel.saveLetter(font: letterContent.fontString ?? "",
+                                             postScript: letterContent.postScript,
+                                             envelope: letterContent.envelopeImageUrlString,
+                                             stamp: letterContent.stampImageUrlString,
+                                             fromUserId: letterContent.fromUserId,
+                                             fromUserName: letterContent.fromUserName,
+                                             fromUserKabinettNumber: letterContent.fromUserKabinettNumber,
+                                             toUserId: letterContent.toUserId,
+                                             toUserName: letterContent.toUserName,
+                                             toUserKabinettNumber: letterContent.toUserKabinettNumber,
+                                             content: letterContent.content,
+                                             photoContents: letterContent.photoContents,
+                                             date: letterContent.date,
+                                             stationery: letterContent.stationeryImageUrlString ?? "",
+                                             isRead: letterContent.isRead)
+                    } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))
                             .foregroundStyle(Color.white)
@@ -98,6 +121,18 @@ struct LetterWritePreviewView: View {
                     .frame(maxWidth: .infinity, minHeight: 56)
                     .background(Color("Primary900"))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
+                    
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.red)
+                            .padding()
+                    } else if viewModel.isSaveSuccessful {
+                        Text("편지가 성공적으로 전송되었습니다!")
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.green)
+                            .padding()
+                    }
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
