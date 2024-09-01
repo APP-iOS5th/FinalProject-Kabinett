@@ -415,6 +415,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     
     func getCurrentWriter() async -> Writer {
         .anonymousWriter
+        if let user = authManager.getCurrentUser() {
+            return await writerManager.getWriterDocument(with: user.uid)
+        } else {
+            return .anonymousWriter
+        }
     }
     
     // MARK: - 유효성 검사
