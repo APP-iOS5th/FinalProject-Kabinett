@@ -161,18 +161,19 @@ struct SearchBar: View {
                     EmptyView()
                 }
             }
-            .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing:13))
+            .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
             .background(Color(.white))
             .clipShape(.capsule)
-            if !searchText.isEmpty {
+            
+            if !viewModel.debouncedSearchText.isEmpty {
                 Divider()
                     .padding([.leading, .trailing], 10)
                     .padding(.top, -6)
                 
                 List {
-                    Text("\(searchText) 입력")
+                    Text("\(viewModel.debouncedSearchText) 입력")
                         .onTapGesture {
-                            viewModel.updateToUser(&letterContent, toUserName: searchText)
+                            viewModel.updateToUser(&letterContent, toUserName: viewModel.debouncedSearchText)
                             searchText = ""
                             UIApplication.shared.endEditing()
                         }
@@ -181,8 +182,8 @@ struct SearchBar: View {
                         .foregroundStyle(Color("Primary900"))
                     
                     ForEach(viewModel.dummyUsers.filter { user in
-                        user.name.lowercased().contains(searchText.lowercased()) ||
-                        String(format: "%06d", user.kabinettNumber).hasPrefix(searchText)
+                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
+                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
                     }, id: \.kabinettNumber) { user in
                         HStack {
                             if let profileImage = user.profileImage {
@@ -222,7 +223,7 @@ struct SearchBar: View {
             }
         }
         .padding(.top, 2)
-        .background(searchText.isEmpty ? Color.clear : Color.white)
+        .background(viewModel.debouncedSearchText.isEmpty ? Color.clear : Color.white)
         .cornerRadius(16)
     }
 }
