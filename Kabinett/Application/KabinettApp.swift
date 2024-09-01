@@ -44,11 +44,19 @@ struct KabinettApp: App {
         componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
     )
     @StateObject var customTabViewModel = CustomTabViewModel()
+    @StateObject var letterViewModel = LetterViewModel()
+    @StateObject var letterBoxViewModel = LetterBoxViewModel()
+    @StateObject var letterBoxDetailViewModel = LetterBoxDetailViewModel()
+    @StateObject var calendarViewModel = CalendarViewModel()
     var body: some Scene {
         WindowGroup {
-            CustomTabView()
+            .environmentObject(calendarViewModel)
+            .environmentObject(letterBoxDetailViewModel)
+            .environmentObject(letterBoxViewModel)
+            .environmentObject(letterViewModel)
             .environmentObject(imagePickerViewModel)
             .environmentObject(customTabViewModel)
+            CustomTabView()
         }
     }
 }

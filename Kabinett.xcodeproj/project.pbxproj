@@ -32,6 +32,8 @@
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
+		53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA62C8190B600896AAC /* SearchBarView.swift */; };
+		53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA82C81914B00896AAC /* CalendarViewModel.swift */; };
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
 		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
 		57485D3B2C772332000601BF /* WriteLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* WriteLetterView.swift */; };
@@ -150,6 +152,8 @@
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
+		53A99EA62C8190B600896AAC /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		53A99EA82C81914B00896AAC /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
 		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* WriteLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterView.swift; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 				535961902C74F5870031E181 /* CalendarView.swift */,
 				5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */,
 				534C67B62C7FF85700F0C175 /* LetterCell.swift */,
+				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -448,6 +453,7 @@
 				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
 				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
 				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
+				53A99EA82C81914B00896AAC /* CalendarViewModel.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -833,6 +839,7 @@
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
 				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
+				53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */,
 				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
 				83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */,
 				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
@@ -865,6 +872,7 @@
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
+				53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,

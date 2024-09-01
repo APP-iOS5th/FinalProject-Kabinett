@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LetterBoxDetailLetterView: View {
-    @StateObject var viewModel = LetterViewModel()
+    @EnvironmentObject var viewModel: LetterViewModel
     @State private var showDetailLetter = false
     
     var letterType: LetterType
@@ -71,4 +71,5 @@ struct LetterBoxDetailLetterView: View {
 
 #Preview {
     LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
+        .environmentObject(LetterViewModel())
 }
