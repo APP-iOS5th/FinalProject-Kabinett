@@ -40,12 +40,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct KabinettApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    @StateObject var letterViewModel = LetterViewModel()
+    @StateObject var letterBoxViewModel = LetterBoxViewModel()
+    @StateObject var letterBoxDetailViewModel = LetterBoxDetailViewModel()
+    @StateObject var calendarViewModel = CalendarViewModel()
+    
     var body: some Scene {
         WindowGroup {
             CustomTabView(
                 componentsUseCase: MockComponentsUseCase(),
                 componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
             )
+            .environmentObject(letterViewModel)
+            .environmentObject(letterBoxViewModel)
+            .environmentObject(letterBoxDetailViewModel)
+            .environmentObject(calendarViewModel)
         }
     }
 }

@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @Binding var showCalendarView: Bool
-    @Binding var startDateFiltering: Bool
-    @Binding var startDate: Date
-    @Binding var endDate: Date
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State private var selectedStartDate = Date()
     @State private var selectedEndDate = Date()
@@ -25,7 +22,7 @@ struct CalendarView: View {
                 HStack {
                     Button {
                         withAnimation {
-                            showCalendarView = false
+                            calendarViewModel.showCalendarView = false
                         }
                     } label: {
                         Text("취소")
@@ -37,10 +34,10 @@ struct CalendarView: View {
                     
                     Button {
                         withAnimation {
-                            startDate = selectedStartDate
-                            endDate = selectedEndDate
-                            showCalendarView = false
-                            startDateFiltering = true
+                            calendarViewModel.startDate = selectedStartDate
+                            calendarViewModel.endDate = selectedEndDate
+                            calendarViewModel.showCalendarView = false
+                            calendarViewModel.startDateFiltering = true
                         }
                     } label: {
                         Text("확인")
@@ -135,9 +132,9 @@ struct CalendarView: View {
             Spacer()
         }
         .onAppear {
-            if startDateFiltering {
-                selectedStartDate = startDate
-                selectedEndDate = endDate
+            if calendarViewModel.startDateFiltering {
+                selectedStartDate = calendarViewModel.startDate
+                selectedEndDate = calendarViewModel.endDate
             } else {
                 selectedStartDate = Date()
                 selectedEndDate = Date()
@@ -165,12 +162,79 @@ struct CalendarView: View {
     }
 }
 
+struct CalendarOverlayView: View {
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
 
-#Preview {
-    CalendarView(
-        showCalendarView: .constant(true),
-        startDateFiltering: .constant(false),
-        startDate: .constant(Date()),
-        endDate: .constant(Date())
-    )
+    var body: some View {
+        if calendarViewModel.showCalendarView {
+            ZStack {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation {
+                            calendarViewModel.showCalendarView.toggle()
+                        }
+                    }
+                
+                CalendarView()
+                    .cornerRadius(20)
+                    .padding(.top, 32)
+            }
+        }
+    }
 }
+
+struct CalendarBar: View {
+    @EnvironmentObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    
+    var letterType: LetterType
+    
+    var body: some View {
+        VStack {
+            HStack {
+                HStack {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                        .tint(.primary300)
+                    Text("\(formattedDate(date: calendarViewModel.startDate))부터 \(formattedDate(date: calendarViewModel.endDate))까지")
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(.primary)
+                    
+                    Spacer()
+                }
+                .padding(8)
+                .foregroundStyle(.primary600)
+                .background(.primary300.opacity(0.4))
+                .background(TransparentBlurView(removeAllFilters: false))
+                .cornerRadius(10)
+                
+                Button(action: {
+                    withAnimation {
+                        calendarViewModel.startDateFiltering.toggle()
+                        calendarViewModel.startDate = Date()
+                        calendarViewModel.endDate = Date()
+                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                    }
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.primary600)
+                }
+            }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
+            
+            Spacer()
+        }
+        .onAppear {
+            letterBoxDetailviewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+        }
+    }
+    
+    private func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 MMM d일"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter.string(from: date)
+    }
+}
+

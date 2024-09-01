@@ -10,14 +10,15 @@ import SwiftUI
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     
-    @StateObject var letterBoxViewModel: LetterBoxViewModel
-    @StateObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
     
     @State private var searchText: String = ""
     @State private var showSearchBarView = false
+    @State private var isTextFieldFocused = false
     
     let columns = [
         GridItem(.flexible(minimum: 220), spacing: -60),
@@ -34,9 +35,8 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText)
-                                .environmentObject(letterBoxDetailViewModel)) {
-                                LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)) {
+                                LetterBoxCell(type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
                                 currentLetterType = type
@@ -68,6 +68,13 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
+                    showSearchBarView = false
+                    searchText = ""
+                    
+                    if calendarViewModel.startDateFiltering {
+                        calendarViewModel.startDateFiltering.toggle()
+                    }
+                    
                     letterBoxViewModel.fetchLetterBoxLetters()
                     letterBoxViewModel.fetchIsRead()
                 }
@@ -82,8 +89,7 @@ struct LetterBoxView: View {
                             .background(Material.ultraThinMaterial)
                             .blur(radius: 1.5)
 
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, letterType: currentLetterType)
-                            .environmentObject(letterBoxDetailViewModel)
+                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: currentLetterType)
                             .padding(.top, 50)
                             .edgesIgnoringSafeArea(.top)
                             .zIndex(1)
@@ -98,6 +104,7 @@ struct LetterBoxView: View {
 }
 
 #Preview {
-    LetterBoxView(letterBoxViewModel: LetterBoxViewModel(), letterBoxDetailViewModel: LetterBoxDetailViewModel())
-        .environmentObject(LetterBoxDetailViewModel())
+    LetterBoxView()
+        .environmentObject(LetterBoxViewModel())
+        .environmentObject(CalendarViewModel())
 }
