@@ -17,7 +17,14 @@ struct SettingsView: View {
         GeometryReader { geometry in
             NavigationStack {
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(viewModel: profileViewModel,shouldNavigateToProfileView: $shouldNavigateToProfileView)) {
+                    NavigationLink(destination: ProfileSettingsView(
+                        viewModel: profileViewModel,
+                        shouldNavigateToProfileView: $shouldNavigateToProfileView,
+                        onComplete: {
+                            shouldNavigateToProfileView = true
+                            dismiss()
+                        }
+                    )) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -94,7 +101,7 @@ struct SettingsView: View {
         }
     }
 }
-
-//#Preview {
-//    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-//}
+    
+    //#Preview {
+    //    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+    //}

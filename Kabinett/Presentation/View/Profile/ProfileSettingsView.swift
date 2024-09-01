@@ -12,6 +12,7 @@ struct ProfileSettingsView: View {
     @ObservedObject var viewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
+    var onComplete: () -> Void
     
     var body: some View {
         NavigationStack {
@@ -42,7 +43,7 @@ struct ProfileSettingsView: View {
                     Button(action: {
                         Task {
                             await viewModel.completeProfileUpdate()
-                            shouldNavigateToProfileView = true
+                            onComplete()
                             dismiss()
                         }
                     }) {

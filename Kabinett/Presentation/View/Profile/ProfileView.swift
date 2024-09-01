@@ -81,6 +81,11 @@ struct ProfileView: View {
         .task {
             await checkUserStatus()
         }
+        .onChange(of: shouldNavigateToProfileView) { _, newValue in
+            if newValue {
+                shouldNavigateToProfileView = false
+            }
+        }
     }
     
     func handleAccountActionComplete() {
