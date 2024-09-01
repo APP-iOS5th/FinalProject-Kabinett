@@ -411,6 +411,20 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     // TODO: - Chnage this method
     func findWriter(by query: String) async -> [Writer] {
         []
+    private struct Query {
+        let key: String
+        let value: String
+    }
+    
+    private func findWriter<T: Codable>(
+        by query: Query,
+        as type: T.Type
+    ) async throws -> [T] {
+        return try await db.collection("Writers")
+            .whereField(query.key, isEqualTo: query.value)
+            .getDocuments()
+            .documents
+            .map { try $0.data(as: type) }
     }
     
     func getCurrentWriter() async -> Writer {
