@@ -89,9 +89,7 @@ struct LetterBoxDetailView: View {
             }
             .onAppear {
                 if showSearchBarView {
-                    DispatchQueue.main.asyncAfter(deadline: .now()) {
-                        isTextFieldFocused = false
-                    }
+                    isTextFieldFocused = false
                     viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
                 } else if calendarViewModel.startDateFiltering {
                     viewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)

@@ -26,9 +26,7 @@ struct SearchBarView: View {
                 TextField("Search", text: $searchText)
                     .focused($textFieldFocused)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now()) {
-                            textFieldFocused = isTextFieldFocused
-                        }
+                        textFieldFocused = isTextFieldFocused
                     }
                     .onChange(of: textFieldFocused) { _, newValue in
                         isTextFieldFocused = newValue
