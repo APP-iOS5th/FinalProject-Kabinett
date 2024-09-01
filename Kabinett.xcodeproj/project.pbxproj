@@ -95,6 +95,7 @@
 		83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */; };
 		83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AA2C8160CB00DFB68B /* Publisher+.swift */; };
 		83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */; };
+		83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
@@ -212,6 +213,7 @@
 		83A826CC2C6F2D23006FB09B /* ProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUseCase.swift; sourceTree = "<group>"; };
 		83CA92AA2C8160CB00DFB68B /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
 		83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageWriterManager.swift; sourceTree = "<group>"; };
+		83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
@@ -495,6 +497,7 @@
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
 				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
 				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
+				83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
+				83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
 			);
