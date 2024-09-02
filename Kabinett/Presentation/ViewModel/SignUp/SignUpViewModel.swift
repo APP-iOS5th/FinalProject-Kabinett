@@ -68,7 +68,8 @@ final class SignUpViewModel: ObservableObject {
                     self.loginSuccess = true
                 }
             }
-        case .failure(_):
+        case let .failure(error):
+            print("Error: \(error)")
             self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }

@@ -43,9 +43,6 @@ struct LoginView: View {
 //                            signUpViewModel.handleAuthorization(result: .failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "테스트를 위한 로그인 실패"])))
                             
                             signUpViewModel.handleAuthorization(result: result)
-                            if signUpViewModel.loginError != nil {
-                                signUpViewModel.showAlert = true
-                            }
                             
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
@@ -58,7 +55,7 @@ struct LoginView: View {
                     SignUpNameInputView()
                 }
                 .navigationDestination(isPresented: $signUpViewModel.signUpSuccess) {
-                    if let profileViewModel = signUpViewModel.profileViewModel {
+                    if signUpViewModel.signUpSuccess {
                         ProfileView()
                     } else {
                         VStack {

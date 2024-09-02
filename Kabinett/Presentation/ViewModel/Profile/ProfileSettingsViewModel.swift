@@ -9,11 +9,23 @@ import SwiftUI
 import Combine
 import PhotosUI
 
+import os
+
 class ProfileSettingsViewModel: ObservableObject {
+    struct WriterViewModel {
+        let name: String
+        let formattedNumber: String
+        let imageUrlString: String?
+    }
+    
     private let profileUseCase: ProfileUseCase
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var userName: String = ""
+    private let logger = Logger(
+        subsystem: "co.kr.codegrove.Kabinett",
+        category: "ProfileSettingsViewModel"
+    )
+    @Published var currentWriter: WriterViewModel = .init(name: "", formattedNumber: "", imageUrlString: nil)
     @Published var newUserName: String = ""
     @Published var appleID: String = ""
     @Published var isShowingImagePicker = false
@@ -25,6 +37,12 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var userStatus: UserStatus?
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
+    @Published var navigateState: NavigateState = .toLogin
+    
+    enum NavigateState {
+        case toLogin
+        case toProfile
+    }
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -37,18 +55,15 @@ class ProfileSettingsViewModel: ObservableObject {
     }
     // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     @MainActor
-    private func loadInitialData() async {
+    func loadInitialData() async {
         let writer = await profileUseCase.getCurrentWriter()
-        self.userName = writer.name
-        self.formattedKabinettNumber = formatKabinettNumber(writer.kabinettNumber)
-        if let imageUrlString = writer.profileImage,
-           let imageUrl = URL(string: imageUrlString),
-           let imageData = try? Data(contentsOf: imageUrl),
-           let image = UIImage(data: imageData) {
-            self.profileImage = image
-        } else {
-            self.profileImage = nil
-        }
+        currentWriter = .init(
+            name: writer.name,
+            formattedNumber: formatKabinettNumber(
+                writer.kabinettNumber
+            ),
+            imageUrlString: writer.profileImage
+        )
     }
     
     @MainActor
@@ -58,12 +73,10 @@ class ProfileSettingsViewModel: ObservableObject {
             .sink { [weak self] status in
                 self?.userStatus = status
                 switch status {
-                case .anonymous:
-                    self?.shouldNavigateToLogin = true
-                case .incomplete:
-                    self?.shouldNavigateToLogin = true
+                case .anonymous, .incomplete:
+                    self?.navigateState = .toLogin
                 case .registered:
-                    self?.shouldNavigateToProfile = true
+                    self?.navigateState = .toProfile
                 }
             }
             .store(in: &cancellables)
@@ -80,43 +93,23 @@ class ProfileSettingsViewModel: ObservableObject {
     }
     
     var displayName: String {
-        return newUserName.isEmpty ? userName : newUserName
+        return newUserName.isEmpty ? currentWriter.name : newUserName
     }
     
     @MainActor
     func completeProfileUpdate() async {
-        updateUserName()
-        updateProfileImage()
-        objectWillChange.send()
         
         let success = await profileUseCase.updateWriter(
-            newWriterName: userName,
+            newWriterName: currentWriter.name,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
         )
         
         if success {
-            isProfileUpdated = true
+            await loadInitialData()
         } else {
             profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
             showProfileAlert = true
         }
-    }
-
-    func updateUserName() {
-        if isUserNameVaild {
-            userName = newUserName
-        }
-    }
-    
-    func updateProfileImage() {
-        if let croppedImage = croppedImage {
-            self.profileImage = croppedImage
-            isProfileUpdated = true
-        }
-    }
-    
-    func selectProfileImage() {
-        isShowingImagePicker = true
     }
     
     func handleImageSelection(newItem: PhotosPickerItem?) {
@@ -158,7 +151,7 @@ class ProfileSettingsViewModel: ObservableObject {
     func signout() async {
         let success = await profileUseCase.signout()
         if success {
-            isLoggedOut = true
+            navigateState = .toLogin
         } else {
             print("로그아웃에 실패했어요.")
         }
@@ -168,7 +161,7 @@ class ProfileSettingsViewModel: ObservableObject {
     func deletieID() async {
         let success = await profileUseCase.deleteId()
         if success {
-            isDeletedAccount = true
+            navigateState = .toLogin
         } else {
             print("회원탈퇴에 실패했어요.")
         }

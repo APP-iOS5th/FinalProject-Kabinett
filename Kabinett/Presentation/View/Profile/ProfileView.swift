@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct ProfileView: View {
     @EnvironmentObject var profileViewModel: ProfileSettingsViewModel
@@ -14,13 +15,13 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationStack {
-            if profileViewModel.shouldNavigateToLogin || profileViewModel.isLoggedOut || profileViewModel.isDeletedAccount {
+            if case .toLogin = profileViewModel.navigateState {
                 LoginView()
             } else {
                 GeometryReader { geometry in
                     VStack {
-                        if let image = profileViewModel.profileImage {
-                            Image(uiImage: image)
+                        if let image = profileViewModel.currentWriter.imageUrlString {
+                            KFImage(URL(string: image))
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width:110, height: 110)
@@ -33,11 +34,11 @@ struct ProfileView: View {
                                 .padding(.bottom, -1)
                         }
                         
-                        Text(profileViewModel.userName)
+                        Text(profileViewModel.currentWriter.name)
                             .fontWeight(.regular)
                             .font(.system(size: 36))
                             .padding(.bottom, 0.1)
-                        Text(profileViewModel.formattedKabinettNumber)
+                        Text(profileViewModel.currentWriter.formattedNumber)
                             .fontWeight(.light)
                             .font(.system(size: 16))
                             .monospaced()
@@ -74,10 +75,12 @@ struct ProfileView: View {
                     }
                 }
                 .navigationBarBackButtonHidden()
+                
             }
         }
         .task {
             await profileViewModel.checkUserStatus()
+            await profileViewModel.loadInitialData()
         }
     }
     

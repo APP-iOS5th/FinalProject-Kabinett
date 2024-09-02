@@ -104,7 +104,7 @@ struct ProfileSettingsView: View {
                 .font(Font.system(size: 25, design: .default))
                 .padding(.bottom, 10)
             
-            Text(viewModel.formattedKabinettNumber)
+            Text(viewModel.currentWriter.formattedNumber)
                 .fontWeight(.light)
                 .font(.system(size: 16))
                 .monospaced()
