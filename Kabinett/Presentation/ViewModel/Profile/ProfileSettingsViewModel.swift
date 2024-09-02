@@ -18,6 +18,11 @@ class ProfileSettingsViewModel: ObservableObject {
         let imageUrlString: String?
     }
     
+    enum NavigateState {
+        case toLogin
+        case toProfile
+    }
+    
     private let profileUseCase: ProfileUseCase
     private var cancellables = Set<AnyCancellable>()
     
@@ -25,6 +30,7 @@ class ProfileSettingsViewModel: ObservableObject {
         subsystem: "co.kr.codegrove.Kabinett",
         category: "ProfileSettingsViewModel"
     )
+    
     @Published var currentWriter: WriterViewModel = .init(name: "", formattedNumber: "", imageUrlString: nil)
     @Published var newUserName: String = ""
     @Published var appleID: String = ""
@@ -38,11 +44,6 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
     @Published var navigateState: NavigateState = .toLogin
-    
-    enum NavigateState {
-        case toLogin
-        case toProfile
-    }
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
