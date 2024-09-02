@@ -39,13 +39,24 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct KabinettApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
+    @StateObject var imagePickerViewModel = ImagePickerViewModel(
+        componentsUseCase: MockComponentsUseCase(),
+        componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+    )
+    @StateObject var customTabViewModel = CustomTabViewModel()
+    @StateObject var letterViewModel = LetterViewModel()
+    @StateObject var letterBoxViewModel = LetterBoxViewModel()
+    @StateObject var letterBoxDetailViewModel = LetterBoxDetailViewModel()
+    @StateObject var calendarViewModel = CalendarViewModel()
     var body: some Scene {
         WindowGroup {
-            CustomTabView(
-                componentsUseCase: MockComponentsUseCase(),
-                componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-            )
+            CustomTabView()
+            .environmentObject(calendarViewModel)
+            .environmentObject(letterBoxDetailViewModel)
+            .environmentObject(letterBoxViewModel)
+            .environmentObject(letterViewModel)
+            .environmentObject(imagePickerViewModel)
+            .environmentObject(customTabViewModel)
         }
     }
 }

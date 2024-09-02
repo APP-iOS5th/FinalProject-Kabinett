@@ -11,13 +11,12 @@ import Kingfisher
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteViewModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
-    
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     
     init(letterContent: Binding<LetterWriteViewModel>) {
-        _letterContent = letterContent
+        self._letterContent = letterContent
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
     }
@@ -31,8 +30,13 @@ struct EnvelopeStampSelectionView: View {
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
-                        .padding(.bottom, 25)
+                    if letterContent.dataSource == .fromImagePicker {
+                        NavigationBarView(destination: LetterCompletionView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                            .padding(.bottom, 25)
+                    } else {
+                        NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                            .padding(.bottom, 25)
+                    }
                     
                     VStack {
                         ZStack(alignment: .topLeading) {

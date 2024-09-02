@@ -11,6 +11,11 @@ import Combine
 import os
 
 final class AuthManager {
+    enum UserInfo {
+        case newUser
+        case existingUser(User?)
+    }
+    
     private let logger: Logger
     private var currentUserSubject: CurrentValueSubject<User?, Never> = .init(nil)
     private let writerManager: FirestoreWriterManager
@@ -49,18 +54,24 @@ final class AuthManager {
         }
     }
     
+    // TODO: Change Method name
+    // TODO: Add error handling
     func linkAccount(
-        with credential: OAuthCredential
-    ) async -> Bool {
+        with idTokenString: String
+    ) async -> UserInfo {
+        let credential = OAuthProvider.credential(
+            providerID: .apple,
+            accessToken: idTokenString
+        )
         do {
             if let user = Auth.auth().currentUser {
                 let result = try await user.link(with: credential)
                 currentUserSubject.send(result.user)
                 
-                return true
+                return .newUser
             } else {
                 logger.warning("Attempting to linking account without current user is not allowed.")
-                return false
+                return .newUser
             }
         } catch {
             let error = error as NSError
@@ -69,13 +80,13 @@ final class AuthManager {
             if code == .credentialAlreadyInUse {
                 logger.debug("This credential already in use, delete current user and retry signing.")
                 deleteAccount()
-                await signInWith(credential: credential)
+                let user = await signInWith(credential: credential)
                 
-                return true
+                return .existingUser(user)
             } else {
                 logger.debug("Linking Error: \(error.localizedDescription)")
                 
-                return false
+                return .newUser
             }
         }
     }
@@ -87,11 +98,17 @@ final class AuthManager {
         }
     }
 
-    private func signInWith(credential: AuthCredential) async {
+    // MARK: - Private Methods
+    private func signInWith(
+        credential: AuthCredential
+    ) async -> User? {
         do {
-            try await Auth.auth().signIn(with: credential)
+            return try await Auth.auth()
+                .signIn(with: credential)
+                .user
         } catch {
             logger.error("signInWith Error: \(error)")
+            return nil
         }
     }
     

@@ -14,7 +14,7 @@ enum SignUpResult {
     case signInOnly
 }
 
-protocol SignupUseCase {
+protocol SignUpUseCase {
     func getAvailableKabinettNumbers() async -> [Int]
     func signUp(
         _ authorization: ASAuthorization
@@ -25,14 +25,14 @@ protocol SignupUseCase {
     ) async -> Bool
 }
 
-final class SignUpUseCaseStub: SignupUseCase {
+final class SignUpUseCaseStub: SignUpUseCase {
     func getAvailableKabinettNumbers() async -> [Int] {
         [1, 100000, 445544]
     }
     
     func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
-        .newUser
-//        .registered
+//        .newUser
+        .registered
 //        .signInOnly
     }
     

@@ -21,17 +21,17 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var postScript: String?
     @Published var envelopeURL: String?
     @Published var stampURL: String?
-    @Published var fromUser: Writer?
-    @Published var toUser: Writer?
-    @Published var fromUserSearchResults: [Writer] = []
-    @Published var toUserSearchResults: [Writer] = []
+    @Published var fromUser: String?
+    @Published var toUser: String?
+    @Published var fromUserSearchResults: [String] = []
+    @Published var toUserSearchResults: [String] = []
     @Published var fromUserSearch: String = ""
     @Published var toUserSearch: String = ""
     
     private var cancellables = Set<AnyCancellable>()
     private let mockWriter: MockWriter
     private let componentsUseCase: ComponentsUseCase
-    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
+    let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
     
     init(componentsUseCase: ComponentsUseCase,
          componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
@@ -45,7 +45,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
+        formatter.dateFormat = "MMM dd, yyyy"
         return formatter.string(from: date)
     }
     
@@ -75,7 +75,7 @@ final class ImagePickerViewModel: ObservableObject {
             return results
         }
     }
-
+    
     @MainActor
     func loadImages() async {
         isLoading = true
@@ -84,22 +84,6 @@ final class ImagePickerViewModel: ObservableObject {
         do {
             let newImageContents = try await loadImagesTask()
             self.photoContents = newImageContents
-            isLoading = false
-        } catch {
-            self.error = error
-            isLoading = false
-        }
-    }
-    
-    
-    @MainActor
-    func loadEnvelopeAndStamp() async {
-        isLoading = true
-        error = nil
-        
-        do {
-            _ = try await componentsLoadStuffUseCase.loadEnvelopes().get()
-            _ = try await componentsLoadStuffUseCase.loadStamps().get()
         } catch {
             self.error = error
         }
@@ -108,15 +92,55 @@ final class ImagePickerViewModel: ObservableObject {
     }
     
     
+    func loadEnvelopeAndStamp() async {
+        await MainActor.run {
+            isLoading = true
+            error = nil
+        }
+        
+        do {
+            let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
+            let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
+            
+            await MainActor.run {
+                if let firstEnvelope = envelopes.first {
+                    self.envelopeURL = firstEnvelope
+                    print("Envelope URL set to: \(firstEnvelope)")
+                }
+                if let firstStamp = stamps.first {
+                    self.stampURL = firstStamp
+                    print("Stamp URL set to: \(firstStamp)")
+                }
+                isLoading = false
+            }
+        } catch {
+            await MainActor.run {
+                self.error = error
+                isLoading = false
+                print("Failed to load envelope and stamp: \(error)")
+            }
+        }
+    }
+    
+    
     // MARK: - Request to Save Letter Data
     func saveImportingImage() async {
-        isLoading = true
-        error = nil
-        
+        await MainActor.run {
+            isLoading = true
+            error = nil
+        }
+        print("Saving letter to Firebase")
+        print("From: \(fromUserName)")
+        print("To: \(toUserName)")
+        print("Date: \(formattedDate)")
+        print("Envelope: \(envelopeURL ?? "defaultEnvelope")")
+        print("Stamp: \(stampURL ?? "defaultStamp")")
+        print("Postscript: \(postScript ?? "")")
+        print("Photo contents count: \(photoContents.count)")
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
-            envelope: envelopeURL ?? "default_envelope",
-            stamp: stampURL ?? "default_stamp",
+            envelope: envelopeURL ?? "defaultEnvelope",
+            stamp: stampURL ?? "defaultStamp",
             fromUserId: nil,
             fromUserName: fromUserName,
             fromUserKabinettNumber: nil,
@@ -134,6 +158,7 @@ final class ImagePickerViewModel: ObservableObject {
                 print("Letter saved successfully")
                 resetState()
             case .failure(let error):
+                print("Failed to save letter: \(error)")
                 self.error = error
             }
             isLoading = false
@@ -165,12 +190,14 @@ final class ImagePickerViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    private func searchUsers(searchText: String, isFromUser: Bool) {
+    func searchUsers(searchText: String, isFromUser: Bool) {
         guard !searchText.isEmpty else {
-            if isFromUser {
-                fromUserSearchResults = []
-            } else {
-                toUserSearchResults = []
+            DispatchQueue.main.async {
+                if isFromUser {
+                    self.fromUserSearchResults = []
+                } else {
+                    self.toUserSearchResults = []
+                }
             }
             return
         }
@@ -191,28 +218,24 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
-    func selectUser(_ writer: Writer, isFromUser: Bool) {
+    @MainActor
+    func selectUser(_ userName: String, isFromUser: Bool) {
         if isFromUser {
-            fromUser = writer
-            fromUserName = writer.name
+            fromUserName = userName
             fromUserSearchResults = []
         } else {
-            toUser = writer
-            toUserName = writer.name
+            toUserName = userName
             toUserSearchResults = []
         }
     }
 }
 
+
+
 class MockWriter {
-    func searchWriters(with searchText: String, completion: @escaping (Result<[Writer], Error>) -> Void) {
-        
-        let mockWriters = [
-            Writer(id: "1", name: "John Doe", kabinettNumber: 101-201, profileImage: nil),
-            Writer(id: "2", name: "Jane Smith", kabinettNumber: 101-102, profileImage: nil)
-        ]
-        
-        let filteredWriters = mockWriters.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+    func searchWriters(with searchText: String, completion: @escaping (Result<[String], Error>) -> Void) {
+        let mockWriters = ["John Doe", "Jane Smith", "Sam Smith", "Sara Johnson"]
+        let filteredWriters = mockWriters.filter { $0.lowercased().contains(searchText.lowercased()) }
         completion(.success(filteredWriters))
     }
 }

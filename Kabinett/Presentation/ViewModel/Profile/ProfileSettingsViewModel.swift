@@ -29,6 +29,8 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var shouldNavigateToProfile: Bool = false
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
+    @Published var isLoggedOut = false
+    @Published var isDeletedAccount = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -39,7 +41,7 @@ class ProfileSettingsViewModel: ObservableObject {
             await fetchAppleID()
         }
     }
-    
+    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     @MainActor
     private func loadInitialData() async {
         let writer = await profileUseCase.getCurrentWriter()
@@ -53,7 +55,7 @@ class ProfileSettingsViewModel: ObservableObject {
         } else {
             self.profileImage = nil
         }
-    }// 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    }
     
     @MainActor
     func checkUserStatus() async {
@@ -155,6 +157,26 @@ class ProfileSettingsViewModel: ObservableObject {
         DispatchQueue.main.async {
             self.croppedImage = croppedImage
             self.isShowingCropper = false
+        }
+    }
+    
+    @MainActor
+    func signout() async {
+        let success = await profileUseCase.signout()
+        if success {
+            isLoggedOut = true
+        } else {
+            print("로그아웃에 실패했어요.")
+        }
+    }
+    
+    @MainActor
+    func deletieID() async {
+        let success = await profileUseCase.deleteId()
+        if success {
+            isDeletedAccount = true
+        } else {
+            print("회원탈퇴에 실패했어요.")
         }
     }
 }
