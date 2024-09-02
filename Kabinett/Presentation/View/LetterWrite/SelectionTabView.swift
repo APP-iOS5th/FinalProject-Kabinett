@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SelectionTabView: View {
     @State private var selectedTab: Int = 0
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @Binding var envelopeImageUrl: String
     @Binding var stampImageUrl: String
     

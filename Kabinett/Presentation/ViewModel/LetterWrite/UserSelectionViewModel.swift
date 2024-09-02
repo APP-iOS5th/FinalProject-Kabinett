@@ -52,7 +52,7 @@ class UserSelectionViewModel: ObservableObject {
         }
     }
     
-    func updateToUser(_ letterContent: inout LetterWriteViewModel, toUserName: String) {
+    func updateToUser(_ letterContent: inout LetterWriteModel, toUserName: String) {
         if let user = dummyUsers.first(where: { $0.name == toUserName }) {
             toUser = Writer(name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {

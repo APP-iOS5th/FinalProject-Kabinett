@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct UserSelectionModalView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @Environment(\.presentationMode) var presentation
-    @StateObject private var viewModel = UserSelectionViewModel(useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager())))
+    @StateObject private var viewModel = UserSelectionViewModel(useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()), writerManager: FirestoreWriterManager()))
     
     var body: some View {
         NavigationStack {
@@ -86,7 +86,7 @@ struct UserSelectionModalView: View {
 
 // MARK: - FormToUserView
 struct FormToUser: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: UserSelectionViewModel
     
     var body: some View {
@@ -141,7 +141,7 @@ struct FormToUser: View {
 
 // MARK: - SearchBarView
 struct SearchBar: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @Binding var searchText: String
     @ObservedObject var viewModel: UserSelectionViewModel
     

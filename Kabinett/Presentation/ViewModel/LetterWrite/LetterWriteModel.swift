@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class LetterWriteViewModel: ObservableObject {
+class LetterWriteModel: ObservableObject {
     @Published var fontString: String? = nil
     @Published var postScript: String? = nil
     @Published var envelopeImageUrlString: String = ""

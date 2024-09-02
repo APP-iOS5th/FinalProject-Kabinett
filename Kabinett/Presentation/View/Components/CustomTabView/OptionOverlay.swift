@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OptionOverlay: View {
     @ObservedObject var viewModel: CustomTabViewModel
-    @State var letterContent = LetterWriteViewModel()
+    @State var letterContent = LetterWriteModel()
     @StateObject private var stationerySelectionViewModel = StationerySelectionViewModel(useCase: FirebaseStorageManager())
     @StateObject private var envelopeStampSelectionViewModel = EnvelopeStampSelectionViewModel(useCase: FirebaseStorageManager())
     

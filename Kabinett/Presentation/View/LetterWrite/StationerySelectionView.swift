@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct StationerySelectionView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     

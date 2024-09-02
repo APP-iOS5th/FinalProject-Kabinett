@@ -11,7 +11,7 @@ import PhotosUI
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @State private var letterWriteViewModel = LetterWriteViewModel()
+    @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     

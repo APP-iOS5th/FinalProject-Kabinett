@@ -9,13 +9,14 @@ import SwiftUI
 import Kingfisher
 
 struct LetterWritePreviewView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @Binding var letterContent: LetterWriteModel
     @StateObject private var viewModel: LetterWritePreviewViewModel
 
-    init(letterContent: Binding<LetterWriteViewModel>) {
+    init(letterContent: Binding<LetterWriteModel>) {
         _letterContent = letterContent
         _viewModel = StateObject(wrappedValue: LetterWritePreviewViewModel(
-            useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()))
+            useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()), writerManager: FirestoreWriterManager())
         ))
     }
 
@@ -97,7 +98,6 @@ struct LetterWritePreviewView: View {
                     Spacer()
                     
                     Button {
-                        letterContent.isRead = false
                         viewModel.saveLetter(font: letterContent.fontString ?? "",
                                              postScript: letterContent.postScript,
                                              envelope: letterContent.envelopeImageUrlString,
@@ -112,7 +112,9 @@ struct LetterWritePreviewView: View {
                                              photoContents: letterContent.photoContents,
                                              date: letterContent.date,
                                              stationery: letterContent.stationeryImageUrlString ?? "",
-                                             isRead: letterContent.isRead)
+                                             isRead: false)
+                        presentationMode.wrappedValue.dismiss()
+                        
                     } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))
@@ -121,18 +123,6 @@ struct LetterWritePreviewView: View {
                     .frame(maxWidth: .infinity, minHeight: 56)
                     .background(Color("Primary900"))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
-                    
-                    if let errorMessage = viewModel.errorMessage {
-                        Text(errorMessage)
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.red)
-                            .padding()
-                    } else if viewModel.isSaveSuccessful {
-                        Text("편지가 성공적으로 전송되었습니다!")
-                            .font(.system(size: 14))
-                            .foregroundStyle(Color.green)
-                            .padding()
-                    }
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
