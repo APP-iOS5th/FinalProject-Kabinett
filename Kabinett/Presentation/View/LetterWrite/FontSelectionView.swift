@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
-    @StateObject var viewModel = FontSelectionViewModel()
+    @EnvironmentObject var viewModel: FontSelectionViewModel
     
     var body: some View {
         ZStack {

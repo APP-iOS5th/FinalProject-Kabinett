@@ -10,7 +10,7 @@ import SwiftUI
 struct UserSelectionModalView: View {
     @Binding var letterContent: LetterWriteModel
     @Environment(\.presentationMode) var presentation
-    @StateObject private var viewModel = UserSelectionViewModel(useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()), writerManager: FirestoreWriterManager()))
+    @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
         NavigationStack {
@@ -183,10 +183,10 @@ struct SearchBar: View {
                         .listRowSeparator(.hidden)
                         .foregroundStyle(Color("Primary900"))
 
-                    ForEach(viewModel.usersData.filter { user in
-                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
-                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
-                    }, id: \.kabinettNumber) { user in
+                    ForEach(viewModel.usersData) { user in
+//                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
+//                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
+//                    }, id: \.kabinettNumber) { user in
                         HStack {
                             if let profileImage = user.profileImage {
                                 AsyncImage(url: URL(string: profileImage)) { image in

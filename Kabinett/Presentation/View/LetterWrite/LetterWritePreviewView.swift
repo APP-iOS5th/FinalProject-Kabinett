@@ -10,14 +10,7 @@ import Kingfisher
 
 struct LetterWritePreviewView: View {
     @Binding var letterContent: LetterWriteModel
-    @StateObject private var viewModel: LetterWritePreviewViewModel
-
-    init(letterContent: Binding<LetterWriteModel>) {
-        _letterContent = letterContent
-        _viewModel = StateObject(wrappedValue: LetterWritePreviewViewModel(
-            useCase: FirebaseFirestoreManager(authManager: AuthManager(writerManager: FirestoreWriterManager()), writerManager: FirestoreWriterManager())
-        ))
-    }
+    @EnvironmentObject var viewModel: LetterWritePreviewViewModel
 
     var body: some View {
         ZStack {

@@ -11,7 +11,7 @@ import Kingfisher
 
 struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @StateObject private var viewModel = WriteLetterViewModel()
+    @EnvironmentObject var viewModel: WriteLetterViewModel
     
     @State private var currentIndex: Int = 0
     
