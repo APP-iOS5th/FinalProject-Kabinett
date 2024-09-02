@@ -137,7 +137,9 @@ struct KabinettApp: App {
         
         // MARK: - LetterWrite ViewModels
         _userSelectionViewModel = .init(
-            wrappedValue: UserSelectionViewModel()
+            wrappedValue: UserSelectionViewModel(
+                useCase: firebaseFirestoreManager
+            )
         )
         _stationerySelectionViewModel = .init(
             wrappedValue: StationerySelectionViewModel(

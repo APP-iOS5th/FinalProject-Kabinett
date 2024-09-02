@@ -16,25 +16,24 @@ class UserSelectionViewModel: ObservableObject {
     
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
-    @Published var dummyUsers: [Writer] = [
-        Writer(name: "Alice", kabinettNumber: 111111, profileImage: nil),
-        Writer(name: "Bob", kabinettNumber: 234234, profileImage: nil),
-        Writer(name: "Charlie", kabinettNumber: 1112, profileImage: nil),
-        Writer(name: "David", kabinettNumber: 11131, profileImage: nil),
-        Writer(name: "Eve", kabinettNumber: 114141, profileImage: nil),
-        Writer(name: "Frank", kabinettNumber: 1151, profileImage: nil),
-        Writer(name: "Grace", kabinettNumber: 111161, profileImage: nil),
-    ]
+    @Published var usersData: [Writer] = []
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: LetterWriteUseCase
-
+    
     init(useCase: LetterWriteUseCase) {
         self.useCase = useCase
         
         $searchText
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
-            .assign(to: &$debouncedSearchText)
+            .removeDuplicates()
+            .sink { text in
+                self.debouncedSearchText = text
+                Task {
+                    await self.findWriter(query: text)
+                }
+            }
+            .store(in: &cancellables)
         
         Task {
             await getCurrentWriter()
@@ -53,8 +52,8 @@ class UserSelectionViewModel: ObservableObject {
     }
     
     func updateToUser(_ letterContent: inout LetterWriteModel, toUserName: String) {
-        if let user = dummyUsers.first(where: { $0.name == toUserName }) {
-            toUser = Writer(name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
+        if let user = usersData.first(where: { $0.name == toUserName }) {
+            toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {
             toUser = Writer(name: toUserName, kabinettNumber: 0, profileImage: nil)
         }
@@ -68,11 +67,17 @@ class UserSelectionViewModel: ObservableObject {
     }
     
     @MainActor
-    private func getCurrentWriter() async {
-//        let dummyWriter = Writer(id: "EjcVXxTJquhLf8o1IBHSaixhFBt2", name: "User", kabinettNumber: 10, profileImage: nil) // 로그인 안했을 때 유저
-        let dummyWriter = Writer(name: "Ksong", kabinettNumber: 100000, profileImage: nil)
-        self.fromUser = dummyWriter
-        self.userKabiNumber = dummyWriter.kabinettNumber
+    func getCurrentWriter() async {
+//        let result = Writer(id: "pJIHwmW2WylwoY4bgTRI", name: "Ssong", kabinettNumber: 111111, profileImage: nil)
+        let result = await useCase.getCurrentWriter()
+        self.fromUser = result
+        self.userKabiNumber = result.kabinettNumber
         updateFromUser()
+    }
+    
+    @MainActor
+    func findWriter(query: String) async {
+        let results = await useCase.findWriter(by: query)
+        self.usersData = results
     }
 }

@@ -28,7 +28,7 @@ struct UserSelectionModalView: View {
                                 letterContent.fromUserId = viewModel.fromUser?.id
                                 letterContent.fromUserName = viewModel.fromUser?.name ?? ""
                                 letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                                if letterContent.toUserName.isEmpty {
+                                if letterContent.toUserId == "" {
                                     viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
                                 }
                                 letterContent.toUserId = viewModel.toUser?.id
@@ -144,7 +144,7 @@ struct SearchBar: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var searchText: String
     @ObservedObject var viewModel: UserSelectionViewModel
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -161,8 +161,6 @@ struct SearchBar: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Color("Primary100"))
                     }
-                } else {
-                    EmptyView()
                 }
             }
             .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
@@ -184,8 +182,8 @@ struct SearchBar: View {
                         .padding(.leading, 35)
                         .listRowSeparator(.hidden)
                         .foregroundStyle(Color("Primary900"))
-                    
-                    ForEach(viewModel.dummyUsers.filter { user in
+
+                    ForEach(viewModel.usersData.filter { user in
                         user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
                         String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
                     }, id: \.kabinettNumber) { user in

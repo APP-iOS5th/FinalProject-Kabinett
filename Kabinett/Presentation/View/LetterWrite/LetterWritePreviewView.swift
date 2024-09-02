@@ -9,7 +9,6 @@ import SwiftUI
 import Kingfisher
 
 struct LetterWritePreviewView: View {
-    @Environment(\.presentationMode) var presentationMode
     @Binding var letterContent: LetterWriteModel
     @StateObject private var viewModel: LetterWritePreviewViewModel
 
@@ -113,8 +112,9 @@ struct LetterWritePreviewView: View {
                                              date: letterContent.date,
                                              stationery: letterContent.stationeryImageUrlString ?? "",
                                              isRead: false)
-                        presentationMode.wrappedValue.dismiss()
                         
+                        // 현재 뷰를 닫고 루트 화면으로 돌아가기
+
                     } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))
