@@ -8,13 +8,12 @@
 import SwiftUI
 
 struct FontSelectionView: View {
-    @Binding var letterContent: LetterWriteViewModel
-    
-    @StateObject var viewModel = FontSelectionViewModel()
+    @Binding var letterContent: LetterWriteModel
+    @EnvironmentObject var viewModel: FontSelectionViewModel
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }

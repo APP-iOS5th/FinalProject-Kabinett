@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct LetterCompletionView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @Environment(\.dismiss) private var dismiss
     
@@ -129,7 +129,7 @@ struct LetterCompletionView: View {
 
 
 #Preview {
-    LetterCompletionView(letterContent: .constant(LetterWriteViewModel()))
+    LetterCompletionView(letterContent: .constant(LetterWriteModel()))
         .environmentObject(ImagePickerViewModel(
             componentsUseCase: MockComponentsUseCase(),
             componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
