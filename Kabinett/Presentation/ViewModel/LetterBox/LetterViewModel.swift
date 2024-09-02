@@ -11,7 +11,7 @@ import SwiftUI
 class LetterViewModel: ObservableObject {
     private let letterBoxUseCase: LetterBoxUseCase
     
-    init(letterBoxUseCase: LetterBoxUseCase = LetterBoxUseCaseStub()) {
+    init(letterBoxUseCase: LetterBoxUseCase) {
         self.letterBoxUseCase = letterBoxUseCase
     }
     
