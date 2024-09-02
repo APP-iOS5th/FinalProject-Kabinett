@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var profileViewModel: ProfileSettingsViewModel
+    @EnvironmentObject var profileViewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
     var onAccountActionComplete: () -> Void
@@ -18,7 +18,6 @@ struct SettingsView: View {
             NavigationStack {
                 VStack(alignment: .leading) {
                     NavigationLink(destination: ProfileSettingsView(
-                        viewModel: profileViewModel,
                         shouldNavigateToProfileView: $shouldNavigateToProfileView,
                         onComplete: {
                             shouldNavigateToProfileView = true
@@ -43,7 +42,7 @@ struct SettingsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     
-                    NavigationLink(destination: AccountSettingsView(profileViewModel: profileViewModel, onComplete: {
+                    NavigationLink(destination: AccountSettingsView(onComplete: {
                         onAccountActionComplete()
                     })) {
                         HStack{

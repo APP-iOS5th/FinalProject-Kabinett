@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @ObservedObject var signUpViewModel: SignUpViewModel
+    @EnvironmentObject var signUpViewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigate = false
     
@@ -50,7 +50,7 @@ struct SignUpNameInputView: View {
                     .keyboardType(.alphabet)
                     .submitLabel(.done)
                     .navigationDestination(isPresented: $shouldNavigate) {
-                        SignUpKabinettNumberSelectView(signUpViewModel: signUpViewModel)
+                        SignUpKabinettNumberSelectView()
                     }
                     .navigationBarBackButtonHidden()
                 }
@@ -77,6 +77,6 @@ struct SignUpOvalTextFieldStyle: TextFieldStyle {
     }
 }
 
-#Preview {
-    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
-}
+//#Preview {
+//    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
+//}

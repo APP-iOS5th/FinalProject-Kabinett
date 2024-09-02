@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
-    @ObservedObject var signUpViewModel: SignUpViewModel
+    @EnvironmentObject var signUpViewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigatedToProfile = false
     @State private var showAlert = false
@@ -107,9 +107,7 @@ struct SignUpKabinettNumberSelectView: View {
                     }
 
                     .navigationDestination(isPresented:$shouldNavigatedToProfile) {
-                        ProfileView(
-                            profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
-                        )
+                        ProfileView()
                     }
                     .navigationBarBackButtonHidden(true)
                     .toolbar {

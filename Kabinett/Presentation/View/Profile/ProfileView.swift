@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @ObservedObject var profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub())
+    @EnvironmentObject var profileViewModel: ProfileSettingsViewModel
     @State private var showSettingsView = false
     @State private var shouldNavigateToProfileView = false
     
@@ -68,7 +68,6 @@ struct ProfileView: View {
                     }
                     .sheet(isPresented: $showSettingsView) {
                         SettingsView(
-                            profileViewModel: profileViewModel,
                             shouldNavigateToProfileView: $shouldNavigateToProfileView,
                             onAccountActionComplete: handleAccountActionComplete
                         )
@@ -87,6 +86,6 @@ struct ProfileView: View {
     }
 }
 
-#Preview {
-    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-}
+//#Preview {
+//    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+//}

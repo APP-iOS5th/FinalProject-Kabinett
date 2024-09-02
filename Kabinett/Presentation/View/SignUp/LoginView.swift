@@ -9,7 +9,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @StateObject private var signUpViewModel = SignUpViewModel(signUpUseCase: SignUpUseCaseStub())
+    @EnvironmentObject private var signUpViewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -55,11 +55,11 @@ struct LoginView: View {
                     .background(Color.background)
                 }
                 .navigationDestination(isPresented: $signUpViewModel.loginSuccess) {
-                    SignUpNameInputView(signUpViewModel: signUpViewModel)
+                    SignUpNameInputView()
                 }
                 .navigationDestination(isPresented: $signUpViewModel.signUpSuccess) {
                     if let profileViewModel = signUpViewModel.profileViewModel {
-                        ProfileView(profileViewModel: profileViewModel)
+                        ProfileView()
                     } else {
                         VStack {
                             Text("프로필을 불러오는 데 문제가 발생했어요.")
@@ -68,7 +68,7 @@ struct LoginView: View {
                                 .font(.headline)
                                 .padding()
                             
-                            NavigationLink(destination: SignUpNameInputView(signUpViewModel: signUpViewModel)) {
+                            NavigationLink(destination: SignUpNameInputView()) {
                                 Text("다시 시도하기")
                                     .padding()
                                     .background(Color.primary900)

@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileSettingsView: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @EnvironmentObject var viewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
     var onComplete: () -> Void
