@@ -70,7 +70,7 @@ struct LetterBoxCell: View {
     }
 }
 
-#Preview {
-    LetterBoxCell(type: .all, unreadCount: 1)
-        .environmentObject(LetterBoxViewModel())
-}
+//#Preview {
+//    LetterBoxCell(type: .all, unreadCount: 1)
+//        .environmentObject(LetterBoxViewModel())
+//}

@@ -9,9 +9,7 @@ import SwiftUI
 
 struct OptionOverlay: View {
     @ObservedObject var viewModel: CustomTabViewModel
-    @State var letterContent = LetterWriteViewModel()
-    @StateObject private var stationerySelectionViewModel = StationerySelectionViewModel(useCase: FirebaseStorageManager())
-    @StateObject private var envelopeStampSelectionViewModel = EnvelopeStampSelectionViewModel(useCase: FirebaseStorageManager())
+    @State var letterContent = LetterWriteModel()
     
     @State private var isWritingLetter = false
     
@@ -59,8 +57,6 @@ struct OptionOverlay: View {
         }
         .fullScreenCover(isPresented: $isWritingLetter) {
             StationerySelectionView(letterContent: $letterContent)
-                .environmentObject(stationerySelectionViewModel)
-                .environmentObject(envelopeStampSelectionViewModel)
                 .ignoresSafeArea()
         }
     }

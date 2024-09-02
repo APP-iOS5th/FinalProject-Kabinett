@@ -198,11 +198,11 @@ struct LetterBoxDetailView: View {
     }
 }
 
-#Preview {
-    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""), isTextFieldFocused: .constant(false))
-        .environmentObject(LetterBoxDetailViewModel())
-        .environmentObject(CalendarViewModel())
-}
+//#Preview {
+//    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""), isTextFieldFocused: .constant(false))
+//        .environmentObject(LetterBoxDetailViewModel())
+//        .environmentObject(CalendarViewModel())
+//}
 
 struct NavigationBarHeightKey: PreferenceKey {
     typealias Value = CGFloat

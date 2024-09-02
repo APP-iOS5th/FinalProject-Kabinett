@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct StationerySelectionView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
@@ -17,7 +17,7 @@ struct StationerySelectionView: View {
         NavigationStack {
             ZStack {
                 GeometryReader { geometry in
-                    Color("Background").ignoresSafeArea()
+                    Color(.background).ignoresSafeArea()
                     
                     VStack {
                         NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)

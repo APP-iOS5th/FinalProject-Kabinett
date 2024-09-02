@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class LetterWriteViewModel: ObservableObject {
+class LetterWriteModel: ObservableObject {
     @Published var fontString: String? = nil
     @Published var postScript: String? = nil
     @Published var envelopeImageUrlString: String = ""
@@ -22,7 +22,7 @@ class LetterWriteViewModel: ObservableObject {
     @Published var toUserName: String = ""
     @Published var toUserKabinettNumber: Int? = nil
     
-    @Published var content: String? = nil
+    @Published var content: [String] = []
     @Published var photoContents: [Data] = []
     @Published var date: Date = Date()
     @Published var stationeryImageUrlString: String? = nil

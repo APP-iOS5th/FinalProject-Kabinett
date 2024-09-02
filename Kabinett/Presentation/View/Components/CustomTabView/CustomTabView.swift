@@ -11,7 +11,7 @@ import PhotosUI
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @State private var letterWriteViewModel = LetterWriteViewModel()
+    @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
@@ -69,14 +69,14 @@ struct CustomTabView: View {
     }
 }
 
-#Preview {
-    CustomTabView()
-        .environmentObject(CustomTabViewModel())
-        .environmentObject(ImagePickerViewModel(
-            componentsUseCase: MockComponentsUseCase(),
-            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-        ))
-        .environmentObject(CalendarViewModel())
-        .environmentObject(LetterBoxDetailViewModel())
-        .environmentObject(LetterBoxViewModel())
-}
+//#Preview {
+//    CustomTabView()
+//        .environmentObject(CustomTabViewModel())
+//        .environmentObject(ImagePickerViewModel(
+//            componentsUseCase: MockComponentsUseCase(),
+//            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+//        ))
+//        .environmentObject(CalendarViewModel())
+//        .environmentObject(LetterBoxDetailViewModel())
+//        .environmentObject(LetterBoxViewModel())
+//}
