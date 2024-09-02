@@ -58,6 +58,10 @@ struct LetterBoxDetailLetterView: View {
                 .animation(.spring(), value: viewModel.offset)
             }
         }
+        .onAppear {
+            viewModel.offset = 0
+            viewModel.showDeleteButton = false
+        }
         .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
