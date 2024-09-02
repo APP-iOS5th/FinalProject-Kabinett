@@ -23,8 +23,14 @@ class LetterWriteViewModel: ObservableObject {
     @Published var toUserKabinettNumber: Int? = nil
     
     @Published var content: String? = nil
-    @Published var photoContents: [String] = []
+    @Published var photoContents: [Data] = []
     @Published var date: Date = Date()
     @Published var stationeryImageUrlString: String? = nil
     @Published var isRead: Bool = false
+    @Published var dataSource: DataSource = .fromLetterWriting
+    
+    enum DataSource {
+        case fromLetterWriting
+        case fromImagePicker
+    }
 }

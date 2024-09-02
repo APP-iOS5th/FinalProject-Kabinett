@@ -6,62 +6,55 @@
 //
 
 import SwiftUI
-
+import Kingfisher
 
 struct LetterCompletionView: View {
-    @StateObject private var viewModel: ImagePickerViewModel
+    @Binding var letterContent: LetterWriteViewModel
+    @EnvironmentObject var viewModel: ImagePickerViewModel
     @Environment(\.dismiss) private var dismiss
     
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
-        _viewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
-    }
-    
     var body: some View {
-        ZStack {
-            Color("Background").edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 20) {
-                headerView
-                Spacer()
-                letterPreviewView
-                completionMessageView
-                Spacer()
-                saveButton
+        NavigationStack {
+            ZStack {
+                Color.background.edgesIgnoringSafeArea(.all)
+                
+                VStack(spacing: 20) {
+                    Spacer()
+                    letterPreviewView
+                    completionMessageView
+                    Spacer()
+                    saveButton
+                }
             }
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: backButton)
         .onAppear {
             Task {
                 await viewModel.loadEnvelopeAndStamp()
+                print("Envelope URL: \(viewModel.envelopeURL ?? "nil")")
+                print("Stamp URL: \(viewModel.stampURL ?? "nil")")
             }
         }
     }
-    
-    private var headerView: some View {
-        HStack {
-            Button(action: { dismiss() }) {
-                Image(systemName: "chevron.left")
-                    .foregroundColor(.black)
-            }
-            Spacer()
+    private var backButton: some View {
+        Button(action: {
+            dismiss()
+        }) {
+            Image(systemName: "chevron.left")
+                .foregroundColor(Color.contentPrimary)
+                .imageScale(.large)
         }
-        .padding()
     }
     
     private var letterPreviewView: some View {
         ZStack {
-            RoundedRectangle(cornerRadius: 0)
-                .fill(Color.white)
-                .frame(width: 315, height: 145)
-                .shadow(radius: 5)
-            
-            if let envelopeURL = viewModel.envelopeURL {
-                AsyncImage(url: URL(string: envelopeURL)) { image in
-                    image.resizable()
-                } placeholder: {
+            KFImage(URL(string: letterContent.envelopeImageUrlString))
+                .resizable()
+                .placeholder {
                     ProgressView()
                 }
                 .frame(width: 315, height: 145)
-            }
             
             GeometryReader { geometry in
                 ZStack {
@@ -90,13 +83,14 @@ struct LetterCompletionView: View {
                     .position(x: geometry.size.width - 90, y: geometry.size.height - 30)
                     
                     if let stampURL = viewModel.stampURL {
-                        AsyncImage(url: URL(string: stampURL)) { image in
-                            image.resizable()
-                        } placeholder: {
-                            ProgressView()
-                        }
-                        .frame(width: 34, height: 38)
-                        .position(x: geometry.size.width - 40, y: 35)
+                        KFImage(URL(string: stampURL))
+                            .resizable()
+                            .placeholder {
+                                ProgressView()
+                            }
+                            .frame(width: 34, height: 38)
+                            .position(x: geometry.size.width - 40, y: 35)
+                            .id(stampURL)
                     }
                 }
             }
@@ -115,6 +109,7 @@ struct LetterCompletionView: View {
     private var saveButton: some View {
         Button(action: {
             Task {
+                print("Saving letter")
                 await viewModel.saveImportingImage()
             }
         }) {
@@ -123,7 +118,7 @@ struct LetterCompletionView: View {
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color("Primary900"))
+                .background(Color.primary900)
                 .cornerRadius(14)
         }
         .padding(.horizontal)
@@ -134,7 +129,11 @@ struct LetterCompletionView: View {
 
 
 #Preview {
-    LetterCompletionView(componentsUseCase: MockComponentsUseCase(), componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase())
+    LetterCompletionView(letterContent: .constant(LetterWriteViewModel()))
+        .environmentObject(ImagePickerViewModel(
+            componentsUseCase: MockComponentsUseCase(),
+            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+        ))
 }
 
 // Preview 더미 데이터
@@ -146,10 +145,24 @@ class MockComponentsUseCase: ObservableObject, ComponentsUseCase {
 
 class MockComponentsLoadStuffUseCase: ObservableObject, ComponentsLoadStuffUseCase {
     func loadEnvelopes() async -> Result<[String], any Error> {
-        return .success(["https://envelopes.jpg"])
+        return .success([
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMjEz/MDAxNTIwMDQyMTEwNDIz.5VmOjx84M8Z39Bym-LC9fHRseOw8TBNRzaTx1poYm2Yg.hZ88aZCRcD7dFk1R35FD9LcAe3tbYiw-2CjenFvb45Eg.PNG.osy2201/11_%28%ED%9A%8C%EC%83%89_1%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w3840",
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMTc5/MDAxNTIwMDQxNzQwODYx.qQDg_PbRHclce0n3s-2DRePFQggeU6_0bEnxV8OY1yQg.4EZpKfKEOyW_PXOVvy7wloTrIUzb71HP8N2y-YFsBJcg.PNG.osy2201/1_%2835%ED%8D%BC%EC%84%BC%ED%8A%B8_%ED%9A%8C%EC%83%89%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w966",
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMjEz/MDAxNTIwMDQyMTEwNDIz.5VmOjx84M8Z39Bym-LC9fHRseOw8TBNRzaTx1poYm2Yg.hZ88aZCRcD7dFk1R35FD9LcAe3tbYiw-2CjenFvb45Eg.PNG.osy2201/11_%28%ED%9A%8C%EC%83%89_1%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w3840",
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMjEz/MDAxNTIwMDQyMTEwNDIz.5VmOjx84M8Z39Bym-LC9fHRseOw8TBNRzaTx1poYm2Yg.hZ88aZCRcD7dFk1R35FD9LcAe3tbYiw-2CjenFvb45Eg.PNG.osy2201/11_%28%ED%9A%8C%EC%83%89_1%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w3840",
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMjEz/MDAxNTIwMDQyMTEwNDIz.5VmOjx84M8Z39Bym-LC9fHRseOw8TBNRzaTx1poYm2Yg.hZ88aZCRcD7dFk1R35FD9LcAe3tbYiw-2CjenFvb45Eg.PNG.osy2201/11_%28%ED%9A%8C%EC%83%89_1%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w3840",
+            "https://postfiles.pstatic.net/MjAxODAzMDNfMjEz/MDAxNTIwMDQyMTEwNDIz.5VmOjx84M8Z39Bym-LC9fHRseOw8TBNRzaTx1poYm2Yg.hZ88aZCRcD7dFk1R35FD9LcAe3tbYiw-2CjenFvb45Eg.PNG.osy2201/11_%28%ED%9A%8C%EC%83%89_1%29_%ED%9A%8C%EC%83%89_%EB%8B%A8%EC%83%89_%EB%B0%B0%EA%B2%BD%ED%99%94%EB%A9%B4_180303.png?type=w3840"
+        ])
     }
     
     func loadStamps() async -> Result<[String], any Error> {
-        return .success(["https://stamps.jpg"])
+        return .success([
+            "https://cdn-icons-png.flaticon.com/256/4481/4481191.png",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToaQupjlrXtCckBSuufHyena8ZgQ_CRxOxRw&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToaQupjlrXtCckBSuufHyena8ZgQ_CRxOxRw&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToaQupjlrXtCckBSuufHyena8ZgQ_CRxOxRw&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToaQupjlrXtCckBSuufHyena8ZgQ_CRxOxRw&s",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToaQupjlrXtCckBSuufHyena8ZgQ_CRxOxRw&s"
+        ])
     }
 }

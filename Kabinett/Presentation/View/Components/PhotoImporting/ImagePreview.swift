@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ImagePreview: View {
-    @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
@@ -28,7 +28,7 @@ struct ImagePreview: View {
                             .foregroundStyle(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color("Primary900"))
+                            .background(Color.primary900)
                             .cornerRadius(15)
                     }
                     .padding()
@@ -41,16 +41,18 @@ struct ImagePreview: View {
                 }
             }) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(Color("ContentPrimary"))
+                    .foregroundStyle(Color.contentPrimary)
             })
             .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(viewModel: imageViewModel, customViewModel: customViewModel)
+                LetterWritingView(componentsLoadStuffUseCase: imageViewModel.componentsLoadStuffUseCase)
+                    .environmentObject(imageViewModel)
+                    .environmentObject(customViewModel)
             }
-            .background(Color("Background").edgesIgnoringSafeArea(.all))
+            .background(Color.background.edgesIgnoringSafeArea(.all))
         }
     }
 }

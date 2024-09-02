@@ -9,14 +9,12 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
-    @StateObject private var viewModel: CustomTabViewModel
-    @StateObject private var imagePickerViewModel: ImagePickerViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var letterWriteViewModel = LetterWriteViewModel()
+    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
+    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    init(componentsUseCase: ComponentsUseCase, componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
-        self._viewModel = StateObject(wrappedValue: CustomTabViewModel())
-        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: componentsUseCase, componentsLoadStuffUseCase: componentsLoadStuffUseCase))
-    }
     
     var body: some View {
         ZStack {
@@ -41,6 +39,12 @@ struct CustomTabView: View {
                     viewModel.showOptions = true
                 }
                 viewModel.selectedTab = oldValue
+            } else {
+                if newValue == 0 {
+                    //                             LetterBoxViewState.reset()
+                } else if newValue == 2 {
+                    //                            ProfileViewState.reset()
+                }
             }
         }
         .overlay(
@@ -52,23 +56,27 @@ struct CustomTabView: View {
             }
         )
         .overlay(ImportDialog(viewModel: viewModel))
-        .overlay(ImagePickerView(imageViewModel: imagePickerViewModel, customViewModel: viewModel))
+        .overlay(ImagePickerView())
         .fullScreenCover(isPresented: $viewModel.showCamera) {
-            CameraView(imagePickerViewModel: imagePickerViewModel)
-                .environmentObject(imagePickerViewModel)
+            CameraView()
         }
         .sheet(isPresented: $viewModel.showWriteLetterView) {
             WriteLetterView(letterContent: $letterWriteViewModel)
         }
+        .environmentObject(viewModel)
+        .environmentObject(imagePickerViewModel)
+        
     }
 }
 
 #Preview {
-    CustomTabView(
-        componentsUseCase: MockComponentsUseCase(),
-        componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-    )
-    .environmentObject(LetterBoxViewModel())
-    .environmentObject(LetterBoxDetailViewModel())
-    .environmentObject(CalendarViewModel())
+    CustomTabView()
+        .environmentObject(CustomTabViewModel())
+        .environmentObject(ImagePickerViewModel(
+            componentsUseCase: MockComponentsUseCase(),
+            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+        ))
+        .environmentObject(CalendarViewModel())
+        .environmentObject(LetterBoxDetailViewModel())
+        .environmentObject(LetterBoxViewModel())
 }

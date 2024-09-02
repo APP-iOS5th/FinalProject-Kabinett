@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ImagePickerView: View {
-    @ObservedObject var imageViewModel: ImagePickerViewModel
-    @ObservedObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
     
     var body: some View {
         EmptyView()
@@ -19,18 +19,20 @@ struct ImagePickerView: View {
                 maxSelectionCount: 3,
                 matching: .images
             )
-            .onChange(of: imageViewModel.selectedItems) {
-                Task {
+            .onChange(of: imageViewModel.selectedItems) { _, newValue in
+                Task { @MainActor in
+                    imageViewModel.selectedItems = newValue
                     await imageViewModel.loadImages()
                 }
             }
+        
             .onChange(of: imageViewModel.photoContents) { _, newContents in
                 if !newContents.isEmpty {
                     customViewModel.showImagePreview = true
                 }
             }
             .sheet(isPresented: $customViewModel.showImagePreview) {
-                ImagePreview(customViewModel: customViewModel, imageViewModel: imageViewModel)
+                ImagePreview()
             }
     }
 }

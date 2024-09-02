@@ -46,9 +46,9 @@ struct ImageDetailView: View {
             }
             .navigationBarItems(leading: Button(action: { showDetailView = false }) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(Color("ContentPrimary"))
+                    .foregroundStyle(Color.contentPrimary)
             })
-            .background(Color("Background").edgesIgnoringSafeArea(.all))
+            .background(Color.background.edgesIgnoringSafeArea(.all))
         }
     }
 }
