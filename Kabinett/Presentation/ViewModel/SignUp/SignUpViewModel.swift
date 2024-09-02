@@ -11,7 +11,7 @@ import AuthenticationServices
 import CryptoKit
 
 final class SignUpViewModel: ObservableObject {
-    private let signUpUseCase: any SignupUseCase
+    private let signUpUseCase: any SignUpUseCase
     
     @Published var profileViewModel: ProfileSettingsViewModel?
     @Published var userName: String = ""
@@ -25,7 +25,7 @@ final class SignUpViewModel: ObservableObject {
     @Published var signUpSuccess: Bool = false
     @Published var showAlert: Bool = false
     
-    init(signUpUseCase: any SignupUseCase) {
+    init(signUpUseCase: any SignUpUseCase) {
         self.signUpUseCase = signUpUseCase
     }
     
