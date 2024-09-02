@@ -25,6 +25,7 @@ struct SearchBarView: View {
                     .tint(.black)
                 TextField("Search", text: $searchText)
                     .focused($textFieldFocused)
+                    .textInputAutocapitalization(.never)
                     .onAppear {
                         textFieldFocused = isTextFieldFocused
                     }
