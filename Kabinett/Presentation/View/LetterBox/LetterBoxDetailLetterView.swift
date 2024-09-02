@@ -58,6 +58,10 @@ struct LetterBoxDetailLetterView: View {
                 .animation(.spring(), value: viewModel.offset)
             }
         }
+        .onAppear {
+            viewModel.offset = 0
+            viewModel.showDeleteButton = false
+        }
         .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
@@ -69,7 +73,7 @@ struct LetterBoxDetailLetterView: View {
 
 
 
-#Preview {
-    LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
-        .environmentObject(LetterViewModel())
-}
+//#Preview {
+//    LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
+//        .environmentObject(LetterViewModel())
+//}

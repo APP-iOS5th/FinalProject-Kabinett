@@ -103,8 +103,8 @@ struct LetterBoxView: View {
     }
 }
 
-#Preview {
-    LetterBoxView()
-        .environmentObject(LetterBoxViewModel())
-        .environmentObject(CalendarViewModel())
-}
+//#Preview {
+//    LetterBoxView()
+//        .environmentObject(LetterBoxViewModel())
+//        .environmentObject(CalendarViewModel())
+//}

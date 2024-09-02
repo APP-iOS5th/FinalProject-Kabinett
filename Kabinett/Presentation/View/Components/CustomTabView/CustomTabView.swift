@@ -69,14 +69,14 @@ struct CustomTabView: View {
     }
 }
 
-#Preview {
-    CustomTabView()
-        .environmentObject(CustomTabViewModel())
-        .environmentObject(ImagePickerViewModel(
-            componentsUseCase: MockComponentsUseCase(),
-            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-        ))
-        .environmentObject(CalendarViewModel())
-        .environmentObject(LetterBoxDetailViewModel())
-        .environmentObject(LetterBoxViewModel())
-}
+//#Preview {
+//    CustomTabView()
+//        .environmentObject(CustomTabViewModel())
+//        .environmentObject(ImagePickerViewModel(
+//            componentsUseCase: MockComponentsUseCase(),
+//            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
+//        ))
+//        .environmentObject(CalendarViewModel())
+//        .environmentObject(LetterBoxDetailViewModel())
+//        .environmentObject(LetterBoxViewModel())
+//}
