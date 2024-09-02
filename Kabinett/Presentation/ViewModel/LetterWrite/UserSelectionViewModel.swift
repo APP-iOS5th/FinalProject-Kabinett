@@ -18,6 +18,20 @@ class UserSelectionViewModel: ObservableObject {
     @Published var toUser: Writer? = nil
     @Published var usersData: [Writer] = []
     
+    func reset() {
+        searchText = ""
+        debouncedSearchText = ""
+        checkLogin = false
+        userKabiNumber = nil
+        fromUser = nil
+        toUser = nil
+        usersData = []
+        
+        Task {
+            await getCurrentWriter()
+        }
+    }
+    
     private var cancellables = Set<AnyCancellable>()
     private let useCase: LetterWriteUseCase
     

@@ -11,7 +11,7 @@ struct OptionOverlay: View {
     @ObservedObject var viewModel: CustomTabViewModel
     @State var letterContent = LetterWriteModel()
     
-    @State private var isWritingLetter = false
+    @State var isWritingLetter = false
     
     var body: some View {
         ZStack {
@@ -56,7 +56,7 @@ struct OptionOverlay: View {
             .transition(.move(edge: .bottom))
         }
         .fullScreenCover(isPresented: $isWritingLetter) {
-            StationerySelectionView(letterContent: $letterContent)
+            StationerySelectionView(letterContent: $letterContent, isWritingLetter: $isWritingLetter)
                 .ignoresSafeArea()
         }
     }

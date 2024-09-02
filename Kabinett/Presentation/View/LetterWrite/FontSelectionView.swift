@@ -11,6 +11,8 @@ struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: FontSelectionViewModel
     
+    @Binding var isWritingLetter: Bool
+    
     var body: some View {
         ZStack {
             Color(.background).ignoresSafeArea()
@@ -21,7 +23,7 @@ struct FontSelectionView: View {
             GeometryReader { geometry in
                 
                 VStack(alignment: .leading) {
-                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
+                    NavigationBarView(destination: WriteLetterView(letterContent: $letterContent, isWritingLetter: $isWritingLetter), titleName: "서체 고르기", isNavigation: true)
                     
                     List {
                         ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in

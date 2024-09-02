@@ -7,10 +7,19 @@
 
 import SwiftUI
 import Kingfisher
+import UIKit
 
 struct LetterWritePreviewView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: LetterWritePreviewViewModel
+    
+    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
+    @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
+    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
+    @EnvironmentObject var writerLetterViewModel: WriteLetterViewModel
+    @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    
+    @Binding var isWritingLetter: Bool
 
     var body: some View {
         ZStack {
@@ -18,7 +27,7 @@ struct LetterWritePreviewView: View {
             
             GeometryReader { geo in
                 VStack {
-                    NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "", isNavigation: false)
+                    NavigationBarView(destination: EmptyView(), titleName: "", isNavigation: false)
                         .padding(.bottom, geo.size.height * 0.3)
                     
                     ZStack(alignment: .topLeading) {
@@ -106,7 +115,14 @@ struct LetterWritePreviewView: View {
                                              stationery: letterContent.stationeryImageUrlString ?? "",
                                              isRead: false)
                         
+                        letterContent.reset()
+                        userSelectionViewModel.reset()
+                        stationerySelectionViewModel.reset()
+                        fontSelectionViewModel.reset()
+                        writerLetterViewModel.reset()
+                        envelopStampSelectionViewModel.reset()
                         // TODO - 처음 화면으로 돌아가기
+                        isWritingLetter = false
                     } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))

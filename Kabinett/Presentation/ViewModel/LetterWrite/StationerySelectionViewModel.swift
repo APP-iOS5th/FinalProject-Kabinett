@@ -13,6 +13,11 @@ class StationerySelectionViewModel: ObservableObject {
     @Published var selectedIndex: (Int, Int) = (0, 0)
     @Published var stationerys: [String] = []
     
+    func reset() {
+        selectedIndex = (0,0)
+        stationerys = []
+    }
+    
     private let useCase: LetterWriteLoadStuffUseCase
     
     init(useCase: LetterWriteLoadStuffUseCase) {

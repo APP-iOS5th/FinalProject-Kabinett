@@ -15,10 +15,13 @@ struct EnvelopeStampSelectionView: View {
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     
-    init(letterContent: Binding<LetterWriteModel>) {
+    @Binding var isWritingLetter: Bool
+    
+    init(letterContent: Binding<LetterWriteModel>, isWritingLetter: Binding<Bool>) {
         self._letterContent = letterContent
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+        self._isWritingLetter = isWritingLetter
     }
     
     var body: some View {
@@ -34,7 +37,7 @@ struct EnvelopeStampSelectionView: View {
                         NavigationBarView(destination: LetterCompletionView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
                             .padding(.bottom, 25)
                     } else {
-                        NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                        NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent, isWritingLetter: $isWritingLetter), titleName: "봉투와 우표 고르기", isNavigation: true)
                             .padding(.bottom, 25)
                     }
                     

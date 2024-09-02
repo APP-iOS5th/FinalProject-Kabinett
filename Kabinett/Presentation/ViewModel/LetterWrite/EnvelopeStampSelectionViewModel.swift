@@ -15,6 +15,11 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
     @Published var envelopes: [String] = []
     @Published var stamps: [String] = []
     
+    func reset() {
+        envelopeSelectedIndex = (0,0)
+        stampSelectedIndex = (0,0)
+    }
+    
     private let useCase: LetterWriteLoadStuffUseCase
     
     init(useCase: LetterWriteLoadStuffUseCase) {

@@ -30,6 +30,12 @@ class FontSelectionViewModel: ObservableObject {
         Fonts(fontName: "Pecita", boldFont: "Pecita", regularFont: "Pecita"),
     ]
     
+    func reset() {
+        selectedIndex = 0
+        testFontText = []
+        updateText()
+    }
+    
     func font(file: String) -> Font {
         switch file {
         case "SFDisplay":
