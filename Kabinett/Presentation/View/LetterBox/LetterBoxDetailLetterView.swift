@@ -9,6 +9,8 @@ import SwiftUI
 
 struct LetterBoxDetailLetterView: View {
     @EnvironmentObject var viewModel: LetterViewModel
+    @EnvironmentObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    
     @State private var showDetailLetter = false
     
     var letterType: LetterType
@@ -59,6 +61,7 @@ struct LetterBoxDetailLetterView: View {
             }
         }
         .onAppear {
+            letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
             viewModel.offset = 0
             viewModel.showDeleteButton = false
         }
