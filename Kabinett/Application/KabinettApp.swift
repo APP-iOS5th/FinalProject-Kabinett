@@ -14,8 +14,6 @@ import FirebaseCore
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
-        
         // Uncomment these blocks to use Firebase Emulator Suite
 //        #if DEBUG
 //        // Firebase Authenticate Emulator
@@ -64,6 +62,9 @@ struct KabinettApp: App {
     @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     init() {
+        // Init Firebase App
+        FirebaseApp.configure()
+        
         // MARK: - Service Dependencies
         let writerManager = FirestoreWriterManager()
         let writerStorageManager = FirestorageWriterManager()
