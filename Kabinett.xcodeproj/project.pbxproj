@@ -41,7 +41,6 @@
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
 		577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */; };
 		577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FC2C7584E000E21162 /* NavigationBarView.swift */; };
-		577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */; };
 		577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577157002C75D73700E21162 /* Extension+UIApplication.swift */; };
 		577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */; };
 		577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156F82C74CAF200E21162 /* Extension+Font.swift */; };
@@ -164,7 +163,6 @@
 		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
 		577156F82C74CAF200E21162 /* Extension+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Font.swift"; sourceTree = "<group>"; };
 		577156FC2C7584E000E21162 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
-		577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSourceLicenseModalView.swift; sourceTree = "<group>"; };
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		5771570A2C77071300E21162 /* WriteLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterViewModel.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
@@ -406,12 +404,11 @@
 			children = (
 				577156FC2C7584E000E21162 /* NavigationBarView.swift */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionModalView.swift */,
+				57966B9F2C7EC452008D650B /* SelectionTabView.swift */,
 				57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */,
-				577156FE2C758A1A00E21162 /* OpenSourceLicenseModalView.swift */,
 				57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */,
 				57485D3A2C772332000601BF /* WriteLetterView.swift */,
 				57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */,
-				57966B9F2C7EC452008D650B /* SelectionTabView.swift */,
 				57966BA32C7FF738008D650B /* LetterWritePreviewView.swift */,
 			);
 			path = LetterWrite;
@@ -845,7 +842,6 @@
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* WriteLetterViewModel.swift in Sources */,
-				577156FF2C758A1A00E21162 /* OpenSourceLicenseModalView.swift in Sources */,
 				53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */,
 				7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */,
 				83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */,
