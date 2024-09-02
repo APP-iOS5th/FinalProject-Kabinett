@@ -53,7 +53,10 @@ struct LetterBoxEnvelopeCell: View {
             }
         }
         .padding(15)
-        .background(Color.white)
+        .background(
+            AnyView(KFImage(URL(string: letter.envelopeImageUrlString))
+                .resizable())
+        )
         .rotationEffect(.degrees(270))
         .shadow(color: Color.primary300.opacity(0.7), radius: 5, x: CGFloat(5), y: CGFloat(5))
     }
@@ -109,7 +112,11 @@ struct LetterBoxDetailEnvelopeCell: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.white)
+                    .fill(Color.clear)
+                    .background(
+                        AnyView(KFImage(URL(string: letter.envelopeImageUrlString))
+                            .resizable())
+                    )
                     .shadow(color: .black.opacity(0.15), radius: 4, x: 5, y: 5)
             )
     
@@ -126,6 +133,6 @@ struct LetterBoxDetailEnvelopeCell: View {
 }
 
 #Preview {
-//    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleLetters[0])
-    LetterBoxDetailEnvelopeCell(letter: LetterBoxUseCaseStub.sampleLetters[0])
+//    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
+    LetterBoxDetailEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
 }
