@@ -15,9 +15,7 @@ class ProfileSettingsViewModel: ObservableObject {
     
     @Published var userName: String = ""
     @Published var newUserName: String = ""
-    @Published var formattedKabinettNumber: String = ""
     @Published var appleID: String = ""
-    @Published var profileImage: UIImage?
     @Published var isShowingImagePicker = false
     @Published var selectedImageItem: PhotosPickerItem?
     @Published var selectedImage: UIImage?
@@ -25,12 +23,8 @@ class ProfileSettingsViewModel: ObservableObject {
     @Published var croppedImage: UIImage?
     @Published var isProfileUpdated = false
     @Published var userStatus: UserStatus?
-    @Published var shouldNavigateToLogin: Bool = false
-    @Published var shouldNavigateToProfile: Bool = false
     @Published var profileUpdateError: String?
     @Published var showProfileAlert = false
-    @Published var isLoggedOut = false
-    @Published var isDeletedAccount = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase

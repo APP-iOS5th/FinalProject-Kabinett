@@ -61,12 +61,6 @@ struct ProfileSettingsView: View {
                 ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
             }
         }
-        .onDisappear {
-            if !viewModel.isProfileUpdated {
-                viewModel.croppedImage = nil
-            }
-            viewModel.selectedImageItem = nil
-        }
     }
     @ViewBuilder
     private func photoPickerView() -> some View {
