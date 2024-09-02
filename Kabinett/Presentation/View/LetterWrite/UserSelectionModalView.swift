@@ -110,7 +110,7 @@ struct FormToUser: View {
             letterContent.fromUserId = viewModel.fromUser?.id
             letterContent.fromUserName = viewModel.fromUser?.name ?? ""
             letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-            if letterContent.toUserName.isEmpty {
+            if letterContent.toUserId == "" {
                 viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
             }
             letterContent.toUserId = viewModel.toUser?.id
