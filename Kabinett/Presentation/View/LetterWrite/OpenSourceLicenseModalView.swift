@@ -10,7 +10,7 @@ import SwiftUI
 struct OpenSourceLicenseModalView: View {
     var body: some View {
         ZStack {
-            Color("Primary100").ignoresSafeArea()
+            Color(.primary100).ignoresSafeArea()
 
             VStack {
                 Text("내장되어 있는 모든 폰트는 SIL Open Font License version 1.1에 따라 사용하고 있습니다. 각 폰트의 저작권은 해당 디자이너에게 있습니다.")

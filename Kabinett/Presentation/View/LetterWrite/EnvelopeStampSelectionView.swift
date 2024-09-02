@@ -9,13 +9,13 @@ import SwiftUI
 import Kingfisher
 
 struct EnvelopeStampSelectionView: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     
-    init(letterContent: Binding<LetterWriteViewModel>) {
+    init(letterContent: Binding<LetterWriteModel>) {
         self._letterContent = letterContent
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
@@ -23,7 +23,7 @@ struct EnvelopeStampSelectionView: View {
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
@@ -136,13 +136,13 @@ struct EnvelopeStampSelectionView: View {
 }
 
 struct EnvelopeCell: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @Binding var envelopeImageUrl: String
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             VStack {
                 List {
@@ -195,13 +195,13 @@ struct EnvelopeCell: View {
 }
 
 struct StampCell: View {
-    @Binding var letterContent: LetterWriteViewModel
+    @Binding var letterContent: LetterWriteModel
     @Binding var stampImageUrl: String
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             VStack {
                 List {

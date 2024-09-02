@@ -10,14 +10,14 @@ import UIKit
 import Kingfisher
 
 struct WriteLetterView: View {
-    @Binding var letterContent: LetterWriteViewModel
-    @StateObject private var viewModel = WriteLetterViewModel()
+    @Binding var letterContent: LetterWriteModel
+    @EnvironmentObject var viewModel: WriteLetterViewModel
     
     @State private var currentIndex: Int = 0
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
@@ -67,7 +67,10 @@ struct WriteLetterView: View {
                                                             }
                                                         }
                                                         .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                                            letterContent.content = viewModel.texts[0]
+                                                            if letterContent.content.isEmpty {
+                                                                letterContent.content.append("")
+                                                            }
+                                                            letterContent.content[0] = viewModel.texts[0]
                                                         }
                                                     }
                                                     

@@ -9,11 +9,12 @@ import SwiftUI
 import Kingfisher
 
 struct LetterWritePreviewView: View {
-    @Binding var letterContent: LetterWriteViewModel
-    
+    @Binding var letterContent: LetterWriteModel
+    @EnvironmentObject var viewModel: LetterWritePreviewViewModel
+
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             GeometryReader { geo in
                 VStack {
@@ -87,10 +88,27 @@ struct LetterWritePreviewView: View {
                     }
                     
                     Spacer()
-
+                    
                     Button {
-                        letterContent.isRead = false
-                    } label : {
+                        viewModel.saveLetter(font: letterContent.fontString ?? "",
+                                             postScript: letterContent.postScript,
+                                             envelope: letterContent.envelopeImageUrlString,
+                                             stamp: letterContent.stampImageUrlString,
+                                             fromUserId: letterContent.fromUserId,
+                                             fromUserName: letterContent.fromUserName,
+                                             fromUserKabinettNumber: letterContent.fromUserKabinettNumber,
+                                             toUserId: letterContent.toUserId,
+                                             toUserName: letterContent.toUserName,
+                                             toUserKabinettNumber: letterContent.toUserKabinettNumber,
+                                             content: letterContent.content,
+                                             photoContents: letterContent.photoContents,
+                                             date: letterContent.date,
+                                             stationery: letterContent.stationeryImageUrlString ?? "",
+                                             isRead: false)
+                        
+                        // 현재 뷰를 닫고 루트 화면으로 돌아가기
+
+                    } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))
                             .foregroundStyle(Color.white)
