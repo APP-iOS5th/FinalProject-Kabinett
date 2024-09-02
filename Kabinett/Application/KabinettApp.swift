@@ -36,6 +36,7 @@ struct KabinettApp: App {
     @StateObject private var fontSelectionViewModel: FontSelectionViewModel
     @StateObject private var writerLetterViewModel: WriteLetterViewModel
     @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @StateObject private var letterWritePreviewViewModel: LetterWritePreviewViewModel
     
     init() {
         // Init Firebase App
@@ -147,6 +148,11 @@ struct KabinettApp: App {
                 useCase: firebaseStorageManager
             )
         )
+        _letterWritePreviewViewModel = .init(
+            wrappedValue: LetterWritePreviewViewModel(
+                useCase: firebaseFirestoreManager
+            )
+        )
     }
     
     var body: some Scene {
@@ -165,6 +171,7 @@ struct KabinettApp: App {
                 .environmentObject(fontSelectionViewModel)
                 .environmentObject(writerLetterViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
+                .environmentObject(letterWritePreviewViewModel)
         }
     }
 }
