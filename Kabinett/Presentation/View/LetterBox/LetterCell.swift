@@ -65,7 +65,7 @@ struct LetterCell: View {
                 stationeryImageUrlString: letter.stationeryImageUrlString,
                 fromUserName: letter.fromUserName,
                 toUserName: letter.toUserName,
-                letterContent: letter.content[index],
+                letterContent: letter.content[index].isEmpty ? " " : letter.content[index],
                 fontString: letter.fontString ?? "SFDisplay",
                 date: letter.date,
                 currentPageIndex: index,
