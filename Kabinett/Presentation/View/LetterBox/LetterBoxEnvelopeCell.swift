@@ -114,8 +114,8 @@ struct LetterBoxDetailEnvelopeCell: View {
                 RoundedRectangle(cornerRadius: 2)
                     .fill(Color.clear)
                     .background(
-                        AnyView(KFImage(URL(string: letter.envelopeImageUrlString))
-                            .resizable())
+                        KFImage(URL(string: letter.envelopeImageUrlString))
+                            .resizable()
                     )
                     .shadow(color: .black.opacity(0.15), radius: 4, x: 5, y: 5)
             )
