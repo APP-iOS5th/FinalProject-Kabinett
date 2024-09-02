@@ -11,32 +11,8 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        // Uncomment these blocks to use Firebase Emulator Suite
-        #if DEBUG
-        // Firebase Authenticate Emulator
-        Auth.auth().useEmulator(withHost:"localhost", port:9099)
-        
-        // Firebase Storage Emulator
-        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
-        
-        // Firebaes Firestore Emulator
-        let settings = Firestore.firestore().settings
-        settings.host = "localhost:8080"
-        settings.isSSLEnabled = false
-        Firestore.firestore().settings = settings
-        #endif
-        
-        return true
-    }
-}
-
-
 @main
 struct KabinettApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     // MARK: - LetterBox Flow
     @StateObject private var letterViewModel: LetterViewModel
@@ -60,10 +36,25 @@ struct KabinettApp: App {
     @StateObject private var fontSelectionViewModel: FontSelectionViewModel
     @StateObject private var writerLetterViewModel: WriteLetterViewModel
     @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @StateObject private var letterWritePreviewViewModel: LetterWritePreviewViewModel
     
     init() {
         // Init Firebase App
         FirebaseApp.configure()
+        
+        #if DEBUG
+        // Firebase Authenticate Emulator
+        Auth.auth().useEmulator(withHost:"localhost", port:9099)
+        
+        // Firebase Storage Emulator
+        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+        
+        // Firebaes Firestore Emulator
+        let settings = Firestore.firestore().settings
+        settings.host = "localhost:8080"
+        settings.isSSLEnabled = false
+        Firestore.firestore().settings = settings
+        #endif
         
         // MARK: - Service Dependencies
         let writerManager = FirestoreWriterManager()
@@ -157,6 +148,11 @@ struct KabinettApp: App {
                 useCase: firebaseStorageManager
             )
         )
+        _letterWritePreviewViewModel = .init(
+            wrappedValue: LetterWritePreviewViewModel(
+                useCase: firebaseFirestoreManager
+            )
+        )
     }
     
     var body: some Scene {
@@ -175,6 +171,7 @@ struct KabinettApp: App {
                 .environmentObject(fontSelectionViewModel)
                 .environmentObject(writerLetterViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
+                .environmentObject(letterWritePreviewViewModel)
         }
     }
 }
