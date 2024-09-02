@@ -18,6 +18,8 @@ class UserSelectionViewModel: ObservableObject {
     @Published var toUser: Writer? = nil
     @Published var usersData: [Writer] = []
     
+    @Published var showModal: Bool = false
+    
     func reset() {
         searchText = ""
         debouncedSearchText = ""
