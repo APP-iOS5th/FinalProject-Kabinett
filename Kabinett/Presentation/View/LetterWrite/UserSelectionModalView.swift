@@ -15,6 +15,11 @@ struct UserSelectionModalView: View {
     var body: some View {
         NavigationStack {
             ZStack {
+                Color(.primary100).ignoresSafeArea()
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
+                
                 GeometryReader { geometry in
                     VStack {
                         HStack {
@@ -73,7 +78,6 @@ struct UserSelectionModalView: View {
                     }
                     .padding(.horizontal, geometry.size.width * 0.06)
                     .padding(.top, 24)
-                    .background(Color("Primary100"))
                 }
             }
         }

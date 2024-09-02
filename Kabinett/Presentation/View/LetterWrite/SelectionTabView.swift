@@ -33,7 +33,7 @@ struct SelectionTabView: View {
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                     .padding(.top, 10)
-                    .background(Color("Background"))
+                    .background(Color(.background))
                 }
                 .ignoresSafeArea()
             }
@@ -70,7 +70,7 @@ struct CustomTabs: View {
                                         .padding(.leading, -12.5)
                                 }
                                 .fixedSize()
-                                .background(Color("Background"))
+                                .background(Color(.background))
                             })
                             .accentColor(Color.black)
                             .buttonStyle(PlainButtonStyle())

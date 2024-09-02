@@ -24,7 +24,7 @@ struct EnvelopeStampSelectionView: View {
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
@@ -138,7 +138,7 @@ struct EnvelopeCell: View {
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             VStack {
                 List {
@@ -197,7 +197,7 @@ struct StampCell: View {
     
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             VStack {
                 List {

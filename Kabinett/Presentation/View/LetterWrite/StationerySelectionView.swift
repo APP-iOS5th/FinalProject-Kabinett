@@ -17,7 +17,7 @@ struct StationerySelectionView: View {
         NavigationStack {
             ZStack {
                 GeometryReader { geometry in
-                    Color("Background").ignoresSafeArea()
+                    Color(.background).ignoresSafeArea()
                     
                     VStack {
                         NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)

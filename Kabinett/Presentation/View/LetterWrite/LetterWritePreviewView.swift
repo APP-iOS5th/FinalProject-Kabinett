@@ -21,7 +21,7 @@ struct LetterWritePreviewView: View {
 
     var body: some View {
         ZStack {
-            Color("Background").ignoresSafeArea()
+            Color(.background).ignoresSafeArea()
             
             GeometryReader { geo in
                 VStack {
