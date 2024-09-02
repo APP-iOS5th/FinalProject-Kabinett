@@ -28,7 +28,7 @@ struct CustomTabView: View {
                 ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
                     .tag(2)
             }
-            .overlay(CustomTabBar(viewModel: viewModel), alignment: .bottom)
+            .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
         }
         .onAppear {
             viewModel.setupTabBarAppearance()
@@ -55,7 +55,7 @@ struct CustomTabView: View {
                 CalendarOverlayView()
             }
         )
-        .overlay(ImportDialog(viewModel: viewModel))
+        .overlay(ImportDialog())
         .overlay(ImagePickerView())
         .fullScreenCover(isPresented: $viewModel.showCamera) {
             CameraView()

@@ -14,12 +14,14 @@ struct EnvelopeStampSelectionView: View {
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
+    @State private var postScriptText: String = ""
     
     init(letterContent: Binding<LetterWriteViewModel>) {
-        self._letterContent = letterContent
-        _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
-        _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
-    }
+            self._letterContent = letterContent
+            _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
+            _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+            _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
+        }
     
     var body: some View {
         ZStack {
@@ -130,6 +132,9 @@ struct EnvelopeStampSelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
         }
+        .onAppear {
+                    postScriptText = letterContent.postScript ?? ""
+                }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }

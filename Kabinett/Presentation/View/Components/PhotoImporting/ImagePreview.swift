@@ -48,7 +48,7 @@ struct ImagePreview: View {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(componentsLoadStuffUseCase: imageViewModel.componentsLoadStuffUseCase)
+                LetterWritingView()
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
             }

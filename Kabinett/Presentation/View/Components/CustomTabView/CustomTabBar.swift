@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    @ObservedObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
     
     var body: some View {
         GeometryReader { geometry in
