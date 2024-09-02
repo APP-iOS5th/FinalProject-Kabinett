@@ -9,10 +9,9 @@ import SwiftUI
 
 struct OptionOverlay: View {
     @ObservedObject var viewModel: CustomTabViewModel
-    @State var letterContent = LetterWriteModel()
-    
-    @State var isWritingLetter = false
-    
+    @State private var letterContent = LetterWriteModel()
+    @State private var isWritingLetter = false
+
     var body: some View {
         ZStack {
             Color.black.opacity(0.5)
@@ -22,7 +21,7 @@ struct OptionOverlay: View {
                         viewModel.hideOptions()
                     }
                 }
-            
+
             VStack {
                 Spacer()
                 
@@ -39,7 +38,9 @@ struct OptionOverlay: View {
                     }
                     
                     Button(action: {
-                        isWritingLetter = true
+                        withAnimation {
+                            isWritingLetter = true
+                        }
                     }) {
                         Text("편지 쓰기")
                             .font(.system(size: 14))
@@ -56,7 +57,7 @@ struct OptionOverlay: View {
             .transition(.move(edge: .bottom))
         }
         .fullScreenCover(isPresented: $isWritingLetter) {
-            StationerySelectionView(letterContent: $letterContent, isWritingLetter: $isWritingLetter)
+            StationerySelectionView(letterContent: $letterContent)
                 .ignoresSafeArea()
         }
     }

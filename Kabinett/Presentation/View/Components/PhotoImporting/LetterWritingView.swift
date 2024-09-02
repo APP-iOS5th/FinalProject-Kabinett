@@ -16,8 +16,6 @@ struct LetterWritingView: View {
     @State private var showCalendar = false
     @Environment(\.dismiss) var dismiss
     
-    @State private var isWritingLetter = false
-    
     init(componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
         let wrappedUseCase = LetterWriteLoadStuffUseCaseWrapper(componentsLoadStuffUseCase)
         _envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: wrappedUseCase))
@@ -50,7 +48,7 @@ struct LetterWritingView: View {
             }
             )
             .navigationDestination(isPresented: $showEnvelopeStampSelection) {
-                EnvelopeStampSelectionView(letterContent: $letterWriteViewModel, isWritingLetter: $isWritingLetter)
+                EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
         }

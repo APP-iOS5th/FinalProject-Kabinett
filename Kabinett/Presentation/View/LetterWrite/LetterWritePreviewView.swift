@@ -19,7 +19,7 @@ struct LetterWritePreviewView: View {
     @EnvironmentObject var writerLetterViewModel: WriteLetterViewModel
     @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
-    @Binding var isWritingLetter: Bool
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
 
     var body: some View {
         ZStack {
@@ -122,7 +122,7 @@ struct LetterWritePreviewView: View {
                         writerLetterViewModel.reset()
                         envelopStampSelectionViewModel.reset()
                         // TODO - 처음 화면으로 돌아가기
-                        isWritingLetter = false
+                        customTabViewModel.hideOptions()
                     } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))

@@ -15,8 +15,6 @@ struct CustomTabView: View {
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    @State private var isWritingLetter = false
-    
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
@@ -62,7 +60,7 @@ struct CustomTabView: View {
             CameraView()
         }
         .sheet(isPresented: $viewModel.showWriteLetterView) {
-            WriteLetterView(letterContent: $letterWriteViewModel, isWritingLetter: $isWritingLetter)
+            WriteLetterView(letterContent: $letterWriteViewModel)
         }
         .environmentObject(viewModel)
         .environmentObject(imagePickerViewModel)

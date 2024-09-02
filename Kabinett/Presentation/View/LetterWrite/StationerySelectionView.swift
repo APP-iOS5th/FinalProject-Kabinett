@@ -13,8 +13,6 @@ struct StationerySelectionView: View {
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
-    @Binding var isWritingLetter: Bool
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -22,7 +20,7 @@ struct StationerySelectionView: View {
                     Color(.background).ignoresSafeArea()
                     
                     VStack {
-                        NavigationBarView(destination: FontSelectionView(letterContent: $letterContent, isWritingLetter: $isWritingLetter), titleName: "편지지 고르기", isNavigation: true)
+                        NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
                         
                         List {
                             ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in

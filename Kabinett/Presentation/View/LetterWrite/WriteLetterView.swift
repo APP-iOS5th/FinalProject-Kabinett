@@ -15,8 +15,6 @@ struct WriteLetterView: View {
     
     @State private var currentIndex: Int = 0
     
-    @Binding var isWritingLetter: Bool
-    
     var body: some View {
         ZStack {
             Color(.background).ignoresSafeArea()
@@ -26,7 +24,7 @@ struct WriteLetterView: View {
             
             GeometryReader { geometry in
                 VStack {
-                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent, isWritingLetter: $isWritingLetter), titleName: "", isNavigation: true)
+                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     
                     HStack {
