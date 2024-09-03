@@ -13,13 +13,11 @@ import CryptoKit
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignUpUseCase
     
-    @Published var profileViewModel: ProfileSettingsViewModel?
+    @Published private(set) var profileViewModel: ProfileSettingsViewModel?
     @Published var userName: String = ""
-    @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
+    @Published private(set) var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
-    @Published var currentNonce: String?
-    @Published var userIdentifier: String?
-    @Published var loginError: String?
+    @Published private(set) var loginError: String?
     @Published var signUpError: String?
     @Published var loginSuccess: Bool = false
     @Published var signUpSuccess: Bool = false
@@ -50,7 +48,6 @@ final class SignUpViewModel: ObservableObject {
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
         request.requestedScopes = [.email]
         let nonce = randomNonceString()
-        currentNonce = nonce
         request.nonce = sha256(nonce)
     }
     

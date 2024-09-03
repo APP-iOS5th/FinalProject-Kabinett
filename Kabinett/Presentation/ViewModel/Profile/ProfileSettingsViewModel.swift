@@ -31,19 +31,17 @@ class ProfileSettingsViewModel: ObservableObject {
         category: "ProfileSettingsViewModel"
     )
     
-    @Published var currentWriter: WriterViewModel = .init(name: "", formattedNumber: "", imageUrlString: nil)
+    @Published private(set) var currentWriter: WriterViewModel = .init(name: "", formattedNumber: "", imageUrlString: nil)
     @Published var newUserName: String = ""
-    @Published var appleID: String = ""
-    @Published var isShowingImagePicker = false
+    @Published private(set) var appleID: String = ""
     @Published var selectedImageItem: PhotosPickerItem?
-    @Published var selectedImage: UIImage?
+    @Published private(set) var selectedImage: UIImage?
     @Published var isShowingCropper = false
-    @Published var croppedImage: UIImage?
-    @Published var isProfileUpdated = false
-    @Published var userStatus: UserStatus?
-    @Published var profileUpdateError: String?
+    @Published private(set) var croppedImage: UIImage?
+    @Published private(set) var userStatus: UserStatus?
+    @Published private(set) var profileUpdateError: String?
     @Published var showProfileAlert = false
-    @Published var navigateState: NavigateState = .toLogin
+    @Published private(set) var navigateState: NavigateState = .toLogin
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -85,8 +83,7 @@ class ProfileSettingsViewModel: ObservableObject {
     
     @MainActor
     private func fetchAppleID() async {
-        let ID = await profileUseCase.getAppleID()
-        self.appleID = ID
+        let appleID = await profileUseCase.getAppleID()
     }
     
     var isUserNameVaild: Bool {

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @EnvironmentObject var signUpViewModel: SignUpViewModel
+    @EnvironmentObject var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     @State private var shouldNavigate = false
     
@@ -23,18 +23,18 @@ struct SignUpNameInputView: View {
                         .padding(.leading, geometry.size.width * 0.06)
                         .padding(.bottom, 15)
                     HStack{
-                        TextField("", text: $signUpViewModel.userName)
+                        TextField("", text: $viewModel.userName)
                             .padding(.leading, geometry.size.width * 0.06)
                         Spacer()
                         
                         Button(action: {
-                            if !signUpViewModel.userName.isEmpty {
+                            if !viewModel.userName.isEmpty {
                                 shouldNavigate = true
                             }
                         }) {
                             ZStack{
                                 Circle()
-                                    .foregroundColor(signUpViewModel.userName.isEmpty ? .primary300 : .primary900)
+                                    .foregroundColor(viewModel.userName.isEmpty ? .primary300 : .primary900)
                                     .frame(width: 53)
                                 Image(systemName: "arrow.right")
                                     .fontWeight(.light)

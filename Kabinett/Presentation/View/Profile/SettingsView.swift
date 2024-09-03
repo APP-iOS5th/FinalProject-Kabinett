@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var profileViewModel: ProfileSettingsViewModel
+    @EnvironmentObject var viewModel: ProfileSettingsViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
     var onAccountActionComplete: () -> Void
@@ -71,7 +71,7 @@ struct SettingsView: View {
                                 .foregroundColor(.white)
                         }
                         .padding(.leading, 10)
-                        Text(profileViewModel.appleID)
+                        Text(viewModel.appleID)
                             .font(.system(size: 17))
                             .foregroundColor(.contentSecondary)
                     }
