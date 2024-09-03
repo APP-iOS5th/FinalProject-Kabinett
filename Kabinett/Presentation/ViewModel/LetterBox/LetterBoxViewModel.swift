@@ -61,8 +61,8 @@ class LetterBoxViewModel: ObservableObject {
             let rotation = index == 0 ? -1 : 0
             return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: Double(rotation))
         case 3:
-            let xOffset = [-12, -5, 12][index]
-            let yOffset = [-3, -12, -2][index]
+            let xOffset = [-13, -5, 13][index]
+            let yOffset = [-1, -9, -2][index]
             return (xOffset: CGFloat(xOffset), yOffset: CGFloat(yOffset), rotation: 0)
         default:
             return (xOffset: 0, yOffset: 0, rotation: 0)
