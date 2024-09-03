@@ -47,7 +47,6 @@ struct WriteLetterView: View {
                                                     .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
                                                     .padding(.top, 10)
                                                 
-                                                
                                                 // 편지지 위의 뷰
                                                 VStack {
                                                     HStack {
@@ -133,10 +132,12 @@ struct WriteLetterView: View {
         .overlay(
             ImagePickerView()
         )
-        .onChange(of: imageViewModel.selectedItems) {
-            letterContent.photoContents = imageViewModel.photoContents
-            imageViewModel.photoContents = imageViewModel.photoContents
-            print(letterContent.photoContents)
+        .onChange(of: imageViewModel.selectedItems) { _, newValue in
+            Task { @MainActor in
+                imageViewModel.selectedItems = newValue
+                await imageViewModel.loadImages()
+                letterContent.photoContents = imageViewModel.photoContents
+            }
         }
     }
 }

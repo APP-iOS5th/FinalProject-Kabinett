@@ -49,7 +49,6 @@ final class ImagePickerViewModel: ObservableObject {
         return formatter.string(from: date)
     }
     
-    
     // MARK: - Image Loading
     private func loadImagesTask() async throws -> [Data] {
         try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
@@ -90,7 +89,6 @@ final class ImagePickerViewModel: ObservableObject {
         
         isLoading = false
     }
-    
     
     func loadEnvelopeAndStamp() async {
         await MainActor.run {
@@ -167,7 +165,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     
     // MARK: - Methods (편지 저장 후 초기화)
-    private func resetState() {
+    func resetState() {
         photoContents = []
         selectedItems = []
     }

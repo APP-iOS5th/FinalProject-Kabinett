@@ -20,6 +20,7 @@ struct LetterWritePreviewView: View {
     @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     @EnvironmentObject var customTabViewModel: CustomTabViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
 
     var body: some View {
         ZStack {
@@ -121,6 +122,7 @@ struct LetterWritePreviewView: View {
                         fontSelectionViewModel.reset()
                         writerLetterViewModel.reset()
                         envelopStampSelectionViewModel.reset()
+                        imagePickerViewModel.resetState()
                         customTabViewModel.hideOptions()
                     } label: {
                         Text("편지 보내기")
