@@ -446,7 +446,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
             
             for document in querySnapshot.documents {
-                let letterData = document.data()
+                var letterData = document.data()
+                letterData["date"] = Timestamp(date: Date())
+                
                 try await db.collection("Writers")
                     .document(userId)
                     .collection("Received")
