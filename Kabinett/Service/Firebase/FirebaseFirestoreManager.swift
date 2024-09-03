@@ -55,14 +55,14 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - LetterWriteUseCase
-    func saveLetter(font: String, 
+    func saveLetter(font: String,
                     postScript: String?,
                     envelope: String,
                     stamp: String,
-                    fromUserId: String?, 
+                    fromUserId: String?,
                     fromUserName: String,
                     fromUserKabinettNumber: Int?,
-                    toUserId: String?, 
+                    toUserId: String?,
                     toUserName: String,
                     toUserKabinettNumber: Int?,
                     content: [String],
@@ -115,16 +115,16 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - ComponentsUseCase
-    func saveLetter(postScript: String?, 
+    func saveLetter(postScript: String?,
                     envelope: String,
                     stamp: String,
-                    fromUserId: String?, 
+                    fromUserId: String?,
                     fromUserName: String,
                     fromUserKabinettNumber: Int?,
-                    toUserId: String?, 
+                    toUserId: String?,
                     toUserName: String,
                     toUserKabinettNumber: Int?,
-                    photoContents: [Data], 
+                    photoContents: [Data],
                     date: Date,
                     isRead: Bool
     ) async -> Result<Bool, any Error> {
@@ -182,7 +182,12 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                 return await getAllLetters(userId: userId)
             }
             
-            let snapshot = try await db.collection("Writers").document(userId).collection(collectionName).order(by: "date", descending: true).getDocuments()
+            let snapshot = try await db.collection("Writers")
+                .document(userId)
+                .collection(collectionName)
+                .order(by: "date", descending: true)
+                .getDocuments()
+            
             let letters = try snapshot.documents.compactMap { document in
                 try document.data(as: Letter.self)
             }
@@ -226,7 +231,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             
             for type in [LetterType.toMe, .received] {
                 if let collectionName = typeToCollectionName[type] {
-                    let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                    let collectionRef = db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
                     
                     let querySnapshot = try await collectionRef.whereField("isRead", isEqualTo: false).getDocuments()
                     result[type] = querySnapshot.documents.count
@@ -242,7 +249,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // keyword 기준 letter 검색
-    func searchBy(findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
+    func searchBy(
+        findKeyword: String,
+        letterType: LetterType
+    ) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
@@ -262,14 +272,12 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             }
             
             for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                let collectionRef = db.collection("Writers")
+                    .document(userId)
+                    .collection(collectionName)
                 
-                let query = collectionRef.whereFilter(Filter.orFilter([
-                    Filter.whereField("toUserName", isEqualTo: findKeyword),
-                    Filter.whereField("fromUserName", isEqualTo: findKeyword),
-                    Filter.whereField("toUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1),
-                    Filter.whereField("fromUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1)
-                ]))
+                let query = collectionRef
+                    .whereField("searchUser", arrayContains: findKeyword)
                 
                 let snapshot = try await query.getDocuments()
                 
@@ -287,7 +295,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // date 기준 letter 검색
-    func searchBy(letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
+    func searchBy(
+        letterType: LetterType,
+        startDate: Date,
+        endDate: Date
+    ) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
@@ -307,11 +319,16 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             }
             
             for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
-                let querySnapshot = try await collectionRef.whereField("date", isGreaterThan: startDate)
+                let collectionRef = db.collection("Writers")
+                    .document(userId)
+                    .collection(collectionName)
+                
+                let querySnapshot = try await collectionRef
+                    .whereField("date", isGreaterThan: startDate)
                     .whereField("date", isLessThan: endDate)
                     .order(by: "date", descending: true)
                     .getDocuments()
+                
                 let fetchedLetters = try querySnapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
@@ -327,7 +344,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // letter 삭제
-    func removeLetter(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func removeLetter(
+        letterId: String,
+        letterType: LetterType
+    ) async -> Result<Bool, any Error> {
         do {
             var removeSucceeded = false
             
@@ -349,7 +369,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             for collectionName in collectionNames {
                 do {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).delete()
+                    try await db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
+                        .document(letterId)
+                        .delete()
                     
                     removeSucceeded = true
                 } catch {
@@ -368,7 +392,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // 안읽음->읽음 update
-    func updateIsRead(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func updateIsRead(
+        letterId: String,
+        letterType: LetterType
+    ) async -> Result<Bool, any Error> {
         do {
             var updateSucceeded = false
             
@@ -390,7 +417,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             for collectionName in collectionNames {
                 do {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).setData(["isRead": true], merge: true)
+                    try await db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
+                        .document(letterId)
+                        .setData(["isRead": true], merge: true)
                     
                     updateSucceeded = true
                 } catch {
@@ -459,8 +490,15 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         guard let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists else { throw LetterSaveError.invalidFromUserDoc }
     }
     
-    private func validateLetter(userId: String, letterId: String, letterType: String) async throws {
-        let letterDoc = db.collection("Writers").document(userId).collection(letterType).document(letterId)
+    private func validateLetter(
+        userId: String,
+        letterId: String,
+        letterType: String
+    ) async throws {
+        let letterDoc = db.collection("Writers")
+            .document(userId)
+            .collection(letterType)
+            .document(letterId)
         
         let letterSnapshot = try await letterDoc.getDocument()
         guard letterSnapshot.exists else { throw LetterError.invalidLetterId }
@@ -492,7 +530,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - Firestore Letter 저장
-    private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Bool, any Error> {
+    private func saveLetterToFireStore(
+        letter: Letter,
+        fromUserId: String?,
+        toUserId: String?
+    ) async -> Result<Bool, any Error> {
         do {
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             let toUserDoc = toUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
@@ -500,10 +542,21 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             let fromUserSnapshot = fromUserDoc != nil ? try await fromUserDoc!.getDocument() : nil
             let toUserSnapshot = toUserDoc != nil ? try await toUserDoc!.getDocument() : nil
             
+            // User 검색용 필드 추가
+            let searchUser: [String] = [
+                letter.fromUserName,
+                String(letter.fromUserKabinettNumber ?? 0),
+                letter.toUserName,
+                String(letter.toUserKabinettNumber ?? 0)
+            ].compactMap { $0.lowercased() }
+                .flatMap { $0.split(separator: " ").map(String.init) }
+            
             // fromUser가 존재하고, fromUserId와 toUserId가 같은 경우 -> ToMe
             if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists && fromUserId == toUserId {
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("ToMe").addDocument(data: letterData)
                     return .success(true)
                 } catch {
@@ -519,14 +572,18 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                     var sentLetter = letter
                     sentLetter.isRead = true
                     
-                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    var letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    letterSentData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                 } catch {
                     sentSaveError = error
                 }
                 
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                 } catch {
                     receivedSaveError = error
@@ -547,7 +604,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                     var sentLetter = letter
                     sentLetter.isRead = true
                     
-                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    var letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    letterSentData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                     return .success(true)
                 } catch {
@@ -557,7 +616,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             } else if fromUserSnapshot == nil || !fromUserSnapshot!.exists,
                       let toUserSnapshot = toUserSnapshot, toUserSnapshot.exists {
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                     return .success(true)
                 } catch {
@@ -579,12 +640,17 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             var allLetters: [Letter] = []
             
             for name in collectionNames {
-                let snapshot = try await db.collection("Writers").document(userId).collection(name).getDocuments()
+                let snapshot = try await db.collection("Writers")
+                    .document(userId)
+                    .collection(name)
+                    .getDocuments()
+                
                 let letters = try snapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
                 allLetters.append(contentsOf: letters)
             }
+            allLetters.sort { $0.date > $1.date }
             
             return .success(allLetters)
         } catch {
