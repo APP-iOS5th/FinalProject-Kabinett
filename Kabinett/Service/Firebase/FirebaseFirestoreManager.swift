@@ -55,14 +55,14 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - LetterWriteUseCase
-    func saveLetter(font: String, 
+    func saveLetter(font: String,
                     postScript: String?,
                     envelope: String,
                     stamp: String,
-                    fromUserId: String?, 
+                    fromUserId: String?,
                     fromUserName: String,
                     fromUserKabinettNumber: Int?,
-                    toUserId: String?, 
+                    toUserId: String?,
                     toUserName: String,
                     toUserKabinettNumber: Int?,
                     content: [String],
@@ -115,16 +115,16 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - ComponentsUseCase
-    func saveLetter(postScript: String?, 
+    func saveLetter(postScript: String?,
                     envelope: String,
                     stamp: String,
-                    fromUserId: String?, 
+                    fromUserId: String?,
                     fromUserName: String,
                     fromUserKabinettNumber: Int?,
-                    toUserId: String?, 
+                    toUserId: String?,
                     toUserName: String,
                     toUserKabinettNumber: Int?,
-                    photoContents: [Data], 
+                    photoContents: [Data],
                     date: Date,
                     isRead: Bool
     ) async -> Result<Bool, any Error> {
@@ -264,12 +264,8 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             for collectionName in collectionNames {
                 let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
                 
-                let query = collectionRef.whereFilter(Filter.orFilter([
-                    Filter.whereField("toUserName", isEqualTo: findKeyword),
-                    Filter.whereField("fromUserName", isEqualTo: findKeyword),
-                    Filter.whereField("toUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1),
-                    Filter.whereField("fromUserKabinettNumber", isEqualTo: Int(findKeyword) ?? -1)
-                ]))
+                let query = collectionRef
+                    .whereField("searchUser", arrayContains: findKeyword)
                 
                 let snapshot = try await query.getDocuments()
                 
@@ -500,10 +496,21 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             let fromUserSnapshot = fromUserDoc != nil ? try await fromUserDoc!.getDocument() : nil
             let toUserSnapshot = toUserDoc != nil ? try await toUserDoc!.getDocument() : nil
             
+            // User 검색용 필드 추가
+            let searchUser: [String] = [
+                letter.fromUserName,
+                String(letter.fromUserKabinettNumber ?? 0),
+                letter.toUserName,
+                String(letter.toUserKabinettNumber ?? 0)
+            ].compactMap { $0.lowercased() }
+                .flatMap { $0.split(separator: " ").map(String.init) }
+            
             // fromUser가 존재하고, fromUserId와 toUserId가 같은 경우 -> ToMe
             if let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists && fromUserId == toUserId {
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("ToMe").addDocument(data: letterData)
                     return .success(true)
                 } catch {
@@ -519,14 +526,18 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                     var sentLetter = letter
                     sentLetter.isRead = true
                     
-                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    var letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    letterSentData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                 } catch {
                     sentSaveError = error
                 }
                 
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                 } catch {
                     receivedSaveError = error
@@ -547,7 +558,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                     var sentLetter = letter
                     sentLetter.isRead = true
                     
-                    let letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    var letterSentData = try Firestore.Encoder().encode(sentLetter)
+                    letterSentData["searchUser"] = searchUser
+                    
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                     return .success(true)
                 } catch {
@@ -557,7 +570,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             } else if fromUserSnapshot == nil || !fromUserSnapshot!.exists,
                       let toUserSnapshot = toUserSnapshot, toUserSnapshot.exists {
                 do {
-                    let letterData = try Firestore.Encoder().encode(letter)
+                    var letterData = try Firestore.Encoder().encode(letter)
+                    letterData["searchUser"] = searchUser
+                    
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                     return .success(true)
                 } catch {
