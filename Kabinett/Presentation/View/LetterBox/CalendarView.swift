@@ -26,7 +26,7 @@ struct CalendarView: View {
                         }
                     } label: {
                         Text("취소")
-                            .font(.system(size: 17, weight: .bold))
+                            .font(.system(size: 17))
                             .foregroundStyle(.contentPrimary)
                     }
                     
@@ -82,7 +82,9 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .tint(.contentPrimary)
+                        .padding(.horizontal, 10)
+                        .tint(.primary900)
+                        .padding(.bottom, -10)
                 }
                 
                 Divider()
@@ -122,8 +124,8 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .padding(.bottom, 15)
-                        .tint(.black)
+                        .padding(.horizontal, 10)
+                        .tint(.primary900)
                 }
             }
             .background(Color(UIColor.systemBackground))
