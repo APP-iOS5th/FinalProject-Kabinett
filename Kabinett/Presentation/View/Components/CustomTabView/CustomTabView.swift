@@ -15,6 +15,7 @@ struct CustomTabView: View {
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
+    @State private var lastSelectedTab = 0
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
@@ -27,7 +28,7 @@ struct CustomTabView: View {
                     .tag(1)
                 
                 NavigationStack(path: $paths[2]) {
-                    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+                    ProfileView()
                 }
                 .tag(2)
             }
@@ -37,11 +38,6 @@ struct CustomTabView: View {
             viewModel.setupTabBarAppearance()
         }
         .onChange(of: viewModel.selectedTab) { oldValue, newValue in
-            if newValue == oldValue {
-                resetNavigation(for: newValue)
-                print("Resetting navigation for tab: \(newValue)")
-            }
-            
             if newValue == 1 {
                 withAnimation {
                     viewModel.showOptions = true
@@ -52,7 +48,7 @@ struct CustomTabView: View {
         .overlay(
             Group {
                 if viewModel.showOptions {
-                    OptionOverlay(viewModel: viewModel)
+                    OptionOverlay()
                 }
                 CalendarOverlayView()
             }
@@ -68,21 +64,4 @@ struct CustomTabView: View {
         .environmentObject(viewModel)
         .environmentObject(imagePickerViewModel)
     }
-    
-    private func resetNavigation(for tab: Int) {
-        paths[tab] = NavigationPath()
-    }
 }
-
-
-//#Preview {
-//    CustomTabView()
-//        .environmentObject(CustomTabViewModel())
-//        .environmentObject(ImagePickerViewModel(
-//            componentsUseCase: MockComponentsUseCase(),
-//            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-//        ))
-//        .environmentObject(CalendarViewModel())
-//        .environmentObject(LetterBoxDetailViewModel())
-//        .environmentObject(LetterBoxViewModel())
-//}

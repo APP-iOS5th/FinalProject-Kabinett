@@ -11,6 +11,7 @@ import Kingfisher
 struct LetterCompletionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ImagePickerViewModel
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var envelopeURL: String = ""
     @State private var stampURL: String = ""
@@ -54,7 +55,7 @@ struct LetterCompletionView: View {
     
     private var letterPreviewView: some View {
         ZStack {
-            KFImage(URL(string: envelopeURL))
+            KFImage(URL(string: letterContent.envelopeImageUrlString))
                 .resizable()
                 .placeholder {
                     ProgressView()
@@ -87,7 +88,7 @@ struct LetterCompletionView: View {
                     }
                     .position(x: geometry.size.width - 90, y: geometry.size.height - 30)
                     
-                    KFImage(URL(string: stampURL))
+                    KFImage(URL(string: letterContent.stampImageUrlString))
                         .resizable()
                         .placeholder {
                             ProgressView()
@@ -112,8 +113,14 @@ struct LetterCompletionView: View {
         Button(action: {
             Task {
                 print("Saving letter")
-                await viewModel.saveImportingImage()
-                dismiss()
+                let success = await viewModel.saveImportingImage()
+                if success {
+                    customTabViewModel.navigateToLetterBox()
+                    customTabViewModel.selectedTab = 0
+                    dismiss()
+                } else {
+                    print("Failed to save letter")
+                }
             }
         }) {
             Text("편지 보관하기")
@@ -128,20 +135,3 @@ struct LetterCompletionView: View {
         .disabled(viewModel.isLoading)
     }
 }
-
-
-
-//#Preview {
-//    let firebaseFirestoreManager = FirebaseFirestoreManager(
-//        authManager: RealAuthManager(),
-//        writerManager: FirestoreWriterManager()
-//    )
-//
-//    return LetterCompletionView(letterContent: .constant(LetterWriteModel()))
-//        .environmentObject(ImagePickerViewModel(
-//            componentsUseCase: firebaseFirestoreManager,
-//            componentsLoadStuffUseCase: firebaseFirestoreManager,
-//            authManager: RealAuthManager(),
-//            writerManager: FirestoreWriterManager()
-//        ))
-//}

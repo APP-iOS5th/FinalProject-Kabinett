@@ -9,7 +9,6 @@ import SwiftUI
 
 final class CustomTabViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
-    @Published var tabToReset: Int? = nil
     @Published var showOptions: Bool = false
     @Published var showImportDialog: Bool = false
     @Published var showCamera: Bool = false
@@ -17,6 +16,8 @@ final class CustomTabViewModel: ObservableObject {
     @Published var showImagePreview: Bool = false
     @Published var showWriteLetterView: Bool = false
     @Published var safeAreaBottom: CGFloat = 0
+    @Published var resetLetterBox: Bool = false
+    @Published var resetProfile: Bool = false
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -26,14 +27,20 @@ final class CustomTabViewModel: ObservableObject {
     init() {
         self.envelopeImage = UIImage(systemName: "envelope")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
         self.plusImage = UIImage(systemName: "plus")!.applyingSymbolConfiguration(.init(pointSize: 24, weight: .medium))!
-        self.profileImage = UIImage(systemName: "person.crop.circle")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
+        self.profileImage = UIImage(systemName: "circle.fill")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
     }
     
     func handleTabSelection(_ tab: Int) {
         if tab == selectedTab {
-            tabToReset = tab
+            if tab == 0 {
+                resetLetterBox = true
+            } else if tab == 2 {
+                resetProfile = true
+            }
         } else if tab == 1 {
-            showOptions = true
+            withAnimation(.easeInOut(duration: 0.3)) {
+                showOptions = true
+            }
         } else {
             selectedTab = tab
         }
@@ -50,6 +57,16 @@ final class CustomTabViewModel: ObservableObject {
         
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    func navigateToLetterBox() {
+        selectedTab = 0
+        showOptions = false
+        showImportDialog = false
+        showPhotoLibrary = false
+        showCamera = false
+        showImagePreview = false
+        showWriteLetterView = false
     }
     
     // MARK: OptionOverlay sheet 관련 Method
@@ -81,7 +98,7 @@ final class CustomTabViewModel: ObservableObject {
     }
     
     // MARK: OptionOverlay Button 위치 관련 Method
-    func getSafeAreaBottom(additionalPadding: CGFloat = 25) -> CGFloat {
+    func getSafeAreaBottom(additionalPadding: CGFloat = 7.5) -> CGFloat {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let safeAreaBottom = windowScene?.windows.first?.safeAreaInsets.bottom ?? 0

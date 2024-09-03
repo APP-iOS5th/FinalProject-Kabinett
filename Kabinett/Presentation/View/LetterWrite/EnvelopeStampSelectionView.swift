@@ -142,10 +142,12 @@ struct EnvelopeStampSelectionView: View {
             }
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
-            imagePickerViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: nil)
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
+            letterContent.envelopeImageUrlString = newValue
         }
         .onChange(of: stampImageUrl) { _, newValue in
-            imagePickerViewModel.updateEnvelopeAndStamp(envelope: nil, stamp: newValue)
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
+            letterContent.stampImageUrlString = newValue
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)

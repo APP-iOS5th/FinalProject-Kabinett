@@ -55,7 +55,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
+        formatter.dateFormat = "yyyy. mm. dd "
         return formatter.string(from: date)
     }
     
@@ -190,11 +190,9 @@ final class ImagePickerViewModel: ObservableObject {
             
             if let firstEnvelope = envelopes.first {
                 self.envelopeURL = firstEnvelope
-                print("Envelope URL set to: \(firstEnvelope)")
             }
             if let firstStamp = stamps.first {
                 self.stampURL = firstStamp
-                print("Stamp URL set to: \(firstStamp)")
             }
             isLoading = false
         } catch {
@@ -205,16 +203,14 @@ final class ImagePickerViewModel: ObservableObject {
     }
     
     // MARK: - Request to Save Letter Data
-    func saveImportingImage() async {
-        await MainActor.run {
-            isLoading = true
-            error = nil
-        }
-        print("Saving letter to Firebase")
+    @MainActor
+    func saveImportingImage() async -> Bool {
+        isLoading = true
+        error = nil
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
-            envelope: envelopeURL ?? "defaultEnvelope",
-            stamp: stampURL ?? "defaultStamp",
+            envelope: envelopeURL ?? "",
+            stamp: stampURL ?? "",
             fromUserId: fromUserId,
             fromUserName: fromUserName,
             fromUserKabinettNumber: Int(userKabiNumber ?? "0"),
@@ -226,16 +222,15 @@ final class ImagePickerViewModel: ObservableObject {
             isRead: false
         )
         
-        await MainActor.run {
-            switch result {
-            case .success:
-                print("Letter saved successfully")
-                resetState()
-            case .failure(let error):
-                print("Failed to save letter: \(error)")
-                self.error = error
-            }
+        switch result {
+        case .success:
+            resetState()
             isLoading = false
+            return true
+        case .failure(let error):
+            self.error = error
+            isLoading = false
+            return false
         }
     }
     

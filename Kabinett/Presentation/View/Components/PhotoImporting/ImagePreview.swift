@@ -48,7 +48,7 @@ struct ImagePreview: View {
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
-            .sheet(isPresented: $showLetterWritingView) {
+            .fullScreenCover(isPresented: $showLetterWritingView) {
                 LetterWritingView()
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)

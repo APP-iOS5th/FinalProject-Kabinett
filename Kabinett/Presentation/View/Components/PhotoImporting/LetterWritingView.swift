@@ -49,9 +49,9 @@ struct LetterWritingView: View {
     private func dateField() -> some View {
         VStack(spacing: 10) {
             HStack(alignment: .center, spacing: 10) {
-                Text("받을/보낼 날짜")
+                Text("받은/보낸 날짜")
                     .foregroundStyle(Color.contentPrimary)
-                    .font(.system(size: 16, weight: .bold))
+                    .font(.system(size: 16))
                     .frame(width: 100, alignment: .leading)
                 
                 Button(action: {
@@ -63,7 +63,7 @@ struct LetterWritingView: View {
                         .padding(.horizontal, 15)
                         .frame(height: 40)
                         .frame(maxWidth: .infinity)
-                        .background(Color.primary300)
+                        .background(Color.contentTertiary)
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
