@@ -34,7 +34,7 @@ class LetterBoxDetailViewModel: ObservableObject {
         if findKeyword.isEmpty { return }
         
         Task { @MainActor in
-            let result = await letterBoxUseCase.searchBy(findKeyword: findKeyword, letterType: letterType)
+            let result = await letterBoxUseCase.searchBy(findKeyword: findKeyword.lowercased(), letterType: letterType)
             switch result {
             case .success(let resultLettersOfSearchKeyword):
                 self.letterBoxDetailLetters = resultLettersOfSearchKeyword ?? []
