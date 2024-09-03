@@ -17,6 +17,8 @@ final class CustomTabViewModel: ObservableObject {
     @Published var showWriteLetterView: Bool = false
     @Published var safeAreaBottom: CGFloat = 0
     
+    @Published var letterWrite: Bool = false
+    
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
     let plusImage: UIImage

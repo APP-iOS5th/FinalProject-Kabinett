@@ -49,12 +49,12 @@ struct CustomTabView: View {
         .overlay(
             Group {
                 if viewModel.showOptions {
-                    OptionOverlay(viewModel: viewModel)
+                    OptionOverlay()
                 }
                 CalendarOverlayView()
             }
         )
-        .overlay(ImportDialog(viewModel: viewModel))
+        .overlay(ImportDialog())
         .overlay(ImagePickerView())
         .fullScreenCover(isPresented: $viewModel.showCamera) {
             CameraView()

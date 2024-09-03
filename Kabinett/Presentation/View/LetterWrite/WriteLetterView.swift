@@ -14,6 +14,9 @@ struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: WriteLetterViewModel
     
+    @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
+    
     @State private var currentIndex: Int = 0
     
     var body: some View {
@@ -55,7 +58,8 @@ struct WriteLetterView: View {
                                                             }
                                                         Spacer()
                                                         Button {
-                                                            // TODO: - 이미지 피커 모달 뷰
+                                                            customViewModel.showPhotoLibrary = true
+                                                            customViewModel.letterWrite = true
                                                         } label: {
                                                             Image(systemName: "photo.on.rectangle.angled")
                                                                 .font(.system(size: 15))
@@ -126,6 +130,14 @@ struct WriteLetterView: View {
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .overlay(
+            ImagePickerView()
+        )
+        .onChange(of: imageViewModel.selectedItems) {
+            letterContent.photoContents = imageViewModel.photoContents
+            imageViewModel.photoContents = imageViewModel.photoContents
+            print(letterContent.photoContents)
+        }
     }
 }
 

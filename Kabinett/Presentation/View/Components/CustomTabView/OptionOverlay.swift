@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct OptionOverlay: View {
-    @ObservedObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
     @State private var letterContent = LetterWriteModel()
     @State private var isWritingLetter = false
-
+    
     var body: some View {
         ZStack {
             Color.black.opacity(0.5)
@@ -21,7 +21,7 @@ struct OptionOverlay: View {
                         viewModel.hideOptions()
                     }
                 }
-
+            
             VStack {
                 Spacer()
                 
