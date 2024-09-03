@@ -182,7 +182,12 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
                 return await getAllLetters(userId: userId)
             }
             
-            let snapshot = try await db.collection("Writers").document(userId).collection(collectionName).order(by: "date", descending: true).getDocuments()
+            let snapshot = try await db.collection("Writers")
+                .document(userId)
+                .collection(collectionName)
+                .order(by: "date", descending: true)
+                .getDocuments()
+            
             let letters = try snapshot.documents.compactMap { document in
                 try document.data(as: Letter.self)
             }
@@ -226,7 +231,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             
             for type in [LetterType.toMe, .received] {
                 if let collectionName = typeToCollectionName[type] {
-                    let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                    let collectionRef = db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
                     
                     let querySnapshot = try await collectionRef.whereField("isRead", isEqualTo: false).getDocuments()
                     result[type] = querySnapshot.documents.count
@@ -265,7 +272,9 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             }
             
             for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
+                let collectionRef = db.collection("Writers")
+                    .document(userId)
+                    .collection(collectionName)
                 
                 let query = collectionRef
                     .whereField("searchUser", arrayContains: findKeyword)
@@ -310,11 +319,16 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             }
             
             for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers").document(userId).collection(collectionName)
-                let querySnapshot = try await collectionRef.whereField("date", isGreaterThan: startDate)
+                let collectionRef = db.collection("Writers")
+                    .document(userId)
+                    .collection(collectionName)
+                
+                let querySnapshot = try await collectionRef
+                    .whereField("date", isGreaterThan: startDate)
                     .whereField("date", isLessThan: endDate)
                     .order(by: "date", descending: true)
                     .getDocuments()
+                
                 let fetchedLetters = try querySnapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
@@ -355,7 +369,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             for collectionName in collectionNames {
                 do {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).delete()
+                    try await db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
+                        .document(letterId)
+                        .delete()
                     
                     removeSucceeded = true
                 } catch {
@@ -399,7 +417,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             for collectionName in collectionNames {
                 do {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers").document(userId).collection(collectionName).document(letterId).setData(["isRead": true], merge: true)
+                    try await db.collection("Writers")
+                        .document(userId)
+                        .collection(collectionName)
+                        .document(letterId)
+                        .setData(["isRead": true], merge: true)
                     
                     updateSucceeded = true
                 } catch {
@@ -473,7 +495,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         letterId: String,
         letterType: String
     ) async throws {
-        let letterDoc = db.collection("Writers").document(userId).collection(letterType).document(letterId)
+        let letterDoc = db.collection("Writers")
+            .document(userId)
+            .collection(letterType)
+            .document(letterId)
         
         let letterSnapshot = try await letterDoc.getDocument()
         guard letterSnapshot.exists else { throw LetterError.invalidLetterId }
@@ -615,12 +640,17 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             var allLetters: [Letter] = []
             
             for name in collectionNames {
-                let snapshot = try await db.collection("Writers").document(userId).collection(name).getDocuments()
+                let snapshot = try await db.collection("Writers")
+                    .document(userId)
+                    .collection(name)
+                    .getDocuments()
+                
                 let letters = try snapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
                 allLetters.append(contentsOf: letters)
             }
+            allLetters.sort { $0.date > $1.date }
             
             return .success(allLetters)
         } catch {
