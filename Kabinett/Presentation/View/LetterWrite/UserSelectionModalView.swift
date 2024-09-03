@@ -69,7 +69,12 @@ struct UserSelectionModalView: View {
                                         .underline()
                                         .padding(.top, 20)
                                         .sheet(isPresented: $viewModel.showModal) {
-                                            LetterWriteLoginView()
+                                            LoginView()
+                                                .onAppear {
+                                                    Task {
+                                                        await viewModel.getCurrentWriter()
+                                                    }
+                                                }
                                         }
                                     }
                                 }
@@ -230,25 +235,5 @@ struct SearchBar: View {
         .padding(.top, 2)
         .background(viewModel.debouncedSearchText.isEmpty ? Color.clear : Color.white)
         .cornerRadius(16)
-    }
-}
-
-struct LetterWriteLoginView: View {
-    @EnvironmentObject var viewModel : UserSelectionViewModel
-    
-    var body: some View {
-        ZStack (alignment: .topTrailing) {
-            LoginView()
-            Button("완료") {
-                viewModel.showModal = false
-                Task {
-                    await viewModel.getCurrentWriter()
-                }
-            }
-            .buttonStyle(.plain)
-            .padding([.top, .trailing], 24)
-            .background(Color(.background))
-            .foregroundStyle(Color(.black))
-        }
     }
 }
