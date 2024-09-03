@@ -33,6 +33,8 @@ struct ImagePickerView: View {
             }
             .sheet(isPresented: $customViewModel.showImagePreview) {
                 ImagePreview()
+                    .environmentObject(imageViewModel)
+                    .environmentObject(customViewModel)
             }
     }
 }

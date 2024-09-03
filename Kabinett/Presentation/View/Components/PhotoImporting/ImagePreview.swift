@@ -10,6 +10,7 @@ import SwiftUI
 struct ImagePreview: View {
     @EnvironmentObject var customViewModel: CustomTabViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
@@ -51,6 +52,7 @@ struct ImagePreview: View {
                 LetterWritingView()
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
+                    .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
         }

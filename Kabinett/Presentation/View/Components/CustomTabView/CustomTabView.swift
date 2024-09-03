@@ -14,19 +14,22 @@ struct CustomTabView: View {
     @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-    
-    
+    @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                LetterBoxView()
-                    .tag(0)
+                NavigationStack(path: $paths[0]) {
+                    LetterBoxView()
+                }
+                .tag(0)
                 
                 Color.clear
                     .tag(1)
                 
-                ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-                    .tag(2)
+                NavigationStack(path: $paths[2]) {
+                    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
+                }
+                .tag(2)
             }
             .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
         }
@@ -34,17 +37,16 @@ struct CustomTabView: View {
             viewModel.setupTabBarAppearance()
         }
         .onChange(of: viewModel.selectedTab) { oldValue, newValue in
+            if newValue == oldValue {
+                resetNavigation(for: newValue)
+                print("Resetting navigation for tab: \(newValue)")
+            }
+            
             if newValue == 1 {
                 withAnimation {
                     viewModel.showOptions = true
                 }
                 viewModel.selectedTab = oldValue
-            } else {
-                if newValue == 0 {
-                    //                             LetterBoxViewState.reset()
-                } else if newValue == 2 {
-                    //                            ProfileViewState.reset()
-                }
             }
         }
         .overlay(
@@ -65,9 +67,13 @@ struct CustomTabView: View {
         }
         .environmentObject(viewModel)
         .environmentObject(imagePickerViewModel)
-        
+    }
+    
+    private func resetNavigation(for tab: Int) {
+        paths[tab] = NavigationPath()
     }
 }
+
 
 //#Preview {
 //    CustomTabView()

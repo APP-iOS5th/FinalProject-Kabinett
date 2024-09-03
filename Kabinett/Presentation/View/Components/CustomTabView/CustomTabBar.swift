@@ -30,7 +30,7 @@ struct CustomTabBar: View {
     
     private func tabItem(image: UIImage, tag: Int) -> some View {
         Button(action: {
-            viewModel.selectedTab = tag
+            viewModel.handleTabSelection(tag)
         }) {
             Image(uiImage: image)
                 .renderingMode(.template)

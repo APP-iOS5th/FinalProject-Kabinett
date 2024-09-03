@@ -9,6 +9,7 @@ import SwiftUI
 
 final class CustomTabViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
+    @Published var tabToReset: Int? = nil
     @Published var showOptions: Bool = false
     @Published var showImportDialog: Bool = false
     @Published var showCamera: Bool = false
@@ -26,6 +27,16 @@ final class CustomTabViewModel: ObservableObject {
         self.envelopeImage = UIImage(systemName: "envelope")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
         self.plusImage = UIImage(systemName: "plus")!.applyingSymbolConfiguration(.init(pointSize: 24, weight: .medium))!
         self.profileImage = UIImage(systemName: "person.crop.circle")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
+    }
+    
+    func handleTabSelection(_ tab: Int) {
+        if tab == selectedTab {
+            tabToReset = tab
+        } else if tab == 1 {
+            showOptions = true
+        } else {
+            selectedTab = tab
+        }
     }
     
     func setupTabBarAppearance() {

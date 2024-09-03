@@ -140,7 +140,8 @@ struct KabinettApp: App {
         _imagePickerViewModel = .init(
             wrappedValue: ImagePickerViewModel(
                 componentsUseCase: firebaseFirestoreManager,
-                componentsLoadStuffUseCase: firebaseStorageManager
+                componentsLoadStuffUseCase: firebaseStorageManager,
+                firebaseFirestoreManager: firebaseFirestoreManager
             )
         )
         _customTabViewModel = .init(
@@ -190,6 +191,7 @@ struct KabinettApp: App {
                 .environmentObject(userSelectionViewModel)
                 .environmentObject(stationerySelectionViewModel)
                 .environmentObject(fontSelectionViewModel)
+                .environmentObject(writerLetterViewModel)
                 .environmentObject(writerLetterViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
                 .environmentObject(letterWritePreviewViewModel)

@@ -11,17 +11,18 @@ import Kingfisher
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     @State private var postScriptText: String = ""
     
-    init(letterContent: Binding<LetterWriteViewModel>) {
-            self._letterContent = letterContent
-            _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
-            _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
-            _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
-        }
+    init(letterContent: Binding<LetterWriteModel>) {
+        self._letterContent = letterContent
+        _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
+        _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+        _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
+    }
     
     var body: some View {
         ZStack {
@@ -133,8 +134,19 @@ struct EnvelopeStampSelectionView: View {
             }
         }
         .onAppear {
-                    postScriptText = letterContent.postScript ?? ""
-                }
+            postScriptText = letterContent.postScript ?? ""
+            Task {
+                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
+                stampImageUrl = imagePickerViewModel.stampURL ?? ""
+            }
+        }
+        .onChange(of: envelopeImageUrl) { _, newValue in
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: nil)
+        }
+        .onChange(of: stampImageUrl) { _, newValue in
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: nil, stamp: newValue)
+        }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }
