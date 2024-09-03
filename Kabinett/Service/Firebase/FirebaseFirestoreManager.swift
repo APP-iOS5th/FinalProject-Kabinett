@@ -242,7 +242,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // keyword 기준 letter 검색
-    func searchBy(findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
+    func searchBy(
+        findKeyword: String,
+        letterType: LetterType
+    ) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
@@ -283,7 +286,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // date 기준 letter 검색
-    func searchBy(letterType: LetterType, startDate: Date, endDate: Date) async -> Result<[Letter]?, any Error> {
+    func searchBy(
+        letterType: LetterType,
+        startDate: Date,
+        endDate: Date
+    ) async -> Result<[Letter]?, any Error> {
         var letters: [Letter] = []
         
         do {
@@ -323,7 +330,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // letter 삭제
-    func removeLetter(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func removeLetter(
+        letterId: String,
+        letterType: LetterType
+    ) async -> Result<Bool, any Error> {
         do {
             var removeSucceeded = false
             
@@ -364,7 +374,10 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // 안읽음->읽음 update
-    func updateIsRead(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
+    func updateIsRead(
+        letterId: String,
+        letterType: LetterType
+    ) async -> Result<Bool, any Error> {
         do {
             var updateSucceeded = false
             
@@ -455,7 +468,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         guard let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists else { throw LetterSaveError.invalidFromUserDoc }
     }
     
-    private func validateLetter(userId: String, letterId: String, letterType: String) async throws {
+    private func validateLetter(
+        userId: String,
+        letterId: String,
+        letterType: String
+    ) async throws {
         let letterDoc = db.collection("Writers").document(userId).collection(letterType).document(letterId)
         
         let letterSnapshot = try await letterDoc.getDocument()
@@ -488,7 +505,11 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
     }
     
     // MARK: - Firestore Letter 저장
-    private func saveLetterToFireStore(letter: Letter, fromUserId: String?, toUserId: String?) async -> Result<Bool, any Error> {
+    private func saveLetterToFireStore(
+        letter: Letter,
+        fromUserId: String?,
+        toUserId: String?
+    ) async -> Result<Bool, any Error> {
         do {
             let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
             let toUserDoc = toUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
