@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 import Kingfisher
+import PhotosUI
 
 struct WriteLetterView: View {
     @Binding var letterContent: LetterWriteModel
@@ -40,7 +41,7 @@ struct WriteLetterView: View {
                                                         Image(systemName: "arrow.down.circle.dotted")
                                                     }
                                                     .resizable()
-                                                    .shadow(radius: 5, x: 5, y: 5)
+                                                    .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
                                                     .padding(.top, 10)
                                                 
                                                 
@@ -53,8 +54,8 @@ struct WriteLetterView: View {
                                                                 UIApplication.shared.endEditing()
                                                             }
                                                         Spacer()
-                                                        NavigationLink {
-                                                            
+                                                        Button {
+                                                            // TODO: - 이미지 피커 모달 뷰
                                                         } label: {
                                                             Image(systemName: "photo.on.rectangle.angled")
                                                                 .font(.system(size: 15))
@@ -74,7 +75,7 @@ struct WriteLetterView: View {
                                                                          height: $viewModel.textViewHeights[i],
                                                                          maxWidth: geo.size.width,
                                                                          maxHeight: UIScreen.main.bounds.height * 0.42,
-                                                                         font: UIFont(name: letterContent.fontString ?? "", size: 13) ?? UIFont.systemFont(ofSize: 13))
+                                                                         font: viewModel.selectedFont(font: letterContent.fontString ?? ""))
                                                         .onChange(of: viewModel.textViewHeights[i]) {
                                                             if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
                                                                 viewModel.createNewLetter()
@@ -87,13 +88,12 @@ struct WriteLetterView: View {
                                                             letterContent.content[0] = viewModel.texts[0]
                                                         }
                                                     }
-                                                    
-                                                    Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
+                                                    Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                                         .padding(.top, 2)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                                     
-                                                    Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                                    Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
                                                         .padding(.bottom, 27)
                                                         .padding(.trailing, 2)
                                                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -102,7 +102,7 @@ struct WriteLetterView: View {
                                                 
                                             }
                                             .aspectRatio(9/13, contentMode: .fit)
-                                            .frame(width: UIScreen.main.bounds.width * 0.84)
+                                            .frame(width: UIScreen.main.bounds.width * 0.88)
                                             .id(i)
                                         }
                                     }
@@ -112,7 +112,7 @@ struct WriteLetterView: View {
                             }
                             .scrollTargetBehavior(.viewAligned)
                             .frame(height: geometry.size.height * 0.7)
-                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 13))
+                            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 15))
                             .onChange(of: viewModel.texts.count) {
                                 withAnimation {
                                     currentIndex = viewModel.texts.count - 1

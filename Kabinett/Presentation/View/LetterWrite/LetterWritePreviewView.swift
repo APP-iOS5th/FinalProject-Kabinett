@@ -33,7 +33,7 @@ struct LetterWritePreviewView: View {
                     ZStack(alignment: .topLeading) {
                         KFImage(URL(string: letterContent.envelopeImageUrlString))
                             .resizable()
-                            .shadow(radius: 5, x: 5, y: 5)
+                            .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
                         
                         VStack {
                             HStack(alignment: .top) {

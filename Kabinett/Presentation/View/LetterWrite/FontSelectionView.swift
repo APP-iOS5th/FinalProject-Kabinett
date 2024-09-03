@@ -39,7 +39,7 @@ struct FontSelectionView: View {
                                     TextField(
                                         "",
                                         text: $viewModel.testFontText[i],
-                                        prompt: Text("텍스트를 입력해보세요. Write Someting...").foregroundColor(Color.black)
+                                        prompt: Text("텍스트를 입력해보세요. Write Something...").foregroundColor(Color.black)
                                     )
                                     .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
                                     .padding(.leading, 6)

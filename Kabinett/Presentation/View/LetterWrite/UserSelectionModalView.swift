@@ -64,7 +64,7 @@ struct UserSelectionModalView: View {
                                         }
                                         .buttonStyle(.plain)
                                         .foregroundStyle(Color("ContentPrimary"))
-                                        .font(.system(size: 13))
+                                        .font(.system(size: 15))
                                         .bold()
                                         .underline()
                                         .padding(.top, 20)
@@ -187,9 +187,6 @@ struct SearchBar: View {
                         .foregroundStyle(Color("Primary900"))
                     
                     ForEach(viewModel.usersData) { user in
-                        //                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
-                        //                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
-                        //                    }, id: \.kabinettNumber) { user in
                         HStack {
                             if let profileImage = user.profileImage {
                                 AsyncImage(url: URL(string: profileImage)) { image in
