@@ -439,6 +439,26 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
         }
     }
     
+    func getWelcomeLetter() async -> Result<Bool, any Error> {
+        do {
+            let userId = try await getCurrentUserId()
+            
+            let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
+            
+            for document in querySnapshot.documents {
+                let letterData = document.data()
+                try await db.collection("Writers")
+                    .document(userId)
+                    .collection("Received")
+                    .addDocument(data: letterData)
+            }
+            
+            return .success(true)
+        } catch {
+            return .failure(error)
+        }
+    }
+    
     // TODO: - Refactor this codes
     func findWriter(by query: String) async -> [Writer] {
         do {
