@@ -69,12 +69,7 @@ struct UserSelectionModalView: View {
                                         .underline()
                                         .padding(.top, 20)
                                         .sheet(isPresented: $viewModel.showModal) {
-                                            LoginView()
-                                                .onAppear {
-                                                    Task {
-                                                        await viewModel.getCurrentWriter()
-                                                    }
-                                                }
+                                            LetterWriteLoginView()
                                         }
                                     }
                                 }
@@ -152,7 +147,7 @@ struct SearchBar: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var searchText: String
     @ObservedObject var viewModel: UserSelectionViewModel
-
+    
     var body: some View {
         VStack {
             HStack {
@@ -190,11 +185,11 @@ struct SearchBar: View {
                         .padding(.leading, 35)
                         .listRowSeparator(.hidden)
                         .foregroundStyle(Color("Primary900"))
-
+                    
                     ForEach(viewModel.usersData) { user in
-//                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
-//                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
-//                    }, id: \.kabinettNumber) { user in
+                        //                        user.name.lowercased().contains(viewModel.debouncedSearchText.lowercased()) ||
+                        //                        String(format: "%06d", user.kabinettNumber).hasPrefix(viewModel.debouncedSearchText)
+                        //                    }, id: \.kabinettNumber) { user in
                         HStack {
                             if let profileImage = user.profileImage {
                                 AsyncImage(url: URL(string: profileImage)) { image in
@@ -235,5 +230,18 @@ struct SearchBar: View {
         .padding(.top, 2)
         .background(viewModel.debouncedSearchText.isEmpty ? Color.clear : Color.white)
         .cornerRadius(16)
+    }
+}
+
+struct LetterWriteLoginView: View {
+    @EnvironmentObject var viewModel : UserSelectionViewModel
+    
+    var body: some View {
+        ZStack (alignment: .topTrailing) {
+            LoginView()
+            Rectangle()
+                .frame(width: 100, height: 100)
+                .foregroundStyle(Color(.background))
+        }
     }
 }

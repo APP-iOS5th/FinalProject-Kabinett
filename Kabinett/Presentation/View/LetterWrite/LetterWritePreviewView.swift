@@ -121,14 +121,13 @@ struct LetterWritePreviewView: View {
                         fontSelectionViewModel.reset()
                         writerLetterViewModel.reset()
                         envelopStampSelectionViewModel.reset()
-                        // TODO - 처음 화면으로 돌아가기
                         customTabViewModel.hideOptions()
                     } label: {
                         Text("편지 보내기")
                             .font(.system(size: 15))
                             .foregroundStyle(Color.white)
+                            .frame(maxWidth: .infinity, minHeight: 56)
                     }
-                    .frame(maxWidth: .infinity, minHeight: 56)
                     .background(Color("Primary900"))
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
