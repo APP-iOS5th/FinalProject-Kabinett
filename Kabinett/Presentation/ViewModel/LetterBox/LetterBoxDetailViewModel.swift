@@ -34,7 +34,7 @@ class LetterBoxDetailViewModel: ObservableObject {
         if findKeyword.isEmpty { return }
         
         Task { @MainActor in
-            let result = await letterBoxUseCase.searchBy(findKeyword: findKeyword, letterType: letterType)
+            let result = await letterBoxUseCase.searchBy(findKeyword: findKeyword.lowercased(), letterType: letterType)
             switch result {
             case .success(let resultLettersOfSearchKeyword):
                 self.letterBoxDetailLetters = resultLettersOfSearchKeyword ?? []
@@ -45,6 +45,10 @@ class LetterBoxDetailViewModel: ObservableObject {
     }
     
     func fetchSearchByDate(letterType: LetterType, startDate: Date, endDate: Date) {
+        let calendar = Calendar.current
+        let startDate = calendar.startOfDay(for: startDate)
+        let endDate = calendar.date(byAdding: .day, value: 1, to: calendar.startOfDay(for: endDate)) ?? endDate
+        
         Task { @MainActor in
             let result = await letterBoxUseCase.searchBy(letterType: letterType, startDate: startDate, endDate: endDate)
             switch result {
