@@ -46,14 +46,28 @@ struct WriteLetterView: View {
                                                 
                                                 // 편지지 위의 뷰
                                                 VStack {
-                                                    Text(i == 0 ? letterContent.fromUserName : "")
-                                                        .padding(.top, 45)
-                                                        .padding(.leading, 2)
-                                                        .padding(.bottom, 3)
-                                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                                        .onTapGesture {
-                                                            UIApplication.shared.endEditing()
+                                                    HStack {
+                                                        Text(i == 0 ? letterContent.fromUserName : "")
+                                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                                            .onTapGesture {
+                                                                UIApplication.shared.endEditing()
+                                                            }
+                                                        Spacer()
+                                                        NavigationLink {
+                                                            
+                                                        } label: {
+                                                            Image(systemName: "photo.on.rectangle.angled")
+                                                                .font(.system(size: 15))
+                                                                .padding(.horizontal, 13)
+                                                                .padding(.vertical, 8)
+                                                                .foregroundStyle(Color(.primary900))
+                                                                .background(Color(.primary300))
+                                                                .clipShape(Capsule())
                                                         }
+                                                    }
+                                                    .padding(.top, 45)
+                                                    .padding(.leading, 2)
+                                                    .padding(.bottom, 3)
                                                     
                                                     GeometryReader { geo in
                                                         CustomTextEditor(text: $viewModel.texts[i],
@@ -88,7 +102,7 @@ struct WriteLetterView: View {
                                                 
                                             }
                                             .aspectRatio(9/13, contentMode: .fit)
-                                            .frame(width: UIScreen.main.bounds.width * 0.88)
+                                            .frame(width: UIScreen.main.bounds.width * 0.84)
                                             .id(i)
                                         }
                                     }
