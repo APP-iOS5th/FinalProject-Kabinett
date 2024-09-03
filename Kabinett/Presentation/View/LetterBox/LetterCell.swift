@@ -30,7 +30,7 @@ struct LetterCell: View {
                 
                 GeometryReader { geometry in
                     ZStack {
-                        ForEach(0..<totalPageCount, id: \.self) { index in
+                        ForEach(0..<max(totalPageCount, 1), id: \.self) { index in
                             if index == selectedIndex || index == selectedIndex + 1 {
                                 createPageView(index: index, geometry: geometry)
                                     .offset(x: CGFloat(index - selectedIndex) * 10, y: CGFloat(index - selectedIndex) * 10)
@@ -60,12 +60,13 @@ struct LetterCell: View {
     
     @ViewBuilder
     private func createPageView(index: Int, geometry: GeometryProxy) -> some View {
-        if index < letter.content.count {
+        
+        if letter.content.isEmpty || index < letter.content.count {
             ContentRectangleView(
                 stationeryImageUrlString: letter.stationeryImageUrlString,
                 fromUserName: letter.fromUserName,
                 toUserName: letter.toUserName,
-                letterContent: letter.content[index].isEmpty ? " " : letter.content[index],
+                letterContent: letter.content.isEmpty ? " " : letter.content[index].isEmpty ? " " : letter.content[index],
                 fontString: letter.fontString ?? "SFDisplay",
                 date: letter.date,
                 currentPageIndex: index,
