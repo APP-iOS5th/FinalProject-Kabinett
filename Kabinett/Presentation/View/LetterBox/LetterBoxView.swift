@@ -57,6 +57,7 @@ struct LetterBoxView: View {
                                         }
                                     }
                                 }
+                                .padding(.bottom, 65)
                         }
                     }
                 }
