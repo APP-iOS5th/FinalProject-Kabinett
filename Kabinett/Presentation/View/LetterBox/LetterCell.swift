@@ -10,7 +10,7 @@ import Kingfisher
 
 struct LetterCell: View {
     @State private var selectedIndex: Int = 0
-    @Binding var letter: Letter
+    var letter: Letter
     
     @Environment(\.dismiss) private var dismiss
 
