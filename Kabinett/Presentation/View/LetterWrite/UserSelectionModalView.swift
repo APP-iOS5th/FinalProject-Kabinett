@@ -20,68 +20,66 @@ struct UserSelectionModalView: View {
                         UIApplication.shared.endEditing()
                     }
                 
-                GeometryReader { geometry in
-                    VStack {
-                        HStack {
-                            Spacer()
-                            Button("완료") {
-                                letterContent.fromUserId = viewModel.fromUser?.id
-                                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                                letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                                if letterContent.toUserId == "" {
-                                    viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
-                                }
-                                letterContent.toUserId = viewModel.toUser?.id
-                                letterContent.toUserName = viewModel.toUser?.name ?? ""
-                                letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-                                
-                                letterContent.date = Date()
-                                presentation.wrappedValue.dismiss()
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button("완료") {
+                            letterContent.fromUserId = viewModel.fromUser?.id
+                            letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+                            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+                            if letterContent.toUserId == "" {
+                                viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
                             }
+                            letterContent.toUserId = viewModel.toUser?.id
+                            letterContent.toUserName = viewModel.toUser?.name ?? ""
+                            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+                            
+                            letterContent.date = Date()
+                            presentation.wrappedValue.dismiss()
                         }
-                        .foregroundStyle(.black)
-                        
-                        FormToUser(letterContent: $letterContent, viewModel: viewModel)
-                        
-                        HStack {
-                            if viewModel.checkLogin {
-                                Spacer(minLength: 95)
-                                VStack {
-                                    SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
-                                }
-                            } else {
-                                Spacer(minLength: 65)
-                                VStack {
-                                    Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
-                                        .font(.system(size: 12))
-                                        .lineSpacing(5)
-                                        .foregroundStyle(Color("ContentSecondary"))
-                                        .bold()
-                                    HStack {
-                                        Spacer()
-                                        Button("로그인하기") {
-                                            viewModel.showModal = true
-                                        }
-                                        .buttonStyle(.plain)
-                                        .foregroundStyle(Color("ContentPrimary"))
-                                        .font(.system(size: 15))
-                                        .bold()
-                                        .underline()
-                                        .padding(.top, 20)
-                                        .sheet(isPresented: $viewModel.showModal) {
-                                            LetterWriteLoginView()
-                                        }
+                    }
+                    .foregroundStyle(.black)
+                    
+                    FormToUser(letterContent: $letterContent, viewModel: viewModel)
+                    
+                    HStack {
+                        if viewModel.checkLogin {
+                            Spacer(minLength: 95)
+                            VStack {
+                                SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
+                            }
+                        } else {
+                            Spacer(minLength: 65)
+                            VStack {
+                                Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요")
+                                    .font(.system(size: 12))
+                                    .lineSpacing(5)
+                                    .foregroundStyle(Color("ContentSecondary"))
+                                    .bold()
+                                HStack {
+                                    Spacer()
+                                    Button("로그인하기") {
+                                        viewModel.showModal = true
+                                    }
+                                    .buttonStyle(.plain)
+                                    .foregroundStyle(Color("ContentPrimary"))
+                                    .font(.system(size: 15))
+                                    .bold()
+                                    .underline()
+                                    .padding(.top, 20)
+                                    .sheet(isPresented: $viewModel.showModal) {
+                                        LetterWriteLoginView()
                                     }
                                 }
-                                Spacer()
                             }
+                            Spacer()
                         }
-                        .padding(.top, 1)
-                        Spacer()
                     }
-                    .padding(.horizontal, geometry.size.width * 0.06)
-                    .padding(.top, 24)
+                    .padding(.top, 1)
+                    Spacer()
                 }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                .padding(.top, 24)
             }
         }
     }

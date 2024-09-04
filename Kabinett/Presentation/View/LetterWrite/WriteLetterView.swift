@@ -16,19 +16,17 @@ struct WriteLetterView: View {
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color(.background).ignoresSafeArea()
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
             
-            GeometryReader { geometry in
-                VStack {
-                    NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
-                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                    
-                    ScrollableLetterView(letterContent: $letterContent, geometry: geometry)
-                }
+            VStack {
+                NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                
+                ScrollableLetterView(letterContent: $letterContent)
             }
         }
         .navigationBarBackButtonHidden()
@@ -53,13 +51,11 @@ struct ScrollableLetterView: View {
     @EnvironmentObject var viewModel: WriteLetterViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
     
-    var geometry: GeometryProxy
-    
     var body: some View {
         ScrollViewReader { scrollViewProxy in
             ZStack {
                 ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: geometry.size.width * 0.04) {
+                    LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
                         ForEach(0..<viewModel.texts.count, id: \.self) { i in
                             ZStack {
                                 KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
@@ -138,7 +134,7 @@ struct ScrollableLetterView: View {
                 .scrollTargetLayout()
             }
             .scrollTargetBehavior(.viewAligned)
-            .frame(height: geometry.size.height * 0.7)
+            .frame(height: UIScreen.main.bounds.height * 0.7)
             .font(.custom(letterContent.fontString ?? "SFDisplay", size: 15))
             .onChange(of: viewModel.texts.count) {
                 withAnimation {

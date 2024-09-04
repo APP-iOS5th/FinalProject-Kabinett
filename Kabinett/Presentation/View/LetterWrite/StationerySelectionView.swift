@@ -16,36 +16,34 @@ struct StationerySelectionView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                GeometryReader { geometry in
-                    Color(.background).ignoresSafeArea()
+                Color(.background).ignoresSafeArea()
+                
+                VStack {
+                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
                     
-                    VStack {
-                        NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
-                        
-                        List {
-                            ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
-                                HStack {
-                                    ForEach(0..<2, id: \.self) { columnIndex in
-                                        let index = stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)
-                                        StationeryCell(
-                                            index: index,
-                                            rowIndex: rowIndex,
-                                            columnIndex: columnIndex,
-                                            letterContent: $letterContent,
-                                            stationerySelectionViewModel: stationerySelectionViewModel
-                                        )
-                                    }
+                    List {
+                        ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
+                            HStack {
+                                ForEach(0..<2, id: \.self) { columnIndex in
+                                    let index = stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)
+                                    StationeryCell(
+                                        index: index,
+                                        rowIndex: rowIndex,
+                                        columnIndex: columnIndex,
+                                        letterContent: $letterContent,
+                                        stationerySelectionViewModel: stationerySelectionViewModel
+                                    )
                                 }
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
-                                .listRowInsets(EdgeInsets())
                             }
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
                         }
-                        .listStyle(.plain)
-                        .padding([.leading, .trailing], -10)
                     }
-                    .padding(.horizontal, geometry.size.width * 0.06)
+                    .listStyle(.plain)
+                    .padding([.leading, .trailing], -10)
                 }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
             .navigationBarBackButtonHidden()
             .sheet(isPresented: $stationerySelectionViewModel.showModal) {
@@ -73,7 +71,7 @@ struct StationeryCell: View {
     let columnIndex: Int
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var stationerySelectionViewModel: StationerySelectionViewModel
-
+    
     var body: some View {
         ZStack(alignment: .topTrailing) {
             if stationerySelectionViewModel.stationerys.indices.contains(index) {
@@ -92,7 +90,7 @@ struct StationeryCell: View {
             } else {
                 EmptyView()
             }
-
+            
             if stationerySelectionViewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
                 Image("checked")
                     .resizable()
