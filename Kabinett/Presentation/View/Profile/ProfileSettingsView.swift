@@ -9,7 +9,7 @@ import SwiftUI
 import PhotosUI
 
 struct ProfileSettingsView: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
     var onComplete: () -> Void
@@ -61,12 +61,6 @@ struct ProfileSettingsView: View {
                 ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
             }
         }
-        .onDisappear {
-            if !viewModel.isProfileUpdated {
-                viewModel.croppedImage = nil
-            }
-            viewModel.selectedImageItem = nil
-        }
     }
     @ViewBuilder
     private func photoPickerView() -> some View {
@@ -110,7 +104,7 @@ struct ProfileSettingsView: View {
                 .font(Font.system(size: 25, design: .default))
                 .padding(.bottom, 10)
             
-            Text(viewModel.formattedKabinettNumber)
+            Text(viewModel.currentWriter.formattedNumber)
                 .fontWeight(.light)
                 .font(.system(size: 16))
                 .monospaced()
