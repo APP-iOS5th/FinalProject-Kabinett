@@ -50,12 +50,18 @@ extension DefaultProfileUseCase: ProfileUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
-            return await writerManager.getWriterDocument(with: user.uid)
-        } else {
-            return .anonymousWriter
-        }
+    func getCurrentWriterPublisher() async -> AnyPublisher<Writer, Never> {
+        authManager
+            .getCurrentUser()
+            .compactMap { $0 }
+            .asyncMap { [weak self] user in
+                if user.isAnonymous { return .anonymousWriter }
+                else {
+                    return await self?.writerManager.getWriterDocument(with: user.uid)
+                }
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
     
     func getAppleID() async -> String {
@@ -108,6 +114,14 @@ private extension DefaultProfileUseCase {
             return .incomplete
         } else {
             return .registered
+        }
+    }
+    
+    func getCurrentWriter() async -> Writer {
+        if let user = authManager.getCurrentUser() {
+            return await writerManager.getWriterDocument(with: user.uid)
+        } else {
+            return .anonymousWriter
         }
     }
 }
