@@ -84,10 +84,15 @@ class UserSelectionViewModel: ObservableObject {
     
     @MainActor
     func getCurrentWriter() async {
-        let result = await useCase.getCurrentWriter()
-        self.fromUser = result
-        self.userKabiNumber = result.kabinettNumber
-        updateFromUser()
+        let publisher = await useCase.getCurrentWriter()
+        
+        for await writer in publisher.values {
+            print("update!!", writer)
+            self.fromUser = writer
+            self.userKabiNumber = writer.kabinettNumber
+            updateFromUser()
+        }
+        
     }
     
     @MainActor
