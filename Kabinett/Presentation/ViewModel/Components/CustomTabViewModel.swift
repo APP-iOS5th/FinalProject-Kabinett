@@ -15,7 +15,6 @@ final class CustomTabViewModel: ObservableObject {
     @Published var showPhotoLibrary: Bool = false
     @Published var showImagePreview: Bool = false
     @Published var showWriteLetterView: Bool = false
-    @Published var safeAreaBottom: CGFloat = 0
     @Published var resetLetterBox: Bool = false
     @Published var resetProfile: Bool = false
     

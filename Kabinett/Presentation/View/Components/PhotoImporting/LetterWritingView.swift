@@ -10,11 +10,11 @@ import SwiftUI
 struct LetterWritingView: View {
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
-    @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @Environment(\.dismiss) var dismiss
+    @State private var letterWriteViewModel = LetterWriteModel()
     @State private var showEnvelopeStampSelection = false
     @State private var showCalendar = false
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         NavigationStack {

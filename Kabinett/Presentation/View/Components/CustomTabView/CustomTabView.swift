@@ -11,11 +11,11 @@ import PhotosUI
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @State private var letterWriteViewModel = LetterWriteModel()
     @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
-    @State private var lastSelectedTab = 0
+    
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {

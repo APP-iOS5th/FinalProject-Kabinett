@@ -37,8 +37,6 @@ struct LetterCompletionView: View {
                 await viewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeURL = viewModel.envelopeURL ?? letterContent.envelopeImageUrlString
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
-                print("Envelope URL: \(envelopeURL)")
-                print("Stamp URL: \(stampURL)")
             }
         }
     }
@@ -112,7 +110,6 @@ struct LetterCompletionView: View {
     private var saveButton: some View {
         Button(action: {
             Task {
-                print("Saving letter")
                 let success = await viewModel.saveImportingImage()
                 if success {
                     customTabViewModel.navigateToLetterBox()

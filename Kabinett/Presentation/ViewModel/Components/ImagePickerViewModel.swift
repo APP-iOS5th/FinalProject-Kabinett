@@ -13,8 +13,6 @@ final class ImagePickerViewModel: ObservableObject {
     
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var photoContents: [Data] = []
-    @Published var isLoading: Bool = false
-    @Published var error: Error?
     @Published var fromUserName: String = ""
     @Published var toUserName: String = ""
     @Published var date: Date = Date()
@@ -34,6 +32,8 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var toUserId: String?
     @Published var searchText: String = ""
     @Published var checkLogin: Bool = false
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
