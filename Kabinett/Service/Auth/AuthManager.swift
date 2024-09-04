@@ -109,7 +109,7 @@ final class AuthManager {
         }
     }
     
-    func signUp(user: User) {
+    func updateUser(_ user: User) {
         currentUserSubject.send(user)
     }
 

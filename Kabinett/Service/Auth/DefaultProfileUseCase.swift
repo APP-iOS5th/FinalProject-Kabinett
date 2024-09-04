@@ -88,10 +88,17 @@ extension DefaultProfileUseCase: ProfileUseCase {
             profileImage: imageUrlString
         )
         
-        return writerManager.saveWriterDocument(
+        let result = writerManager.saveWriterDocument(
             with: updatedWriter,
             to: currentUser.uid
         )
+        
+        if result {
+            authManager.updateUser(currentUser)
+            return true
+        } else {
+            return false
+        }
     }
     
     func signout() async -> Bool {

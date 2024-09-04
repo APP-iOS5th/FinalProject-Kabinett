@@ -99,7 +99,7 @@ extension DefaultSignUpUseCase: SignUpUseCase {
         )
         
         if result {
-            authManager.signUp(user: currentUser)
+            authManager.updateUser(currentUser)
             return true
         } else {
             return false
