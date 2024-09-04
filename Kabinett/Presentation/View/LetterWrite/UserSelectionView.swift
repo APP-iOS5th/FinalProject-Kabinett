@@ -108,7 +108,7 @@ struct FormToUser: View {
                 .clipShape(Capsule())
         }
         .padding(.top, 24)
-        .onChange(of: viewModel.userKabiNumber) {
+        .onChange(of: viewModel.fromUser?.kabinettNumber) {
             letterContent.fromUserId = viewModel.fromUser?.id
             letterContent.fromUserName = viewModel.fromUser?.name ?? ""
             letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
@@ -129,7 +129,7 @@ struct FormToUser: View {
                 .bold()
             Spacer(minLength: 37)
             let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
-            let toKabi = letterContent.toUserName.isEmpty ? viewModel.userKabiNumber ?? 0 : letterContent.toUserKabinettNumber
+            let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
             Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
                 .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
                 .font(.system(size: 15))

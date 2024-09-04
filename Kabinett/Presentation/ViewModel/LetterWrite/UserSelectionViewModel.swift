@@ -13,26 +13,11 @@ class UserSelectionViewModel: ObservableObject {
     @Published var debouncedSearchText: String = ""
     
     @Published var checkLogin: Bool = false
-    @Published var userKabiNumber: Int? = nil
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
     @Published var usersData: [Writer] = []
     
     @Published var showModal: Bool = false
-    
-    func reset() {
-        searchText = ""
-        debouncedSearchText = ""
-        checkLogin = false
-        userKabiNumber = nil
-        fromUser = nil
-        toUser = nil
-        usersData = []
-        
-        Task {
-            await getCurrentWriter()
-        }
-    }
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: LetterWriteUseCase
@@ -50,6 +35,19 @@ class UserSelectionViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        
+        Task {
+            await getCurrentWriter()
+        }
+    }
+    
+    func reset() {
+        searchText = ""
+        debouncedSearchText = ""
+        checkLogin = false
+        fromUser = nil
+        toUser = nil
+        usersData = []
         
         Task {
             await getCurrentWriter()
@@ -89,7 +87,6 @@ class UserSelectionViewModel: ObservableObject {
         for await writer in publisher.values {
             print("update!!", writer)
             self.fromUser = writer
-            self.userKabiNumber = writer.kabinettNumber
             updateFromUser()
         }
     }

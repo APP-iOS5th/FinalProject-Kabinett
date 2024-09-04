@@ -16,9 +16,8 @@ struct PreviewLetterView: View {
     @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var writerLetterViewModel: ContentWriteViewModel
+    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
     @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    
     @EnvironmentObject var customTabViewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
@@ -119,7 +118,7 @@ struct PreviewLetterView: View {
                     userSelectionViewModel.reset()
                     stationerySelectionViewModel.reset()
                     fontSelectionViewModel.reset()
-                    writerLetterViewModel.reset()
+                    contentWriteViewModel.reset()
                     envelopStampSelectionViewModel.reset()
                     imagePickerViewModel.resetState()
                     customTabViewModel.hideOptions()
