@@ -108,6 +108,10 @@ final class AuthManager {
             logger.error("Delete account is failed: \(error.localizedDescription)")
         }
     }
+    
+    func signUp(user: User) {
+        currentUserSubject.send(user)
+    }
 
     // MARK: - Private Methods
     private func signInWith(
