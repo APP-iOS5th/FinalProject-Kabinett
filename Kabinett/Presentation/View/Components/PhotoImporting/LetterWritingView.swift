@@ -10,36 +10,28 @@ import SwiftUI
 struct LetterWritingView: View {
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @Environment(\.dismiss) var dismiss
     @State private var letterWriteViewModel = LetterWriteModel()
-    @StateObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @State private var showEnvelopeStampSelection = false
     @State private var showCalendar = false
-    @Environment(\.dismiss) var dismiss
-    
-    init(componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
-        let wrappedUseCase = LetterWriteLoadStuffUseCaseWrapper(componentsLoadStuffUseCase)
-        _envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: wrappedUseCase))
-    }
     
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.primary100.edgesIgnoringSafeArea(.all)
                 
-                ScrollView {
-                    VStack(spacing: 0) {
-                        userField(title: "보내는 사람", value: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
-                        userField(title: "받는 사람", value: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
-                        dateField()
-                        Spacer()
-                    }
-                    .padding([.leading, .trailing], 20)
-                    .padding(.top, 5)
+                VStack(spacing: 20) {
+                    FormToUserView(letterContent: $letterWriteViewModel, viewModel: viewModel)
+                    dateField()
+                    Spacer()
                 }
+                .padding([.leading, .trailing], 20)
+                .padding(.top, 20)
             }
             .navigationBarItems(trailing:
                                     Button(action: {
-                updateLetterWriteViewModel()
+                updateLetterWrite()
                 showEnvelopeStampSelection = true
             }) {
                 Text("완료")
@@ -54,115 +46,13 @@ struct LetterWritingView: View {
         }
     }
     
-    private func userField(title: String, value: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            HStack(spacing: 10) {
-                Text(title)
-                    .foregroundStyle(Color.contentPrimary)
-                    .font(.system(size: 16, weight: .bold))
-                    .frame(width: 90, alignment: .leading)
-                
-                TextField("", text: value)
-                    .foregroundStyle(Color.contentSecondary)
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 15)
-                    .frame(height: 38)
-                    .background(Color.white)
-                    .clipShape(Capsule())
-                    .multilineTextAlignment(.center)
-            }
-            
-            HStack(spacing: 10) {
-                Spacer()
-                    .frame(width: 90)
-                VStack(alignment: .leading, spacing: 0) {
-                    UserSearchBar(text: search)
-                        .onChange(of: search.wrappedValue) { _, newValue in
-                            viewModel.searchUsers(searchText: newValue, isFromUser: isFromUser)
-                        }
-                    if !search.wrappedValue.isEmpty {
-                        Divider()
-                            .background(Color.gray)
-                            .padding(.horizontal, 15)
-                    }
-                    ZStack(alignment: .top) {
-                        Color.clear
-                            .frame(height: 200)
-                        
-                        if !search.wrappedValue.isEmpty {
-                            ScrollView {
-                                VStack(spacing: 0) {
-                                    Button(action: {
-                                        if isFromUser {
-                                            viewModel.fromUserName = search.wrappedValue
-                                        } else {
-                                            viewModel.toUserName = search.wrappedValue
-                                        }
-                                        search.wrappedValue = ""
-                                    }) {
-                                        HStack {
-                                            Text("\(search.wrappedValue) 입력")
-                                                .foregroundStyle(.black)
-                                            Spacer()
-                                        }
-                                        .padding(.vertical, 10)
-                                        .padding(.horizontal, 15)
-                                    }
-                                    
-                                    ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults, id: \.self) { userName in
-                                        userSearchResultButton(userName: userName, isFromUser: isFromUser)
-                                    }
-                                }
-                            }
-                            .background(Color.white)
-                            .cornerRadius(27)
-                            .shadow(radius: 1)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    private func userSearchResultButton(userName: String, isFromUser: Bool) -> some View {
-        Button(action: {
-            if isFromUser {
-                viewModel.fromUserName = userName
-            } else {
-                viewModel.toUserName = userName
-            }
-            viewModel.selectUser(userName, isFromUser: isFromUser)
-        }) {
-            HStack {
-                Circle()
-                    .fill(Color.blue.opacity(0.2))
-                    .frame(width: 30, height: 30)
-                    .overlay(
-                        Text(String(userName.prefix(1)))
-                            .foregroundColor(.blue)
-                    )
-                
-                Text(userName)
-                    .foregroundColor(.primary)
-                
-                Spacer()
-                
-                Text("000-000")
-                    .foregroundColor(.gray)
-            }
-            .padding(.vertical, 8)
-            .padding(.horizontal, 15)
-        }
-        .background(Color.white)
-    }
-    
     private func dateField() -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                Text("받을/보낼 날짜")
+        VStack(spacing: 10) {
+            HStack(alignment: .center, spacing: 10) {
+                Text("받은/보낸 날짜")
                     .foregroundStyle(Color.contentPrimary)
-                    .font(.system(size: 16, weight: .bold))
-                    .frame(width: 90, alignment: .leading)
+                    .font(.system(size: 16))
+                    .frame(width: 100, alignment: .leading)
                 
                 Button(action: {
                     showCalendar.toggle()
@@ -171,33 +61,28 @@ struct LetterWritingView: View {
                         .foregroundStyle(Color.blue)
                         .font(.system(size: 15))
                         .padding(.horizontal, 15)
-                        .frame(height: 34)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .background(Color.primary300)
-                        .tint(Color.blue)
-                        .cornerRadius(6)
+                        .frame(height: 40)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.contentTertiary)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
                 }
             }
             
             if showCalendar {
-                DatePicker(
-                    "",
-                    selection: $viewModel.date,
-                    displayedComponents: [.date]
-                )
-                .datePickerStyle(.graphical)
-                .frame(maxHeight: 400)
-                .background(Color.white)
-                .cornerRadius(6)
-                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
-                .onChange(of: viewModel.date) { _, _ in
-                    showCalendar = false
-                }
+                DatePicker("", selection: $viewModel.date, displayedComponents: [.date])
+                    .datePickerStyle(.graphical)
+                    .frame(maxHeight: 400)
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                    .onChange(of: viewModel.date) { _, _ in
+                        showCalendar = false
+                    }
             }
         }
     }
     
-    private func updateLetterWriteViewModel() {
+    private func updateLetterWrite() {
         letterWriteViewModel.fromUserName = viewModel.fromUserName
         letterWriteViewModel.toUserName = viewModel.toUserName
         letterWriteViewModel.date = viewModel.date
@@ -206,19 +91,138 @@ struct LetterWritingView: View {
     }
 }
 
-struct UserSearchBar: View {
-    @Binding var text: String
+struct FormToUserView: View {
+    @Binding var letterContent: LetterWriteModel
+    @ObservedObject var viewModel: ImagePickerViewModel
+    
     var body: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-                .foregroundStyle(Color.contentPrimary)
-            TextField("검색", text: $text)
-                .foregroundStyle(.primary)
-                .multilineTextAlignment(.leading)
+        VStack(spacing: 20) {
+            userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
+            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
-        .padding(.horizontal, 15)
-        .frame(height: 38)
-        .background(Color.white)
-        .clipShape(Capsule())
+        .onAppear {
+            letterContent.fromUserId = viewModel.fromUserId ?? ""
+            letterContent.fromUserName = viewModel.fromUserName
+            letterContent.fromUserKabinettNumber = Int(viewModel.userKabiNumber ?? "0")
+            letterContent.toUserId = ""
+            letterContent.toUserName = ""
+            letterContent.toUserKabinettNumber = 0
+            letterContent.date = Date()
+        }
+    }
+    
+    private func userField(title: String, name: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
+        VStack(spacing: 10) {
+            HStack(alignment: .center, spacing: 10) {
+                Text(title)
+                    .foregroundStyle(Color.contentPrimary)
+                    .font(.system(size: 16))
+                    .bold()
+                    .frame(width: 100, alignment: .leading)
+                
+                TextField(isFromUser ? name.wrappedValue : "받는 사람 입력", text: name)
+                    .foregroundStyle(isFromUser ? Color.contentSecondary : .black)
+                    .font(.system(size: 15))
+                    .padding(.horizontal, 15)
+                    .frame(height: 40)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+            
+            HStack(alignment: .center, spacing: 10) {
+                Spacer()
+                    .frame(width: 100)
+                
+                SearchResultList(letterContent: $letterContent, searchText: search, viewModel: viewModel, isFromUser: isFromUser)
+            }
+        }
+    }
+    
+    struct SearchResultList: View {
+        @Binding var letterContent: LetterWriteModel
+        @Binding var searchText: String
+        @ObservedObject var viewModel: ImagePickerViewModel
+        let isFromUser: Bool
+        
+        var body: some View {
+            VStack {
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(Color.contentPrimary)
+                    
+                    TextField("검색", text: $searchText)
+                        .foregroundStyle(.primary)
+                    
+                    if !searchText.isEmpty {
+                        Button(action: {
+                            self.searchText = ""
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(Color.primary100)
+                        }
+                    }
+                }
+                .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
+                .background(Color(.white))
+                .clipShape(.capsule)
+                
+                if !searchText.isEmpty {
+                    Divider()
+                        .padding([.leading, .trailing], 10)
+                        .padding(.top, -6)
+                    
+                    List {
+                        Text("\(searchText) 입력")
+                            .onTapGesture {
+                                updateUser(name: searchText)
+                                searchText = ""
+                                UIApplication.shared.endEditing()
+                            }
+                            .padding(.leading, 35)
+                            .listRowSeparator(.hidden)
+                            .foregroundStyle(Color.primary900)
+                        
+                        ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults, id: \.name) { user in
+                            HStack {
+                                Image(systemName: "person.crop.circle")
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                                    .clipShape(.circle)
+                                    .foregroundStyle(Color.primary100)
+                                Text(user.name)
+                                    .foregroundStyle(Color.primary900)
+                                Spacer()
+                                Text("\(String(user.kabinettNumber.prefix(3)))-\(String(user.kabinettNumber.suffix(3)))")
+                                    .foregroundStyle(Color.primary900)
+                            }
+                            .listRowSeparator(.hidden)
+                            .onTapGesture {
+                                updateUser(name: user.name)
+                                searchText = ""
+                                UIApplication.shared.endEditing()
+                            }
+                        }
+                    }
+                    .listStyle(PlainListStyle())
+                    .frame(height: 200)
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .padding(.top, -5)
+                }
+            }
+            .padding(.top, 2)
+            .background(searchText.isEmpty ? Color.clear : Color.white)
+            .cornerRadius(16)
+        }
+        
+        private func updateUser(name: String) {
+            if isFromUser {
+                letterContent.fromUserName = name
+                viewModel.fromUserName = name
+            } else {
+                viewModel.updateSelectedUser(&letterContent, selectedUserName: name)
+                viewModel.toUserName = name
+            }
+        }
     }
 }

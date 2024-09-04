@@ -10,6 +10,7 @@ import SwiftUI
 struct ImagePreview: View {
     @EnvironmentObject var customViewModel: CustomTabViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
@@ -47,10 +48,11 @@ struct ImagePreview: View {
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
-            .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(componentsLoadStuffUseCase: imageViewModel.componentsLoadStuffUseCase)
+            .fullScreenCover(isPresented: $showLetterWritingView) {
+                LetterWritingView()
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
+                    .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
         }

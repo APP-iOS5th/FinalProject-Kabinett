@@ -16,7 +16,7 @@ struct ImagePickerView: View {
             .photosPicker(
                 isPresented: $customViewModel.showPhotoLibrary,
                 selection: $imageViewModel.selectedItems,
-                maxSelectionCount: 3,
+                maxSelectionCount: 10,
                 matching: .images
             )
             .onChange(of: imageViewModel.selectedItems) { _, newValue in
@@ -31,8 +31,10 @@ struct ImagePickerView: View {
                     customViewModel.showImagePreview = true
                 }
             }
-            .sheet(isPresented: $customViewModel.showImagePreview) {
+            .fullScreenCover(isPresented: $customViewModel.showImagePreview) {
                 ImagePreview()
+                    .environmentObject(imageViewModel)
+                    .environmentObject(customViewModel)
             }
     }
 }

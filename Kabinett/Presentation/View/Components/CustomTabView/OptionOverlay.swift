@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OptionOverlay: View {
-    @ObservedObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
     @State var letterContent = LetterWriteModel()
     
     @State private var isWritingLetter = false
@@ -18,7 +18,7 @@ struct OptionOverlay: View {
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                    withAnimation {
+                    withAnimation() {
                         viewModel.hideOptions()
                     }
                 }
@@ -26,13 +26,14 @@ struct OptionOverlay: View {
             VStack {
                 Spacer()
                 
-                HStack(spacing: 1) {
+                HStack(spacing: 2) {
                     Button(action: {
                         viewModel.showImportDialogAndHideOptions()
                     }) {
                         Text("편지 불러오기")
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
+                            .frame(height: 24)
                             .padding()
                             .background(Color.white)
                             .foregroundColor(.black)
@@ -44,6 +45,7 @@ struct OptionOverlay: View {
                         Text("편지 쓰기")
                             .font(.system(size: 14))
                             .frame(maxWidth: .infinity)
+                            .frame(height: 24)
                             .padding()
                             .background(Color.white)
                             .foregroundColor(.black)

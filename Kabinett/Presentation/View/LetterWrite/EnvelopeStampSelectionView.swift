@@ -11,14 +11,17 @@ import Kingfisher
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
+    @State private var postScriptText: String = ""
     
     init(letterContent: Binding<LetterWriteModel>) {
         self._letterContent = letterContent
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+        _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
     }
     
     var body: some View {
@@ -129,6 +132,22 @@ struct EnvelopeStampSelectionView: View {
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
+        }
+        .onAppear {
+            postScriptText = letterContent.postScript ?? ""
+            Task {
+                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
+                stampImageUrl = imagePickerViewModel.stampURL ?? ""
+            }
+        }
+        .onChange(of: envelopeImageUrl) { _, newValue in
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
+            letterContent.envelopeImageUrlString = newValue
+        }
+        .onChange(of: stampImageUrl) { _, newValue in
+            imagePickerViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
+            letterContent.stampImageUrlString = newValue
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)

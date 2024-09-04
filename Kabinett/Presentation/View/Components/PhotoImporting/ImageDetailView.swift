@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ImageDetailView: View {
     let images: [Data]
-    @Binding var showDetailView: Bool
     @State private var currentIndex = 0
+    @Binding var showDetailView: Bool
     
     var body: some View {
         NavigationStack {
