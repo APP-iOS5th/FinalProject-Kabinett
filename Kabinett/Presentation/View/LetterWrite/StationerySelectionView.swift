@@ -27,31 +27,13 @@ struct StationerySelectionView: View {
                                 HStack {
                                     ForEach(0..<2, id: \.self) { columnIndex in
                                         let index = stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)
-                                        
-                                        ZStack(alignment: .topTrailing) {
-                                            KFImage(URL(string: stationerySelectionViewModel.stationerys[index]))
-                                                .placeholder {
-                                                    ProgressView()
-                                                }
-                                                .resizable()
-                                                .aspectRatio(9/13, contentMode: .fit)
-                                                .padding(10)
-                                                .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
-                                                .onTapGesture {
-                                                    stationerySelectionViewModel.selectStationery(coordinates: (rowIndex, columnIndex))
-                                                    letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
-                                                }
-                                            
-                                            if stationerySelectionViewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
-                                                Image("checked")
-                                                    .resizable()
-                                                    .frame(width: 32, height: 32)
-                                                    .padding([.top, .trailing], 20)
-                                                    .onAppear {
-                                                        letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)]
-                                                    }
-                                            }
-                                        }
+                                        StationeryCell(
+                                            index: index,
+                                            rowIndex: rowIndex,
+                                            columnIndex: columnIndex,
+                                            letterContent: $letterContent,
+                                            stationerySelectionViewModel: stationerySelectionViewModel
+                                        )
                                     }
                                 }
                                 .listRowBackground(Color.clear)
@@ -78,6 +60,46 @@ struct StationerySelectionView: View {
                     await envelopeStampSelectionViewModel.loadStamps()
                     await envelopeStampSelectionViewModel.loadEnvelopes()
                 }
+            }
+        }
+    }
+}
+
+// MARK: StationeryCell
+struct StationeryCell: View {
+    let index: Int
+    let rowIndex: Int
+    let columnIndex: Int
+    @Binding var letterContent: LetterWriteModel
+    @ObservedObject var stationerySelectionViewModel: StationerySelectionViewModel
+
+    var body: some View {
+        ZStack(alignment: .topTrailing) {
+            if stationerySelectionViewModel.stationerys.indices.contains(index) {
+                KFImage(URL(string: stationerySelectionViewModel.stationerys[index]))
+                    .placeholder {
+                        ProgressView()
+                    }
+                    .resizable()
+                    .aspectRatio(9/13, contentMode: .fit)
+                    .padding(10)
+                    .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                    .onTapGesture {
+                        stationerySelectionViewModel.selectStationery(coordinates: (rowIndex, columnIndex))
+                        letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
+                    }
+            } else {
+                EmptyView()
+            }
+
+            if stationerySelectionViewModel.isSelected(coordinates: (rowIndex, columnIndex)) {
+                Image("checked")
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                    .padding([.top, .trailing], 20)
+                    .onAppear {
+                        letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
+                    }
             }
         }
     }
