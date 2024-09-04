@@ -70,7 +70,7 @@ struct LetterCell: View {
                 fontString: letter.fontString ?? "SFDisplay",
                 date: letter.date,
                 currentPageIndex: index,
-                totalPages: letter.content.count
+                totalPages: max(letter.content.count, 1)
             )
         } else {
             KFImage(URL(string: letter.photoContents[index - letter.content.count]))
@@ -169,14 +169,14 @@ struct ContentRectangleView: View {
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, 0.1)
-                        .opacity(currentPageIndex == totalPages - 1 ? 1 : 0)
+                        .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
                     
                     Text("\(fromUserName)가")
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, geometry.size.height * 0.2)
-                        .opacity(currentPageIndex == totalPages - 1 ? 1 : 0)
+                        .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
                 }
                 .padding(.horizontal, geometry.size.width * 0.06)
                 .frame(width: geometry.size.width * 0.88, height: geometry.size.height)
