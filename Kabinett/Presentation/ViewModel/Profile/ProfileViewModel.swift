@@ -100,7 +100,7 @@ class ProfileViewModel: ObservableObject {
     func completeProfileUpdate() async {
         
         let success = await profileUseCase.updateWriter(
-            newWriterName: currentWriter.name,
+            newWriterName: displayName,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
         )
         

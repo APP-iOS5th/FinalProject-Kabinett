@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Kingfisher
 
 struct ProfileSettingsView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
@@ -43,6 +44,7 @@ struct ProfileSettingsView: View {
                     Button(action: {
                         Task {
                             await viewModel.completeProfileUpdate()
+                            viewModel.newUserName = ""
                             onComplete()
                             dismiss()
                         }
@@ -73,8 +75,17 @@ struct ProfileSettingsView: View {
                 Circle()
                     .foregroundColor(.primary300)
                     .frame(width: 110, height: 110)
-                if let image = viewModel.croppedImage {
-                    Image(uiImage: image)
+                
+                if let croppedImage = viewModel.croppedImage {
+                    Image(uiImage: croppedImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 110, height: 110)
+                        .clipShape(Circle())
+                }
+                    
+                else if let image = viewModel.currentWriter.imageUrlString {
+                    KFImage(URL(string: image))
                         .resizable()
                         .scaledToFill()
                         .frame(width: 110, height: 110)
