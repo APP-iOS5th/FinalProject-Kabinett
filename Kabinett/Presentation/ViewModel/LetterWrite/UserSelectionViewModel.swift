@@ -92,7 +92,6 @@ class UserSelectionViewModel: ObservableObject {
             self.userKabiNumber = writer.kabinettNumber
             updateFromUser()
         }
-        
     }
     
     @MainActor

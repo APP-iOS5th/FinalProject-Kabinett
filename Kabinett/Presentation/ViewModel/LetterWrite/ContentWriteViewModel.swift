@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class WriteLetterViewModel: ObservableObject {
+class ContentWriteViewModel: ObservableObject {
     @Published var texts: [String] = [""]
     @Published var textViewHeights: [CGFloat] = [CGFloat](repeating: .zero, count: 1)
     

@@ -47,7 +47,7 @@ struct StationerySelectionView: View {
             }
             .navigationBarBackButtonHidden()
             .sheet(isPresented: $stationerySelectionViewModel.showModal) {
-                UserSelectionModalView(letterContent: $letterContent)
+                UserSelectionView(letterContent: $letterContent)
                     .presentationDetents([.height(300), .large])
             }
             .onAppear {

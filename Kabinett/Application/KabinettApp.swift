@@ -34,9 +34,9 @@ struct KabinettApp: App {
     @StateObject private var userSelectionViewModel: UserSelectionViewModel
     @StateObject private var stationerySelectionViewModel: StationerySelectionViewModel
     @StateObject private var fontSelectionViewModel: FontSelectionViewModel
-    @StateObject private var writerLetterViewModel: WriteLetterViewModel
+    @StateObject private var contentWriteViewModel: ContentWriteViewModel
     @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @StateObject private var letterWritePreviewViewModel: LetterWritePreviewViewModel
+    @StateObject private var previewLetterViewModel: PreviewLetterViewModel
     
     init() {
         // Init Firebase App
@@ -140,16 +140,16 @@ struct KabinettApp: App {
         _fontSelectionViewModel = .init(
             wrappedValue: FontSelectionViewModel()
         )
-        _writerLetterViewModel = .init(
-            wrappedValue: WriteLetterViewModel()
+        _contentWriteViewModel = .init(
+            wrappedValue: ContentWriteViewModel()
         )
         _envelopStampSelectionViewModel = .init(
             wrappedValue: EnvelopeStampSelectionViewModel(
                 useCase: firebaseStorageManager
             )
         )
-        _letterWritePreviewViewModel = .init(
-            wrappedValue: LetterWritePreviewViewModel(
+        _previewLetterViewModel = .init(
+            wrappedValue: PreviewLetterViewModel(
                 useCase: firebaseFirestoreManager
             )
         )
@@ -169,9 +169,9 @@ struct KabinettApp: App {
                 .environmentObject(userSelectionViewModel)
                 .environmentObject(stationerySelectionViewModel)
                 .environmentObject(fontSelectionViewModel)
-                .environmentObject(writerLetterViewModel)
+                .environmentObject(contentWriteViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
-                .environmentObject(letterWritePreviewViewModel)
+                .environmentObject(previewLetterViewModel)
         }
     }
 }

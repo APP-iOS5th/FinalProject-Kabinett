@@ -33,7 +33,7 @@ struct EnvelopeStampSelectionView: View {
                     NavigationBarView(destination: LetterCompletionView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
                         .padding(.bottom, 25)
                 } else {
-                    NavigationBarView(destination: LetterWritePreviewView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
+                    NavigationBarView(destination: PreviewLetterView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
                         .padding(.bottom, 25)
                 }
                 

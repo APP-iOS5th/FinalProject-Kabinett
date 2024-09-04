@@ -9,14 +9,14 @@ import SwiftUI
 import Kingfisher
 import UIKit
 
-struct LetterWritePreviewView: View {
+struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: LetterWritePreviewViewModel
+    @EnvironmentObject var viewModel: PreviewLetterViewModel
     
     @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var writerLetterViewModel: WriteLetterViewModel
+    @EnvironmentObject var writerLetterViewModel: ContentWriteViewModel
     @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     @EnvironmentObject var customTabViewModel: CustomTabViewModel

@@ -19,7 +19,7 @@ struct FontSelectionView: View {
                 }
             
             VStack(alignment: .leading) {
-                NavigationBarView(destination: WriteLetterView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
+                NavigationBarView(destination: ContentWriteView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
                 
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in

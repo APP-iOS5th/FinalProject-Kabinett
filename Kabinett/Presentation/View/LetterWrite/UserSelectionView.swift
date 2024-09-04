@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserSelectionModalView: View {
+struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @Environment(\.presentationMode) var presentation
     @EnvironmentObject var viewModel : UserSelectionViewModel

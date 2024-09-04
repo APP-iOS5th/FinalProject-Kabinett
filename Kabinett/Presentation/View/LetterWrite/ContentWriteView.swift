@@ -10,9 +10,9 @@ import UIKit
 import Kingfisher
 import PhotosUI
 
-struct WriteLetterView: View {
+struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: WriteLetterViewModel
+    @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
@@ -48,7 +48,7 @@ struct WriteLetterView: View {
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: WriteLetterViewModel
+    @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
     
     var body: some View {
