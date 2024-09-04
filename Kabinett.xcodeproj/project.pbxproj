@@ -14,7 +14,7 @@
 		04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E82C6C799500D289EA /* SettingsView.swift */; };
 		04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */; };
 		04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */; };
-		04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */; };
+		04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F12C6E18EE00D289EA /* ProfileViewModel.swift */; };
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
 		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
@@ -136,7 +136,7 @@
 		04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSettingsView.swift; sourceTree = "<group>"; };
 		04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsView.swift; sourceTree = "<group>"; };
 		04DEC0F02C6E136F00D289EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSettingsViewModel.swift; sourceTree = "<group>"; };
+		04DEC0F12C6E18EE00D289EA /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
@@ -481,7 +481,7 @@
 		8366B6F92C65ED150021FAE0 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				04DEC0F12C6E18EE00D289EA /* ProfileSettingsViewModel.swift */,
+				04DEC0F12C6E18EE00D289EA /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -835,7 +835,7 @@
 				04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */,
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
 				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
-				04DEC0F22C6E18EE00D289EA /* ProfileSettingsViewModel.swift in Sources */,
+				04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* LetterWritePreviewViewModel.swift in Sources */,

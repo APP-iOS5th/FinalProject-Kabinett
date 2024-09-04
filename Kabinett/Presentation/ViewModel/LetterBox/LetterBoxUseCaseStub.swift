@@ -73,4 +73,8 @@ class LetterBoxUseCaseStub: LetterBoxUseCase {
     func updateIsRead(letterId: String, letterType: LetterType) async -> Result<Bool, any Error> {
         return .success(true)
     }
+    
+    func getWelcomeLetter() async -> Result<Bool, any Error> {
+        return .success(true)
+    }
 }

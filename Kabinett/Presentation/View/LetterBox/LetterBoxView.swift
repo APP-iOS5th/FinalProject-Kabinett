@@ -51,6 +51,7 @@ struct LetterBoxView: View {
                                 .transition(.move(edge: .bottom))
                                 .zIndex(1)
                                 .onAppear {
+                                    letterBoxViewModel.fetchWelcomeLetter()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         withAnimation {
                                             showToast = false

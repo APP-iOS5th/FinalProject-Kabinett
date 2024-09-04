@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageCropper: View {
-    @ObservedObject var viewModel: ProfileSettingsViewModel
+    @ObservedObject var viewModel: ProfileViewModel
     @Binding var isShowingCropper: Bool
     let imageToCrop: UIImage?
     @State var cropArea: CGRect = .init(x: 0, y: 0, width: 110, height: 110)

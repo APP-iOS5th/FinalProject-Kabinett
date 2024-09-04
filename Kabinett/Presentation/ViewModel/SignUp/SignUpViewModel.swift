@@ -13,13 +13,11 @@ import CryptoKit
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignUpUseCase
     
-    @Published var profileViewModel: ProfileSettingsViewModel?
+    @Published private(set) var profileViewModel: ProfileViewModel?
     @Published var userName: String = ""
-    @Published var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
+    @Published private(set) var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
-    @Published var currentNonce: String?
-    @Published var userIdentifier: String?
-    @Published var loginError: String?
+    @Published private(set) var loginError: String?
     @Published var signUpError: String?
     @Published var loginSuccess: Bool = false
     @Published var signUpSuccess: Bool = false
@@ -50,7 +48,6 @@ final class SignUpViewModel: ObservableObject {
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
         request.requestedScopes = [.email]
         let nonce = randomNonceString()
-        currentNonce = nonce
         request.nonce = sha256(nonce)
     }
     
@@ -63,13 +60,13 @@ final class SignUpViewModel: ObservableObject {
                 case .newUser:
                     self.loginSuccess = true
                 case .registered:
-                    self.profileViewModel = ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()) //프로필 뷰 오류 테스트하려면 여기 주석처리
                     self.signUpSuccess = true
                 case .signInOnly:
                     self.loginSuccess = true
                 }
             }
-        case .failure(_):
+        case let .failure(error):
+            print("Error: \(error)")
             self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }

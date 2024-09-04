@@ -51,6 +51,12 @@ class LetterBoxViewModel: ObservableObject {
         return isReadLetters[type] ?? 0
     }
     
+    func fetchWelcomeLetter() {
+        Task { @MainActor in
+            _ = await letterBoxUseCase.getWelcomeLetter()
+        }
+    }
+    
     func calculateOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
         switch totalCount {
         case 1:
