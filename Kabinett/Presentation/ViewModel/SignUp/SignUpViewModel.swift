@@ -69,6 +69,7 @@ final class SignUpViewModel: ObservableObject {
                 }
             }
         case let .failure(error):
+            logger.error("Apple Sign in error: \(error.localizedDescription)")
             self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }
