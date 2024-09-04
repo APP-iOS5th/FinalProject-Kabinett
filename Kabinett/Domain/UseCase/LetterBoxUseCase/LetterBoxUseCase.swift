@@ -33,6 +33,8 @@ protocol LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error>
+    
+    func getWelcomeLetter() async -> Result<Bool, any Error>
 }
 
 enum LetterType: CaseIterable {

@@ -43,7 +43,7 @@ struct KabinettApp: App {
     @StateObject private var calendarViewModel: CalendarViewModel
     
     // MARK: - Profile Flow
-    @StateObject private var profileViewModel: ProfileSettingsViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
     
     // MARK: - SignUp Flow
     @StateObject private var signUpViewModel: SignUpViewModel
@@ -125,7 +125,7 @@ struct KabinettApp: App {
         
         // MARK: - Profile ViewModel
         _profileViewModel = .init(
-            wrappedValue: ProfileSettingsViewModel(
+            wrappedValue: ProfileViewModel(
                 profileUseCase: profileUseCase
             )
         )
