@@ -26,7 +26,7 @@ struct CalendarView: View {
                         }
                     } label: {
                         Text("취소")
-                            .font(.system(size: 17, weight: .bold))
+                            .font(.system(size: 17))
                             .foregroundStyle(.contentPrimary)
                     }
                     
@@ -82,7 +82,9 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .tint(.contentPrimary)
+                        .padding(.horizontal, 10)
+                        .tint(.primary900)
+                        .padding(.bottom, -10)
                 }
                 
                 Divider()
@@ -122,8 +124,8 @@ struct CalendarView: View {
                     }), in: ...Date(), displayedComponents: [.date])
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .padding(.top, -10)
-                        .padding(.bottom, 15)
-                        .tint(.black)
+                        .padding(.horizontal, 10)
+                        .tint(.primary900)
                 }
             }
             .background(Color(UIColor.systemBackground))
@@ -193,20 +195,23 @@ struct CalendarBar: View {
     var body: some View {
         VStack {
             HStack {
-                HStack {
+                HStack(spacing: UIScreen.main.bounds.width * 0.01) {
                     Image(systemName: "line.3.horizontal.decrease.circle")
-                        .tint(.primary300)
-                    Text("\(formattedDate(date: calendarViewModel.startDate))부터 \(formattedDate(date: calendarViewModel.endDate))까지")
-                        .font(.system(size: 13, weight: .regular))
-                        .foregroundStyle(.primary)
+                        .font(.system(size: UIScreen.main.bounds.width * 0.042))
                     
-                    Spacer()
+                    Text("\(formattedDate(date: calendarViewModel.startDate))부터 \(formattedDate(date: calendarViewModel.endDate))까지")
+                        .font(.system(size: UIScreen.main.bounds.width * 0.037))
+                        .foregroundStyle(.contentSecondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Spacer(minLength: 0)
                 }
-                .padding(8)
-                .foregroundStyle(.primary600)
-                .background(.primary300.opacity(0.4))
+                .padding(UIScreen.main.bounds.width * 0.02)
+                .padding(.vertical, UIScreen.main.bounds.width * 0.002)
+                .foregroundStyle(.contentSecondary)
+                .background(.primary300.opacity(0.3))
                 .background(TransparentBlurView(removeAllFilters: false))
-                .cornerRadius(10)
+                .cornerRadius(UIScreen.main.bounds.width * 0.027)
                 
                 Button(action: {
                     withAnimation {
@@ -218,10 +223,11 @@ struct CalendarBar: View {
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.primary600)
+                        .font(.system(size: UIScreen.main.bounds.width * 0.045))
                 }
             }
-            .padding(.top, 10)
-            .padding(.horizontal, 20)
+            .padding(.top, UIScreen.main.bounds.width * 0.01)
+            .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
             
             Spacer()
         }

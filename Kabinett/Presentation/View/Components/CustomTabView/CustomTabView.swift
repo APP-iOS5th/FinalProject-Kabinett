@@ -11,23 +11,29 @@ import PhotosUI
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @State private var letterWriteViewModel = LetterWriteModel()
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-    
+
+    @State private var letterWriteViewModel = LetterWriteModel()
+    @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
+
     var body: some View {
         ZStack {
             TabView(selection: $viewModel.selectedTab) {
-                LetterBoxView()
-                    .tag(0)
+                NavigationStack(path: $paths[0]) {
+                    LetterBoxView()
+                }
+                .tag(0)
                 
                 Color.clear
                     .tag(1)
                 
-                ProfileView()
-                    .tag(2)
+                NavigationStack(path: $paths[2]) {
+                    ProfileView()
+                }
+                .tag(2)
             }
-            .overlay(CustomTabBar(viewModel: viewModel), alignment: .bottom)
+            .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
         }
         .onAppear {
             viewModel.setupTabBarAppearance()
@@ -38,12 +44,6 @@ struct CustomTabView: View {
                     viewModel.showOptions = true
                 }
                 viewModel.selectedTab = oldValue
-            } else {
-                if newValue == 0 {
-                    //                             LetterBoxViewState.reset()
-                } else if newValue == 2 {
-                    //                            ProfileViewState.reset()
-                }
             }
         }
         .overlay(
@@ -64,18 +64,5 @@ struct CustomTabView: View {
         }
         .environmentObject(viewModel)
         .environmentObject(imagePickerViewModel)
-        
     }
 }
-
-//#Preview {
-//    CustomTabView()
-//        .environmentObject(CustomTabViewModel())
-//        .environmentObject(ImagePickerViewModel(
-//            componentsUseCase: MockComponentsUseCase(),
-//            componentsLoadStuffUseCase: MockComponentsLoadStuffUseCase()
-//        ))
-//        .environmentObject(CalendarViewModel())
-//        .environmentObject(LetterBoxDetailViewModel())
-//        .environmentObject(LetterBoxViewModel())
-//}

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    @ObservedObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var viewModel: CustomTabViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -30,7 +30,7 @@ struct CustomTabBar: View {
     
     private func tabItem(image: UIImage, tag: Int) -> some View {
         Button(action: {
-            viewModel.selectedTab = tag
+            viewModel.handleTabSelection(tag)
         }) {
             Image(uiImage: image)
                 .renderingMode(.template)
