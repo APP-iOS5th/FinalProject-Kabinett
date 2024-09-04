@@ -10,7 +10,7 @@ import Kingfisher
 
 struct LetterCell: View {
     @State private var selectedIndex: Int = 0
-    var letter: Letter
+    @Binding var letter: Letter
     
     @Environment(\.dismiss) private var dismiss
 
@@ -199,6 +199,6 @@ extension String {
     }
 }
 
-#Preview {
-    LetterCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
-}
+//#Preview {
+//    LetterCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
+//}

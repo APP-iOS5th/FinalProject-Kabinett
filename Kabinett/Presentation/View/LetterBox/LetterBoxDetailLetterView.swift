@@ -14,7 +14,7 @@ struct LetterBoxDetailLetterView: View {
     @State private var showDetailLetter = false
     
     var letterType: LetterType
-    var letter: Letter
+    @State var letter: Letter
     
     @Environment(\.dismiss) private var dismiss
     
@@ -61,7 +61,6 @@ struct LetterBoxDetailLetterView: View {
             }
         }
         .onAppear {
-            letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
             viewModel.offset = 0
             viewModel.showDeleteButton = false
         }
@@ -69,7 +68,7 @@ struct LetterBoxDetailLetterView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
         .fullScreenCover(isPresented: $showDetailLetter) {
-            LetterCell(letter: letter)
+            LetterCell(letter: $letter)
         }
     }
 }
