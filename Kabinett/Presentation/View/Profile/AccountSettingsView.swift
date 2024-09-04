@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct AccountSettingsView: View {
+    @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showLogoutAlert = false
     @State private var showAccountDeletionAlert = false
-    @ObservedObject var profileViewModel: ProfileSettingsViewModel
     var onComplete: () -> Void
     
     var body: some View {
@@ -41,7 +41,7 @@ struct AccountSettingsView: View {
                     ) {
                         Button("로그아웃", role: .destructive) {
                             Task {
-                                await profileViewModel.signout()
+                                await viewModel.signout()
                                 onComplete()
                             }
                         }
@@ -71,7 +71,7 @@ struct AccountSettingsView: View {
                         ) {
                             Button("회원탈퇴", role: .destructive) {
                                 Task {
-                                    await profileViewModel.deletieID()
+                                    await viewModel.deletieID()
                                     onComplete()
                                 }
                             }

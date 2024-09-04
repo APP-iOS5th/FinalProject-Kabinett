@@ -9,7 +9,7 @@ import SwiftUI
 import AuthenticationServices
 
 struct LoginView: View {
-    @StateObject private var signUpViewModel = SignUpViewModel(signUpUseCase: SignUpUseCaseStub())
+    @EnvironmentObject private var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -37,16 +37,9 @@ struct LoginView: View {
                             .padding(.bottom, 25)
                         
                         SignInWithAppleButton { request in
-                            signUpViewModel.handleSignInWithAppleRequest(request)
+                            viewModel.handleSignInWithAppleRequest(request)
                         } onCompletion: { result in
-                            
-//                            signUpViewModel.handleAuthorization(result: .failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "테스트를 위한 로그인 실패"])))
-                            
-                            signUpViewModel.handleAuthorization(result: result)
-                            if signUpViewModel.loginError != nil {
-                                signUpViewModel.showAlert = true
-                            }
-                            
+                            viewModel.handleAuthorization(result: result)
                         }
                         .padding(.horizontal, geometry.size.width * 0.06)
                         .frame(height: 54)
@@ -54,43 +47,23 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.background)
                 }
-                .navigationDestination(isPresented: $signUpViewModel.loginSuccess) {
-                    SignUpNameInputView(signUpViewModel: signUpViewModel)
+                .navigationDestination(isPresented: $viewModel.loginSuccess) {
+                    SignUpNameInputView()
                 }
-                .navigationDestination(isPresented: $signUpViewModel.signUpSuccess) {
-                    if let profileViewModel = signUpViewModel.profileViewModel {
-                        ProfileView(profileViewModel: profileViewModel)
-                    } else {
-                        VStack {
-                            Text("프로필을 불러오는 데 문제가 발생했어요.")
-                                .fontWeight(.regular)
-                                .foregroundColor(.alert)
-                                .font(.headline)
-                                .padding()
-                            
-                            NavigationLink(destination: SignUpNameInputView(signUpViewModel: signUpViewModel)) {
-                                Text("다시 시도하기")
-                                    .padding()
-                                    .background(Color.primary900)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(8)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.background)
-                        .navigationBarBackButtonHidden()
-                    }
+                .navigationDestination(isPresented: $viewModel.signUpSuccess) {
+                        ProfileView()
                 }
                 .alert(
                     "오류",
-                    isPresented: $signUpViewModel.showAlert
+                    isPresented: $viewModel.showAlert
                 ) {
                     Button("확인", role: .cancel) {
                     }
                 } message: {
-                    Text(signUpViewModel.loginError ?? "알 수 없는 로그인 오류가 발생했어요.")
+                    Text(viewModel.loginError ?? "알 수 없는 로그인 오류가 발생했어요.")
                 }
             }
+            .navigationBarBackButtonHidden()
         }
     }
 }
