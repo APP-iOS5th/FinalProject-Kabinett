@@ -87,6 +87,7 @@ struct UserSelectionModalView: View {
     }
 }
 
+
 // MARK: - FormToUserView
 struct FormToUser: View {
     @Binding var letterContent: LetterWriteModel
@@ -141,6 +142,7 @@ struct FormToUser: View {
         .padding(.top, 40)
     }
 }
+
 
 // MARK: - SearchBarView
 struct SearchBar: View {
@@ -230,6 +232,8 @@ struct SearchBar: View {
     }
 }
 
+
+// MARK: - LetterWriteLoginView
 struct LetterWriteLoginView: View {
     @EnvironmentObject var viewModel : UserSelectionViewModel
     

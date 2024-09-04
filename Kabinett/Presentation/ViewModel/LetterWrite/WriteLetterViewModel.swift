@@ -12,6 +12,8 @@ class WriteLetterViewModel: ObservableObject {
     @Published var texts: [String] = [""]
     @Published var textViewHeights: [CGFloat] = [CGFloat](repeating: .zero, count: 1)
     
+    @Published var currentIndex: Int = 0
+    
     func reset() {
         texts = [""]
         textViewHeights = [CGFloat](repeating: .zero, count: 1)

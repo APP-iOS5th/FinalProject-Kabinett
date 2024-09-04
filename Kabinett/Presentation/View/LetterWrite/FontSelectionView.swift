@@ -103,6 +103,7 @@ struct FontSelectionView: View {
 }
 
 
+// MARK: - OpenSourceLicenseModalView
 struct OpenSourceLicenseModalView: View {
     var body: some View {
         ZStack {

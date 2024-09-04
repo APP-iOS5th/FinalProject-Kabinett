@@ -135,6 +135,8 @@ struct EnvelopeStampSelectionView: View {
     }
 }
 
+
+// MARK: - EnvelopeCell
 struct EnvelopeCell: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var envelopeImageUrl: String

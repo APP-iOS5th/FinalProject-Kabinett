@@ -65,7 +65,8 @@ struct StationerySelectionView: View {
     }
 }
 
-// MARK: StationeryCell
+
+// MARK: - StationeryCell
 struct StationeryCell: View {
     let index: Int
     let rowIndex: Int
