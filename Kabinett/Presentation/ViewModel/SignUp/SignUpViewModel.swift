@@ -10,38 +10,43 @@ import Combine
 import AuthenticationServices
 import CryptoKit
 
+import os
+
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignUpUseCase
     
-    @Published private(set) var profileViewModel: ProfileViewModel?
+    private let logger = Logger(
+        subsystem: "co.kr.codegrove.Kabinett",
+        category: "SignUpViewModel"
+    )
+    
     @Published var userName: String = ""
     @Published private(set) var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
     @Published private(set) var loginError: String?
     @Published var signUpError: String?
-    @Published var loginSuccess: Bool = false
-    @Published var signUpSuccess: Bool = false
     @Published var showAlert: Bool = false
+    @Published var showSignUpFlow: Bool = false
     
     init(signUpUseCase: any SignUpUseCase) {
         self.signUpUseCase = signUpUseCase
     }
     
     @MainActor
-       func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
-           guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
-               return false
-           }
-           
-           return await signUpUseCase.startLoginUser(with: userName, kabinettNumber: kabinettNumberInt)
-       }
+    func startLoginUser(with userName: String, kabinettNumber: String) async -> Bool {
+        guard let kabinettNumberInt = Int(kabinettNumber.replacingOccurrences(of: "-", with: "")) else {
+            return false
+        }
+        
+        return await signUpUseCase.startLoginUser(with: userName, kabinettNumber: kabinettNumberInt)
+    }
     
     @MainActor
     func getNumbers() async {
         let numbers = await signUpUseCase.getAvailableKabinettNumbers()
         availablekabinettNumbers = numbers
             .map {
-                formatKabinettNumber($0)
+                $0.formatKabinettNumber()
             }
     }
     
@@ -55,18 +60,15 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let signUpResult = await signUpUseCase.signUp(authorization)
-                switch signUpResult {
-                case .newUser:
-                    self.loginSuccess = true
+                let result = await signUpUseCase.signUp(authorization)
+                switch result {
+                case .newUser, .signInOnly:
+                    showSignUpFlow = true
                 case .registered:
-                    self.signUpSuccess = true
-                case .signInOnly:
-                    self.loginSuccess = true
+                    showSignUpFlow = false
                 }
             }
         case let .failure(error):
-            print("Error: \(error)")
             self.loginError = "애플 로그인에 실패했어요."
             self.showAlert = true
         }
