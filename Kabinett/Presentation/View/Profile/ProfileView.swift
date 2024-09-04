@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileView: View {
-    @EnvironmentObject var viewModel: ProfileSettingsViewModel
+    @EnvironmentObject var viewModel: ProfileViewModel
     @State private var showSettingsView = false
     @State private var shouldNavigateToProfileView = false
     

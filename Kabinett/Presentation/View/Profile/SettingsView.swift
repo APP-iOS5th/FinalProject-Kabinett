@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var viewModel: ProfileSettingsViewModel
+    @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var shouldNavigateToProfileView: Bool
     var onAccountActionComplete: () -> Void

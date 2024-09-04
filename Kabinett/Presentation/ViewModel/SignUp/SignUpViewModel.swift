@@ -13,7 +13,7 @@ import CryptoKit
 final class SignUpViewModel: ObservableObject {
     private let signUpUseCase: any SignUpUseCase
     
-    @Published private(set) var profileViewModel: ProfileSettingsViewModel?
+    @Published private(set) var profileViewModel: ProfileViewModel?
     @Published var userName: String = ""
     @Published private(set) var availablekabinettNumbers: [String] = [] //서버에서 받는 번호들
     @Published var selectedKabinettNumber: Int? = nil
