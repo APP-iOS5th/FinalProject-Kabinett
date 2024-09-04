@@ -193,7 +193,6 @@ struct KabinettApp: App {
                 .environmentObject(stationerySelectionViewModel)
                 .environmentObject(fontSelectionViewModel)
                 .environmentObject(writerLetterViewModel)
-                .environmentObject(writerLetterViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
                 .environmentObject(letterWritePreviewViewModel)
         }
