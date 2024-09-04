@@ -40,7 +40,7 @@ struct UserSelectionModalView: View {
                     }
                     .foregroundStyle(.black)
                     
-                    FormToUser(letterContent: $letterContent, viewModel: viewModel)
+                    FormToUser(letterContent: $letterContent)
                     
                     HStack {
                         if viewModel.checkLogin {
@@ -89,7 +89,7 @@ struct UserSelectionModalView: View {
 // MARK: - FormToUserView
 struct FormToUser: View {
     @Binding var letterContent: LetterWriteModel
-    @ObservedObject var viewModel: UserSelectionViewModel
+    @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
         let fromName = letterContent.fromUserName.isEmpty ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
@@ -100,7 +100,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(fromName) (나)")
+            Text("\(viewModel.fromUser?.name ?? "") (나)")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -109,6 +109,14 @@ struct FormToUser: View {
         }
         .padding(.top, 24)
         .onAppear {
+            /// 현재 이부분은 화면이 나타나면 실행되는 부분입니다.
+            /// 하지만 onAppear는 모달로 띄운 뷰(로그인뷰)를 닫고 돌아왔을 때는
+            /// 실행되지 않아요.
+            /// 그 말은, 이 화면은 아예 뒤로가기를 눌러서 껏다가 키는게 아니라면
+            /// `letterContent`는 로그인을 완료하든 아니든 그대로일 것 입니다.
+            /// 이 부분을 수정해보시면 좋을 것 같아요.
+            /// 아울러, 103줄은 화면 갱신을 위해 viewModel을 사용하는 코드로
+            /// 변경하였습니다.
             letterContent.fromUserId = viewModel.fromUser?.id
             letterContent.fromUserName = viewModel.fromUser?.name ?? ""
             letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
