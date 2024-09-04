@@ -56,6 +56,7 @@ struct WriteLetterView: View {
                                                                 UIApplication.shared.endEditing()
                                                             }
                                                         Spacer()
+                                                        
                                                         Button {
                                                             customViewModel.showPhotoLibrary = true
                                                             customViewModel.letterWrite = true
@@ -64,10 +65,11 @@ struct WriteLetterView: View {
                                                                 .font(.system(size: 15))
                                                                 .padding(.horizontal, 13)
                                                                 .padding(.vertical, 8)
-                                                                .foregroundStyle(Color(.primary900))
-                                                                .background(Color(.primary300))
+                                                                .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
+                                                                .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                                                                 .clipShape(Capsule())
                                                         }
+                                                        
                                                     }
                                                     .padding(.top, 45)
                                                     .padding(.leading, 2)
