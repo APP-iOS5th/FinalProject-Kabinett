@@ -86,12 +86,7 @@ struct ProfileView: View {
                     }
                 }
                 .navigationBarBackButtonHidden()
-                
             }
-        }
-        .task {
-            await viewModel.checkUserStatus()
-            await viewModel.loadInitialData()
         }
     }
     

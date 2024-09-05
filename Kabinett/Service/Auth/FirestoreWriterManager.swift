@@ -55,4 +55,10 @@ final class FirestoreWriterManager {
             return false
         }
     }
+    
+    func deleteUserData(_ userId: String) async throws {
+        try await db.collection("Writers")
+            .document(userId)
+            .delete()
+    }
 }

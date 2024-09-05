@@ -9,55 +9,51 @@ import SwiftUI
 
 struct SignUpNameInputView: View {
     @EnvironmentObject var viewModel: SignUpViewModel
-    @Environment(\.dismiss) var dismiss
     @State private var shouldNavigate = false
     
     var body: some View {
         GeometryReader { geometry in
-            NavigationStack{
-                VStack(alignment: .leading){
-                    Text("이름을 알려주세요.")
-                        .fontWeight(.regular)
-                        .font(.system(size: 16))
-                        .foregroundStyle(.contentPrimary)
+            VStack(alignment: .leading){
+                Text("이름을 알려주세요.")
+                    .fontWeight(.regular)
+                    .font(.system(size: 16))
+                    .foregroundStyle(.contentPrimary)
+                    .padding(.leading, geometry.size.width * 0.06)
+                    .padding(.bottom, 15)
+                HStack{
+                    TextField("", text: $viewModel.userName)
                         .padding(.leading, geometry.size.width * 0.06)
-                        .padding(.bottom, 15)
-                    HStack{
-                        TextField("", text: $viewModel.userName)
-                            .padding(.leading, geometry.size.width * 0.06)
-                        Spacer()
-                        
-                        Button(action: {
-                            if !viewModel.userName.isEmpty {
-                                shouldNavigate = true
-                            }
-                        }) {
-                            ZStack{
-                                Circle()
-                                    .foregroundColor(viewModel.userName.isEmpty ? .primary300 : .primary900)
-                                    .frame(width: 53)
-                                Image(systemName: "arrow.right")
-                                    .fontWeight(.light)
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.white)
-                            }
-                            .padding(.trailing, geometry.size.width * 0.06)
+                    Spacer()
+                    
+                    Button(action: {
+                        if !viewModel.userName.isEmpty {
+                            shouldNavigate = true
                         }
+                    }) {
+                        ZStack{
+                            Circle()
+                                .foregroundColor(viewModel.userName.isEmpty ? .primary300 : .primary900)
+                                .frame(width: 53)
+                            Image(systemName: "arrow.right")
+                                .fontWeight(.light)
+                                .font(.system(size: 20))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.trailing, geometry.size.width * 0.06)
                     }
-                    .textFieldStyle(SignUpOvalTextFieldStyle(width: geometry.size.width * 0.72))
-                    .font(Font.system(size: 24, design: .default))
-                    .autocorrectionDisabled(true)
-                    .keyboardType(.alphabet)
-                    .submitLabel(.done)
-                    .navigationDestination(isPresented: $shouldNavigate) {
-                        SignUpKabinettNumberSelectView()
-                    }
-                    .navigationBarBackButtonHidden()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.background)
-                .ignoresSafeArea(.keyboard)
+                .textFieldStyle(SignUpOvalTextFieldStyle(width: geometry.size.width * 0.72))
+                .font(Font.system(size: 24, design: .default))
+                .autocorrectionDisabled(true)
+                .keyboardType(.alphabet)
+                .submitLabel(.done)
+                .navigationDestination(isPresented: $shouldNavigate) {
+                    SignUpKabinettNumberSelectView()
+                }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.background)
+            .ignoresSafeArea(.keyboard)
         }
     }
 }
