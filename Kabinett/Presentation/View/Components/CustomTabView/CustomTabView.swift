@@ -17,7 +17,7 @@ struct CustomTabView: View {
     @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             TabView(selection: $viewModel.selectedTab) {
                 NavigationStack(path: $paths[0]) {
                     LetterBoxView()
