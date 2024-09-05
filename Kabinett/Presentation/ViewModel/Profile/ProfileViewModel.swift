@@ -108,6 +108,7 @@ class ProfileViewModel: ObservableObject {
         if !success {
             profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
             showProfileAlert = true
+        }
     }
     
     func handleImageSelection(newItem: PhotosPickerItem?) {
