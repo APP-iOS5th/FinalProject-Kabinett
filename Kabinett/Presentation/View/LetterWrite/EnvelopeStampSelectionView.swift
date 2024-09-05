@@ -47,7 +47,7 @@ struct EnvelopeStampSelectionView: View {
                                 .resizable()
                                 .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
                                 .onAppear {
-                                    if letterContent.envelopeImageUrlString == "" {
+                                    if letterContent.envelopeImageUrlString.isEmpty {
                                         envelopeImageUrl = firstEnvelope
                                     }
                                     letterContent.envelopeImageUrlString = envelopeImageUrl
@@ -74,7 +74,7 @@ struct EnvelopeStampSelectionView: View {
                                         .frame(width: UIScreen.main.bounds.width * 0.1)
                                         .padding(.trailing, 25)
                                         .onAppear {
-                                            if letterContent.stampImageUrlString == "" {
+                                            if letterContent.stampImageUrlString.isEmpty {
                                                 stampImageUrl = firstStamp
                                             }
                                             letterContent.stampImageUrlString = stampImageUrl
@@ -131,20 +131,16 @@ struct EnvelopeStampSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .onAppear {
+        .task {
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
-                Task {
-                    await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
-                    envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
-                    stampImageUrl = imagePickerViewModel.stampURL ?? ""
-                }
+                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
+                stampImageUrl = imagePickerViewModel.stampURL ?? ""
             } else {
-                Task {
-                    await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
-                    envelopeImageUrl = letterContent.envelopeImageUrlString
-                    stampImageUrl = letterContent.stampImageUrlString
-                }
+                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = letterContent.envelopeImageUrlString
+                stampImageUrl = letterContent.stampImageUrlString
             }
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
