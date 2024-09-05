@@ -11,22 +11,15 @@ import os
 
 final class DefaultPhotoLetterUseCase {
     private let logger: Logger
-    private let db = Firestore.firestore()
-    private let authManager: AuthManager
-    private let writerManager: FirestoreWriterManager
     private let letterManager: FirestoreLetterManager
     
     init(
-        authManager: AuthManager,
-        writerManager: FirestoreWriterManager,
         letterManager: FirestoreLetterManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "DefaultPhotoLetterUseCase"
         )
-        self.authManager = authManager
-        self.writerManager = writerManager
         self.letterManager = letterManager
     }
 }
