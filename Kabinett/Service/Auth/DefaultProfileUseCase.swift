@@ -50,12 +50,18 @@ extension DefaultProfileUseCase: ProfileUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
-            return await writerManager.getWriterDocument(with: user.uid)
-        } else {
-            return .anonymousWriter
-        }
+    func getCurrentWriterPublisher() async -> AnyPublisher<Writer, Never> {
+        authManager
+            .getCurrentUser()
+            .compactMap { $0 }
+            .asyncMap { [weak self] user in
+                if user.isAnonymous { return .anonymousWriter }
+                else {
+                    return await self?.writerManager.getWriterDocument(with: user.uid)
+                }
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
     
     func getAppleID() async -> String {
@@ -82,10 +88,17 @@ extension DefaultProfileUseCase: ProfileUseCase {
             profileImage: imageUrlString
         )
         
-        return writerManager.saveWriterDocument(
+        let result = writerManager.saveWriterDocument(
             with: updatedWriter,
             to: currentUser.uid
         )
+        
+        if result {
+            authManager.updateUser(currentUser)
+            return true
+        } else {
+            return false
+        }
     }
     
     func signout() async -> Bool {
@@ -93,7 +106,7 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func deleteId() async -> Bool {
-        authManager.deleteAccount()
+        await authManager.deleteAccount(withSignIn: true)
         
         return true
     }
@@ -108,6 +121,14 @@ private extension DefaultProfileUseCase {
             return .incomplete
         } else {
             return .registered
+        }
+    }
+    
+    func getCurrentWriter() async -> Writer {
+        if let user = authManager.getCurrentUser() {
+            return await writerManager.getWriterDocument(with: user.uid)
+        } else {
+            return .anonymousWriter
         }
     }
 }

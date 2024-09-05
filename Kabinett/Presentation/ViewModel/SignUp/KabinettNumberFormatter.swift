@@ -7,6 +7,8 @@
 
 import Foundation
 
-func formatKabinettNumber(_ number: Int) -> String {
-    return String(format: "%03d-%03d", number / 1000, number % 1000)
+extension Int {
+    func formatKabinettNumber() -> String {
+        return String(format: "%03d-%03d", self / 1000, self % 1000)
+    }
 }
