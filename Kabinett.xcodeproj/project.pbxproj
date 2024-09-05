@@ -101,11 +101,14 @@
 		83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
+		AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */; };
+		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
+		AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */; };
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
-		AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */; };
+		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
 		AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */; };
 		AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */; };
@@ -222,11 +225,14 @@
 		83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
+		AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoLetterUseCase.swift; sourceTree = "<group>"; };
+		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
 		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
-		AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
+		AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterManager.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
+		AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNormalLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentsLoadStuffUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
@@ -525,7 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				8366B6FB2C65EF1B0021FAE0 /* Auth */,
-				838697CB2C64B84500E76230 /* Firebase */,
+				838697CB2C64B84500E76230 /* Letter */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -571,13 +577,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		838697CB2C64B84500E76230 /* Firebase */ = {
+		838697CB2C64B84500E76230 /* Letter */ = {
 			isa = PBXGroup;
 			children = (
-				AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */,
+				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
 				AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */,
+				AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */,
+				AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */,
+				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
 			);
-			path = Firebase;
+			path = Letter;
 			sourceTree = "<group>";
 		};
 		839CE0EA2C644BEF003635F3 = {
@@ -803,7 +812,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */,
-				AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */,
+				AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
@@ -813,9 +822,11 @@
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
+				AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
@@ -863,6 +874,7 @@
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
+				AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */,
 				57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57966BA42C7FF739008D650B /* LetterWritePreviewView.swift in Sources */,

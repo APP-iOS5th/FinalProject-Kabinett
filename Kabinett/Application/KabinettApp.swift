@@ -93,9 +93,13 @@ struct KabinettApp: App {
             authManager: authManager,
             writerManager: writerManager
         )
+        let normalLetterUseCase = DefaultNormalLetterUseCase(
+            authManager: authManager,
+            writerManager: writerManager
+        )
         /// This object performs 3 use cases.
         /// LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase
-        let firebaseFirestoreManager = FirebaseFirestoreManager(
+        let firebaseFirestoreManager = FirestoreLetterManager(
             authManager: authManager,
             writerManager: writerManager
         )
@@ -152,7 +156,7 @@ struct KabinettApp: App {
         // MARK: - LetterWrite ViewModels
         _userSelectionViewModel = .init(
             wrappedValue: UserSelectionViewModel(
-                useCase: firebaseFirestoreManager
+                useCase: normalLetterUseCase
             )
         )
         _stationerySelectionViewModel = .init(

@@ -38,11 +38,11 @@ final class ImagePickerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
     private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
-    private let firebaseFirestoreManager: FirebaseFirestoreManager
+    private let firebaseFirestoreManager: FirestoreLetterManager
     
     init(componentsUseCase: ComponentsUseCase,
          componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
-         firebaseFirestoreManager: FirebaseFirestoreManager) {
+         firebaseFirestoreManager: FirestoreLetterManager) {
         self.componentsUseCase = componentsUseCase
         self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
         self.firebaseFirestoreManager = firebaseFirestoreManager

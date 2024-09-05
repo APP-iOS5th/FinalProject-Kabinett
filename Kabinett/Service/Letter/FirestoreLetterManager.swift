@@ -34,7 +34,7 @@ enum LetterSaveError: Error {
     case bothUsersNotFound
 }
 
-final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase {
+final class FirestoreLetterManager {
     private let logger: Logger
     
     private let db = Firestore.firestore()
@@ -458,49 +458,6 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             return .success(true)
         } catch {
             return .failure(error)
-        }
-    }
-    
-    // TODO: - Refactor this codes
-    func findWriter(by query: String) async -> [Writer] {
-        do {
-            async let resultByName = findDocuments(
-                by: Query(key: "name", value: query),
-                as: Writer.self
-            )
-            async let resultByNumber = findDocuments(
-                by: Query(key: "kabinettNumber", value: query),
-                as: Writer.self
-            )
-            
-            return try await resultByName + resultByNumber
-        } catch {
-            logger.error("Find writer error: \(error.localizedDescription)")
-            return []
-        }
-    }
-    
-    private struct Query {
-        let key: String
-        let value: String
-    }
-    
-    private func findDocuments<T: Codable>(
-        by query: Query,
-        as type: T.Type
-    ) async throws -> [T] {
-        return try await db.collection("Writers")
-            .whereField(query.key, isEqualTo: query.value)
-            .getDocuments()
-            .documents
-            .map { try $0.data(as: type) }
-    }
-    
-    func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
-            return await writerManager.getWriterDocument(with: user.uid)
-        } else {
-            return .anonymousWriter
         }
     }
     
