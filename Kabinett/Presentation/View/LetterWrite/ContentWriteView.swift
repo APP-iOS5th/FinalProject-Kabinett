@@ -27,6 +27,7 @@ struct ContentWriteView: View {
                     .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 
                 ScrollableLetterView(letterContent: $letterContent)
+                    .padding(.top, -25)
             }
         }
         .navigationBarBackButtonHidden()

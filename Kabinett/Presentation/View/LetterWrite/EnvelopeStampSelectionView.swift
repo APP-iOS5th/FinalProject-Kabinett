@@ -131,12 +131,16 @@ struct EnvelopeStampSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .onAppear {
+        .task {
             postScriptText = letterContent.postScript ?? ""
-            Task {
+            if letterContent.dataSource == .fromImagePicker {
                 await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
                 stampImageUrl = imagePickerViewModel.stampURL ?? ""
+            } else {
+                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = letterContent.envelopeImageUrlString
+                stampImageUrl = letterContent.stampImageUrlString
             }
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
