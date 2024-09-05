@@ -115,14 +115,17 @@ final class ImagePickerViewModel: ObservableObject {
     
     @MainActor
     func fetchCurrentWriter() async {
-        let result = await firebaseFirestoreManager.getCurrentWriter()
-        self.fromUser = result
-        self.fromUserName = result.name
-        self.userKabiNumber = String(format: "%06d", result.kabinettNumber)
-        self.fromUserId = result.id
-        updateCurrentUser()
-        var letterContent = LetterWriteModel()
-        updateSelectedUser(&letterContent, selectedUserName: result.name)
+        let publisher = await firebaseFirestoreManager.getCurrentWriter()
+        for await result in publisher.values {
+            self.fromUser = result
+            self.fromUserName = result.name
+            self.userKabiNumber = String(format: "%06d", result.kabinettNumber)
+            self.fromUserId = result.id
+            updateCurrentUser()
+            var letterContent = LetterWriteModel()
+            updateSelectedUser(&letterContent, selectedUserName: result.name)
+            break
+        }
     }
     
     // MARK: - Image Loading
