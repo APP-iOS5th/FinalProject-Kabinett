@@ -50,7 +50,6 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
     ) async -> Result<Bool, any Error> {
         
         do {
-//            try await validateFromUser(fromUserId: fromUserId)
             let photoContentStringUrl: [String]
             if !photoContents.isEmpty {
                 photoContentStringUrl = try await letterManager.convertPhotoToUrl(photoContents: photoContents)

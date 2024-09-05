@@ -54,55 +54,6 @@ final class FirestoreLetterManager {
         self.writerManager = writerManager
     }
     
-    // MARK: - ComponentsUseCase
-    func saveLetter(postScript: String?,
-                    envelope: String,
-                    stamp: String,
-                    fromUserId: String?,
-                    fromUserName: String,
-                    fromUserKabinettNumber: Int?,
-                    toUserId: String?,
-                    toUserName: String,
-                    toUserKabinettNumber: Int?,
-                    photoContents: [Data],
-                    date: Date,
-                    isRead: Bool
-    ) async -> Result<Bool, any Error> {
-        
-        // Parameter 유효성 검사
-        guard !envelope.isEmpty else { return .failure(LetterError.invalidEnvelope) }
-        guard !stamp.isEmpty else { return .failure(LetterError.invalidStamp) }
-        guard !fromUserName.isEmpty else { return .failure(LetterError.invalidFromUserName) }
-        guard !toUserName.isEmpty else { return .failure(LetterError.invalidToUserName) }
-        guard !photoContents.isEmpty else { return .failure(LetterError.invalidPhotoContents) }
-        
-        do {
-            let photoContentStringUrl = try await convertPhotoToUrl(photoContents: photoContents)
-            
-            let letter = Letter(
-                id: nil,
-                fontString: nil,
-                postScript: postScript ?? "",
-                envelopeImageUrlString: envelope,
-                stampImageUrlString: stamp,
-                fromUserId: fromUserId ?? "",
-                fromUserName: fromUserName,
-                fromUserKabinettNumber: fromUserKabinettNumber ?? 0,
-                toUserId: toUserId ?? "",
-                toUserName: toUserName,
-                toUserKabinettNumber: toUserKabinettNumber ?? 0,
-                content: [],
-                photoContents: photoContentStringUrl,
-                date: date,
-                stationeryImageUrlString: nil,
-                isRead: isRead)
-            
-            return await saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
-        } catch {
-            return .failure(error)
-        }
-    }
-    
     // MARK: - LetterBoxUseCase
     // letter 타입별 로딩
     func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
@@ -402,14 +353,14 @@ final class FirestoreLetterManager {
     }
     
     // MARK: - 유효성 검사
-    private func validateFromUser(fromUserId: String?) async throws {
+    func validateFromUser(fromUserId: String?) async throws {
         let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
         
         let fromUserSnapshot = fromUserDoc != nil ? try await fromUserDoc!.getDocument() : nil
         guard let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists else { throw LetterSaveError.invalidFromUserDoc }
     }
     
-    private func validateLetter(
+   func validateLetter(
         userId: String,
         letterId: String,
         letterType: String
