@@ -235,7 +235,7 @@ final class ImagePickerViewModel: ObservableObject {
     }
     
     // MARK: - Methods (편지 저장 후 초기화)
-    private func resetState() {
+    func resetState() {
         photoContents = []
         selectedItems = []
     }

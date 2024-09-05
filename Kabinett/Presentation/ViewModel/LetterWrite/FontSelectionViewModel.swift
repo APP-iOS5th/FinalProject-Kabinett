@@ -63,6 +63,12 @@ class FontSelectionViewModel: ObservableObject {
         updateText()
     }
     
+    func reset() {
+        selectedIndex = 0
+        testFontText = []
+        updateText()
+    }
+    
     private func updateText() {
         for _ in 0..<dummyFonts.count {
             testFontText.append("")
