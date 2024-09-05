@@ -11,10 +11,13 @@ import AuthenticationServices
 struct LoginView: View {
     @EnvironmentObject private var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
+    let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     
     var body: some View {
         NavigationStack {
-            VStack {
+            ZStack {
+                Color.background.ignoresSafeArea(.all)
+                
                 GeometryReader { geometry in
                     VStack {
                         Circle()
@@ -34,37 +37,40 @@ struct LoginView: View {
                             .fontWeight(.black)
                             .font(.system(size: 16))
                             .foregroundStyle(.contentSecondary)
-                            .padding(.bottom, 25)
-                        
-                        SignInWithAppleButton { request in
-                            viewModel.handleSignInWithAppleRequest(request)
-                        } onCompletion: { result in
-                            viewModel.handleAuthorization(result: result)
-                        }
-                        .padding(.horizontal, geometry.size.width * 0.06)
-                        .frame(height: 54)
                     }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.background)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 }
-                .navigationDestination(isPresented: $viewModel.loginSuccess) {
-                    SignUpNameInputView()
-                }
-                .navigationDestination(isPresented: $viewModel.signUpSuccess) {
-                        ProfileView()
-                }
-                .alert(
-                    "오류",
-                    isPresented: $viewModel.showAlert
-                ) {
-                    Button("확인", role: .cancel) {
+                
+                VStack {
+                    SignInWithAppleButton { request in
+                        viewModel.handleSignInWithAppleRequest(request)
+                    } onCompletion: { result in
+                        viewModel.handleAuthorization(result: result)
                     }
-                } message: {
-                    Text(viewModel.loginError ?? "로그인 오류가 발생했어요. 카비넷 팀에게 알려주세요.")
+                    .frame(height: 54)
+                    .padding(.horizontal, horizontalPadding)
+                    .padding(.top, 330)
+                    
                 }
             }
-            .navigationBarBackButtonHidden()
+            
+            .navigationDestination(isPresented: $viewModel.loginSuccess) {
+                SignUpNameInputView()
+            }
+            .navigationDestination(isPresented: $viewModel.signUpSuccess) {
+                ProfileView()
+            }
+            .alert(
+                "오류",
+                isPresented: $viewModel.showAlert
+            ) {
+                Button("확인", role: .cancel) {
+                }
+            } message: {
+                Text(viewModel.loginError ?? "로그인 오류가 발생했어요. 카비넷 팀에게 알려주세요.")
+            }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
