@@ -496,12 +496,18 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             .map { try $0.data(as: type) }
     }
     
-    func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
-            return await writerManager.getWriterDocument(with: user.uid)
-        } else {
-            return .anonymousWriter
-        }
+    func getCurrentWriter() async -> AnyPublisher<Writer, Never> {
+        await authManager
+            .getCurrentUser()
+            .compactMap { $0 }
+            .asyncMap { [weak self] user in
+                if user.isAnonymous { return .anonymousWriter }
+                else {
+                    return await self?.writerManager.getWriterDocument(with: user.uid)
+                }
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
     
     // MARK: - 유효성 검사

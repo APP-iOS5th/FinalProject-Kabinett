@@ -9,8 +9,10 @@ import SwiftUI
 
 struct OptionOverlay: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
+
+    @State private var letterContent = LetterWriteModel()
     @State var letterContent = LetterWriteModel()
-    
+
     @State private var isWritingLetter = false
     
     var body: some View {
@@ -40,7 +42,9 @@ struct OptionOverlay: View {
                     }
                     
                     Button(action: {
-                        isWritingLetter = true
+                        withAnimation {
+                            isWritingLetter = true
+                        }
                     }) {
                         Text("편지 쓰기")
                             .font(.system(size: 14))

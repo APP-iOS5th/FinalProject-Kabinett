@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    func formattedString(format: String = "MMMM d, yyyy") -> String {
+    func formattedString(format: String = "yyyy년 M월 d일") -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: self)

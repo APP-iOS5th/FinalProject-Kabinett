@@ -21,7 +21,6 @@ struct NavigationBarView<Destination: View>: View {
         self.action = action
     }
     
-    
     var body: some View {
         ZStack {
             HStack {

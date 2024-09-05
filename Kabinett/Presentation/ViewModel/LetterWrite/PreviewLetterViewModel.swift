@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class LetterWritePreviewViewModel: ObservableObject {
+class PreviewLetterViewModel: ObservableObject {
     private let useCase: LetterWriteUseCase
     
     @Published var isSaveSuccessful: Bool = false

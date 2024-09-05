@@ -23,7 +23,11 @@ struct ImagePreview: View {
                     OverlappingImagesView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
                     Spacer()
                     Button(action: {
-                        showLetterWritingView = true
+                        if customViewModel.letterWrite {
+                            dismiss()
+                        } else {
+                            showLetterWritingView = true
+                        }
                     }) {
                         Text("편지 선택하기")
                             .foregroundStyle(.white)
