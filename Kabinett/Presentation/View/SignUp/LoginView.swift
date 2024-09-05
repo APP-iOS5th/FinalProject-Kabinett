@@ -60,7 +60,7 @@ struct LoginView: View {
                     Button("확인", role: .cancel) {
                     }
                 } message: {
-                    Text(viewModel.loginError ?? "알 수 없는 로그인 오류가 발생했어요.")
+                    Text(viewModel.loginError ?? "로그인 오류가 발생했어요. 카비넷 팀에게 알려주세요.")
                 }
             }
             .navigationBarBackButtonHidden()
