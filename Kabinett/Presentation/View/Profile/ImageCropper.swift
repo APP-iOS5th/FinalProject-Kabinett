@@ -65,6 +65,8 @@ struct ImageCropper: View {
             Spacer()
 
             Text("이미지 자르기")
+                .fontWeight(.medium)
+                .font(.system(size: 18))
                 .foregroundColor(.white)
 
             Spacer()
