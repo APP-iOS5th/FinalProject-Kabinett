@@ -99,19 +99,16 @@ struct KabinettApp: App {
         )
         let normalLetterUseCase = DefaultNormalLetterUseCase(
             authManager: authManager,
-            writerManager: writerManager, letterManager: letterManager
-        )
-        let photoLetterUseCase = DefaultPhotoLetterUseCase(
-            authManager: authManager,
-            writerManager: writerManager,
+            writerManager: writerManager, 
             letterManager: letterManager
         )
-        /// This object performs 3 use cases.
-        /// LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase
-        let firebaseFirestoreManager = FirestoreLetterManager(
-            authManager: authManager,
-            writerManager: writerManager
+        let photoLetterUseCase = DefaultPhotoLetterUseCase(
+            letterManager: letterManager
         )
+        let letterboxUseCase = DefaultLetterBoxUseCase(
+            letterManager: letterManager
+        )
+        
         /// This object performs 2 use cases.
         /// LetterWriteLoadStuffUseCase, ComponentsLoadStuffUseCase
         let firebaseStorageManager = FirebaseStorageManager()
@@ -119,17 +116,17 @@ struct KabinettApp: App {
         // MARK: - LetterBox ViewModels
         _letterViewModel = .init(
             wrappedValue: LetterViewModel(
-                letterBoxUseCase: firebaseFirestoreManager
+                letterBoxUseCase: letterboxUseCase
             )
         )
         _letterBoxViewModel = .init(
             wrappedValue: LetterBoxViewModel(
-                letterBoxUseCase: firebaseFirestoreManager
+                letterBoxUseCase: letterboxUseCase
             )
         )
         _letterBoxDetailViewModel = .init(
             wrappedValue: LetterBoxDetailViewModel(
-                letterBoxUseCase: firebaseFirestoreManager
+                letterBoxUseCase: letterboxUseCase
             )
         )
         _calendarViewModel = .init(
@@ -155,7 +152,7 @@ struct KabinettApp: App {
             wrappedValue: ImagePickerViewModel(
                 componentsUseCase: photoLetterUseCase,
                 componentsLoadStuffUseCase: firebaseStorageManager,
-                firebaseFirestoreManager: firebaseFirestoreManager
+                firebaseFirestoreManager: letterManager
             )
         )
         _customTabViewModel = .init(
