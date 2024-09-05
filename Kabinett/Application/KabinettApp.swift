@@ -82,6 +82,10 @@ struct KabinettApp: App {
         let writerManager = FirestoreWriterManager()
         let writerStorageManager = FirestorageWriterManager()
         let authManager = AuthManager(writerManager: writerManager)
+        let letterManager = FirestoreLetterManager(
+            authManager: authManager,
+            writerManager: writerManager
+        )
         
         // MARK: - UseCase Dependencies
         let profileUseCase = DefaultProfileUseCase(
@@ -95,7 +99,12 @@ struct KabinettApp: App {
         )
         let normalLetterUseCase = DefaultNormalLetterUseCase(
             authManager: authManager,
-            writerManager: writerManager
+            writerManager: writerManager, letterManager: letterManager
+        )
+        let photoLetterUseCase = DefaultPhotoLetterUseCase(
+            authManager: authManager,
+            writerManager: writerManager,
+            letterManager: letterManager
         )
         /// This object performs 3 use cases.
         /// LetterWriteUseCase, ComponentsUseCase, LetterBoxUseCase
@@ -144,7 +153,7 @@ struct KabinettApp: App {
         // MARK: - Componets ViewModels
         _imagePickerViewModel = .init(
             wrappedValue: ImagePickerViewModel(
-                componentsUseCase: firebaseFirestoreManager,
+                componentsUseCase: photoLetterUseCase,
                 componentsLoadStuffUseCase: firebaseStorageManager,
                 firebaseFirestoreManager: firebaseFirestoreManager
             )
@@ -177,7 +186,7 @@ struct KabinettApp: App {
         )
         _letterWritePreviewViewModel = .init(
             wrappedValue: LetterWritePreviewViewModel(
-                useCase: firebaseFirestoreManager
+                useCase: normalLetterUseCase
             )
         )
     }
