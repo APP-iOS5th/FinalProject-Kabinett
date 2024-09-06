@@ -98,6 +98,7 @@ struct EnvelopeStampSelectionView: View {
                                     Text("받는 사람")
                                         .font(.system(size: 7))
                                         .padding(.bottom, 1)
+                                        .padding(.leading, -5) //추가
                                     Text(letterContent.toUserName)
                                         .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
                                 }
@@ -183,7 +184,8 @@ struct EnvelopeCell: View {
                                             .resizable()
                                             .aspectRatio(9/4, contentMode: .fit)
                                             .padding(10)
-                                            .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+//                                            .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                             .onTapGesture {
                                                 viewModel.envelopeSelectStationery(coordinates: (rowIndex, columnIndex))
                                                 envelopeImageUrl = viewModel.envelopes[index]
