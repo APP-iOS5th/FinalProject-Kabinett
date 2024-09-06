@@ -28,7 +28,6 @@ final class AuthManager {
         self.writerManager = writerManager
         
         observeCurrentAuthStatus()
-        signInAnonymousIfNeeded()
     }
     
     func getCurrentUser() -> AnyPublisher<User?, Never> {
@@ -94,7 +93,7 @@ final class AuthManager {
         }
     }
     
-    func deleteAccount(withSignIn: Bool = false) async {
+    func deleteAccount() async {
         do {
             guard let currentUser = getCurrentUser() else {
                 logger.error("Delete account without user is not allowed.")
@@ -102,11 +101,6 @@ final class AuthManager {
             }
             try await currentUser.delete()
             try await writerManager.deleteUserData(currentUser.uid)
-            
-            if withSignIn {
-                logger.info("with sign in is true: \(Auth.auth().currentUser)")
-                signInAnonymousIfNeeded()
-            }
         } catch {
             logger.error("Delete account is failed: \(error.localizedDescription)")
         }
@@ -133,6 +127,9 @@ final class AuthManager {
     private func observeCurrentAuthStatus() {
         Task { [weak self] in
             for await user in AuthManager.users {
+                if user == nil {
+                    self?.signInAnonymousIfNeeded()
+                }
                 self?.logger.debug(
                     "User authentication state is changed: \(String(describing: user?.uid), privacy: .private)"
                 )

@@ -106,7 +106,7 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func deleteId() async -> Bool {
-        await authManager.deleteAccount(withSignIn: true)
+        await authManager.deleteAccount()
         
         return true
     }
