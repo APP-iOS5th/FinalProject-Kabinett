@@ -11,29 +11,25 @@ import os
 final class DefaultLetterBoxUseCase {
     private let logger: Logger
     private let letterManager: FirestoreLetterManager
+    private let authManager: AuthManager
     
     init(
-        letterManager: FirestoreLetterManager
+        letterManager: FirestoreLetterManager,
+        authManager: AuthManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "DefaultLetterBoxUseCase"
         )
         self.letterManager = letterManager
+        self.authManager = authManager
     }
 }
 
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     // letter 타입별 로딩
     func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
-        let userId: String
-        
-        do {
-            userId = try await letterManager.getCurrentUserId()
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -79,13 +75,8 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
     // 안읽은 letter 개수 로딩
     func getIsRead() async -> Result<[LetterType: Int], any Error> {
-        do {
-            let userId = try await letterManager.getCurrentUserId()
-            return await letterManager.getIsReadCount(userId: userId)
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
+        return await letterManager.getIsReadCount(userId: userId)
     }
     
     // keyword 기준 letter 검색
@@ -93,14 +84,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         findKeyword: String,
         letterType: LetterType
     ) async -> Result<[Letter]?, any Error> {
-        let userId: String
-        
-        do {
-            userId = try await letterManager.getCurrentUserId()
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -136,14 +120,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         startDate: Date,
         endDate: Date
     ) async -> Result<[Letter]?, any Error> {
-        let userId: String
-        
-        do {
-            userId = try await letterManager.getCurrentUserId()
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -182,14 +159,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
-        let userId: String
-        
-        do {
-            userId = try await letterManager.getCurrentUserId()
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -224,14 +194,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
-        let userId: String
-        
-        do {
-            userId = try await letterManager.getCurrentUserId()
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -262,12 +225,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     }
     
     func getWelcomeLetter() async -> Result<Bool, any Error> {
-        do {
-            let userId = try await letterManager.getCurrentUserId()
-            return await letterManager.getWelcomeLetter(userId: userId)
-        } catch {
-            logger.error("Failed Get Writer: \(error.localizedDescription)")
-            return .failure(error)
-        }
+        let userId = authManager.getCurrentUser()?.uid ?? ""
+        return await letterManager.getWelcomeLetter(userId: userId)
     }
 }

@@ -30,16 +30,18 @@ final class FirestoreLetterManager {
     
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
-    private let authManager: AuthManager
     
     init(
-        authManager: AuthManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
-        self.authManager = authManager
+    }
+    
+    struct Query {
+        let key: String
+        let value: String
     }
     
     func validateLetter(
@@ -54,32 +56,6 @@ final class FirestoreLetterManager {
         
         let letterSnapshot = try await letterDoc.getDocument()
         guard letterSnapshot.exists else { throw LetterError.invalidLetterId }
-    }
-    
-    // MARK: - 유저 DocumentID 가져오기
-    func getCurrentUserId() async throws -> String {
-        try await withCheckedThrowingContinuation { continuation in
-            var cancellable: AnyCancellable?
-            cancellable = authManager.getCurrentUser()
-                .first()
-                .sink { completion in
-                    switch completion {
-                    case .finished:
-                        break
-                    case .failure(let error):
-                        self.logger.error("Writer found Error: \(error.localizedDescription)")
-                        continuation.resume(throwing: error)
-                    }
-                    cancellable?.cancel()
-                } receiveValue: { user in
-                    if let uid = user?.uid {
-                        continuation.resume(returning: uid)
-                    } else {
-                        continuation.resume(throwing: LetterError.invalidUser)
-                    }
-                    cancellable?.cancel()
-                }
-        }
     }
     
     // MARK: - Firestore Letter 저장
@@ -388,6 +364,17 @@ final class FirestoreLetterManager {
             logger.error("Failed to get Welcome Letter: \(error.localizedDescription)")
             return .failure(error)
         }
+    }
+    
+    func findDocuments<T: Codable>(
+        by query: Query,
+        as type: T.Type
+    ) async throws -> [T] {
+        return try await db.collection("Writers")
+            .whereField(query.key, isEqualTo: query.value)
+            .getDocuments()
+            .documents
+            .map { try $0.data(as: type) }
     }
     
     // MARK: - PhotoContents URL 변환

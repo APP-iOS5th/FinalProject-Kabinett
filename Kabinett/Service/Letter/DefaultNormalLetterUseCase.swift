@@ -6,12 +6,10 @@
 //
 
 import Foundation
-import FirebaseFirestore
 import os
 
 final class DefaultNormalLetterUseCase {
     private let logger: Logger
-    private let db = Firestore.firestore()
     private let authManager: AuthManager
     private let writerManager: FirestoreWriterManager
     private let letterManager: FirestoreLetterManager
@@ -86,11 +84,11 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
     // TODO: - Refactor this codes
     func findWriter(by query: String) async -> [Writer] {
         do {
-            async let resultByName = findDocuments(
+            async let resultByName = letterManager.findDocuments(
                 by: Query(key: "name", value: query),
                 as: Writer.self
             )
-            async let resultByNumber = findDocuments(
+            async let resultByNumber = letterManager.findDocuments(
                 by: Query(key: "kabinettNumber", value: query),
                 as: Writer.self
             )
@@ -109,21 +107,4 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
             return .anonymousWriter
         }
     }
-    
-    private struct Query {
-        let key: String
-        let value: String
-    }
-    
-    private func findDocuments<T: Codable>(
-        by query: Query,
-        as type: T.Type
-    ) async throws -> [T] {
-        return try await db.collection("Writers")
-            .whereField(query.key, isEqualTo: query.value)
-            .getDocuments()
-            .documents
-            .map { try $0.data(as: type) }
-    }
-    
 }

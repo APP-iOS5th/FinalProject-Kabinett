@@ -60,9 +60,7 @@ struct KabinettApp: App {
         let writerManager = FirestoreWriterManager()
         let writerStorageManager = FirestorageWriterManager()
         let authManager = AuthManager(writerManager: writerManager)
-        let letterManager = FirestoreLetterManager(
-            authManager: authManager
-        )
+        let letterManager = FirestoreLetterManager()
         
         // MARK: - UseCase Dependencies
         let profileUseCase = DefaultProfileUseCase(
