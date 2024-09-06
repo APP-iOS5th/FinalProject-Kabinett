@@ -16,9 +16,12 @@ final class AuthManager {
         case existingUser(User?)
     }
     
+    // MARK: - Properties
     private let logger: Logger
     private var currentUserSubject: CurrentValueSubject<User?, Never> = .init(nil)
     private let writerManager: FirestoreWriterManager
+    
+    private var task: Task<Void, Never>?
     
     init(writerManager: FirestoreWriterManager) {
         self.logger = Logger(
@@ -30,6 +33,11 @@ final class AuthManager {
         observeCurrentAuthStatus()
     }
     
+    deinit {
+        task?.cancel()
+    }
+    
+    // MARK: - Public Methods
     func getCurrentUser() -> AnyPublisher<User?, Never> {
         currentUserSubject
             .eraseToAnyPublisher()
@@ -125,7 +133,7 @@ final class AuthManager {
     }
     
     private func observeCurrentAuthStatus() {
-        Task { [weak self] in
+        task = Task { [weak self] in
             for await user in AuthManager.users {
                 if user == nil {
                     self?.signInAnonymousIfNeeded()
@@ -159,8 +167,12 @@ final class AuthManager {
 private extension AuthManager {
     static var users: AsyncStream<User?> {
         AsyncStream { continuation in
-            _ = Auth.auth().addStateDidChangeListener { auth, user in
+            let listener = Auth.auth().addStateDidChangeListener { auth, user in
                 continuation.yield(user)
+            }
+            
+            continuation.onTermination = { _ in
+                Auth.auth().removeStateDidChangeListener(listener)
             }
         }
     }
