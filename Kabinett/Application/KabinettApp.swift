@@ -81,7 +81,8 @@ struct KabinettApp: App {
             letterManager: letterManager
         )
         let letterboxUseCase = DefaultLetterBoxUseCase(
-            letterManager: letterManager
+            letterManager: letterManager,
+            authManager: authManager
         )
         
         /// This object performs 2 use cases.
