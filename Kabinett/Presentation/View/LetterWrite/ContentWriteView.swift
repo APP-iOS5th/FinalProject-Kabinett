@@ -91,9 +91,6 @@ struct ScrollableLetterView: View {
                                             }
                                             
                                         }
-                                        .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                            if letterContent.content.isEmpty {
-                                                letterContent.content.append("")
                                         .padding(.top, 45)
                                         .padding(.leading, 2)
                                         .padding(.bottom, 3)
@@ -102,6 +99,8 @@ struct ScrollableLetterView: View {
                                             CustomTextEditor(text: $viewModel.texts[i],
                                                              height: $viewModel.textViewHeights[i],
                                                              maxWidth: geo.size.width,
+                                                             maxHeight: geo.size.height,
+                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
                                             .onChange(of: viewModel.textViewHeights[i]) {
                                                 if viewModel.textViewHeights[i] >= geo.size.height {
                                                     viewModel.createNewLetter()
@@ -112,8 +111,6 @@ struct ScrollableLetterView: View {
                                                     letterContent.content.append("")
                                                 }
                                                 letterContent.content[0] = viewModel.texts[0]
-                                                             maxHeight: geo.size.height,
-                                                             font: viewModel.selectedFont(font: letterContent.fontString ?? ""))
                                             }
                                         }
                                         Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
