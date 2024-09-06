@@ -125,13 +125,13 @@ struct PreviewLetterView: View {
                     customTabViewModel.hideOptions()
                 } label: {
                     Text("편지 보내기")
-                        .font(.system(size: 15))
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity, minHeight: 56)
                 }
                 .background(Color("Primary900"))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-                .padding(.bottom, 5)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }

@@ -31,12 +31,13 @@ struct OptionOverlay: View {
                         viewModel.hideOptions()
                     }) {
                         Text("편지 불러오기")
-                            .font(.system(size: 14))
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .frame(height: 24)
                             .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color.primary100)
+                            .foregroundColor(.contentPrimary)
                     }
                     
                     Button(action: {
@@ -45,12 +46,13 @@ struct OptionOverlay: View {
                         }
                     }) {
                         Text("편지 쓰기")
-                            .font(.system(size: 14))
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .frame(height: 24)
                             .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color.primary100)
+                            .foregroundColor(.contentPrimary)
                     }
                 }
                 .cornerRadius(10)

@@ -85,11 +85,11 @@ struct SignUpKabinettNumberSelectView: View {
                     }
                 }) {
                     Text("시작하기")
-                        .fontWeight(.medium)
-                        .font(.system(size: 15))
+                        .fontWeight(.semibold)
+                        .font(.system(size: 16))
                         .foregroundColor(.white)
                         .frame(width: geometry.size.width * 0.86, height: 56)
-                        .background(RoundedRectangle(cornerRadius: 14)
+                        .background(RoundedRectangle(cornerRadius: 16)
                             .fill(viewModel.selectedKabinettNumber != nil ? Color.primary900 : Color.primary300))
                 }
                 .disabled(viewModel.selectedKabinettNumber == nil)
