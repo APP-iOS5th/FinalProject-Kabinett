@@ -272,7 +272,7 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		57ED9CE12C7375AC00A4312C /* fonts */ = {
+		57ED9CE12C7375AC00A4312C /* Font */ = {
 			isa = PBXGroup;
 			children = (
 				577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */,
@@ -283,7 +283,7 @@
 				57ED9CE22C7375FC00A4312C /* Baskervville-Regular.otf */,
 				57ED9CE62C73780100A4312C /* Pecita.otf */,
 			);
-			path = fonts;
+			path = Font;
 			sourceTree = "<group>";
 		};
 		7F397C4F2C7C381E00388645 /* Camera */ = {
@@ -474,7 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				57635A6B2C88890E00727CC5 /* Extension */,
-				57ED9CE12C7375AC00A4312C /* fonts */,
+				57ED9CE12C7375AC00A4312C /* Font */,
 				57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
