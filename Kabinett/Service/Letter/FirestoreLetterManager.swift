@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-import FirebaseStorage
 import Combine
 import os
 
@@ -29,7 +28,6 @@ final class FirestoreLetterManager {
     private let logger: Logger
     
     private let db = Firestore.firestore()
-    private let storage = Storage.storage()
     
     init(
     ) {
@@ -375,31 +373,5 @@ final class FirestoreLetterManager {
             .getDocuments()
             .documents
             .map { try $0.data(as: type) }
-    }
-    
-    // MARK: - PhotoContents URL 변환
-    func convertPhotoToUrl(photoContents: [Data]) async throws -> [String] {
-        let storageRef = storage.reference()
-        
-        return try await withThrowingTaskGroup(of: String.self) { taskGroup in
-            var photoContentUrlStrings: [String] = []
-            
-            for photoContent in photoContents {
-                taskGroup.addTask {
-                    let photoRef = storageRef.child("Users/photoContents/\(UUID().uuidString).jpg")
-                    
-                    _ = try await photoRef.putDataAsync(photoContent, metadata: nil)
-                    
-                    let downloadURL = try await photoRef.downloadURL()
-                    return downloadURL.absoluteString
-                }
-            }
-            
-            for try await urlString in taskGroup {
-                photoContentUrlStrings.append(urlString)
-            }
-            
-            return photoContentUrlStrings
-        }
     }
 }

@@ -110,7 +110,7 @@
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
 		AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */; };
 		AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */; };
-		AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */; };
+		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,7 +233,7 @@
 		AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNormalLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentsLoadStuffUseCase.swift; sourceTree = "<group>"; };
-		AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -586,7 +586,7 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
-				AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */,
+				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
 				AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */,
 				AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */,
 				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
@@ -874,7 +874,7 @@
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
-				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */,
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,

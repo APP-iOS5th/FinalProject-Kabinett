@@ -87,7 +87,7 @@ struct KabinettApp: App {
         
         /// This object performs 2 use cases.
         /// LetterWriteLoadStuffUseCase, ComponentsLoadStuffUseCase
-        let firebaseStorageManager = FirebaseStorageManager()
+        let firebaseStorageManager = FirestorageLetterManager()
         
         // MARK: - LetterBox ViewModels
         _letterViewModel = .init(
