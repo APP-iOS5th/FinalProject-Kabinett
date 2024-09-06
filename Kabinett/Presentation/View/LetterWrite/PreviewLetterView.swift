@@ -70,7 +70,7 @@ struct PreviewLetterView: View {
                                 Text("받는 사람")
                                     .font(.system(size: 7))
                                     .padding(.bottom, 1)
-                                    .padding(.leading, -5) //추가
+                                    .padding(.leading, -5)
                                 Text(letterContent.toUserName)
                                     .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
                             }

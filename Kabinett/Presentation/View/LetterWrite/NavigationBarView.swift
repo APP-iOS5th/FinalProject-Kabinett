@@ -28,7 +28,6 @@ struct NavigationBarView<Destination: View>: View {
                     self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
-//                        .aspectRatio(contentMode: .fit)
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundStyle(Color("ContentPrimary"))
                 }
@@ -47,14 +46,12 @@ struct NavigationBarView<Destination: View>: View {
                 if isNavigation {
                     NavigationLink(destination: destination) {
                         Text("다음")
-//                            .foregroundColor(Color.black)
                             .fontWeight(.medium)
                             .font(.system(size: 19))
                             .foregroundColor(.contentPrimary)
                     }
                 } else if let action = action {
                     Button("다음", action: action)
-//                        .foregroundColor(Color.black)
                         .fontWeight(.medium)
                         .font(.system(size: 19))
                         .foregroundColor(.contentPrimary)

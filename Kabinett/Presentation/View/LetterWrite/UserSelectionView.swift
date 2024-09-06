@@ -38,7 +38,6 @@ struct UserSelectionView: View {
                             presentation.wrappedValue.dismiss()
                         }
                     }
-//                    .foregroundStyle(.black)
                     .fontWeight(.medium)
                     .font(.system(size: 19))
                     .foregroundColor(.contentPrimary)
@@ -57,7 +56,6 @@ struct UserSelectionView: View {
                             VStack {
                                 Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요.")
                                     .font(.system(size: 12))
-//                                    .lineSpacing(5)
                                     .lineSpacing(3)
                                     .foregroundStyle(Color("ContentSecondary"))
                                     .bold()
@@ -68,11 +66,9 @@ struct UserSelectionView: View {
                                     }
                                     .buttonStyle(.plain)
                                     .foregroundStyle(Color("ContentPrimary"))
-//                                    .font(.system(size: 15))
                                     .font(.system(size: 16))
                                     .bold()
                                     .underline()
-//                                    .padding(.top, 20)
                                     .padding(.top, 15)
                                     .sheet(isPresented: $viewModel.showModal) {
                                         LetterWriteLoginView()
@@ -114,7 +110,6 @@ struct FormToUser: View {
                 .background(Color.white)
                 .clipShape(Capsule())
         }
-//        .padding(.top, 24)
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
             letterContent.fromUserId = viewModel.fromUser?.id
