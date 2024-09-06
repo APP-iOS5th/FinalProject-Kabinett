@@ -45,11 +45,7 @@ extension DefaultSignUpUseCase: SignUpUseCase {
         return availableNumbers
     }
     
-    func signUp(_ authorization: ASAuthorization) async -> SignUpResult {
-        // TODO: Check this sign-in is success or failed.
-        // TODO: Add nonce as parameter.
-        // let nonce = ""
-        
+    func signUp(with authorization: ASAuthorization, nonce: String) async -> SignUpResult {
         guard let appleIDCrendential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             logger.error("This Credential is not valid.")
             return .newUser
@@ -62,7 +58,7 @@ extension DefaultSignUpUseCase: SignUpUseCase {
             logger.error("Cannot parse id token string from toke: \(appleIDToken.debugDescription)")
             return .newUser
         }
-        let result = await authManager.linkAccount(with: idTokenString)
+        let result = await authManager.linkAccount(with: idTokenString, nonce: nonce)
         
         switch result {
         case .newUser:
