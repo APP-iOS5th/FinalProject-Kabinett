@@ -12,6 +12,7 @@ struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @EnvironmentObject var fontViewModel: FontSelectionViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
@@ -61,7 +62,7 @@ struct EnvelopeStampSelectionView: View {
                                         .font(.system(size: 7))
                                         .padding(.bottom, 1)
                                     Text(letterContent.fromUserName)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.leading, 25)
                                 
@@ -88,7 +89,7 @@ struct EnvelopeStampSelectionView: View {
                             HStack(alignment: .top) {
                                 VStack {
                                     Text(text)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                 }
                                 .padding(.leading, 25)
                                 
@@ -99,13 +100,12 @@ struct EnvelopeStampSelectionView: View {
                                         .font(.system(size: 7))
                                         .padding(.bottom, 1)
                                     Text(letterContent.toUserName)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.trailing, 100)
                             }
                             .padding(.bottom, 30)
                         }
-                        
                     }
                     .aspectRatio(9/4, contentMode: .fit)
                     .padding(.bottom, 50)

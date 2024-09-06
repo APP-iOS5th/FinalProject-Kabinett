@@ -78,4 +78,20 @@ class FontSelectionViewModel: ObservableObject {
     func isSelected(index: Int) -> Bool {
         return selectedIndex == index
     }
+    
+    func selectedUIFont(font: String) -> UIFont {
+        if font == "SFMONO" {
+            return UIFont.monospacedSystemFont(ofSize: 15, weight: .regular)
+        } else {
+            return UIFont(name: font, size: 15) ?? UIFont.systemFont(ofSize: 15)
+        }
+    }
+    
+    func selectedFont(font: String, size: CGFloat) -> Font {
+        if font == "SFMONO" {
+            return .system(size: size, design: .monospaced)
+        } else {
+            return .custom("font", size: size)
+        }
+    }
 }

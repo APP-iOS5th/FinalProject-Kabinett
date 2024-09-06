@@ -51,6 +51,7 @@ struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var fontViewModel: FontSelectionViewModel
     
     var body: some View {
         ScrollViewReader { scrollViewProxy in
@@ -99,7 +100,7 @@ struct ScrollableLetterView: View {
                                                          height: $viewModel.textViewHeights[i],
                                                          maxWidth: geo.size.width,
                                                          maxHeight: UIScreen.main.bounds.height * 0.42,
-                                                         font: viewModel.selectedFont(font: letterContent.fontString ?? ""))
+                                                         font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
                                         .onChange(of: viewModel.textViewHeights[i]) {
                                             if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
                                                 viewModel.createNewLetter()
@@ -136,7 +137,7 @@ struct ScrollableLetterView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .frame(height: UIScreen.main.bounds.height * 0.7)
-            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 15))
+            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
             .onChange(of: viewModel.texts.count) {
                 withAnimation {
                     viewModel.currentIndex = viewModel.texts.count - 1
@@ -190,6 +191,10 @@ struct CustomTextEditor: UIViewRepresentable {
         textView.textContainer.lineFragmentPadding = 0
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = font
+        
+        textView.autocorrectionType = .no
+        textView.spellCheckingType = .no
+        textView.smartInsertDeleteType = .no
         
         let maxWidthConstraint = NSLayoutConstraint(item: textView,
                                                     attribute: .width,

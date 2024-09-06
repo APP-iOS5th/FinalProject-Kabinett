@@ -23,12 +23,4 @@ class ContentWriteViewModel: ObservableObject {
         texts.append("")
         textViewHeights.append(.zero)
     }
-    
-    func selectedFont(font: String) -> UIFont {
-        if font == "SFMONO" {
-            return UIFont.monospacedSystemFont(ofSize: 15, weight: .regular)
-        } else {
-            return UIFont(name: font, size: 15) ?? UIFont.systemFont(ofSize: 15)
-        }
-    }
 }

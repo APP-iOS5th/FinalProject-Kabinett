@@ -41,7 +41,7 @@ struct PreviewLetterView: View {
                                     .font(.system(size: 7))
                                     .padding(.bottom, 1)
                                 Text(letterContent.fromUserName)
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                             }
                             .padding(.leading, 25)
                             
@@ -60,7 +60,7 @@ struct PreviewLetterView: View {
                         HStack(alignment: .top) {
                             VStack {
                                 Text(letterContent.postScript ?? "")
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
                             }
                             .padding(.leading, 25)
                             
@@ -71,7 +71,7 @@ struct PreviewLetterView: View {
                                     .font(.system(size: 7))
                                     .padding(.bottom, 1)
                                 Text(letterContent.toUserName)
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                             }
                             .padding(.trailing, 100)
                         }
