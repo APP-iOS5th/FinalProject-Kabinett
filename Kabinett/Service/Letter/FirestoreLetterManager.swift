@@ -1,5 +1,5 @@
 //
-//  FirebaseFirestoreManager.swift
+//  FirestoreLetterManager.swift
 //  Kabinett
 //
 //  Created by JIHYE SEOK on 8/13/24.
@@ -13,19 +13,10 @@ import os
 
 enum LetterError: Error {
     case invalidLetterId
-    case invalidFont
-    case invalidEnvelope
-    case invalidStamp
-    case invalidFromUserName
-    case invalidToUserName
-    case invalidPhotoContents
-    case invalidStationery
     case invalidUser
 }
 
 enum LetterSaveError: Error {
-    case invalidFromUserDoc
-    case invalidToUserDoc
     case failedToSaveToMe
     case failedToSaveSent
     case failedToSaveReceived
@@ -40,26 +31,15 @@ final class FirestoreLetterManager {
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
     private let authManager: AuthManager
-    private let writerManager: FirestoreWriterManager
     
     init(
-        authManager: AuthManager,
-        writerManager: FirestoreWriterManager
+        authManager: AuthManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
         self.authManager = authManager
-        self.writerManager = writerManager
-    }
-    
-    // MARK: - 유효성 검사
-    func validateFromUser(fromUserId: String?) async throws {
-        let fromUserDoc = fromUserId.flatMap { !$0.isEmpty ? db.collection("Writers").document($0) : nil }
-        
-        let fromUserSnapshot = fromUserDoc != nil ? try await fromUserDoc!.getDocument() : nil
-        guard let fromUserSnapshot = fromUserSnapshot, fromUserSnapshot.exists else { throw LetterSaveError.invalidFromUserDoc }
     }
     
    func validateLetter(
@@ -77,9 +57,9 @@ final class FirestoreLetterManager {
     }
     
     // MARK: - 유저 DocumentID 가져오기
-    private func getCurrentUserId() async throws -> String {
+    func getCurrentUserId() async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
-            var cancellable: AnyCancellable?
+            var concellable: AnyCancellable?
             cancellable = authManager.getCurrentUser()
                 .first()
                 .sink { completion in
@@ -87,6 +67,7 @@ final class FirestoreLetterManager {
                     case .finished:
                         break
                     case .failure(let error):
+                        logger.error("Writer found Error: \(error.localizedDescription)")
                         continuation.resume(throwing: error)
                     }
                     cancellable?.cancel()
@@ -132,6 +113,7 @@ final class FirestoreLetterManager {
                     try await fromUserDoc!.collection("ToMe").addDocument(data: letterData)
                     return .success(true)
                 } catch {
+                    logger.error("Save ToMe Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveToMe)
                 }
                 // fromUser, toUser가 존재하는데 두 User가 다른 경우 -> Sent, Received
@@ -162,10 +144,13 @@ final class FirestoreLetterManager {
                 }
                 
                 if let _ = sentSaveError, let _ = receivedSaveError {
+                    logger.error("Save Sent, Received Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveBoth)
                 } else if let _ = sentSaveError {
+                    logger.error("Save Sent Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveSent)
                 } else if let _ = receivedSaveError {
+                    logger.error("Save Received Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
                 return .success(true)
@@ -182,6 +167,7 @@ final class FirestoreLetterManager {
                     try await fromUserDoc!.collection("Sent").addDocument(data: letterSentData)
                     return .success(true)
                 } catch {
+                    logger.error("Save Sent Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveSent)
                 }
                 // fromUser가 존재하지 않고, toUser가 존재할 때 -> Received
@@ -194,40 +180,204 @@ final class FirestoreLetterManager {
                     try await toUserDoc!.collection("Received").addDocument(data: letterData)
                     return .success(true)
                 } catch {
+                    logger.error("Save Received Error: \(error.localizedDescription)")
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
                 // 두 User가 모두 없을 때 -> failure
             } else {
+                logger.error("Both User Found Error: \(error.localizedDescription)")
                 return .failure(LetterSaveError.bothUsersNotFound)
             }
         } catch {
+            logger.error("Save Firestore Error: \(error.localizedDescription)")
             return .failure(error)
         }
     }
-    
-    // MARK: - Firestore 전체 Letter 불러오기
-    private func getAllLetters(userId: String) async -> Result<[Letter], any Error> {
+
+    func getLetters(
+        userId: String,
+        letterType: [String]
+    ) async -> Result<[Letter], any Error> {
         do {
-            let collectionNames = ["Sent", "Received", "ToMe"]
-            var allLetters: [Letter] = []
+            var letterResult: [Letter] = []
             
-            for name in collectionNames {
+            for type in letterType {
                 let snapshot = try await db.collection("Writers")
                     .document(userId)
-                    .collection(name)
+                    .collection(type)
                     .getDocuments()
                 
                 let letters = try snapshot.documents.compactMap { document in
                     try document.data(as: Letter.self)
                 }
-                allLetters.append(contentsOf: letters)
+                letterResult.append(contentsOf: letters)
             }
-            allLetters.sort { $0.date > $1.date }
+            letterResult.sort { $0.date > $1.date }
             
-            return .success(allLetters)
+            return .success(letterResult)
         } catch {
+            logger.error("Get Letters Error: \(error.localizedDescription)")
             return .failure(error)
         }
+    }
+    
+    func searchByKeyword(
+        userId: String,
+        keyword: String,
+        letterType: [String]
+    ) async -> Result<[Letter]?, any Error> {
+        do {
+            var letterResult: [Letter] = []
+            
+            for type in letterType {
+                let snapshot = try await db.collection("Writers")
+                    .document(userId)
+                    .collection(type)
+                    .whereField("searchUser", arrayContains: keyword)
+                    .getDocuments()
+                
+                let letters = try snapshot.documents.compactMap { document in
+                    try document.data(as: Letter.self)
+                }
+                letterResult.append(contentsOf: letters)
+            }
+            letterResult.sort { $0.date > $1.date }
+            
+            return .success(letterResult)
+        } catch {
+            logger.error("Search Letter Error: \(error.localizedDescription)")
+            return .failure(error)
+        }
+    }
+    
+    func searchByDate(
+        userId: String,
+        startDate: Date,
+        endDate: Date,
+        letterType: [String]
+    ) async -> Result<[Letter]?, any Error> {
+        do {
+            var letterResult: [Letter] = []
+            
+            for type in letterType {
+                let snapshot = try await db.collection("Writers")
+                    .document(userId)
+                    .collection(type)
+                    .whereField("date", isGreaterThan: startDate)
+                    .whereField("date", isLessThan: endDate)
+                    .order(by: "date", descending: true)
+                    .getDocuments()
+                
+                let letters = try snapshot.documents.compactMap { document in
+                    try document.data(as: Letter.self)
+                }
+                letterResult.append(contentsOf: letters)
+            }
+            letterResult.sort { $0.date > $1.date }
+            
+            return .success(letterResult)
+        } catch {
+            logger.error("Search Letter Error: \(error.localizedDescription)")
+            return .failure(error)
+        }
+    }
+    
+    func removeLetter(
+        userId: String,
+        letterId: String,
+        letterType: [String]
+    ) async -> Result<Bool, any Error> {
+        var removeSucceeded = false
+        do {
+            for type in letterType {
+                try await validateLetter(userId: userId, letterId: letterId, letterType: type)
+                try await db.collection("Writers")
+                    .document(userId)
+                    .collection(type)
+                    .document(letterId)
+                    .delete()
+                
+                removeSucceeded = true
+            }
+            
+            if removeSucceeded {
+                return .success(true)
+            } else {
+                logger.error("Letter Delete Failed: \(error.localizedDescription)")
+                return .failure(LetterError.invalidLetterId)
+            }
+        } catch {
+            
+        }
+    }
+    
+    func updateIsRead(
+        userId: String,
+        letterId: String,
+        letterType: [String]
+    ) async -> Result<Bool, any Error> {
+        var updateSucceeded = false
+        
+        for type in letterType {
+            try await validateLetter(userId: userId, letterId: letterId, letterType: type)
+            try await db.collection("Writers")
+                .document(userId)
+                .collection(type)
+                .document(letterId)
+                .setData(["isRead": true], merge: true)
+            
+            updateSucceeded = true
+        }
+        
+        if updateSucceeded {
+            return .success(true)
+        } else {
+            logger.error("IsRead Update Failed: \(error.localizedDescription)")
+            return .failure(LetterError.invalidLetterId)
+        }
+    }
+    
+    func getIsReadCount(userId: String) async -> Result<[LetterType: Int], any Error> {
+        var result: [LetterType: Int] = [:]
+        
+        let typeToCollectionName: [LetterType: String] = [
+            .toMe: "ToMe",
+            .received: "Received"
+        ]
+        
+        do {
+            for (type, collectionName) in typeToCollectionName {
+                let querySnapshot = try await db.collection("Writers")
+                    .document(userId)
+                    .collection(collectionName)
+                    .whereField("isRead", isEqualTo: false)
+                    .getDocuments()
+                
+                result[type] = querySnapshot.documents.count
+            }
+            
+            result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
+            
+            return .success(result)
+        } catch {
+            logger.error("Failed to get Count: \(error.localizedDescription)")
+            return .failure(error)
+        }
+    }
+    
+    func getWelcomeLetter(userId: String) async -> Result<Bool, any Error> {
+        let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
+        
+        for document in querySnapshot.documents {
+            var letterData = document.data()
+            letterData["date"] = Timestamp(date: Date())
+            
+            try await db.collection("Writers")
+                .document(userId)
+                .collection("Received")
+                .addDocument(data: letterData)
+        }
+        return .success(true)
     }
     
     // MARK: - PhotoContents URL 변환

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestore
 import os
 
 final class DefaultLetterBoxUseCase {
@@ -27,34 +26,36 @@ final class DefaultLetterBoxUseCase {
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     // letter 타입별 로딩
     func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
+        let userId: String
+        
         do {
-            let userId = try await getCurrentUserId()
-            
-            let collectionName: String
-            switch letterType {
-            case .sent:
-                collectionName = "Sent"
-            case .received:
-                collectionName = "Received"
-            case .toMe:
-                collectionName = "ToMe"
-            case .all:
-                return await getAllLetters(userId: userId)
-            }
-            
-            let snapshot = try await db.collection("Writers")
-                .document(userId)
-                .collection(collectionName)
-                .order(by: "date", descending: true)
-                .getDocuments()
-            
-            let letters = try snapshot.documents.compactMap { document in
-                try document.data(as: Letter.self)
-            }
-            
-            return .success(letters)
+            userId = try await letterManager.getCurrentUserId()
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
+        }
+        
+        switch letterType {
+        case .sent:
+            return await letterManager.getLetters(
+                userId: userId,
+                letterType: ["Sent"]
+            )
+        case .received:
+            return await letterManager.getLetters(
+                userId: userId,
+                letterType: ["Received"]
+            )
+        case .toMe:
+            return await letterManager.getLetters(
+                userId: userId,
+                letterType: ["ToMe"]
+            )
+        case .all:
+            return await letterManager.getLetters(
+                userId: userId,
+                letterType: ["Sent", "ToMe", "Received"]
+            )
         }
     }
     
@@ -69,6 +70,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
             case .success(let letters):
                 result[type] = Array(letters.prefix(3))
             case .failure(let error):
+                logger.error("Failed getLetterBoxLetters: \(error.localizedDescription)")
                 return .failure(error)
             }
         }
@@ -78,33 +80,13 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
     // 안읽은 letter 개수 로딩
     func getIsRead() async -> Result<[LetterType: Int], any Error> {
-        var result: [LetterType: Int] = [:]
-        
-        let typeToCollectionName: [LetterType: String] = [
-            .toMe: "ToMe",
-            .received: "Received"
-        ]
-        
         do {
-            let userId = try await getCurrentUserId()
-            
-            for type in [LetterType.toMe, .received] {
-                if let collectionName = typeToCollectionName[type] {
-                    let collectionRef = db.collection("Writers")
-                        .document(userId)
-                        .collection(collectionName)
-                    
-                    let querySnapshot = try await collectionRef.whereField("isRead", isEqualTo: false).getDocuments()
-                    result[type] = querySnapshot.documents.count
-                }
-            }
-            result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
-            
-            return .success(result)
+            let userId = try await letterManager.getCurrentUserId()
+            return try await letterManager.getIsReadCount(userId: userId)
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
         }
-        
     }
     
     // keyword 기준 letter 검색
@@ -112,43 +94,40 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         findKeyword: String,
         letterType: LetterType
     ) async -> Result<[Letter]?, any Error> {
-        var letters: [Letter] = []
+        let userId: String
         
         do {
-            let userId = try await getCurrentUserId()
-            
-            let collectionNames: [String]
-            switch letterType {
-            case .sent:
-                collectionNames = ["Sent"]
-            case .received:
-                collectionNames = ["Received"]
-            case .toMe:
-                collectionNames = ["ToMe"]
-            case .all:
-                collectionNames = ["Sent", "Received", "ToMe"]
-            }
-            
-            for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers")
-                    .document(userId)
-                    .collection(collectionName)
-                
-                let query = collectionRef
-                    .whereField("searchUser", arrayContains: findKeyword)
-                
-                let snapshot = try await query.getDocuments()
-                
-                let fetchedLetters = try snapshot.documents.compactMap { document in
-                    try document.data(as: Letter.self)
-                }
-                letters.append(contentsOf: fetchedLetters)
-            }
-            letters.sort { $0.date > $1.date }
-            
-            return .success(letters)
+            userId = try await letterManager.getCurrentUserId()
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
+        }
+        
+        switch letterType {
+        case .sent:
+            return await letterManager.searchByKeyword(
+                userId: userId,
+                keyword: findKeyword,
+                letterType: ["Sent"]
+            )
+        case .received:
+            return await letterManager.searchByKeyword(
+                userId: userId,
+                keyword: findKeyword,
+                letterType: ["Received"]
+            )
+        case .toMe:
+            return await letterManager.searchByKeyword(
+                userId: userId,
+                keyword: findKeyword,
+                letterType: ["ToMe"]
+            )
+        case .all:
+            return await letterManager.searchByKeyword(
+                userId: userId,
+                keyword: findKeyword,
+                letterType: ["Sent", "ToMe", "Received"]
+            )
         }
     }
     
@@ -158,45 +137,44 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         startDate: Date,
         endDate: Date
     ) async -> Result<[Letter]?, any Error> {
-        var letters: [Letter] = []
+        let userId: String
         
         do {
-            let userId = try await getCurrentUserId()
-            
-            let collectionNames: [String]
-            switch letterType {
-            case .sent:
-                collectionNames = ["Sent"]
-            case .received:
-                collectionNames = ["Received"]
-            case .toMe:
-                collectionNames = ["ToMe"]
-            case .all:
-                collectionNames = ["Sent", "Received", "ToMe"]
-            }
-            
-            for collectionName in collectionNames {
-                let collectionRef = db.collection("Writers")
-                    .document(userId)
-                    .collection(collectionName)
-                
-                let querySnapshot = try await collectionRef
-                    .whereField("date", isGreaterThan: startDate)
-                    .whereField("date", isLessThan: endDate)
-                    .order(by: "date", descending: true)
-                    .getDocuments()
-                
-                let fetchedLetters = try querySnapshot.documents.compactMap { document in
-                    try document.data(as: Letter.self)
-                }
-                letters.append(contentsOf: fetchedLetters)
-            }
-            letters.sort { $0.date > $1.date }
-            
-            return .success(letters)
-            
+            userId = try await letterManager.getCurrentUserId()
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
+        }
+        
+        switch letterType {
+        case .sent:
+            return await letterManager.searchByDate(
+                userId: userId,
+                startDate: startDate,
+                endDate: endDate,
+                letterType: ["Sent"]
+            )
+        case .received:
+            return await letterManager.searchByDate(
+                userId: userId,
+                startDate: startDate,
+                endDate: endDate,
+                letterType: ["Received"]
+            )
+        case .toMe:
+            return await letterManager.searchByDate(
+                userId: userId,
+                startDate: startDate,
+                endDate: endDate,
+                letterType: ["ToMe"]
+            )
+        case .all:
+            return await letterManager.searchByDate(
+                userId: userId,
+                startDate: startDate,
+                endDate: endDate,
+                letterType: ["Sent", "ToMe", "Received"]
+            )
         }
     }
     
@@ -205,116 +183,92 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
+        let userId: String
+        
         do {
-            var removeSucceeded = false
-            
-            let userId = try await getCurrentUserId()
-            
-            let collectionNames: [String]
-            switch letterType {
-            case .sent:
-                collectionNames = ["Sent"]
-            case .received:
-                collectionNames = ["Received"]
-            case .toMe:
-                collectionNames = ["ToMe"]
-            case .all:
-                collectionNames = ["Sent", "Received", "ToMe"]
-            }
-            
-            for collectionName in collectionNames {
-                do {
-                    try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers")
-                        .document(userId)
-                        .collection(collectionName)
-                        .document(letterId)
-                        .delete()
-                    
-                    removeSucceeded = true
-                } catch {
-                    
-                }
-            }
-            
-            if removeSucceeded {
-                return .success(true)
-            } else {
-                return .failure(LetterError.invalidLetterId)
-            }
+            userId = try await letterManager.getCurrentUserId()
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
+        }
+        
+        switch letterType {
+        case .sent:
+            return await letterManager.removeLetter(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Sent"]
+            )
+        case .received:
+            return await letterManager.removeLetter(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Received"]
+            )
+        case .toMe:
+            return await letterManager.removeLetter(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["ToMe"]
+            )
+        case .all:
+            return await letterManager.removeLetter(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Sent", "Received", "ToMe"]
+            )
         }
     }
     
-    // 안읽음->읽음 update
+    // 안읽음 -> 읽음 update
     func updateIsRead(
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
+        let userId: String
+        
         do {
-            var updateSucceeded = false
-            
-            let userId = try await getCurrentUserId()
-            
-            let collectionNames: [String]
-            switch letterType {
-            case .sent:
-                collectionNames = ["Sent"]
-            case .received:
-                collectionNames = ["Received"]
-            case .toMe:
-                collectionNames = ["ToMe"]
-            case .all:
-                collectionNames = ["Received", "ToMe"]
-            }
-            
-            for collectionName in collectionNames {
-                do {
-                    try await validateLetter(userId: userId, letterId: letterId, letterType: collectionName)
-                    try await db.collection("Writers")
-                        .document(userId)
-                        .collection(collectionName)
-                        .document(letterId)
-                        .setData(["isRead": true], merge: true)
-                    
-                    updateSucceeded = true
-                } catch {
-                    
-                }
-            }
-            
-            if updateSucceeded {
-                return .success(true)
-            } else {
-                return .failure(LetterError.invalidLetterId)
-            }
+            userId = try await letterManager.getCurrentUserId()
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
+        }
+        
+        switch letterType {
+        case .sent:
+            return await letterManager.updateIsRead(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Sent"]
+            )
+        case .received:
+            return await letterManager.updateIsRead(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Received"]
+            )
+        case .toMe:
+            return await letterManager.updateIsRead(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["ToMe"]
+            )
+        case .all:
+            return await letterManager.updateIsRead(
+                userId: userId,
+                letterId: letterId,
+                letterType: ["Sent", "Received", "ToMe"]
+            )
         }
     }
     
     func getWelcomeLetter() async -> Result<Bool, any Error> {
         do {
-            let userId = try await getCurrentUserId()
-            
-            let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
-            
-            for document in querySnapshot.documents {
-                var letterData = document.data()
-                letterData["date"] = Timestamp(date: Date())
-                
-                try await db.collection("Writers")
-                    .document(userId)
-                    .collection("Received")
-                    .addDocument(data: letterData)
-            }
-            
-            return .success(true)
+            let userId = try await letterManager.getCurrentUserId()
+            return await letterManager.getWelcomeLetter(userId: userId)
         } catch {
+            logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)
         }
     }
-    
-    
 }
