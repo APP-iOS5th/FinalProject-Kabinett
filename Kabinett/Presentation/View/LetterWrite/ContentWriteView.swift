@@ -98,10 +98,10 @@ struct ScrollableLetterView: View {
                                             CustomTextEditor(text: $viewModel.texts[i],
                                                              height: $viewModel.textViewHeights[i],
                                                              maxWidth: geo.size.width,
-                                                             maxHeight: UIScreen.main.bounds.height * 0.42,
+                                                             maxHeight: geo.size.height,
                                                              font: viewModel.selectedFont(font: letterContent.fontString ?? ""))
                                             .onChange(of: viewModel.textViewHeights[i]) {
-                                                if viewModel.textViewHeights[i] >= UIScreen.main.bounds.height * 0.42 {
+                                                if viewModel.textViewHeights[i] >= geo.size.height {
                                                     viewModel.createNewLetter()
                                                 }
                                             }
@@ -113,12 +113,11 @@ struct ScrollableLetterView: View {
                                             }
                                         }
                                         Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                            .padding(.top, 2)
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                         
                                         Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
-                                            .padding(.bottom, 27)
+                                            .padding(.bottom, 30)
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
