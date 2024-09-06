@@ -72,27 +72,28 @@ final class AuthManager {
             idToken: idTokenString,
             rawNonce: nonce
         )
+        
+        guard let user = getCurrentUser() else {
+            logger.warning("Attempting to linking account without current user is not allowed.")
+            return .newUser
+        }
     
         do {
-            if let user = Auth.auth().currentUser {
-                let result = try await user.link(with: credential)
-                currentUserSubject.send(result.user)
-                
-                return .newUser
-            } else {
-                logger.warning("Attempting to linking account without current user is not allowed.")
-                return .newUser
-            }
+            let result = try await user.link(with: credential)
+            currentUserSubject.send(result.user)
+            
+            return .newUser
         } catch {
             let error = error as NSError
             let code = AuthErrorCode(rawValue: error.code)
             
             if code == .credentialAlreadyInUse {
                 logger.debug("This credential already in use, delete current user and retry signing.")
-                await deleteAccount()
-                let user = await signInWith(credential: credential)
                 
-                return .existingUser(user)
+                let existingUser = await signInWith(credential: credential)
+                await deleteAccount(of: user)
+                
+                return .existingUser(existingUser)
             } else {
                 logger.debug("Linking Error: \(error.localizedDescription)")
                 
@@ -101,14 +102,10 @@ final class AuthManager {
         }
     }
     
-    func deleteAccount() async {
+    func deleteAccount(of user: User) async {
         do {
-            guard let currentUser = getCurrentUser() else {
-                logger.error("Delete account without user is not allowed.")
-                return
-            }
-            try await currentUser.delete()
-            try await writerManager.deleteUserData(currentUser.uid)
+            try await writerManager.deleteUserData(user.uid)
+            try await user.delete()
         } catch {
             logger.error("Delete account is failed: \(error.localizedDescription)")
         }
