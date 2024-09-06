@@ -11,12 +11,13 @@ import Combine
 class UserSelectionViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var debouncedSearchText: String = ""
-    @Published var checkLogin: Bool = false
-    @Published var userKabiNumber: Int? = nil
     
+    @Published var checkLogin: Bool = false
     @Published var fromUser: Writer? = nil
     @Published var toUser: Writer? = nil
     @Published var usersData: [Writer] = []
+    
+    @Published var showModal: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private let useCase: LetterWriteUseCase
@@ -34,6 +35,19 @@ class UserSelectionViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        
+        Task {
+            await getCurrentWriter()
+        }
+    }
+    
+    func reset() {
+        searchText = ""
+        debouncedSearchText = ""
+        checkLogin = false
+        fromUser = nil
+        toUser = nil
+        usersData = []
         
         Task {
             await getCurrentWriter()
@@ -68,11 +82,13 @@ class UserSelectionViewModel: ObservableObject {
     
     @MainActor
     func getCurrentWriter() async {
-//        let result = Writer(id: "pJIHwmW2WylwoY4bgTRI", name: "Ssong", kabinettNumber: 111111, profileImage: nil)
-        let result = await useCase.getCurrentWriter()
-        self.fromUser = result
-        self.userKabiNumber = result.kabinettNumber
-        updateFromUser()
+        let publisher = await useCase.getCurrentWriter()
+        
+        for await writer in publisher.values {
+            print("update!!", writer)
+            self.fromUser = writer
+            updateFromUser()
+        }
     }
     
     @MainActor

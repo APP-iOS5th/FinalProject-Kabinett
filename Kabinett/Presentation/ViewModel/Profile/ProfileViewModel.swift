@@ -47,23 +47,24 @@ class ProfileViewModel: ObservableObject {
         self.profileUseCase = profileUseCase
         
         Task {
-            await loadInitialData()
+            await loadCurrentWriter()
             await checkUserStatus()
             await fetchAppleID()
-            await checkUserStatus()
         }
     }
     // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    @MainActor
-    func loadInitialData() async {
-        let writer = await profileUseCase.getCurrentWriter()
-        currentWriter = .init(
-            name: writer.name,
-            formattedNumber: formatKabinettNumber(
-                writer.kabinettNumber
-            ),
-            imageUrlString: writer.profileImage
-        )
+    func loadCurrentWriter() async {
+        await profileUseCase
+            .getCurrentWriterPublisher()
+            .map { writer in
+                WriterViewModel(
+                    name: writer.name,
+                    formattedNumber: writer.kabinettNumber.formatKabinettNumber(),
+                    imageUrlString: writer.profileImage
+                )
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$currentWriter)
     }
     
     @MainActor
@@ -104,9 +105,7 @@ class ProfileViewModel: ObservableObject {
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
         )
         
-        if success {
-            await loadInitialData()
-        } else {
+        if !success {
             profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
             showProfileAlert = true
         }

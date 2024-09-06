@@ -13,42 +13,120 @@ final class ImagePickerViewModel: ObservableObject {
     
     @Published var selectedItems: [PhotosPickerItem] = []
     @Published var photoContents: [Data] = []
-    @Published var isLoading: Bool = false
-    @Published var error: Error?
     @Published var fromUserName: String = ""
     @Published var toUserName: String = ""
     @Published var date: Date = Date()
     @Published var postScript: String?
     @Published var envelopeURL: String?
     @Published var stampURL: String?
-    @Published var fromUser: String?
-    @Published var toUser: String?
-    @Published var fromUserSearchResults: [String] = []
-    @Published var toUserSearchResults: [String] = []
+    @Published var fromUser: Writer? = nil
+    @Published var toUser: Writer? = nil
+    @Published var usersData: [Writer] = []
+    @Published var fromUserSearchResults: [(name: String, kabinettNumber: String)] = []
+    @Published var toUserSearchResults: [(name: String, kabinettNumber: String)] = []
     @Published var fromUserSearch: String = ""
     @Published var toUserSearch: String = ""
+    @Published var debouncedSearchText: String = ""
+    @Published var userKabiNumber: String?
+    @Published var fromUserId: String?
+    @Published var toUserId: String?
+    @Published var searchText: String = ""
+    @Published var checkLogin: Bool = false
+    @Published var isLoading: Bool = false
+    @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
-    private let mockWriter: MockWriter
     private let componentsUseCase: ComponentsUseCase
-    let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
+    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
+    private let firebaseFirestoreManager: FirebaseFirestoreManager
     
     init(componentsUseCase: ComponentsUseCase,
          componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
-         writerRepository: MockWriter = MockWriter()) {
+         firebaseFirestoreManager: FirebaseFirestoreManager) {
         self.componentsUseCase = componentsUseCase
         self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
-        self.mockWriter = writerRepository
+        self.firebaseFirestoreManager = firebaseFirestoreManager
         
         setupBindings()
+        Task { [weak self] in
+            await self?.fetchCurrentWriter()
+        }
     }
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
+        formatter.dateFormat = "yyyy. mm. dd "
         return formatter.string(from: date)
     }
     
+    private func setupBindings() {
+        $toUserSearch
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] text in
+                self?.debouncedSearchText = text
+                Task { [weak self] in
+                    await self?.searchUsers(query: text)
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    @MainActor
+    func searchUsers(query: String) async {
+        guard !query.isEmpty else {
+            self.usersData = []
+            self.toUserSearchResults = []
+            return
+        }
+        
+        let results = await firebaseFirestoreManager.findWriter(by: query)
+        self.usersData = results
+        self.toUserSearchResults = results.map { (name: $0.name, kabinettNumber: String(format: "%06d", $0.kabinettNumber)) }
+    }
+    
+    
+    func updateSelectedUser(_ letterContent: inout LetterWriteModel, selectedUserName: String) {
+        if let user = usersData.first(where: { $0.name == selectedUserName }) {
+            toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
+        } else {
+            toUser = Writer(name: selectedUserName, kabinettNumber: 0, profileImage: nil)
+        }
+        letterContent.toUserId = toUser?.id
+        letterContent.toUserName = toUser?.name ?? ""
+        letterContent.toUserKabinettNumber = toUser?.kabinettNumber
+        self.toUserName = selectedUserName
+    }
+    
+    func isCurrentUser(kabiNumber: Int) -> String {
+        fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
+    }
+    
+    func updateCurrentUser() {
+        if let fromUser = fromUser {
+            if fromUser.kabinettNumber == 0 {
+                checkLogin = false
+            } else {
+                checkLogin = true
+            }
+            toUser = fromUser
+        }
+    }
+    
+    @MainActor
+    func fetchCurrentWriter() async {
+        let publisher = await firebaseFirestoreManager.getCurrentWriter()
+        for await result in publisher.values {
+            self.fromUser = result
+            self.fromUserName = result.name
+            self.userKabiNumber = String(format: "%06d", result.kabinettNumber)
+            self.fromUserId = result.id
+            updateCurrentUser()
+            var letterContent = LetterWriteModel()
+            updateSelectedUser(&letterContent, selectedUserName: result.name)
+            break
+        }
+    }
     
     // MARK: - Image Loading
     private func loadImagesTask() async throws -> [Data] {
@@ -91,151 +169,77 @@ final class ImagePickerViewModel: ObservableObject {
         isLoading = false
     }
     
+    func updatePostScript(_ postScript: String) {
+        self.postScript = postScript
+    }
     
-    func loadEnvelopeAndStamp() async {
-        await MainActor.run {
-            isLoading = true
-            error = nil
+    func updateEnvelopeAndStamp(envelope: String?, stamp: String?) {
+        if let envelope = envelope {
+            self.envelopeURL = envelope
         }
+        if let stamp = stamp {
+            self.stampURL = stamp
+        }
+    }
+    
+    @MainActor
+    func loadAndUpdateEnvelopeAndStamp() async {
+        isLoading = true
+        error = nil
         
         do {
             let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
             let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
             
-            await MainActor.run {
-                if let firstEnvelope = envelopes.first {
-                    self.envelopeURL = firstEnvelope
-                    print("Envelope URL set to: \(firstEnvelope)")
-                }
-                if let firstStamp = stamps.first {
-                    self.stampURL = firstStamp
-                    print("Stamp URL set to: \(firstStamp)")
-                }
-                isLoading = false
+            if let firstEnvelope = envelopes.first {
+                self.envelopeURL = firstEnvelope
             }
+            if let firstStamp = stamps.first {
+                self.stampURL = firstStamp
+            }
+            isLoading = false
         } catch {
-            await MainActor.run {
-                self.error = error
-                isLoading = false
-                print("Failed to load envelope and stamp: \(error)")
-            }
+            self.error = error
+            isLoading = false
+            print("Failed to load envelope and stamp: \(error)")
         }
     }
     
-    
     // MARK: - Request to Save Letter Data
-    func saveImportingImage() async {
-        await MainActor.run {
-            isLoading = true
-            error = nil
-        }
-        print("Saving letter to Firebase")
-        print("From: \(fromUserName)")
-        print("To: \(toUserName)")
-        print("Date: \(formattedDate)")
-        print("Envelope: \(envelopeURL ?? "defaultEnvelope")")
-        print("Stamp: \(stampURL ?? "defaultStamp")")
-        print("Postscript: \(postScript ?? "")")
-        print("Photo contents count: \(photoContents.count)")
+    @MainActor
+    func saveImportingImage() async -> Bool {
+        isLoading = true
+        error = nil
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
-            envelope: envelopeURL ?? "defaultEnvelope",
-            stamp: stampURL ?? "defaultStamp",
-            fromUserId: nil,
+            envelope: envelopeURL ?? "",
+            stamp: stampURL ?? "",
+            fromUserId: fromUserId,
             fromUserName: fromUserName,
-            fromUserKabinettNumber: nil,
-            toUserId: nil,
-            toUserName: toUserName,
-            toUserKabinettNumber: nil,
+            fromUserKabinettNumber: Int(userKabiNumber ?? "0"),
+            toUserId: toUser?.id,
+            toUserName: toUser?.name ?? "",
+            toUserKabinettNumber: toUser?.kabinettNumber,
             photoContents: photoContents,
             date: date,
             isRead: false
         )
         
-        await MainActor.run {
-            switch result {
-            case .success:
-                print("Letter saved successfully")
-                resetState()
-            case .failure(let error):
-                print("Failed to save letter: \(error)")
-                self.error = error
-            }
+        switch result {
+        case .success:
+            resetState()
             isLoading = false
+            return true
+        case .failure(let error):
+            self.error = error
+            isLoading = false
+            return false
         }
     }
-    
     
     // MARK: - Methods (편지 저장 후 초기화)
-    private func resetState() {
+    func resetState() {
         photoContents = []
         selectedItems = []
-    }
-    
-    private func setupBindings() {
-        $fromUserSearch
-            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] searchText in
-                self?.searchUsers(searchText: searchText, isFromUser: true)
-            }
-            .store(in: &cancellables)
-        
-        $toUserSearch
-            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] searchText in
-                self?.searchUsers(searchText: searchText, isFromUser: false)
-            }
-            .store(in: &cancellables)
-    }
-    
-    func searchUsers(searchText: String, isFromUser: Bool) {
-        guard !searchText.isEmpty else {
-            DispatchQueue.main.async {
-                if isFromUser {
-                    self.fromUserSearchResults = []
-                } else {
-                    self.toUserSearchResults = []
-                }
-            }
-            return
-        }
-        
-        mockWriter.searchWriters(with: searchText) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let writers):
-                    if isFromUser {
-                        self?.fromUserSearchResults = writers
-                    } else {
-                        self?.toUserSearchResults = writers
-                    }
-                case .failure(let error):
-                    self?.error = error
-                }
-            }
-        }
-    }
-    
-    @MainActor
-    func selectUser(_ userName: String, isFromUser: Bool) {
-        if isFromUser {
-            fromUserName = userName
-            fromUserSearchResults = []
-        } else {
-            toUserName = userName
-            toUserSearchResults = []
-        }
-    }
-}
-
-
-
-class MockWriter {
-    func searchWriters(with searchText: String, completion: @escaping (Result<[String], Error>) -> Void) {
-        let mockWriters = ["John Doe", "Jane Smith", "Sam Smith", "Sara Johnson"]
-        let filteredWriters = mockWriters.filter { $0.lowercased().contains(searchText.lowercased()) }
-        completion(.success(filteredWriters))
     }
 }

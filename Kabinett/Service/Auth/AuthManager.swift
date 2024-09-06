@@ -79,7 +79,7 @@ final class AuthManager {
             
             if code == .credentialAlreadyInUse {
                 logger.debug("This credential already in use, delete current user and retry signing.")
-                deleteAccount()
+                await deleteAccount()
                 let user = await signInWith(credential: credential)
                 
                 return .existingUser(user)
@@ -91,11 +91,26 @@ final class AuthManager {
         }
     }
     
-    func deleteAccount(_ withSignIn: Bool = false) {
-        Auth.auth().currentUser?.delete()
-        if withSignIn {
-            signInAnonymousIfNeeded()
+    func deleteAccount(withSignIn: Bool = false) async {
+        do {
+            guard let currentUser = getCurrentUser() else {
+                logger.error("Delete account without user is not allowed.")
+                return
+            }
+            try await currentUser.delete()
+            try await writerManager.deleteUserData(currentUser.uid)
+            
+            if withSignIn {
+                logger.info("with sign in is true: \(Auth.auth().currentUser)")
+                signInAnonymousIfNeeded()
+            }
+        } catch {
+            logger.error("Delete account is failed: \(error.localizedDescription)")
         }
+    }
+    
+    func updateUser(_ user: User) {
+        currentUserSubject.send(user)
     }
 
     // MARK: - Private Methods

@@ -43,6 +43,7 @@ struct LetterBoxDetailLetterView: View {
                             if !letter.isRead {
                                 guard let letterId = letter.id else { return }
                                 viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
+                                letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                             }
                             showDetailLetter = true
                         }
@@ -61,7 +62,6 @@ struct LetterBoxDetailLetterView: View {
             }
         }
         .onAppear {
-            letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
             viewModel.offset = 0
             viewModel.showDeleteButton = false
         }

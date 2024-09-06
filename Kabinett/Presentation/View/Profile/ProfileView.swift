@@ -86,10 +86,6 @@ struct ProfileView: View {
                 }
             }
         }
-        .task {
-            await viewModel.checkUserStatus()
-            await viewModel.loadInitialData()
-        }
     }
     
     func handleAccountActionComplete() {
