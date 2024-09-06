@@ -10,19 +10,22 @@ import SwiftUI
 struct SignUpNameInputView: View {
     @EnvironmentObject var viewModel: SignUpViewModel
     @State private var shouldNavigate = false
+    let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
+    
     
     var body: some View {
-        GeometryReader { geometry in
+        ZStack {
+            Color.background.ignoresSafeArea(.all)
             VStack(alignment: .leading){
                 Text("이름을 알려주세요.")
                     .fontWeight(.regular)
                     .font(.system(size: 16))
                     .foregroundStyle(.contentPrimary)
-                    .padding(.leading, geometry.size.width * 0.06)
+                    .padding(.leading, horizontalPadding)
                     .padding(.bottom, 15)
                 HStack{
                     TextField("", text: $viewModel.userName)
-                        .padding(.leading, geometry.size.width * 0.06)
+                        .padding(.leading, horizontalPadding)
                     Spacer()
                     
                     Button(action: {
@@ -39,10 +42,10 @@ struct SignUpNameInputView: View {
                                 .font(.system(size: 20))
                                 .foregroundColor(.white)
                         }
-                        .padding(.trailing, geometry.size.width * 0.06)
+                        .padding(.trailing, horizontalPadding)
                     }
                 }
-                .textFieldStyle(SignUpOvalTextFieldStyle(width: geometry.size.width * 0.72))
+                .textFieldStyle(SignUpOvalTextFieldStyle(width: UIScreen.main.bounds.width * 0.72))
                 .font(Font.system(size: 24, design: .default))
                 .autocorrectionDisabled(true)
                 .keyboardType(.alphabet)
@@ -75,4 +78,4 @@ struct SignUpOvalTextFieldStyle: TextFieldStyle {
 
 //#Preview {
 //    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
-//}
+//

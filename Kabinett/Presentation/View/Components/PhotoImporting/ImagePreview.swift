@@ -30,13 +30,14 @@ struct ImagePreview: View {
                         }
                     }) {
                         Text("편지 선택하기")
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.white)
+                            .frame(maxWidth: .infinity, minHeight: 56)
                             .background(Color.primary900)
-                            .cornerRadius(15)
+                            .cornerRadius(16)
                     }
-                    .padding()
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 }
             }
             .navigationBarItems(leading: Button(action: {
@@ -46,7 +47,8 @@ struct ImagePreview: View {
                 }
             }) {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(Color.contentPrimary)
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundColor(.primary900)
             })
             .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {

@@ -13,9 +13,12 @@ struct SettingsView: View {
     @Binding var shouldNavigateToProfileView: Bool
     var onAccountActionComplete: () -> Void
     
+    let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
+    
     var body: some View {
-        GeometryReader { geometry in
-            NavigationStack {
+        NavigationStack {
+            ZStack {
+                Color.background.ignoresSafeArea(.all)
                 VStack(alignment: .leading) {
                     NavigationLink(destination: ProfileSettingsView(
                         shouldNavigateToProfileView: $shouldNavigateToProfileView,
@@ -27,16 +30,17 @@ struct SettingsView: View {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
-                                .font(.system(size: 17))
+                                .font(.system(size: 18))
                                 .foregroundColor(.contentPrimary)
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .fontWeight(.medium)
                                 .font(.system(size: 19))
                                 .foregroundColor(.contentPrimary)
                         }
                         .padding(.top, 20)
-                        .padding(.bottom, 30)
-                        .padding(.horizontal, geometry.size.width * 0.06)
+                        .padding(.bottom, 25)
+                        .padding(.horizontal, horizontalPadding)
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -48,14 +52,15 @@ struct SettingsView: View {
                         HStack{
                             Text("계정 설정")
                                 .fontWeight(.medium)
-                                .font(.system(size: 17))
+                                .font(.system(size: 18))
                                 .foregroundColor(.contentPrimary)
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .fontWeight(.medium)
                                 .font(.system(size: 19))
                                 .foregroundColor(.contentPrimary)
                         }
-                        .padding(.horizontal, geometry.size.width * 0.06)
+                        .padding(.horizontal, horizontalPadding)
                         .contentShape(Rectangle())
                     }
                     .buttonStyle(PlainButtonStyle())
@@ -75,12 +80,10 @@ struct SettingsView: View {
                             .font(.system(size: 17))
                             .foregroundColor(.contentSecondary)
                     }
-                    .padding(.horizontal, geometry.size.width * 0.06)
+                    .padding(.horizontal, horizontalPadding)
                     
                     Spacer()
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.background)
                 .navigationTitle("설정")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarBackButtonHidden(true)
@@ -92,6 +95,7 @@ struct SettingsView: View {
                             HStack {
                                 Image(systemName: "chevron.left")
                                     .font(.system(size: 18, weight: .semibold))
+                                    .padding(.leading, 5)
                             }
                             .foregroundColor(.primary900)
                         }
