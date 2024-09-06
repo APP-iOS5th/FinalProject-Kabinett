@@ -57,12 +57,15 @@ final class AuthManager {
     // TODO: Change Method name
     // TODO: Add error handling
     func linkAccount(
-        with idTokenString: String
+        with idTokenString: String,
+        nonce: String
     ) async -> UserInfo {
         let credential = OAuthProvider.credential(
             providerID: .apple,
-            accessToken: idTokenString
+            idToken: idTokenString,
+            rawNonce: nonce
         )
+    
         do {
             if let user = Auth.auth().currentUser {
                 let result = try await user.link(with: credential)
@@ -131,7 +134,7 @@ final class AuthManager {
         Task { [weak self] in
             for await user in AuthManager.users {
                 self?.logger.debug(
-                    "User authentication state is changed: \(String(describing: user), privacy: .private)"
+                    "User authentication state is changed: \(String(describing: user?.uid), privacy: .private)"
                 )
                 self?.currentUserSubject.send(user)
             }
