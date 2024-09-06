@@ -20,18 +20,14 @@ struct LetterBoxView: View {
     @State private var showSearchBarView = false
     @State private var isTextFieldFocused = false
     
-    let columns = [
-        GridItem(.flexible(minimum: 220), spacing: -60),
-        GridItem(.flexible(minimum: 220))
-    ]
-    
     var body: some View {
         ZStack {
             NavigationStack {
                 ZStack {
                     Color.background
+                        .ignoresSafeArea()
                     
-                    LazyVGrid(columns: columns, spacing: 40) {
+                    LazyVGrid(columns: gridItems(), spacing: letterBoxViewModel.getSize(forSE: 0.039, forOthers: 0.039)) {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
@@ -43,6 +39,7 @@ struct LetterBoxView: View {
                             })
                         }
                     }
+                    .padding(.top, letterBoxViewModel.getSize(forSE: 0.035, forOthers: 0.035))
                     
                     VStack {
                         if showToast {
@@ -58,11 +55,10 @@ struct LetterBoxView: View {
                                         }
                                     }
                                 }
-                                .padding(.bottom, 65)
+                                .padding(.bottom, letterBoxViewModel.getSize(forSE: 0.08, forOthers: 0.08)) // 65
                         }
                     }
                 }
-                .ignoresSafeArea()
                 .onAppear() {
                     withAnimation {
                         if isFirstLaunch {
@@ -102,6 +98,13 @@ struct LetterBoxView: View {
                 }
             }
         }
+    }
+    
+    func gridItems() -> [GridItem] {
+        [
+            GridItem(.flexible(minimum: 220), spacing: letterBoxViewModel.getSize(forSE: -0.1, forOthers: -0.063)),
+            GridItem(.flexible(minimum: 220))
+        ]
     }
 }
 
