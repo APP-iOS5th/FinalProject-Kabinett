@@ -51,7 +51,6 @@ final class AuthManager {
         logger.debug("Attempt to sign out.")
         do {
             try Auth.auth().signOut()
-            signInAnonymousIfNeeded()
             
             return true
         } catch {
