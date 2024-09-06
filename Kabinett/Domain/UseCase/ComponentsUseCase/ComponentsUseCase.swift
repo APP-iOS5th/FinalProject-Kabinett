@@ -23,5 +23,5 @@ protocol ComponentsUseCase {
                     isRead: Bool
     ) async -> Result<Bool, any Error>
     func findWriter(by query: String) async -> [Writer]
-    func getCurrentWriter() async -> AnyPublisher<Writer, Never>
+    func getCurrentWriter() -> AnyPublisher<Writer, Never>
 }

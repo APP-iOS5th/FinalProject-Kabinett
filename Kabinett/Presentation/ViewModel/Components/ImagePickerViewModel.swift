@@ -112,7 +112,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     @MainActor
     func fetchCurrentWriter() async {
-        let publisher = await componentsUseCase.getCurrentWriter()
+        let publisher = componentsUseCase.getCurrentWriter()
         for await result in publisher.values {
             self.fromUser = result
             self.fromUserName = result.name
