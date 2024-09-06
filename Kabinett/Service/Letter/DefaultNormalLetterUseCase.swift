@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import os
 
 final class DefaultNormalLetterUseCase {
@@ -13,11 +14,13 @@ final class DefaultNormalLetterUseCase {
     private let authManager: AuthManager
     private let writerManager: FirestoreWriterManager
     private let letterManager: FirestoreLetterManager
+    private let letterStorageManager: FirestorageLetterManager
     
     init(
         authManager: AuthManager,
         writerManager: FirestoreWriterManager,
-        letterManager: FirestoreLetterManager
+        letterManager: FirestoreLetterManager,
+        letterStorageManager: FirestorageLetterManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
@@ -26,6 +29,7 @@ final class DefaultNormalLetterUseCase {
         self.authManager = authManager
         self.writerManager = writerManager
         self.letterManager = letterManager
+        self.letterStorageManager = letterStorageManager
     }
 }
 
@@ -50,7 +54,7 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
         do {
             let photoContentStringUrl: [String]
             if !photoContents.isEmpty {
-                photoContentStringUrl = try await letterManager.convertPhotoToUrl(photoContents: photoContents)
+                photoContentStringUrl = try await letterStorageManager.convertPhotoToUrl(photoContents: photoContents)
             } else {
                 photoContentStringUrl = []
             }
@@ -100,11 +104,17 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
         }
     }
     
-    func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
-            return await writerManager.getWriterDocument(with: user.uid)
-        } else {
-            return .anonymousWriter
-        }
+    func getCurrentWriter() -> AnyPublisher<Writer, Never> {
+        authManager
+            .getCurrentUser()
+            .compactMap { $0 }
+            .asyncMap { [weak self] user in
+                if user.isAnonymous { return .anonymousWriter }
+                else {
+                    return await self?.writerManager.getWriterDocument(with: user.uid)
+                }
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
 }

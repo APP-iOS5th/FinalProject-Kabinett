@@ -38,14 +38,11 @@ final class ImagePickerViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
     private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
-    private let firebaseFirestoreManager: FirestoreLetterManager
     
     init(componentsUseCase: ComponentsUseCase,
-         componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
-         firebaseFirestoreManager: FirestoreLetterManager) {
+         componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
         self.componentsUseCase = componentsUseCase
         self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
-        self.firebaseFirestoreManager = firebaseFirestoreManager
         
         setupBindings()
         Task { [weak self] in
@@ -80,7 +77,7 @@ final class ImagePickerViewModel: ObservableObject {
             return
         }
         
-        let results = await firebaseFirestoreManager.findWriter(by: query)
+        let results = await componentsUseCase.findWriter(by: query)
         self.usersData = results
         self.toUserSearchResults = results.map { (name: $0.name, kabinettNumber: String(format: "%06d", $0.kabinettNumber)) }
     }
@@ -115,7 +112,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     @MainActor
     func fetchCurrentWriter() async {
-        let publisher = firebaseFirestoreManager.getCurrentWriter()
+        let publisher = await componentsUseCase.getCurrentWriter()
         for await result in publisher.values {
             self.fromUser = result
             self.fromUserName = result.name

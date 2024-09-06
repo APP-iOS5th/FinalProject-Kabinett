@@ -7,7 +7,6 @@
 
 import Foundation
 import FirebaseFirestore
-import Combine
 import os
 
 enum LetterError: Error {
@@ -24,6 +23,11 @@ enum LetterSaveError: Error {
     case bothUsersNotFound
 }
 
+struct Query {
+    let key: String
+    let value: String
+}
+
 final class FirestoreLetterManager {
     private let logger: Logger
     
@@ -35,11 +39,6 @@ final class FirestoreLetterManager {
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
-    }
-    
-    struct Query {
-        let key: String
-        let value: String
     }
     
     func validateLetter(

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import os
 
 final class DefaultPhotoLetterUseCase {
@@ -13,13 +14,13 @@ final class DefaultPhotoLetterUseCase {
     private let authManager: AuthManager
     private let writerManager: FirestoreWriterManager
     private let letterManager: FirestoreLetterManager
-    private let letterStorageManager: FirestoreLetterManager
+    private let letterStorageManager: FirestorageLetterManager
     
     init(
         authManager: AuthManager,
         writerManager: FirestoreWriterManager,
         letterManager: FirestoreLetterManager,
-        letterStorageManager: FirestoreLetterManager
+        letterStorageManager: FirestorageLetterManager
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
@@ -72,5 +73,38 @@ extension DefaultPhotoLetterUseCase: ComponentsUseCase {
             logger.error("Failed to save Photo Letter: \(error.localizedDescription)")
             return .failure(error)
         }
+    }
+    
+    // TODO: - Refactor this codes
+    func findWriter(by query: String) async -> [Writer] {
+        do {
+            async let resultByName = letterManager.findDocuments(
+                by: Query(key: "name", value: query),
+                as: Writer.self
+            )
+            async let resultByNumber = letterManager.findDocuments(
+                by: Query(key: "kabinettNumber", value: query),
+                as: Writer.self
+            )
+            
+            return try await resultByName + resultByNumber
+        } catch {
+            logger.error("Find writer error: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    func getCurrentWriter() -> AnyPublisher<Writer, Never> {
+        authManager
+            .getCurrentUser()
+            .compactMap { $0 }
+            .asyncMap { [weak self] user in
+                if user.isAnonymous { return .anonymousWriter }
+                else {
+                    return await self?.writerManager.getWriterDocument(with: user.uid)
+                }
+            }
+            .compactMap { $0 }
+            .eraseToAnyPublisher()
     }
 }

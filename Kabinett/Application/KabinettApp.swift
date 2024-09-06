@@ -61,6 +61,7 @@ struct KabinettApp: App {
         let writerStorageManager = FirestorageWriterManager()
         let authManager = AuthManager(writerManager: writerManager)
         let letterManager = FirestoreLetterManager()
+        let letterStorageManager = FirestorageLetterManager()
         
         // MARK: - UseCase Dependencies
         let profileUseCase = DefaultProfileUseCase(
@@ -74,11 +75,15 @@ struct KabinettApp: App {
         )
         let normalLetterUseCase = DefaultNormalLetterUseCase(
             authManager: authManager,
-            writerManager: writerManager, 
-            letterManager: letterManager
+            writerManager: writerManager,
+            letterManager: letterManager,
+            letterStorageManager: letterStorageManager
         )
         let photoLetterUseCase = DefaultPhotoLetterUseCase(
-            letterManager: letterManager
+            authManager: authManager,
+            writerManager: writerManager,
+            letterManager: letterManager,
+            letterStorageManager: letterStorageManager
         )
         let letterboxUseCase = DefaultLetterBoxUseCase(
             letterManager: letterManager,
@@ -127,8 +132,7 @@ struct KabinettApp: App {
         _imagePickerViewModel = .init(
             wrappedValue: ImagePickerViewModel(
                 componentsUseCase: photoLetterUseCase,
-                componentsLoadStuffUseCase: firebaseStorageManager,
-                firebaseFirestoreManager: letterManager
+                componentsLoadStuffUseCase: firebaseStorageManager
             )
         )
         _customTabViewModel = .init(
