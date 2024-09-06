@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseFirestore
 import os
 
 final class DefaultPhotoLetterUseCase {
@@ -61,6 +60,7 @@ extension DefaultPhotoLetterUseCase: ComponentsUseCase {
             
             return await letterManager.saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
         } catch {
+            logger.error("Failed to save Photo Letter: \(error.localizedDescription)")
             return .failure(error)
         }
     }

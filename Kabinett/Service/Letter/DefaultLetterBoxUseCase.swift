@@ -74,7 +74,6 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
                 return .failure(error)
             }
         }
-        
         return .success(result)
     }
     
@@ -82,7 +81,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     func getIsRead() async -> Result<[LetterType: Int], any Error> {
         do {
             let userId = try await letterManager.getCurrentUserId()
-            return try await letterManager.getIsReadCount(userId: userId)
+            return await letterManager.getIsReadCount(userId: userId)
         } catch {
             logger.error("Failed Get Writer: \(error.localizedDescription)")
             return .failure(error)

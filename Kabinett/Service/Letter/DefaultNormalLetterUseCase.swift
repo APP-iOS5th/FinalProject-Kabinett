@@ -78,6 +78,7 @@ extension DefaultNormalLetterUseCase: LetterWriteUseCase {
             return await letterManager.saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
             
         } catch {
+            logger.error("Failed to save Normal Letter: \(error.localizedDescription)")
             return .failure(error)
         }
     }

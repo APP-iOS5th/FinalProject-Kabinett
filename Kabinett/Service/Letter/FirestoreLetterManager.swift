@@ -1,5 +1,5 @@
 //
-//  FirestoreLetterManager.swift
+//  FirebaseFirestoreManager.swift
 //  Kabinett
 //
 //  Created by JIHYE SEOK on 8/13/24.
@@ -42,7 +42,7 @@ final class FirestoreLetterManager {
         self.authManager = authManager
     }
     
-   func validateLetter(
+    func validateLetter(
         userId: String,
         letterId: String,
         letterType: String
@@ -59,7 +59,7 @@ final class FirestoreLetterManager {
     // MARK: - 유저 DocumentID 가져오기
     func getCurrentUserId() async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
-            var concellable: AnyCancellable?
+            var cancellable: AnyCancellable?
             cancellable = authManager.getCurrentUser()
                 .first()
                 .sink { completion in
@@ -67,7 +67,7 @@ final class FirestoreLetterManager {
                     case .finished:
                         break
                     case .failure(let error):
-                        logger.error("Writer found Error: \(error.localizedDescription)")
+                        self.logger.error("Writer found Error: \(error.localizedDescription)")
                         continuation.resume(throwing: error)
                     }
                     cancellable?.cancel()
@@ -144,13 +144,13 @@ final class FirestoreLetterManager {
                 }
                 
                 if let _ = sentSaveError, let _ = receivedSaveError {
-                    logger.error("Save Sent, Received Error: \(error.localizedDescription)")
+                    logger.error("Save Sent, Received Error: \(LetterSaveError.failedToSaveBoth)")
                     return .failure(LetterSaveError.failedToSaveBoth)
                 } else if let _ = sentSaveError {
-                    logger.error("Save Sent Error: \(error.localizedDescription)")
+                    logger.error("Save Sent Error: \(LetterSaveError.failedToSaveSent)")
                     return .failure(LetterSaveError.failedToSaveSent)
                 } else if let _ = receivedSaveError {
-                    logger.error("Save Received Error: \(error.localizedDescription)")
+                    logger.error("Save Received Error: \(LetterSaveError.failedToSaveReceived)")
                     return .failure(LetterSaveError.failedToSaveReceived)
                 }
                 return .success(true)
@@ -185,7 +185,7 @@ final class FirestoreLetterManager {
                 }
                 // 두 User가 모두 없을 때 -> failure
             } else {
-                logger.error("Both User Found Error: \(error.localizedDescription)")
+                logger.error("Both User Found Error: \(LetterSaveError.bothUsersNotFound)")
                 return .failure(LetterSaveError.bothUsersNotFound)
             }
         } catch {
@@ -193,7 +193,7 @@ final class FirestoreLetterManager {
             return .failure(error)
         }
     }
-
+    
     func getLetters(
         userId: String,
         letterType: [String]
@@ -288,6 +288,7 @@ final class FirestoreLetterManager {
         letterType: [String]
     ) async -> Result<Bool, any Error> {
         var removeSucceeded = false
+        
         do {
             for type in letterType {
                 try await validateLetter(userId: userId, letterId: letterId, letterType: type)
@@ -303,11 +304,11 @@ final class FirestoreLetterManager {
             if removeSucceeded {
                 return .success(true)
             } else {
-                logger.error("Letter Delete Failed: \(error.localizedDescription)")
+                logger.error("Letter Delete Failed: \(LetterError.invalidLetterId)")
                 return .failure(LetterError.invalidLetterId)
             }
         } catch {
-            
+            return .failure(error)
         }
     }
     
@@ -318,22 +319,26 @@ final class FirestoreLetterManager {
     ) async -> Result<Bool, any Error> {
         var updateSucceeded = false
         
-        for type in letterType {
-            try await validateLetter(userId: userId, letterId: letterId, letterType: type)
-            try await db.collection("Writers")
-                .document(userId)
-                .collection(type)
-                .document(letterId)
-                .setData(["isRead": true], merge: true)
+        do {
+            for type in letterType {
+                try await validateLetter(userId: userId, letterId: letterId, letterType: type)
+                try await db.collection("Writers")
+                    .document(userId)
+                    .collection(type)
+                    .document(letterId)
+                    .setData(["isRead": true], merge: true)
+                
+                updateSucceeded = true
+            }
             
-            updateSucceeded = true
-        }
-        
-        if updateSucceeded {
-            return .success(true)
-        } else {
-            logger.error("IsRead Update Failed: \(error.localizedDescription)")
-            return .failure(LetterError.invalidLetterId)
+            if updateSucceeded {
+                return .success(true)
+            } else {
+                logger.error("IsRead Update Failed: \(LetterError.invalidLetterId)")
+                return .failure(LetterError.invalidLetterId)
+            }
+        } catch {
+            return .failure(error)
         }
     }
     
@@ -366,18 +371,23 @@ final class FirestoreLetterManager {
     }
     
     func getWelcomeLetter(userId: String) async -> Result<Bool, any Error> {
-        let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
-        
-        for document in querySnapshot.documents {
-            var letterData = document.data()
-            letterData["date"] = Timestamp(date: Date())
+        do {
+            let querySnapshot = try await db.collection("WelcomeLetter").getDocuments()
             
-            try await db.collection("Writers")
-                .document(userId)
-                .collection("Received")
-                .addDocument(data: letterData)
+            for document in querySnapshot.documents {
+                var letterData = document.data()
+                letterData["date"] = Timestamp(date: Date())
+                
+                try await db.collection("Writers")
+                    .document(userId)
+                    .collection("Received")
+                    .addDocument(data: letterData)
+            }
+            return .success(true)
+        } catch {
+            logger.error("Failed to get Welcome Letter: \(error.localizedDescription)")
+            return .failure(error)
         }
-        return .success(true)
     }
     
     // MARK: - PhotoContents URL 변환
