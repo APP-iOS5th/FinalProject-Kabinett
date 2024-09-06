@@ -130,6 +130,7 @@ struct PreviewLetterView: View {
                 }
                 .background(Color("Primary900"))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
+                .padding(.bottom, 5)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
