@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct NavigationBarView<Destination: View>: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     let destination: Destination
     let titleName: String
     let isNavigation: Bool
@@ -25,7 +25,7 @@ struct NavigationBarView<Destination: View>: View {
         ZStack {
             HStack {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 22, weight: .semibold))
