@@ -169,31 +169,33 @@ struct LetterBoxDetailView: View {
     
     func toolbarItems() -> some ToolbarContent {
         return ToolbarItemGroup {
-            Button {
-                withAnimation {
-                    if calendarViewModel.startDateFiltering {
-                        calendarViewModel.startDateFiltering = false
-                        calendarViewModel.startDate = Date()
-                        calendarViewModel.endDate = Date()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+            HStack(spacing: 0) {
+                Button {
+                    withAnimation {
+                        if calendarViewModel.startDateFiltering {
+                            calendarViewModel.startDateFiltering = false
+                            calendarViewModel.startDate = Date()
+                            calendarViewModel.endDate = Date()
+                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                        }
+                        showSearchBarView.toggle()
+                        isTextFieldFocused = true
                     }
-                    showSearchBarView.toggle()
-                    isTextFieldFocused = true
+                } label: {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundStyle(.contentPrimary)
                 }
-            } label: {
-                Image(systemName: "magnifyingglass")
-                    .foregroundStyle(.contentPrimary)
-            }
-
-            Button {
-                withAnimation {
-                    calendarViewModel.showCalendarView.toggle()
+                
+                Button {
+                    withAnimation {
+                        calendarViewModel.showCalendarView.toggle()
+                    }
+                } label: {
+                    Image(systemName: "line.3.horizontal.decrease.circle")
+                        .foregroundStyle(.contentPrimary)
                 }
-            } label: {
-                Image(systemName: "line.3.horizontal.decrease.circle")
-                    .foregroundStyle(.contentPrimary)
+                .padding(5)
             }
-            .padding(5)
         }
     }
 }
