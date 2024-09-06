@@ -35,9 +35,9 @@ class ProfileViewModel: ObservableObject {
     @Published var newUserName: String = ""
     @Published private(set) var appleID: String = ""
     @Published var selectedImageItem: PhotosPickerItem?
-    @Published private(set) var selectedImage: UIImage?
+    @Published var selectedImage: UIImage?
     @Published var isShowingCropper = false
-    @Published private(set) var croppedImage: UIImage?
+    @Published var croppedImage: UIImage?
     @Published private(set) var userStatus: UserStatus?
     @Published private(set) var profileUpdateError: String?
     @Published var showProfileAlert = false
@@ -101,7 +101,7 @@ class ProfileViewModel: ObservableObject {
     func completeProfileUpdate() async {
         
         let success = await profileUseCase.updateWriter(
-            newWriterName: currentWriter.name,
+            newWriterName: displayName,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
         )
         
