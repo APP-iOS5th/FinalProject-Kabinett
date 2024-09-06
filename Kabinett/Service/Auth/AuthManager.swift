@@ -64,10 +64,11 @@ final class AuthManager {
     // TODO: Add error handling
     func linkAccount(
         with idTokenString: String,
-        nonce: String
+        nonce: String,
+        provider: AuthProviderID = .apple
     ) async -> UserInfo {
         let credential = OAuthProvider.credential(
-            providerID: .apple,
+            providerID: provider,
             idToken: idTokenString,
             rawNonce: nonce
         )
