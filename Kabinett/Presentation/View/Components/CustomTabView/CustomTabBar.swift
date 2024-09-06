@@ -9,33 +9,32 @@ import SwiftUI
 
 struct CustomTabBar: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
-
+    
     var body: some View {
         GeometryReader { geometry in
-            HStack(spacing: 0) {
+            ZStack {
                 tabItem(image: viewModel.envelopeImage, tag: 0)
-                    .frame(width: geometry.size.width / 3)
+                    .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.5)
+                
                 tabItem(image: viewModel.plusImage, tag: 1)
-                    .frame(width: geometry.size.width / 3)
+                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
+                
                 tabItem(image: viewModel.profileImage, tag: 2)
-                    .frame(width: geometry.size.width / 3)
+                    .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.5)
             }
-            .frame(width: geometry.size.width, height: 44)
-            .background(Color.clear)
-            .position(x: geometry.size.width / 2, y: calculateYPosition(geometry: geometry))
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .position(
+                x: geometry.size.width / 2,
+                y: viewModel.calculateYPosition(
+                    viewHeight: geometry.size.height,
+                    bottomSafeAreaHeight: geometry.safeAreaInsets.bottom
+                )
+            )
         }
+        .frame(height: 20)
     }
     
-    private func calculateYPosition(geometry: GeometryProxy) -> CGFloat {
-        let basePosition: CGFloat = geometry.size.height - 22
-        let bottomSafeAreaHeight = geometry.safeAreaInsets.bottom
-        
-        if bottomSafeAreaHeight > 0 {
-            return basePosition - bottomSafeAreaHeight + 15
-        } else {
-            return basePosition - 10
-        }
-    }
+    
     
     private func tabItem(image: UIImage, tag: Int) -> some View {
         Button(action: {
