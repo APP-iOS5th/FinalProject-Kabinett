@@ -496,8 +496,8 @@ final class FirebaseFirestoreManager: LetterWriteUseCase, ComponentsUseCase, Let
             .map { try $0.data(as: type) }
     }
     
-    func getCurrentWriter() async -> AnyPublisher<Writer, Never> {
-        await authManager
+    func getCurrentWriter() -> AnyPublisher<Writer, Never> {
+        authManager
             .getCurrentUser()
             .compactMap { $0 }
             .asyncMap { [weak self] user in

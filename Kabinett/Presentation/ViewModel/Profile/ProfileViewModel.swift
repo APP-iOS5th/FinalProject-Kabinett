@@ -46,15 +46,16 @@ class ProfileViewModel: ObservableObject {
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
         
+        loadCurrentWriter()
+        
         Task {
-            await loadCurrentWriter()
             await checkUserStatus()
             await fetchAppleID()
         }
     }
     // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    func loadCurrentWriter() async {
-        await profileUseCase
+    func loadCurrentWriter() {
+        profileUseCase
             .getCurrentWriterPublisher()
             .map { writer in
                 WriterViewModel(
