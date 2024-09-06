@@ -92,6 +92,7 @@ struct FontSelectionView: View {
                     }
                     Spacer()
                 }
+                .padding(.bottom, 5)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
