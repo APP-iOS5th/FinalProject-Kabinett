@@ -18,6 +18,8 @@ final class CustomTabViewModel: ObservableObject {
     @Published var resetLetterBox: Bool = false
     @Published var resetProfile: Bool = false
     
+    @Published var letterWrite: Bool = false
+    
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
     let plusImage: UIImage

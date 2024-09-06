@@ -9,8 +9,7 @@ import SwiftUI
 
 struct OptionOverlay: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
-    @State var letterContent = LetterWriteModel()
-    
+    @State private var letterContent = LetterWriteModel()
     @State private var isWritingLetter = false
     
     var body: some View {
@@ -18,7 +17,7 @@ struct OptionOverlay: View {
             Color.black.opacity(0.5)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                    withAnimation() {
+                    withAnimation {
                         viewModel.hideOptions()
                     }
                 }
@@ -29,26 +28,31 @@ struct OptionOverlay: View {
                 HStack(spacing: 2) {
                     Button(action: {
                         viewModel.showImportDialogAndHideOptions()
+                        viewModel.hideOptions()
                     }) {
                         Text("편지 불러오기")
-                            .font(.system(size: 14))
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .frame(height: 24)
                             .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color.primary100)
+                            .foregroundColor(.contentPrimary)
                     }
                     
                     Button(action: {
-                        isWritingLetter = true
+                        withAnimation {
+                            isWritingLetter = true
+                        }
                     }) {
                         Text("편지 쓰기")
-                            .font(.system(size: 14))
+                            .font(.system(size: 16))
+                            .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
                             .frame(height: 24)
                             .padding()
-                            .background(Color.white)
-                            .foregroundColor(.black)
+                            .background(Color.primary100)
+                            .foregroundColor(.contentPrimary)
                     }
                 }
                 .cornerRadius(10)

@@ -12,20 +12,20 @@ struct CustomTabBar: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            HStack(spacing: 0) {
                 tabItem(image: viewModel.envelopeImage, tag: 0)
-                    .position(x: geometry.size.width * 0.25, y: geometry.size.height * 0.5)
+                    .frame(width: geometry.size.width / 3)
                 
                 tabItem(image: viewModel.plusImage, tag: 1)
-                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
+                    .frame(width: geometry.size.width / 3)
                 
                 tabItem(image: viewModel.profileImage, tag: 2)
-                    .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.5)
+                    .frame(width: geometry.size.width / 3)
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
-            .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+            .frame(width: geometry.size.width, height: 44)
+            .background(Color.clear)
+            .position(x: geometry.size.width / 2, y: geometry.size.height - 22)
         }
-        .frame(height: 20)
     }
     
     private func tabItem(image: UIImage, tag: Int) -> some View {

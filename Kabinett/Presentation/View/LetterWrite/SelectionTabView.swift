@@ -41,6 +41,8 @@ struct SelectionTabView: View {
     }
 }
 
+
+// MARK: - CustomTabs
 struct CustomTabs: View {
     var tabs: [String]
     var geoWidth: CGFloat

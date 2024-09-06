@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import Kingfisher
 
 struct ProfileSettingsView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
@@ -16,49 +17,56 @@ struct ProfileSettingsView: View {
     
     var body: some View {
         NavigationStack {
-            VStack{
-                photoPickerView()
-                userInfoInputFields()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.background)
-            .navigationTitle("프로필 설정")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                        }
-                        .foregroundColor(.primary900)
-                    }
+            ZStack {
+                Color.background.ignoresSafeArea(.all)
+                VStack {
+                    photoPickerView()
+                    userInfoInputFields()
                 }
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        Task {
-                            await viewModel.completeProfileUpdate()
-                            onComplete()
+                .navigationTitle("프로필 설정")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarBackButtonHidden(true)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
                             dismiss()
+                        }) {
+                            HStack {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .padding(.leading, 5)
+                            }
+                            .foregroundColor(.primary900)
                         }
-                    }) {
-                        Text("완료")
-                            .fontWeight(.medium)
-                            .font(.system(size: 18))
-                            .foregroundColor(.contentPrimary)
-                            .padding(.trailing, 8)
+                    }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            Task {
+                                await viewModel.completeProfileUpdate()
+                                viewModel.newUserName = ""
+                                onComplete()
+                                dismiss()
+                            }
+                        }) {
+                            Text("완료")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundColor(.contentPrimary)
+                                .padding(.trailing, UIScreen.main.bounds.width * 0.0186)
+                        }
                     }
                 }
             }
-        }
-        .sheet(isPresented: $viewModel.isShowingCropper) {
-            if let profileImage = viewModel.selectedImage {
-                ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
+            .onDisappear {
+                viewModel.croppedImage = nil
+                viewModel.selectedImageItem = nil
+            }
+            .sheet(isPresented: $viewModel.isShowingCropper) {
+                if let profileImage = viewModel.selectedImage {
+                    ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
+                }
             }
         }
     }
@@ -73,8 +81,17 @@ struct ProfileSettingsView: View {
                 Circle()
                     .foregroundColor(.primary300)
                     .frame(width: 110, height: 110)
-                if let image = viewModel.croppedImage {
-                    Image(uiImage: image)
+                
+                if let croppedImage = viewModel.croppedImage {
+                    Image(uiImage: croppedImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 110, height: 110)
+                        .clipShape(Circle())
+                }
+                
+                else if let image = viewModel.currentWriter.imageUrlString {
+                    KFImage(URL(string: image))
                         .resizable()
                         .scaledToFill()
                         .frame(width: 110, height: 110)

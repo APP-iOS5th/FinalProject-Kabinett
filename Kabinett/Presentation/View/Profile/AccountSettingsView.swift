@@ -13,10 +13,12 @@ struct AccountSettingsView: View {
     @State private var showLogoutAlert = false
     @State private var showAccountDeletionAlert = false
     var onComplete: () -> Void
+    let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     
     var body: some View {
         NavigationStack {
-            GeometryReader { geometry in
+            ZStack {
+                Color.background.ignoresSafeArea(.all)
                 VStack {
                     Button(action: {
                         showLogoutAlert = true
@@ -24,15 +26,16 @@ struct AccountSettingsView: View {
                         HStack{
                             Text("로그아웃하기")
                                 .fontWeight(.medium)
-                                .font(.system(size: 17))
+                                .font(.system(size: 18))
                                 .foregroundColor(.contentPrimary)
                             Spacer()
                             Image(systemName: "chevron.right")
+                                .fontWeight(.medium)
                                 .font(.system(size: 19))
                                 .foregroundColor(.contentPrimary)
                         }
                         .padding(.top, 20)
-                        .padding(.horizontal, geometry.size.width * 0.06)
+                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                         .contentShape(Rectangle())
                     }
                     .alert(
@@ -55,14 +58,15 @@ struct AccountSettingsView: View {
                         }) {
                             VStack {
                                 Text("회원 탈퇴하기")
+                                    .font(.system(size: 18))
                                     .foregroundColor(.alert)
-                                    .padding(.bottom, 3)
+                                    .padding(.bottom, 2)
                                 Text("저장된 데이터가 모두 사라져요.")
-                                    .font(.system(size: 12))
+                                    .font(.system(size: 14))
                                     .foregroundColor(.contentSecondary)
                                     .padding(.bottom, 20)
                             }
-                            .padding(.horizontal, geometry.size.width * 0.06)
+                            .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                             .contentShape(Rectangle())
                         }
                         .alert(
@@ -89,14 +93,13 @@ struct AccountSettingsView: View {
                             HStack {
                                 Image(systemName: "chevron.left")
                                     .font(.system(size: 18, weight: .semibold))
+                                    .padding(.leading, 5)
                             }
                             .foregroundColor(.primary900)
                         }
                     }
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.background)
             .navigationTitle("계정 설정")
             .navigationBarTitleDisplayMode(.inline)
         }

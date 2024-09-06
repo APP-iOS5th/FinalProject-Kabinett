@@ -11,28 +11,6 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseFirestore
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//        FirebaseApp.configure()
-////         Uncomment these blocks to use Firebase Emulator Suite
-//        #if DEBUG
-//        // Firebase Authenticate Emulator
-//        Auth.auth().useEmulator(withHost:"localhost", port:9099)
-//        
-//        // Firebase Storage Emulator
-//        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
-//        
-//        // Firebaes Firestore Emulator
-//        let settings = Firestore.firestore().settings
-//        settings.host = "localhost:8080"
-//        settings.isSSLEnabled = false
-//        Firestore.firestore().settings = settings
-//        #endif
-        
-        return true
-    }
-}
 @main
 struct KabinettApp: App {
     
@@ -56,9 +34,9 @@ struct KabinettApp: App {
     @StateObject private var userSelectionViewModel: UserSelectionViewModel
     @StateObject private var stationerySelectionViewModel: StationerySelectionViewModel
     @StateObject private var fontSelectionViewModel: FontSelectionViewModel
-    @StateObject private var writerLetterViewModel: WriteLetterViewModel
+    @StateObject private var contentWriteViewModel: ContentWriteViewModel
     @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @StateObject private var letterWritePreviewViewModel: LetterWritePreviewViewModel
+    @StateObject private var previewLetterViewModel: PreviewLetterViewModel
     
     init() {
         // Init Firebase App
@@ -172,16 +150,16 @@ struct KabinettApp: App {
         _fontSelectionViewModel = .init(
             wrappedValue: FontSelectionViewModel()
         )
-        _writerLetterViewModel = .init(
-            wrappedValue: WriteLetterViewModel()
+        _contentWriteViewModel = .init(
+            wrappedValue: ContentWriteViewModel()
         )
         _envelopStampSelectionViewModel = .init(
             wrappedValue: EnvelopeStampSelectionViewModel(
                 useCase: firebaseStorageManager
             )
         )
-        _letterWritePreviewViewModel = .init(
-            wrappedValue: LetterWritePreviewViewModel(
+        _previewLetterViewModel = .init(
+            wrappedValue: PreviewLetterViewModel(
                 useCase: normalLetterUseCase
             )
         )
@@ -201,9 +179,9 @@ struct KabinettApp: App {
                 .environmentObject(userSelectionViewModel)
                 .environmentObject(stationerySelectionViewModel)
                 .environmentObject(fontSelectionViewModel)
-                .environmentObject(writerLetterViewModel)
+                .environmentObject(contentWriteViewModel)
                 .environmentObject(envelopStampSelectionViewModel)
-                .environmentObject(letterWritePreviewViewModel)
+                .environmentObject(previewLetterViewModel)
         }
     }
 }

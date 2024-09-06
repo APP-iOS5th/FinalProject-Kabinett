@@ -35,8 +35,9 @@ struct LetterWritingView: View {
                 showEnvelopeStampSelection = true
             }) {
                 Text("완료")
-                    .foregroundStyle(Color.black)
-                    .font(.system(size: 16, weight: .medium))
+                    .fontWeight(.medium)
+                    .font(.system(size: 19))
+                    .foregroundColor(.contentPrimary)
             }
             )
             .navigationDestination(isPresented: $showEnvelopeStampSelection) {
