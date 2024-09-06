@@ -22,6 +22,7 @@ struct UserSelectionView: View {
                 
                 VStack {
                     HStack {
+                        Spacer()
                         Button("완료") {
                             letterContent.fromUserId = viewModel.fromUser?.id
                             letterContent.fromUserName = viewModel.fromUser?.name ?? ""

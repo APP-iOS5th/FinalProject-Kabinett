@@ -209,6 +209,10 @@ struct CustomTextEditor: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
+        if uiView.text == text && uiView.font == font {
+            return
+        }
+        
         uiView.text = text
         uiView.font = font
         
