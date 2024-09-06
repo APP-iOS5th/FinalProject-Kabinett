@@ -122,8 +122,7 @@ struct ScrollableLetterView: View {
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                                    
+                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
                                 }
                                 .aspectRatio(9/13, contentMode: .fit)
                                 .frame(width: UIScreen.main.bounds.width * 0.88)
