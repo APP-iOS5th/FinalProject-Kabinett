@@ -162,6 +162,8 @@ struct LetterBoxDetailView: View {
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
+                    .fontWeight(.medium)
+                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
             .padding(.trailing, 3)
@@ -172,6 +174,8 @@ struct LetterBoxDetailView: View {
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
+                    .fontWeight(.medium)
+                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
         }

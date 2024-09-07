@@ -22,7 +22,9 @@ struct StationerySelectionView: View {
                     NavigationBarView(titleName: "편지지 고르기", isColor: true) {
                         NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
                             Text("다음")
-                                .foregroundColor(Color.black)
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
                         }
                     }
                     

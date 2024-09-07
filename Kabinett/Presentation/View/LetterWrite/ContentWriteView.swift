@@ -26,7 +26,9 @@ struct ContentWriteView: View {
                 NavigationBarView(titleName: "", isColor: true) {
                     NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
                         Text("다음")
-                            .foregroundColor(Color.black)
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
                     }
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)

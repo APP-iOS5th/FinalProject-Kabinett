@@ -36,7 +36,9 @@ struct EnvelopeStampSelectionView: View {
                     NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
                         NavigationLink(destination: LetterCompletionView(letterContent: $letterContent)) {
                             Text("다음")
-                                .foregroundColor(Color.black)
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
                         }
                     }
                     .padding(.bottom, 25)
@@ -44,7 +46,9 @@ struct EnvelopeStampSelectionView: View {
                     NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
                         NavigationLink(destination: PreviewLetterView(letterContent: $letterContent)) {
                             Text("다음")
-                                .foregroundColor(Color.black)
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
                         }
                     }
                     .padding(.bottom, 25)

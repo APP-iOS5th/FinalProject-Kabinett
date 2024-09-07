@@ -22,7 +22,9 @@ struct FontSelectionView: View {
                 NavigationBarView(titleName: "서체 고르기", isColor: true) {
                     NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
                         Text("다음")
-                            .foregroundColor(Color.black)
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
                     }
                 }
                 
