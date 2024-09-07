@@ -228,8 +228,6 @@ struct CalendarBar: View {
             }
             .padding(.top, UIScreen.main.bounds.width * 0.01)
             .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-            
-            Spacer()
         }
         .onAppear {
             letterBoxDetailviewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
@@ -243,4 +241,3 @@ struct CalendarBar: View {
         return formatter.string(from: date)
     }
 }
-

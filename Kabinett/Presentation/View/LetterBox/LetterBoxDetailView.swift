@@ -16,11 +16,9 @@ struct LetterBoxDetailView: View {
     
     @State private var navigationBarHeight: CGFloat = 0
     
-    @Binding var showSearchBarView: Bool
-    @Binding var searchText: String
-    @Binding var isTextFieldFocused: Bool
-    
-    @Environment(\.dismiss) private var dismiss
+    @State var showSearchBarView: Bool = false
+    @State var searchText: String = ""
+    @State var isTextFieldFocused: Bool = false
     
 //    let letters = Array(0...16) // dummy
 //    let letters: [Int] = [] // empty dummy
@@ -30,24 +28,8 @@ struct LetterBoxDetailView: View {
         return [-8, 10, 6, -2, 16]
     }
     
-    init(
-         letterType: LetterType,
-         showSearchBarView: Binding<Bool>,
-         searchText: Binding<String>,
-         isTextFieldFocused: Binding<Bool>
-    ) {
+    init(letterType: LetterType) {
         self.letterType = letterType
-        self._showSearchBarView = showSearchBarView
-        self._searchText = searchText
-        self._isTextFieldFocused = isTextFieldFocused
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.backgroundColor = .clear
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        
-        UITabBar.appearance().backgroundColor = .clear
     }
     
     var body: some View {
@@ -56,12 +38,22 @@ struct LetterBoxDetailView: View {
                 Color.background
                     .edgesIgnoringSafeArea(.all)
                 
-                if calendarViewModel.startDateFiltering {
-                    CalendarBar(letterType: letterType)
-                        .zIndex(1)
+                VStack {
+                    if showSearchBarView {
+                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: letterType)
+                    } else {
+                        NavigationBarView(titleName: letterType.description, isColor: false) {
+                            toolbarItems()
+                        }
+                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                    }
+                    
+                    if calendarViewModel.startDateFiltering {
+                        CalendarBar(letterType: letterType)
+                    }
+                    
+                    letterBoxDetailListView()
                 }
-                
-                letterBoxDetailListView()
                 
                 VStack {
                     Spacer()
@@ -80,13 +72,8 @@ struct LetterBoxDetailView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationTitle(letterType.description)
-            .navigationBarBackButtonHidden(true)
-            .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
+            .navigationBarBackButtonHidden()
             .ignoresSafeArea(.keyboard, edges: .bottom)
-            .toolbar {
-                toolbarItems()
-            }
             .onAppear {
                 if showSearchBarView {
                     isTextFieldFocused = false
@@ -103,6 +90,8 @@ struct LetterBoxDetailView: View {
     @ViewBuilder
     func letterBoxDetailListView() -> some View {
         if viewModel.letterBoxDetailLetters.isEmpty {
+            Spacer()
+            
             if !searchText.isEmpty {
                 Text("검색 결과가 없습니다.")
                     .font(.system(size: 16, weight: .bold))
@@ -112,25 +101,21 @@ struct LetterBoxDetailView: View {
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             }
+            
+            Spacer()
         }
         else if viewModel.letterBoxDetailLetters.count < 3 {
+            Spacer()
+            
             VStack(spacing: 25) {
                 ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
                     NavigationLink(destination: LetterBoxDetailLetterView(letterType: letterType, letter: letter)) {
                         LetterBoxDetailEnvelopeCell(letter: letter)
                     }
-                    .simultaneousGesture(TapGesture().onEnded {
-                        if showSearchBarView {
-                            searchText = ""
-                            showSearchBarView.toggle()
-                        }
-                        
-                        if calendarViewModel.startDateFiltering {
-                            calendarViewModel.startDateFiltering.toggle()
-                        }
-                    })
                 }
             }
+            
+            Spacer()
         } else {
             ScrollView {
                 LazyVStack(spacing: -75) {
@@ -146,20 +131,9 @@ struct LetterBoxDetailView: View {
                                     .padding(.bottom, idx % 3 == 1 ? 37 : 0)
                             }
                         }
-                        .simultaneousGesture(TapGesture().onEnded {
-                            if showSearchBarView {
-                                searchText = ""
-                                showSearchBarView.toggle()
-                            }
-                            
-                            if calendarViewModel.startDateFiltering {
-                                calendarViewModel.startDateFiltering.toggle()
-                            }
-                        })
                     }
                 }
                 .padding(.top, navigationBarHeight)
-                .padding(.top, calendarViewModel.startDateFiltering ? 40 : 0)
                 .background(
                     GeometryReader { geometry in
                         Color.clear
@@ -173,34 +147,32 @@ struct LetterBoxDetailView: View {
         }
     }
     
-    func toolbarItems() -> some ToolbarContent {
-        return ToolbarItemGroup {
-            HStack(spacing: 0) {
-                Button {
-                    withAnimation {
-                        if calendarViewModel.startDateFiltering {
-                            calendarViewModel.startDateFiltering = false
-                            calendarViewModel.startDate = Date()
-                            calendarViewModel.endDate = Date()
-                            viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                        }
-                        showSearchBarView.toggle()
-                        isTextFieldFocused = true
+    func toolbarItems() -> some View {
+        HStack {
+            Button {
+                withAnimation {
+                    if calendarViewModel.startDateFiltering {
+                        calendarViewModel.startDateFiltering = false
+                        calendarViewModel.startDate = Date()
+                        calendarViewModel.endDate = Date()
+                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                     }
-                } label: {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.contentPrimary)
+                    showSearchBarView.toggle()
+                    isTextFieldFocused = true
                 }
-                
-                Button {
-                    withAnimation {
-                        calendarViewModel.showCalendarView.toggle()
-                    }
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease.circle")
-                        .foregroundStyle(.contentPrimary)
+            } label: {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.contentPrimary)
+            }
+            .padding(.trailing, 3)
+            
+            Button {
+                withAnimation {
+                    calendarViewModel.showCalendarView = true
                 }
-                .padding(5)
+            } label: {
+                Image(systemName: "line.3.horizontal.decrease.circle")
+                    .foregroundStyle(.contentPrimary)
             }
         }
     }
@@ -219,20 +191,5 @@ struct NavigationBarHeightKey: PreferenceKey {
     
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = nextValue()
-    }
-}
-
-struct BackButtonView: View {
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: "chevron.left")
-                    .frame(width: 17, height: 36)
-                    .foregroundStyle(.contentPrimary)
-                    .padding(.leading, 4)
-            }
-        }
     }
 }

@@ -16,10 +16,6 @@ struct LetterBoxView: View {
     @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
     
-    @State private var searchText: String = ""
-    @State private var showSearchBarView = false
-    @State private var isTextFieldFocused = false
-    
     var body: some View {
         ZStack {
             NavigationStack {
@@ -31,7 +27,7 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)) {
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type)) {
                                 LetterBoxCell(type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
@@ -67,8 +63,6 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
-                    showSearchBarView = false
-                    searchText = ""
                     
                     if calendarViewModel.startDateFiltering {
                         calendarViewModel.startDateFiltering.toggle()
@@ -79,25 +73,6 @@ struct LetterBoxView: View {
                 }
             }
             .tint(.black)
-            .buttonStyle(PlainButtonStyle())
-            
-            if showSearchBarView {
-                VStack {
-                    ZStack {
-                        Color.clear
-                            .background(Material.ultraThinMaterial)
-                            .blur(radius: 1.5)
-
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: currentLetterType)
-                            .padding(.top, 50)
-                            .edgesIgnoringSafeArea(.top)
-                            .zIndex(1)
-                    }
-                    .frame(maxHeight: .zero)
-                    
-                    Spacer()
-                }
-            }
         }
     }
     
