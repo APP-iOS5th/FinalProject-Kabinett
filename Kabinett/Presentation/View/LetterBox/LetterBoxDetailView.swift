@@ -103,9 +103,15 @@ struct LetterBoxDetailView: View {
     @ViewBuilder
     func letterBoxDetailListView() -> some View {
         if viewModel.letterBoxDetailLetters.isEmpty {
-            Text(letterType.setEmptyMessage())
-                .font(.system(size: 16, weight: .bold))
-                .foregroundStyle(.contentPrimary)
+            if !searchText.isEmpty {
+                Text("검색 결과가 없습니다.")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.contentPrimary)
+            } else {
+                Text(letterType.setEmptyMessage())
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundStyle(.contentPrimary)
+            }
         }
         else if viewModel.letterBoxDetailLetters.count < 3 {
             VStack(spacing: 25) {
