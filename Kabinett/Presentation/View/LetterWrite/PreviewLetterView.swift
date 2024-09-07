@@ -72,6 +72,7 @@ struct PreviewLetterView: View {
                                 Text("받는 사람")
                                     .font(.system(size: 7))
                                     .padding(.bottom, 1)
+                                    .padding(.leading, -5)
                                 Text(letterContent.toUserName)
                                     .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
                             }
@@ -126,7 +127,8 @@ struct PreviewLetterView: View {
                     customTabViewModel.hideOptions()
                 } label: {
                     Text("편지 보내기")
-                        .font(.system(size: 15))
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
                         .foregroundStyle(Color.white)
                         .frame(maxWidth: .infinity, minHeight: 56)
                 }

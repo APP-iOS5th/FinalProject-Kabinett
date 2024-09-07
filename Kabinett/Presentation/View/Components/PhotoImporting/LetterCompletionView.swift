@@ -46,8 +46,8 @@ struct LetterCompletionView: View {
             dismiss()
         }) {
             Image(systemName: "chevron.left")
-                .foregroundColor(Color.contentPrimary)
-                .imageScale(.large)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.primary900)
         }
     }
     
@@ -70,10 +70,6 @@ struct LetterCompletionView: View {
                     }
                     .position(x: 60, y: 35)
                     
-                    Text(viewModel.formattedDate)
-                        .font(.system(size: 12))
-                        .position(x: geometry.size.width - 80, y: 25)
-                    
                     Text(viewModel.postScript ?? letterContent.postScript ?? "")
                         .font(.system(size: 10))
                         .position(x: 85, y: geometry.size.height - 35)
@@ -93,6 +89,12 @@ struct LetterCompletionView: View {
                         }
                         .frame(width: 34, height: 38)
                         .position(x: geometry.size.width - 40, y: 35)
+                    
+                    Text(viewModel.formattedDate)
+                        .monospaced()
+                        .font(.system(size: 12))
+                        .position(x: geometry.size.width - 80, y: 25)
+                    
                 }
             }
         }
@@ -121,14 +123,14 @@ struct LetterCompletionView: View {
             }
         }) {
             Text("편지 보관하기")
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity)
-                .padding()
+                .font(.system(size: 16))
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.white)
+                .frame(maxWidth: .infinity, minHeight: 56)
                 .background(Color.primary900)
-                .cornerRadius(14)
+                .cornerRadius(16)
         }
-        .padding(.horizontal)
+        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         .disabled(viewModel.isLoading)
     }
 }

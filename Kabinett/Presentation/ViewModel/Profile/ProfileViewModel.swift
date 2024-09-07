@@ -35,9 +35,9 @@ class ProfileViewModel: ObservableObject {
     @Published var newUserName: String = ""
     @Published private(set) var appleID: String = ""
     @Published var selectedImageItem: PhotosPickerItem?
-    @Published private(set) var selectedImage: UIImage?
+    @Published var selectedImage: UIImage?
     @Published var isShowingCropper = false
-    @Published private(set) var croppedImage: UIImage?
+    @Published var croppedImage: UIImage?
     @Published private(set) var userStatus: UserStatus?
     @Published private(set) var profileUpdateError: String?
     @Published var showProfileAlert = false
@@ -46,15 +46,16 @@ class ProfileViewModel: ObservableObject {
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
         
+        loadCurrentWriter()
+        
         Task {
-            await loadCurrentWriter()
             await checkUserStatus()
             await fetchAppleID()
         }
     }
     // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    func loadCurrentWriter() async {
-        await profileUseCase
+    func loadCurrentWriter() {
+        profileUseCase
             .getCurrentWriterPublisher()
             .map { writer in
                 WriterViewModel(
@@ -101,7 +102,7 @@ class ProfileViewModel: ObservableObject {
     func completeProfileUpdate() async {
         
         let success = await profileUseCase.updateWriter(
-            newWriterName: currentWriter.name,
+            newWriterName: displayName,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
         )
         

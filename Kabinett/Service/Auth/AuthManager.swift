@@ -16,9 +16,12 @@ final class AuthManager {
         case existingUser(User?)
     }
     
+    // MARK: - Properties
     private let logger: Logger
     private var currentUserSubject: CurrentValueSubject<User?, Never> = .init(nil)
     private let writerManager: FirestoreWriterManager
+    
+    private var task: Task<Void, Never>?
     
     init(writerManager: FirestoreWriterManager) {
         self.logger = Logger(
@@ -28,9 +31,13 @@ final class AuthManager {
         self.writerManager = writerManager
         
         observeCurrentAuthStatus()
-        signInAnonymousIfNeeded()
     }
     
+    deinit {
+        task?.cancel()
+    }
+    
+    // MARK: - Public Methods
     func getCurrentUser() -> AnyPublisher<User?, Never> {
         currentUserSubject
             .eraseToAnyPublisher()
@@ -44,7 +51,6 @@ final class AuthManager {
         logger.debug("Attempt to sign out.")
         do {
             try Auth.auth().signOut()
-            signInAnonymousIfNeeded()
             
             return true
         } catch {
@@ -57,32 +63,37 @@ final class AuthManager {
     // TODO: Change Method name
     // TODO: Add error handling
     func linkAccount(
-        with idTokenString: String
+        with idTokenString: String,
+        nonce: String,
+        provider: AuthProviderID = .apple
     ) async -> UserInfo {
         let credential = OAuthProvider.credential(
-            providerID: .apple,
-            accessToken: idTokenString
+            providerID: provider,
+            idToken: idTokenString,
+            rawNonce: nonce
         )
+        
+        guard let user = getCurrentUser() else {
+            logger.warning("Attempting to linking account without current user is not allowed.")
+            return .newUser
+        }
+    
         do {
-            if let user = Auth.auth().currentUser {
-                let result = try await user.link(with: credential)
-                currentUserSubject.send(result.user)
-                
-                return .newUser
-            } else {
-                logger.warning("Attempting to linking account without current user is not allowed.")
-                return .newUser
-            }
+            let result = try await user.link(with: credential)
+            currentUserSubject.send(result.user)
+            
+            return .newUser
         } catch {
             let error = error as NSError
             let code = AuthErrorCode(rawValue: error.code)
             
             if code == .credentialAlreadyInUse {
                 logger.debug("This credential already in use, delete current user and retry signing.")
-                await deleteAccount()
-                let user = await signInWith(credential: credential)
                 
-                return .existingUser(user)
+                let existingUser = await signInWith(credential: credential)
+                await deleteAccount(of: user)
+                
+                return .existingUser(existingUser)
             } else {
                 logger.debug("Linking Error: \(error.localizedDescription)")
                 
@@ -91,19 +102,10 @@ final class AuthManager {
         }
     }
     
-    func deleteAccount(withSignIn: Bool = false) async {
+    func deleteAccount(of user: User) async {
         do {
-            guard let currentUser = getCurrentUser() else {
-                logger.error("Delete account without user is not allowed.")
-                return
-            }
-            try await currentUser.delete()
-            try await writerManager.deleteUserData(currentUser.uid)
-            
-            if withSignIn {
-                logger.info("with sign in is true: \(Auth.auth().currentUser)")
-                signInAnonymousIfNeeded()
-            }
+            try await writerManager.deleteUserData(user.uid)
+            try await user.delete()
         } catch {
             logger.error("Delete account is failed: \(error.localizedDescription)")
         }
@@ -128,10 +130,13 @@ final class AuthManager {
     }
     
     private func observeCurrentAuthStatus() {
-        Task { [weak self] in
+        task = Task { [weak self] in
             for await user in AuthManager.users {
+                if user == nil {
+                    self?.signInAnonymousIfNeeded()
+                }
                 self?.logger.debug(
-                    "User authentication state is changed: \(String(describing: user), privacy: .private)"
+                    "User authentication state is changed: \(String(describing: user?.uid), privacy: .private)"
                 )
                 self?.currentUserSubject.send(user)
             }
@@ -159,8 +164,12 @@ final class AuthManager {
 private extension AuthManager {
     static var users: AsyncStream<User?> {
         AsyncStream { continuation in
-            _ = Auth.auth().addStateDidChangeListener { auth, user in
+            let listener = Auth.auth().addStateDidChangeListener { auth, user in
                 continuation.yield(user)
+            }
+            
+            continuation.onTermination = { _ in
+                Auth.auth().removeStateDidChangeListener(listener)
             }
         }
     }

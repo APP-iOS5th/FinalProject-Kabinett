@@ -27,7 +27,7 @@ struct NavigationBarView<ToolbarContent: View>: View {
                     dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
-                        .aspectRatio(contentMode: .fit)
+                        .font(.system(size: 22, weight: .semibold))
                         .foregroundStyle(Color("ContentPrimary"))
                 }
                 Spacer()
