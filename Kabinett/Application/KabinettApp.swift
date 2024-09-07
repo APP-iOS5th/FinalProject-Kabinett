@@ -90,10 +90,6 @@ struct KabinettApp: App {
             authManager: authManager
         )
         
-        /// This object performs 2 use cases.
-        /// LetterWriteLoadStuffUseCase, ComponentsLoadStuffUseCase
-        let firebaseStorageManager = FirestorageLetterManager()
-        
         // MARK: - LetterBox ViewModels
         _letterViewModel = .init(
             wrappedValue: LetterViewModel(
@@ -131,8 +127,7 @@ struct KabinettApp: App {
         // MARK: - Componets ViewModels
         _imagePickerViewModel = .init(
             wrappedValue: ImagePickerViewModel(
-                componentsUseCase: photoLetterUseCase,
-                componentsLoadStuffUseCase: firebaseStorageManager
+                componentsUseCase: photoLetterUseCase
             )
         )
         _customTabViewModel = .init(
@@ -147,7 +142,7 @@ struct KabinettApp: App {
         )
         _stationerySelectionViewModel = .init(
             wrappedValue: StationerySelectionViewModel(
-                useCase: firebaseStorageManager
+                useCase: normalLetterUseCase
             )
         )
         _fontSelectionViewModel = .init(
@@ -158,7 +153,7 @@ struct KabinettApp: App {
         )
         _envelopStampSelectionViewModel = .init(
             wrappedValue: EnvelopeStampSelectionViewModel(
-                useCase: firebaseStorageManager
+                useCase: normalLetterUseCase
             )
         )
         _previewLetterViewModel = .init(

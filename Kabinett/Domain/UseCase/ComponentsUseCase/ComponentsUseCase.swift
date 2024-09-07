@@ -24,4 +24,7 @@ protocol ComponentsUseCase {
     ) async -> Result<Bool, any Error>
     func findWriter(by query: String) async -> [Writer]
     func getCurrentWriter() -> AnyPublisher<Writer, Never>
+    
+    func loadEnvelopes() async -> Result<[String], any Error>
+    func loadStamps() async -> Result<[String], any Error>
 }

@@ -107,4 +107,14 @@ extension DefaultPhotoLetterUseCase: ComponentsUseCase {
             .compactMap { $0 }
             .eraseToAnyPublisher()
     }
+    
+    // 편지봉투 로딩
+    func loadEnvelopes() async -> Result<[String], any Error> {
+        await letterStorageManager.loadStorage(path: "Envelopes")
+    }
+    
+    // 우표 로딩
+    func loadStamps() async -> Result<[String], any Error> {
+        await letterStorageManager.loadStorage(path: "Stamps")
+    }
 }

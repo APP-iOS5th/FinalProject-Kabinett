@@ -8,23 +8,8 @@
 import Foundation
 import FirebaseStorage
 
-final class FirestorageLetterManager: LetterWriteLoadStuffUseCase, ComponentsLoadStuffUseCase {
+final class FirestorageLetterManager {
     let storage = Storage.storage()
-    
-    // 편지봉투 로딩
-    func loadEnvelopes() async -> Result<[String], any Error> {
-        await loadStorage(path: "Envelopes")
-    }
-    
-    // 우표 로딩
-    func loadStamps() async -> Result<[String], any Error> {
-        await loadStorage(path: "Stamps")
-    }
-    
-    // 편지지 로딩
-    func loadStationeries() async -> Result<[String], any Error> {
-        await loadStorage(path: "Stationeries")
-    }
     
     func convertPhotoToUrl(photoContents: [Data]) async throws -> [String] {
         let storageRef = storage.reference()
@@ -51,7 +36,7 @@ final class FirestorageLetterManager: LetterWriteLoadStuffUseCase, ComponentsLoa
         }
     }
     
-    private func loadStorage(path: String) async -> Result<[String], any Error> {
+    func loadStorage(path: String) async -> Result<[String], any Error> {
         let storageRef = storage.reference().child(path)
         
         do {

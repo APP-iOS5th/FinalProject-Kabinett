@@ -37,12 +37,9 @@ final class ImagePickerViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
-    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
     
-    init(componentsUseCase: ComponentsUseCase,
-         componentsLoadStuffUseCase: ComponentsLoadStuffUseCase) {
+    init(componentsUseCase: ComponentsUseCase) {
         self.componentsUseCase = componentsUseCase
-        self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
         
         setupBindings()
         Task { [weak self] in
@@ -185,8 +182,8 @@ final class ImagePickerViewModel: ObservableObject {
         error = nil
         
         do {
-            let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
-            let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
+            let envelopes = try await componentsUseCase.loadEnvelopes().get()
+            let stamps = try await componentsUseCase.loadStamps().get()
             
             if let firstEnvelope = envelopes.first {
                 self.envelopeURL = firstEnvelope
