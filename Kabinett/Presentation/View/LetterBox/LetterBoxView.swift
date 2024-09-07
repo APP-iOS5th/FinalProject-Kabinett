@@ -49,13 +49,13 @@ struct LetterBoxView: View {
                                 .zIndex(1)
                                 .onAppear {
                                     letterBoxViewModel.fetchWelcomeLetter()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
                                         withAnimation {
                                             showToast = false
                                         }
                                     }
                                 }
-                                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.08, forOthers: 0.08)) // 65
+                                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.0005, forOthers: 0.001))
                         }
                     }
                 }
