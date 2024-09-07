@@ -9,20 +9,19 @@ import SwiftUI
 import Kingfisher
 
 struct LetterBoxEnvelopeCell: View {
-    @EnvironmentObject var viewModel: LetterBoxViewModel
     var letter: Letter
     
     var body: some View {
         VStack {
             HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: viewModel.getSize(forSE: 0.003, forOthers: 0.003)) {
+                VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.003, forOthers: 0.003)) {
                     Text("보내는 사람")
-                        .font(.custom("SFDisplay", size: viewModel.getSize(forSE: 0.006, forOthers: 0.006)))
+                        .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.006, forOthers: 0.006)))
                         .foregroundStyle(.contentPrimary)
                     Text(letter.fromUserName)
-                        .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.0122, forOthers: 0.0122)))
+                        .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
                         .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: viewModel.getWidth(forSE: 0.4, forOthers: 0.443), alignment: .leading)
+                        .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.4, forOthers: 0.443), alignment: .leading)
                 }
                 
                 KFImage(URL(string: letter.stampImageUrlString))
@@ -30,30 +29,30 @@ struct LetterBoxEnvelopeCell: View {
                         Color.clear
                     }
                     .resizable()
-                    .frame(width: viewModel.getWidth(forSE: 0.059, forOthers: 0.069), height: viewModel.getSize(forSE: 0.038, forOthers: 0.036))
+                    .frame(width: LayoutHelper.shared.getWidth(forSE: 0.059, forOthers: 0.069), height: LayoutHelper.shared.getSize(forSE: 0.038, forOthers: 0.036))
                     .aspectRatio(contentMode: .fit)
             }
-            .padding(.bottom, viewModel.getSize(forSE: 0.029, forOthers: 0.025))
+            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.029, forOthers: 0.025))
             
             HStack(alignment: .top) {
                 Text(letter.postScript ?? "")
-                    .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.008, forOthers: 0.008)))
-                    .frame(width: viewModel.getWidth(forSE: 0.29, forOthers: 0.32), alignment: .leading)
+                    .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008)))
+                    .frame(width: LayoutHelper.shared.getWidth(forSE: 0.29, forOthers: 0.32), alignment: .leading)
                     .foregroundStyle(.contentPrimary)
                 
-                VStack(alignment: .leading, spacing: viewModel.getSize(forSE: 0.002, forOthers: 0.002)) {
+                VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002, forOthers: 0.002)) {
                     Text("받는 사람")
-                        .font(.custom("SFDisplay", size: viewModel.getSize(forSE: 0.006, forOthers: 0.006)))
+                        .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.006, forOthers: 0.006)))
                         .foregroundStyle(.contentPrimary)
                     Text(letter.toUserName)
-                        .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.0122, forOthers: 0.0122)))
+                        .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
                         .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: viewModel.getWidth(forSE: 0.17, forOthers: 0.2), alignment: .leading)
-                        .padding(.bottom, viewModel.getSize(forSE: 0.008, forOthers: 0.008))
+                        .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.17, forOthers: 0.2), alignment: .leading)
+                        .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008))
                 }
             }
         }
-        .frame(width: viewModel.getWidth(forSE: 0.55, forOthers: 0.63), height: viewModel.getSize(forSE: 0.148, forOthers: 0.134))
+        .frame(width: LayoutHelper.shared.getWidth(forSE: 0.55, forOthers: 0.63), height: LayoutHelper.shared.getSize(forSE: 0.148, forOthers: 0.134))
         .background(
             KFImage(URL(string: letter.envelopeImageUrlString))
                 .resizable()
@@ -64,7 +63,6 @@ struct LetterBoxEnvelopeCell: View {
 }
 
 struct LetterBoxDetailEnvelopeCell: View {
-    @EnvironmentObject var viewModel: LetterBoxViewModel
     var letter: Letter
     
     var body: some View {
@@ -72,14 +70,14 @@ struct LetterBoxDetailEnvelopeCell: View {
             ZStack {
                 VStack {
                     HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: viewModel.getSize(forSE: 0.002, forOthers: 0.002)) {
+                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002, forOthers: 0.002)) {
                             Text("보내는 사람")
-                                .font(.custom("SFDisplay", size: viewModel.getSize(forSE: 0.009, forOthers: 0.008)))
+                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.009, forOthers: 0.008)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.fromUserName)
-                                .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.018, forOthers: 0.017)))
+                                .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.018, forOthers: 0.017)))
                                 .foregroundStyle(.contentPrimary)
-                                .frame(maxWidth: viewModel.getWidth(forSE: 0.57, forOthers: 0.57), alignment: .leading)
+                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.57, forOthers: 0.57), alignment: .leading)
                         }
                         
                         KFImage(URL(string: letter.stampImageUrlString))
@@ -87,31 +85,31 @@ struct LetterBoxDetailEnvelopeCell: View {
                                 Color.clear
                             }
                             .resizable()
-                            .frame(width: viewModel.getWidth(forSE: 0.09, forOthers: 0.09), height: viewModel.getSize(forSE: 0.053, forOthers: 0.046))
+                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.09, forOthers: 0.09), height: LayoutHelper.shared.getSize(forSE: 0.053, forOthers: 0.046))
                             .aspectRatio(contentMode: .fit)
                     }
-                    .padding(.bottom, viewModel.getSize(forSE: 0.035, forOthers: 0.03))
+                    .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.03))
                     
                     HStack(alignment: .top) {
                         Text(letter.postScript ?? "")
-                            .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.012, forOthers: 0.012)))
+                            .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012, forOthers: 0.012)))
                             .foregroundStyle(.contentPrimary)
-                            .frame(width: viewModel.getWidth(forSE: 0.4, forOthers: 0.4), alignment: .leading)
+                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.4, forOthers: 0.4), alignment: .leading)
                         
-                        VStack(alignment: .leading, spacing: viewModel.getSize(forSE: 0.002, forOthers: 0.002)) {
+                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002, forOthers: 0.002)) {
                             Text("받는 사람")
-                                .font(.custom("SFDisplay", size: viewModel.getSize(forSE: 0.008, forOthers: 0.008)))
+                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.toUserName)
-                                .font(.custom(letter.fontString ?? "SFDisplay", size: viewModel.getSize(forSE: 0.017, forOthers: 0.017)))
+                                .font(.custom(letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.017)))
                                 .foregroundStyle(.contentPrimary)
-                                .frame(maxWidth: viewModel.getWidth(forSE: 0.26, forOthers: 0.26), alignment: .leading)
+                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.26, forOthers: 0.26), alignment: .leading)
                         }
                     }
                 }
                 .border(.gray, width: 0.1)
             }
-            .frame(width: viewModel.getWidth(forSE: 0.8, forOthers: 0.8), height: viewModel.getSize(forSE: 0.2, forOthers: 0.17))
+            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.8, forOthers: 0.8), height: LayoutHelper.shared.getSize(forSE: 0.2, forOthers: 0.17))
             .background(
                 RoundedRectangle(cornerRadius: 2)
                     .fill(Color.clear)
@@ -126,9 +124,9 @@ struct LetterBoxDetailEnvelopeCell: View {
             if !letter.isRead {
                 Image("RedSticker")
                     .resizable()
-                    .frame(width: viewModel.getWidth(forSE: 0.063, forOthers: 0.066), height: viewModel.getSize(forSE: 0.035, forOthers: 0.031))
-                    .padding(.leading, viewModel.getWidth(forSE: 0.81, forOthers: 0.8))
-                    .padding(.bottom, viewModel.getSize(forSE: 0.155, forOthers: 0.132))
+                    .frame(width: LayoutHelper.shared.getWidth(forSE: 0.063, forOthers: 0.066), height: LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.031))
+                    .padding(.leading, LayoutHelper.shared.getWidth(forSE: 0.81, forOthers: 0.8))
+                    .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.155, forOthers: 0.132))
             }
         }
     }
@@ -137,5 +135,4 @@ struct LetterBoxDetailEnvelopeCell: View {
 #Preview {
 //    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
     LetterBoxDetailEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
-        .environmentObject(LetterBoxViewModel(letterBoxUseCase: LetterBoxUseCaseStub()))
 }

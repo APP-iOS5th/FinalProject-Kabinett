@@ -27,7 +27,7 @@ struct LetterBoxView: View {
                     Color.background
                         .ignoresSafeArea()
                     
-                    LazyVGrid(columns: gridItems(), spacing: letterBoxViewModel.getSize(forSE: 0.039, forOthers: 0.039)) {
+                    LazyVGrid(columns: gridItems(), spacing: LayoutHelper.shared.getSize(forSE: 0.039, forOthers: 0.039)) {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
@@ -39,7 +39,7 @@ struct LetterBoxView: View {
                             })
                         }
                     }
-                    .padding(.top, letterBoxViewModel.getSize(forSE: 0.035, forOthers: 0.035))
+                    .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
                     
                     VStack {
                         if showToast {
@@ -55,7 +55,7 @@ struct LetterBoxView: View {
                                         }
                                     }
                                 }
-                                .padding(.bottom, letterBoxViewModel.getSize(forSE: 0.08, forOthers: 0.08)) // 65
+                                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.08, forOthers: 0.08)) // 65
                         }
                     }
                 }
@@ -102,7 +102,7 @@ struct LetterBoxView: View {
     
     func gridItems() -> [GridItem] {
         [
-            GridItem(.flexible(minimum: 220), spacing: letterBoxViewModel.getSize(forSE: -0.1, forOthers: -0.063)),
+            GridItem(.flexible(minimum: 220), spacing: LayoutHelper.shared.getSize(forSE: -0.1, forOthers: -0.063)),
             GridItem(.flexible(minimum: 220))
         ]
     }

@@ -13,6 +13,9 @@ struct LetterBoxDetailLetterView: View {
     
     @State private var showDetailLetter = false
     
+    @State private var offset: CGFloat = 0
+    @State private var showDeleteButton = false
+    
     var letterType: LetterType
     var letter: Letter
     
@@ -24,7 +27,7 @@ struct LetterBoxDetailLetterView: View {
                 .edgesIgnoringSafeArea(.all)
             
             ZStack(alignment: .trailing) {
-                if viewModel.showDeleteButton {
+                if showDeleteButton {
                     Button(action: {
                         guard let letterId = letter.id else { return }
                         viewModel.deleteLetter(letterId: letterId, letterType: letterType)
@@ -48,22 +51,18 @@ struct LetterBoxDetailLetterView: View {
                             showDetailLetter = true
                         }
                 }
-                .offset(x: viewModel.offset)
+                .offset(x: offset)
                 .gesture(
                     DragGesture()
                         .onChanged { value in
-                            viewModel.handleDragGesture(value: value)
+                            DragHelper.handleDragGesture(value: value, offset: &offset, showDeleteButton: &showDeleteButton)
                         }
                         .onEnded { _ in
-                            viewModel.handleDragEnd()
+                            DragHelper.handleDragEnd(offset: &offset, showDeleteButton: &showDeleteButton)
                         }
                 )
-                .animation(.spring(), value: viewModel.offset)
+                .animation(.spring(), value: offset)
             }
-        }
-        .onAppear {
-            viewModel.offset = 0
-            viewModel.showDeleteButton = false
         }
         .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
