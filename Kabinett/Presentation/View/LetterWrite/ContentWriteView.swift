@@ -31,6 +31,7 @@ struct ContentWriteView: View {
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .slideToDismiss() // 여긴 좀 이상하네 ..
         .overlay(
             ImagePickerView()
         )

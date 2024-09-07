@@ -94,6 +94,7 @@ struct FontSelectionView: View {
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .navigationBarBackButtonHidden()
+        .slideToDismiss()
     }
 }
 

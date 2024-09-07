@@ -135,6 +135,7 @@ struct PreviewLetterView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
+        .slideToDismiss()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }

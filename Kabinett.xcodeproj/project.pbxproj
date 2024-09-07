@@ -43,9 +43,9 @@
 		577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156FC2C7584E000E21162 /* NavigationBarView.swift */; };
 		577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577157002C75D73700E21162 /* Extension+UIApplication.swift */; };
 		577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */; };
-		577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577156F82C74CAF200E21162 /* Extension+Font.swift */; };
 		577157052C75DD9900E21162 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* ContentWriteViewModel.swift */; };
+		577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577C86722C8B8D5700EAB1BE /* Extension+View.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
 		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
 		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */; };
@@ -161,10 +161,10 @@
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
 		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
-		577156F82C74CAF200E21162 /* Extension+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Font.swift"; sourceTree = "<group>"; };
 		577156FC2C7584E000E21162 /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		5771570A2C77071300E21162 /* ContentWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteViewModel.swift; sourceTree = "<group>"; };
+		577C86722C8B8D5700EAB1BE /* Extension+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+View.swift"; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
 		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -264,10 +264,10 @@
 		57635A6B2C88890E00727CC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				577156F82C74CAF200E21162 /* Extension+Font.swift */,
 				577157002C75D73700E21162 /* Extension+UIApplication.swift */,
 				57966B992C7D8B45008D650B /* Extension+Date.swift */,
 				57966B9D2C7DB266008D650B /* Extension+TextField.swift */,
+				577C86722C8B8D5700EAB1BE /* Extension+View.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -879,10 +879,10 @@
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
-				577157042C75DC3B00E21162 /* Extension+Font.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
+				577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */,
 				53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */,

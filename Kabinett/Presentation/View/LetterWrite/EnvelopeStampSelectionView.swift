@@ -132,6 +132,7 @@ struct EnvelopeStampSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
+        .slideToDismiss()
         .task {
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
