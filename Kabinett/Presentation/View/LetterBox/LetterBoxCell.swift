@@ -58,11 +58,19 @@ struct LetterBoxCell: View {
                     ZStack {
                         Image("RedSticker")
                             .resizable()
-                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.056, forOthers: 0.056), height: LayoutHelper.shared.getSize(forSE: 0.032, forOthers: 0.026))
-                        Text("\(unreadCount)")
+                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.056, forOthers: 0.056),
+                                   height: LayoutHelper.shared.getSize(forSE: 0.032, forOthers: 0.026))
+                        
+                        Text(unreadCount > 99 ? "99+" : "\(unreadCount)")
                             .font(.system(size: LayoutHelper.shared.getSize(forSE: 0.019, forOthers: 0.017)))
                             .foregroundStyle(.white)
+                            .minimumScaleFactor(0.5)  // 텍스트가 커질 때 최소 크기 50%까지 축소
+                            .lineLimit(1)  // 텍스트를 한 줄로 제한
+                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.055, forOthers: 0.055),
+                                   height: LayoutHelper.shared.getSize(forSE: 0.031, forOthers: 0.025),
+                                   alignment: .center)  // RedSticker 크기에 맞춰 텍스트 정렬
                     }
+
                     .padding(.leading, -LayoutHelper.shared.getWidth(forSE: 0.002, forOthers: 0.005))
                 }
             }
