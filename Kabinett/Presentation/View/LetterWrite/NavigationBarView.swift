@@ -7,25 +7,24 @@
 
 import SwiftUI
 
-struct NavigationBarView<Destination: View>: View {
-    @Environment(\.presentationMode) var presentationMode
-    let destination: Destination
-    let titleName: String
-    let isNavigation: Bool
-    let action: (() -> Void)?
+struct NavigationBarView<ToolbarContent: View>: View {
+    @Environment(\.dismiss) private var dismiss
     
-    init(destination: Destination, titleName: String, isNavigation: Bool, action: (() -> Void)? = nil) {
-        self.destination = destination
+    let titleName: String
+    let isColor: Bool
+    let toolbarContent: ToolbarContent
+    
+    init(titleName: String, isColor: Bool, @ViewBuilder toolbarContent: () -> ToolbarContent) {
         self.titleName = titleName
-        self.isNavigation = isNavigation
-        self.action = action
+        self.isColor = isColor
+        self.toolbarContent = toolbarContent()
     }
     
     var body: some View {
         ZStack {
             HStack {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
                         .aspectRatio(contentMode: .fit)
@@ -42,19 +41,10 @@ struct NavigationBarView<Destination: View>: View {
             
             HStack {
                 Spacer()
-                
-                if isNavigation {
-                    NavigationLink(destination: destination) {
-                        Text("다음")
-                            .foregroundColor(Color.black)
-                    }
-                } else if let action = action {
-                    Button("다음", action: action)
-                        .foregroundColor(Color.black)
-                }
+                toolbarContent
             }
         }
         .padding(.top, 12)
-        .background(Color("Background"))
+        .background(isColor ? .background : .clear)
     }
 }
