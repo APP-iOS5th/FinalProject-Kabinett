@@ -64,10 +64,6 @@ struct LetterBoxView: View {
                         }
                     }
                     
-                    if calendarViewModel.startDateFiltering {
-                        calendarViewModel.startDateFiltering.toggle()
-                    }
-                    
                     letterBoxViewModel.fetchLetterBoxLetters()
                     letterBoxViewModel.fetchIsRead()
                 }

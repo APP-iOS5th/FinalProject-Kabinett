@@ -42,9 +42,13 @@ struct LetterBoxDetailView: View {
                     if showSearchBarView {
                         SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: letterType)
                     } else {
-                        NavigationBarView(titleName: letterType.description, isColor: false) {
+                        NavigationBarView(titleName: letterType.description, isColor: false, toolbarContent: {
                             toolbarItems()
-                        }
+                        }, backAction: {
+                            if calendarViewModel.startDateFiltering {
+                                calendarViewModel.startDateFiltering.toggle()
+                            }
+                        })
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
                     
@@ -92,7 +96,7 @@ struct LetterBoxDetailView: View {
         if viewModel.letterBoxDetailLetters.isEmpty {
             Spacer()
             
-            if !searchText.isEmpty {
+            if !searchText.isEmpty || calendarViewModel.startDateFiltering {
                 Text("검색 결과가 없습니다.")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
@@ -171,6 +175,7 @@ struct LetterBoxDetailView: View {
             Button {
                 withAnimation {
                     calendarViewModel.showCalendarView = true
+                    calendarViewModel.currentLetterType = letterType
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")

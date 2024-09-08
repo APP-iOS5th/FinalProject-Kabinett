@@ -13,17 +13,22 @@ struct NavigationBarView<ToolbarContent: View>: View {
     let titleName: String
     let isColor: Bool
     let toolbarContent: ToolbarContent
+    let backAction: (() -> Void)?
     
-    init(titleName: String, isColor: Bool, @ViewBuilder toolbarContent: () -> ToolbarContent) {
+    init(titleName: String, isColor: Bool, @ViewBuilder toolbarContent: () -> ToolbarContent, backAction: (() -> Void)? = nil) {
         self.titleName = titleName
         self.isColor = isColor
         self.toolbarContent = toolbarContent()
+        self.backAction = backAction
     }
     
     var body: some View {
         ZStack {
             HStack {
                 Button(action: {
+                    if let backAction = backAction {
+                        backAction()
+                    }
                     dismiss()
                 }) {
                     Image(systemName: "chevron.backward")

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CalendarView: View {
+    @EnvironmentObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State private var selectedStartDate = Date()
@@ -22,7 +23,7 @@ struct CalendarView: View {
                 HStack {
                     Button {
                         withAnimation {
-                            calendarViewModel.showCalendarView = false
+                            calendarViewModel.showCalendarView.toggle()
                         }
                     } label: {
                         Text("취소")
@@ -36,8 +37,13 @@ struct CalendarView: View {
                         withAnimation {
                             calendarViewModel.startDate = selectedStartDate
                             calendarViewModel.endDate = selectedEndDate
-                            calendarViewModel.showCalendarView = false
-                            calendarViewModel.startDateFiltering = true
+                            calendarViewModel.showCalendarView.toggle()
+                            
+                            letterBoxDetailviewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                            
+                            if !calendarViewModel.startDateFiltering {
+                                calendarViewModel.startDateFiltering.toggle()
+                            }
                         }
                     } label: {
                         Text("확인")
@@ -228,9 +234,6 @@ struct CalendarBar: View {
             }
             .padding(.top, UIScreen.main.bounds.width * 0.01)
             .padding(.horizontal, UIScreen.main.bounds.width * 0.05)
-        }
-        .onAppear {
-            letterBoxDetailviewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
         }
     }
     
