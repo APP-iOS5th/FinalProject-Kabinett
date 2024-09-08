@@ -19,7 +19,14 @@ struct FontSelectionView: View {
                 }
             
             VStack(alignment: .leading) {
-                NavigationBarView(destination: ContentWriteView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
+                NavigationBarView(titleName: "서체 고르기", isColor: true) {
+                    NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
                 
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
