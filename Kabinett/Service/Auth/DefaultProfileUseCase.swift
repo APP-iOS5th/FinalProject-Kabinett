@@ -50,7 +50,7 @@ extension DefaultProfileUseCase: ProfileUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentWriterPublisher() async -> AnyPublisher<Writer, Never> {
+    func getCurrentWriterPublisher() -> AnyPublisher<Writer, Never> {
         authManager
             .getCurrentUser()
             .compactMap { $0 }
@@ -106,7 +106,11 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func deleteId() async -> Bool {
-        await authManager.deleteAccount(withSignIn: true)
+        guard let currentUser = authManager.getCurrentUser() else {
+            logger.error("Delete without user is not allowed.")
+            return false
+        }
+        await authManager.deleteAccount(of: currentUser)
         
         return true
     }

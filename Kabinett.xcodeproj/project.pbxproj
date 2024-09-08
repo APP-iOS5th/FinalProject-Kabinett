@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04D182792C881EBE0038DA57 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04D182782C881EBE0038DA57 /* Settings.bundle */; };
 		04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0DC2C6A3AD600D289EA /* LoginView.swift */; };
 		04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */; };
 		04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */; };
@@ -16,7 +17,6 @@
 		04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0EC2C6C882100D289EA /* ProfileSettingsView.swift */; };
 		04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F12C6E18EE00D289EA /* ProfileViewModel.swift */; };
 		04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */; };
-		04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04DEC0F72C7423F200D289EA /* Settings.bundle */; };
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
 		04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */; };
 		04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */; };
@@ -128,6 +128,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		04D182782C881EBE0038DA57 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0DC2C6A3AD600D289EA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNameInputView.swift; sourceTree = "<group>"; };
 		04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpKabinettNumberSelectView.swift; sourceTree = "<group>"; };
@@ -138,7 +139,6 @@
 		04DEC0F02C6E136F00D289EA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		04DEC0F12C6E18EE00D289EA /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		04DEC0F32C6F171E00D289EA /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
-		04DEC0F72C7423F200D289EA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
 		04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
 		04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettNumberFormatter.swift; sourceTree = "<group>"; };
@@ -588,7 +588,7 @@
 		839CE0EA2C644BEF003635F3 = {
 			isa = PBXGroup;
 			children = (
-				04DEC0F72C7423F200D289EA /* Settings.bundle */,
+				04D182782C881EBE0038DA57 /* Settings.bundle */,
 				839CE0F52C644BEF003635F3 /* Kabinett */,
 				839CE1062C644BF0003635F3 /* KabinettTests */,
 				839CE1102C644BF0003635F3 /* KabinettUITests */,
@@ -772,7 +772,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04DEC0F82C7423F300D289EA /* Settings.bundle in Resources */,
 				57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */,
 				57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */,
 				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
@@ -782,6 +781,7 @@
 				57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */,
 				839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */,
 				577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */,
+				04D182792C881EBE0038DA57 /* Settings.bundle in Resources */,
 				577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1057,13 +1057,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해서 카메라 접근 권한이 필요해요.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해서 사진 앨범에 접근할게요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1093,13 +1094,14 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해 카메라 접근 권한이 필요합니다.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해 사진 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해서 카메라 접근 권한이 필요해요.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해서 사진 앨범에 접근할게요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

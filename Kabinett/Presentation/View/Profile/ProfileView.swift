@@ -18,8 +18,10 @@ struct ProfileView: View {
             if case .toLogin = viewModel.navigateState {
                 LoginView()
             } else {
-                GeometryReader { geometry in
+                ZStack {
+                    Color.background.ignoresSafeArea(.all)
                     if viewModel.profileUpdateError != nil {
+                        
                         VStack {
                             Text("프로필을 불러오는 데 문제가 발생했어요.")
                                 .fontWeight(.regular)
@@ -35,57 +37,53 @@ struct ProfileView: View {
                                     .cornerRadius(8)
                             }
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.background)
                     } else {
-                        VStack {
-                            if let image = viewModel.currentWriter.imageUrlString {
-                                KFImage(URL(string: image))
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width:110, height: 110)
-                                    .clipShape(Circle())
-                                    .padding(.bottom, -1)
-                            } else {
-                                Circle()
-                                    .foregroundColor(.primary300)
-                                    .frame(width: 110, height: 110)
-                                    .padding(.bottom, -1)
-                            }
-                            
-                            Text(viewModel.currentWriter.name)
-                                .fontWeight(.regular)
-                                .font(.system(size: 36))
-                                .padding(.bottom, 0.1)
-                            Text(viewModel.currentWriter.formattedNumber)
-                                .fontWeight(.light)
-                                .font(.system(size: 16))
-                                .monospaced()
-                        }
-                        .padding(.horizontal, geometry.size.width * 0.06)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.background)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button(action: {
-                                    showSettingsView = true
-                                }) {
-                                    Image(systemName: "gearshape")
-                                        .fontWeight(.medium)
-                                        .font(.system(size: 19))
-                                        .foregroundColor(.contentPrimary)
+                            VStack {
+                                if let image = viewModel.currentWriter.imageUrlString {
+                                    KFImage(URL(string: image))
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width:110, height: 110)
+                                        .clipShape(Circle())
+                                        .padding(.bottom, -1)
+                                } else {
+                                    Circle()
+                                        .foregroundColor(.primary300)
+                                        .frame(width: 110, height: 110)
+                                        .padding(.bottom, -1)
                                 }
+                                
+                                Text(viewModel.currentWriter.name)
+                                    .fontWeight(.regular)
+                                    .font(.system(size: 36))
+                                    .padding(.bottom, 0.1)
+                                Text(viewModel.currentWriter.formattedNumber)
+                                    .fontWeight(.light)
+                                    .font(.system(size: 16))
+                                    .monospaced()
                             }
-                        }
-                        .sheet(isPresented: $showSettingsView) {
-                            SettingsView(
-                                shouldNavigateToProfileView: $shouldNavigateToProfileView,
-                                onAccountActionComplete: handleAccountActionComplete
-                            )
-                        }
                     }
                 }
                 .navigationBarBackButtonHidden()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            showSettingsView = true
+                        }) {
+                            Image(systemName: "gearshape")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundColor(.contentPrimary)
+                        }
+                        .padding(.trailing, UIScreen.main.bounds.width * 0.0186) // 툴바아이템에 패딩 16이 먹여져있는 것 같다.
+                    }
+                }
+                .sheet(isPresented: $showSettingsView) {
+                    SettingsView(
+                        shouldNavigateToProfileView: $shouldNavigateToProfileView,
+                        onAccountActionComplete: handleAccountActionComplete
+                    )
+                }
             }
         }
     }

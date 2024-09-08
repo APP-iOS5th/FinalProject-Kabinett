@@ -82,7 +82,7 @@ struct StationeryCell: View {
                     .resizable()
                     .aspectRatio(9/13, contentMode: .fit)
                     .padding(10)
-                    .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                    .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                     .onTapGesture {
                         stationerySelectionViewModel.selectStationery(coordinates: (rowIndex, columnIndex))
                         letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]

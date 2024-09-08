@@ -28,6 +28,8 @@ final class SignUpViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var showSignUpFlow: Bool = false
     
+    private var nonce: String = ""
+    
     init(signUpUseCase: any SignUpUseCase) {
         self.signUpUseCase = signUpUseCase
     }
@@ -52,7 +54,7 @@ final class SignUpViewModel: ObservableObject {
     
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {
         request.requestedScopes = [.email]
-        let nonce = randomNonceString()
+        nonce = randomNonceString()
         request.nonce = sha256(nonce)
     }
     
@@ -60,7 +62,7 @@ final class SignUpViewModel: ObservableObject {
         switch result {
         case .success(let authorization):
             Task { @MainActor in
-                let result = await signUpUseCase.signUp(authorization)
+                let result = await signUpUseCase.signUp(with: authorization, nonce: nonce)
                 switch result {
                 case .newUser, .signInOnly:
                     showSignUpFlow = true
