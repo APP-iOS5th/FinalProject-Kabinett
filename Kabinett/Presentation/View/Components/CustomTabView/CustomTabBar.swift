@@ -19,7 +19,7 @@ struct CustomTabBar: View {
                 tabItem(image: viewModel.plusImage, tag: 1)
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.5)
                 
-                tabItem(image: viewModel.profileImage, tag: 2)
+                profileTabItem(tag: 2)
                     .position(x: geometry.size.width * 0.75, y: geometry.size.height * 0.5)
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
@@ -43,6 +43,26 @@ struct CustomTabBar: View {
             Image(uiImage: image)
                 .renderingMode(.template)
                 .foregroundStyle(viewModel.selectedTab == tag ? Color.primary600 : Color.primary300)
+        }
+    }
+    
+    private func profileTabItem(tag: Int) -> some View {
+        Button(action: {
+            viewModel.handleTabSelection(tag)
+        }) {
+            if viewModel.selectedTab == tag {
+                Image(systemName: "circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(Color.primary600)
+            } else {
+                Image(systemName: "person.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24)
+                    .foregroundStyle(Color.primary300)
+            }
         }
     }
 }

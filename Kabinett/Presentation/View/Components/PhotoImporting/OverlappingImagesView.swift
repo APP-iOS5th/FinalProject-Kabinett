@@ -13,7 +13,7 @@ struct OverlappingImagesView: View {
     
     var body: some View {
         ZStack {
-            ForEach(Array(images.enumerated()), id: \.offset) { index, imageData in
+            ForEach(Array(images.prefix(3).enumerated()), id: \.offset) { index, imageData in
                 if let uiImage = UIImage(data: imageData) {
                     Image(uiImage: uiImage)
                         .resizable()

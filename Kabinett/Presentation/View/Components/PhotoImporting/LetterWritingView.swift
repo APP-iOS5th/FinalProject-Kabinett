@@ -29,16 +29,22 @@ struct LetterWritingView: View {
                 .padding([.leading, .trailing], 20)
                 .padding(.top, 20)
             }
-            .navigationBarItems(trailing:
-                                    Button(action: {
-                updateLetterWrite()
-                showEnvelopeStampSelection = true
-            }) {
-                Text("완료")
-                    .fontWeight(.medium)
-                    .font(.system(size: 19))
-                    .foregroundColor(.contentPrimary)
-            }
+            .navigationBarItems(
+                leading: Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.contentPrimary)
+                },
+                trailing: Button(action: {
+                    updateLetterWrite()
+                    showEnvelopeStampSelection = true
+                }) {
+                    Text("완료")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundColor(.contentPrimary)
+                }
             )
             .navigationDestination(isPresented: $showEnvelopeStampSelection) {
                 EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
@@ -48,10 +54,11 @@ struct LetterWritingView: View {
     }
     
     private func dateField() -> some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 1) {
             HStack(alignment: .center, spacing: 10) {
                 Text("받은/보낸 날짜")
                     .foregroundStyle(Color.contentPrimary)
+                    .bold()
                     .font(.system(size: 16))
                     .frame(width: 100, alignment: .leading)
                 
@@ -65,7 +72,7 @@ struct LetterWritingView: View {
                         .frame(height: 40)
                         .frame(maxWidth: .infinity)
                         .background(Color.contentTertiary)
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
             
@@ -99,7 +106,7 @@ struct FormToUserView: View {
     var body: some View {
         VStack(spacing: 20) {
             userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
-            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
+            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: true)
         }
         .onAppear {
             letterContent.fromUserId = viewModel.fromUserId ?? ""
@@ -121,13 +128,14 @@ struct FormToUserView: View {
                     .bold()
                     .frame(width: 100, alignment: .leading)
                 
-                TextField(isFromUser ? name.wrappedValue : "받는 사람 입력", text: name)
+                TextField(isFromUser ? name.wrappedValue : "", text: name)
                     .foregroundStyle(isFromUser ? Color.contentSecondary : .black)
                     .font(.system(size: 15))
                     .padding(.horizontal, 15)
                     .frame(height: 40)
                     .background(Color.white)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .multilineTextAlignment(.center)
             }
             
             HStack(alignment: .center, spacing: 10) {
