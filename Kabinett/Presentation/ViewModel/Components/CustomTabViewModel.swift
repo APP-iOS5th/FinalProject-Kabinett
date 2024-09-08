@@ -105,12 +105,12 @@ final class CustomTabViewModel: ObservableObject {
         let safeAreaBottom = windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
         
         if safeAreaBottom > 0 {
-            return safeAreaBottom + 25
+            return safeAreaBottom + 20
         } else {
-            return 7.5
+            return 55
         }
     }
-    
+    // MARK: OptionOverlay TabBar 위치 관련 Method
     func calculateYPosition(viewHeight: CGFloat, bottomSafeAreaHeight: CGFloat) -> CGFloat{
         
         if bottomSafeAreaHeight > 0 {
