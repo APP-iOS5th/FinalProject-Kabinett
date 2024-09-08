@@ -17,59 +17,57 @@ struct LetterBoxView: View {
     @State private var showToast: Bool = false
     
     var body: some View {
-        ZStack {
-            NavigationStack {
-                ZStack {
-                    Color.background
-                        .ignoresSafeArea()
-                    
-                    LazyVGrid(columns: gridItems(), spacing: LayoutHelper.shared.getSize(forSE: 0.039, forOthers: 0.039)) {
-                        ForEach(LetterType.allCases, id: \.self) { type in
-                            let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
-                            
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type)) {
-                                LetterBoxCell(type: type, unreadCount: unreadCount)
-                            }
-                            .simultaneousGesture(TapGesture().onEnded {
-                                currentLetterType = type
-                            })
+        NavigationStack {
+            ZStack {
+                Color.background
+                    .ignoresSafeArea()
+                
+                LazyVGrid(columns: gridItems(), spacing: LayoutHelper.shared.getSize(forSE: 0.039, forOthers: 0.039)) {
+                    ForEach(LetterType.allCases, id: \.self) { type in
+                        let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
+                        
+                        NavigationLink(destination: LetterBoxDetailView(letterType: type)) {
+                            LetterBoxCell(type: type, unreadCount: unreadCount)
                         }
+                        .simultaneousGesture(TapGesture().onEnded {
+                            currentLetterType = type
+                        })
                     }
-                    .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
-                    
-                    VStack {
-                        if showToast {
-                            Spacer()
-                            ToastView(message: "카비넷 팀이 보낸 편지가 도착했습니다.", horizontalPadding: 50)
-                                .transition(.move(edge: .bottom))
-                                .zIndex(1)
-                                .onAppear {
-                                    letterBoxViewModel.fetchWelcomeLetter()
-                                    
-                                    Timer.scheduledTimer(withTimeInterval: 3.3, repeats: false) { _ in
-                                        withAnimation {
-                                            showToast = false
-                                        }
+                }
+                .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
+                
+                VStack {
+                    if showToast {
+                        Spacer()
+                        ToastView(message: "카비넷 팀이 보낸 편지가 도착했습니다.", horizontalPadding: 50)
+                            .transition(.move(edge: .bottom))
+                            .zIndex(1)
+                            .onAppear {
+                                letterBoxViewModel.fetchWelcomeLetter()
+                                
+                                Timer.scheduledTimer(withTimeInterval: 3.3, repeats: false) { _ in
+                                    withAnimation {
+                                        showToast = false
                                     }
                                 }
-                                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.0004, forOthers: 0.001))
-                        }
+                            }
+                            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.0004, forOthers: 0.001))
                     }
-                }
-                .onAppear() {
-                    withAnimation {
-                        if isFirstLaunch {
-                            showToast = true
-                            isFirstLaunch = false
-                        }
-                    }
-                    
-                    letterBoxViewModel.fetchLetterBoxLetters()
-                    letterBoxViewModel.fetchIsRead()
                 }
             }
-            .tint(.black)
+            .onAppear() {
+                withAnimation {
+                    if isFirstLaunch {
+                        showToast = true
+                        isFirstLaunch = false
+                    }
+                }
+                
+                letterBoxViewModel.fetchLetterBoxLetters()
+                letterBoxViewModel.fetchIsRead()
+            }
         }
+        .tint(.black)
     }
     
     func gridItems() -> [GridItem] {
