@@ -12,6 +12,7 @@ struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @EnvironmentObject var fontViewModel: FontSelectionViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
@@ -59,7 +60,7 @@ struct EnvelopeStampSelectionView: View {
                         if let firstEnvelope = viewModel.envelopes.first {
                             KFImage(URL(string: envelopeImageUrl))
                                 .resizable()
-                                .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                 .onAppear {
                                     if letterContent.envelopeImageUrlString.isEmpty {
                                         envelopeImageUrl = firstEnvelope
@@ -75,7 +76,7 @@ struct EnvelopeStampSelectionView: View {
                                         .font(.system(size: 7))
                                         .padding(.bottom, 1)
                                     Text(letterContent.fromUserName)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.leading, 25)
                                 
@@ -102,7 +103,7 @@ struct EnvelopeStampSelectionView: View {
                             HStack(alignment: .top) {
                                 VStack {
                                     Text(text)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                 }
                                 .padding(.leading, 25)
                                 
@@ -114,13 +115,12 @@ struct EnvelopeStampSelectionView: View {
                                         .padding(.bottom, 1)
                                         .padding(.leading, -5)
                                     Text(letterContent.toUserName)
-                                        .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.trailing, 100)
                             }
                             .padding(.bottom, 30)
                         }
-                        
                     }
                     .aspectRatio(9/4, contentMode: .fit)
                     .padding(.bottom, 50)
@@ -146,6 +146,7 @@ struct EnvelopeStampSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
+        .slideToDismiss()
         .task {
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
@@ -259,7 +260,7 @@ struct StampCell: View {
                                             .resizable()
                                             .aspectRatio(9/9.7, contentMode: .fit)
                                             .padding(10)
-                                            .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                             .onTapGesture {
                                                 viewModel.stampSelectStationery(coordinates: (rowIndex, columnIndex))
                                                 stampImageUrl = viewModel.stamps[index]

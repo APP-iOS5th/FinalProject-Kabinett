@@ -34,7 +34,7 @@ struct PreviewLetterView: View {
                 ZStack(alignment: .topLeading) {
                     KFImage(URL(string: letterContent.envelopeImageUrlString))
                         .resizable()
-                        .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                     
                     VStack {
                         HStack(alignment: .top) {
@@ -43,7 +43,7 @@ struct PreviewLetterView: View {
                                     .font(.system(size: 7))
                                     .padding(.bottom, 1)
                                 Text(letterContent.fromUserName)
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                             }
                             .padding(.leading, 25)
                             
@@ -62,7 +62,7 @@ struct PreviewLetterView: View {
                         HStack(alignment: .top) {
                             VStack {
                                 Text(letterContent.postScript ?? "")
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 10))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
                             }
                             .padding(.leading, 25)
                             
@@ -74,7 +74,7 @@ struct PreviewLetterView: View {
                                     .padding(.bottom, 1)
                                     .padding(.leading, -5)
                                 Text(letterContent.toUserName)
-                                    .font(.custom(letterContent.fontString ?? "SFDisplay", size: 14))
+                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                             }
                             .padding(.trailing, 100)
                         }
@@ -137,6 +137,7 @@ struct PreviewLetterView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
+        .slideToDismiss()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }

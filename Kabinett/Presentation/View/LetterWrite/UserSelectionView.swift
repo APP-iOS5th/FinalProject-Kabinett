@@ -9,7 +9,7 @@ import SwiftUI
 
 struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
-    @Environment(\.presentationMode) var presentation
+    @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
@@ -35,7 +35,7 @@ struct UserSelectionView: View {
                             letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
                             
                             letterContent.date = Date()
-                            presentation.wrappedValue.dismiss()
+                            dismiss()
                         }
                     }
                     .fontWeight(.medium)
