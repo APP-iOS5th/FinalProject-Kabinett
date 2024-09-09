@@ -58,6 +58,7 @@ struct SignUpNameInputView: View {
             .background(Color.background)
             .ignoresSafeArea(.keyboard)
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
