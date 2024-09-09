@@ -19,12 +19,10 @@ struct ToastView: View {
                 .frame(height: 50)
                 .cornerRadius(28)
                 .padding(.horizontal, horizontalPadding)
-                .padding(.bottom, 20)
             
             Text(message)
                 .font(.system(size: 16, weight: .heavy))
                 .foregroundStyle(.white)
-                .padding(.bottom, 20)
         }
     }
 }

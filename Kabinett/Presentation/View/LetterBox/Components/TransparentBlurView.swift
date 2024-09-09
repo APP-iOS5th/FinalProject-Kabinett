@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct TransparentBlurView: UIViewRepresentable {
     var removeAllFilters: Bool = false
@@ -20,7 +21,7 @@ struct TransparentBlurView: UIViewRepresentable {
     
     class TransparentBlurViewHelper: UIVisualEffectView {
         init(removeAllFilters: Bool) {
-            super.init(effect: UIBlurEffect(style: .systemUltraThinMaterial))
+            super.init(effect: UIBlurEffect(style: .systemUltraThinMaterialLight))
             
             if subviews.indices.contains(1) {
                 subviews[1].alpha = 0

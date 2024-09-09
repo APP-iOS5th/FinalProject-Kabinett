@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 protocol ComponentsUseCase {
     func saveLetter(postScript: String?, 
@@ -21,4 +22,9 @@ protocol ComponentsUseCase {
                     date: Date,
                     isRead: Bool
     ) async -> Result<Bool, any Error>
+    func findWriter(by query: String) async -> [Writer]
+    func getCurrentWriter() -> AnyPublisher<Writer, Never>
+    
+    func loadEnvelopes() async -> Result<[String], any Error>
+    func loadStamps() async -> Result<[String], any Error>
 }

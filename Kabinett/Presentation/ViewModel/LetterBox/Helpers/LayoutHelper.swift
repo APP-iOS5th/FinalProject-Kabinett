@@ -35,7 +35,7 @@ struct LayoutHelper {
             
             switch totalCount {
             case 1:
-                return (xOffset: screenWidth * -0.017, yOffset: screenHeight * -0.002, rotation: Double(-1.5))
+                return (xOffset: screenWidth * -0.027, yOffset: screenHeight * -0.002, rotation: Double(-1.5))
             case 2:
                 let xOffset = index == 0 ? screenWidth * -0.018 : screenWidth * 0.015
                 let yOffset = index == 0 ? screenHeight * -0.01 : screenHeight * -0.001

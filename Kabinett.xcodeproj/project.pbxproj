@@ -38,6 +38,7 @@
 		53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA62C8190B600896AAC /* SearchBarView.swift */; };
 		53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA82C81914B00896AAC /* CalendarViewModel.swift */; };
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
+		53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */; };
 		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
 		57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* ContentWriteView.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
@@ -78,7 +79,6 @@
 		7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F78684B2C78B41A0083D204 /* ImagePickerView.swift */; };
 		7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868552C7B14220083D204 /* HorizontalPadding.swift */; };
 		7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */; };
-		7F98908E2C84287C0035CB0D /* LetterWriteLoadStuffUseCaseWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F98908D2C84287C0035CB0D /* LetterWriteLoadStuffUseCaseWrapper.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
 		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
 		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
@@ -103,14 +103,15 @@
 		83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
+		AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */; };
+		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
+		AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */; };
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
-		AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */; };
-		AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */; };
-		AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */; };
-		AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */; };
+		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
+		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +163,7 @@
 		53A99EA62C8190B600896AAC /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		53A99EA82C81914B00896AAC /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
+		53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStrokePathView.swift; sourceTree = "<group>"; };
 		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* ContentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteView.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
@@ -201,7 +203,6 @@
 		7F78684B2C78B41A0083D204 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		7F7868552C7B14220083D204 /* HorizontalPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPadding.swift; sourceTree = "<group>"; };
 		7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
-		7F98908D2C84287C0035CB0D /* LetterWriteLoadStuffUseCaseWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCaseWrapper.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
 		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
@@ -226,14 +227,15 @@
 		83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
+		AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoLetterUseCase.swift; sourceTree = "<group>"; };
+		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
 		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
-		AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
+		AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterManager.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
-		AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterWriteLoadStuffUseCase.swift; sourceTree = "<group>"; };
-		AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentsLoadStuffUseCase.swift; sourceTree = "<group>"; };
-		AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNormalLetterUseCase.swift; sourceTree = "<group>"; };
+		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -291,6 +293,7 @@
 				535961902C74F5870031E181 /* CalendarView.swift */,
 				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
+				53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -363,9 +366,7 @@
 		831401392C69C21300F601FB /* ComponentsUseCase */ = {
 			isa = PBXGroup;
 			children = (
-				AFDE7D2B2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift */,
 				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
-				7F98908D2C84287C0035CB0D /* LetterWriteLoadStuffUseCaseWrapper.swift */,
 			);
 			path = ComponentsUseCase;
 			sourceTree = "<group>";
@@ -382,7 +383,6 @@
 			isa = PBXGroup;
 			children = (
 				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
-				AFDE7D292C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift */,
 			);
 			path = LetterWriteUseCase;
 			sourceTree = "<group>";
@@ -571,7 +571,7 @@
 			isa = PBXGroup;
 			children = (
 				8366B6FB2C65EF1B0021FAE0 /* Auth */,
-				838697CB2C64B84500E76230 /* Firebase */,
+				838697CB2C64B84500E76230 /* Letter */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -617,13 +617,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		838697CB2C64B84500E76230 /* Firebase */ = {
+		838697CB2C64B84500E76230 /* Letter */ = {
 			isa = PBXGroup;
 			children = (
-				AFA58F252C6AE33D00A7C569 /* FirebaseFirestoreManager.swift */,
-				AFDE7D2D2C75797A0019F2DE /* FirebaseStorageManager.swift */,
+				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
+				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
+				AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */,
+				AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */,
+				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
 			);
-			path = Firebase;
+			path = Letter;
 			sourceTree = "<group>";
 		};
 		839CE0EA2C644BEF003635F3 = {
@@ -849,7 +852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */,
-				AFCFDFC42C7C3F2A00BEFFDF /* FirebaseFirestoreManager.swift in Sources */,
+				AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
@@ -859,10 +862,12 @@
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
+				AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
+				AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
@@ -902,27 +907,26 @@
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
-				AFDE7D2A2C75791E0019F2DE /* LetterWriteLoadStuffUseCase.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
-				AFDE7D2E2C75797A0019F2DE /* FirebaseStorageManager.swift in Sources */,
+				AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */,
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
+				AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */,
 				57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */,
 				04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */,
-				7F98908E2C84287C0035CB0D /* LetterWriteLoadStuffUseCaseWrapper.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
 				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
-				AFDE7D2C2C75792E0019F2DE /* ComponentsLoadStuffUseCase.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
+				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
@@ -1106,8 +1110,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1143,8 +1147,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (

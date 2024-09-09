@@ -15,9 +15,9 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
     @Published var envelopes: [String] = []
     @Published var stamps: [String] = []
     
-    private let useCase: LetterWriteLoadStuffUseCase
+    private let useCase: LetterWriteUseCase
     
-    init(useCase: LetterWriteLoadStuffUseCase) {
+    init(useCase: LetterWriteUseCase) {
         self.useCase = useCase
         if envelopes.isEmpty {
             Task {
