@@ -43,8 +43,11 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentUser() -> User? {
-        Auth.auth().currentUser
+    func getCurrentUser() async -> User? {
+        for await user in AuthManager.users.compactMap({ $0 }) {
+            return user
+        }
+        return nil
     }
     
     func signout() -> Bool {
