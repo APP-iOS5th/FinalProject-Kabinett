@@ -76,7 +76,7 @@ final class AuthManager {
             rawNonce: nonce
         )
         
-        guard let user = getCurrentUser() else {
+        guard let user = await getCurrentUser() else {
             logger.warning("Attempting to linking account without current user is not allowed.")
             return .newUser
         }

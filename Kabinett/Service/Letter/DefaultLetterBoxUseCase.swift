@@ -29,7 +29,7 @@ final class DefaultLetterBoxUseCase {
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     // letter 타입별 로딩
     func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -75,7 +75,8 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
     // 안읽은 letter 개수 로딩
     func getIsRead() async -> Result<[LetterType: Int], any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
+//        let userId = await authManager.getCurrentUserAsync()?.uid ?? ""
         return await letterManager.getIsReadCount(userId: userId)
     }
     
@@ -84,7 +85,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         findKeyword: String,
         letterType: LetterType
     ) async -> Result<[Letter]?, any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -120,7 +121,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         startDate: Date,
         endDate: Date
     ) async -> Result<[Letter]?, any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -159,7 +160,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -194,7 +195,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
         letterId: String,
         letterType: LetterType
     ) async -> Result<Bool, any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         
         switch letterType {
         case .sent:
@@ -225,7 +226,7 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     }
     
     func getWelcomeLetter() async -> Result<Bool, any Error> {
-        let userId = authManager.getCurrentUser()?.uid ?? ""
+        let userId = await authManager.getCurrentUser()?.uid ?? ""
         return await letterManager.getWelcomeLetter(userId: userId)
     }
 }

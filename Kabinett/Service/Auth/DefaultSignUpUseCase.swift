@@ -79,7 +79,7 @@ extension DefaultSignUpUseCase: SignUpUseCase {
         with userName: String,
         kabinettNumber: Int
     ) async -> Bool {
-        guard let currentUser = authManager.getCurrentUser() else {
+        guard let currentUser = await authManager.getCurrentUser() else {
             logger.error("There is no user now.")
             return false
         }

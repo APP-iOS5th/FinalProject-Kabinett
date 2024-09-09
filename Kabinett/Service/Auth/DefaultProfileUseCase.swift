@@ -65,11 +65,11 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func getAppleID() async -> String {
-        authManager.getCurrentUser()?.email ?? ""
+        await authManager.getCurrentUser()?.email ?? ""
     }
     
     func updateWriter(newWriterName: String, profileImage: Data?) async -> Bool {
-        guard let currentUser = authManager.getCurrentUser() else {
+        guard let currentUser = await authManager.getCurrentUser() else {
             logger.debug("There's no user.")
             return false
         }
@@ -106,7 +106,7 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func deleteId() async -> Bool {
-        guard let currentUser = authManager.getCurrentUser() else {
+        guard let currentUser = await authManager.getCurrentUser() else {
             logger.error("Delete without user is not allowed.")
             return false
         }
@@ -129,7 +129,7 @@ private extension DefaultProfileUseCase {
     }
     
     func getCurrentWriter() async -> Writer {
-        if let user = authManager.getCurrentUser() {
+        if let user = await authManager.getCurrentUser() {
             return await writerManager.getWriterDocument(with: user.uid)
         } else {
             return .anonymousWriter
