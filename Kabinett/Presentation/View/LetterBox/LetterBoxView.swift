@@ -39,7 +39,7 @@ struct LetterBoxView: View {
                 VStack {
                     if showToast {
                         Spacer()
-                        ToastView(message: "카비넷 팀이 보낸 편지가 도착했습니다.", horizontalPadding: 50)
+                        ToastView(message: "카비넷 팀의 편지가 도착했어요.", horizontalPadding: 50)
                             .transition(.move(edge: .bottom))
                             .zIndex(1)
                             .onAppear {
