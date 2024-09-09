@@ -37,15 +37,9 @@ final class ImagePickerViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
-    private let componentsLoadStuffUseCase: ComponentsLoadStuffUseCase
-    private let firebaseFirestoreManager: FirebaseFirestoreManager
     
-    init(componentsUseCase: ComponentsUseCase,
-         componentsLoadStuffUseCase: ComponentsLoadStuffUseCase,
-         firebaseFirestoreManager: FirebaseFirestoreManager) {
+    init(componentsUseCase: ComponentsUseCase) {
         self.componentsUseCase = componentsUseCase
-        self.componentsLoadStuffUseCase = componentsLoadStuffUseCase
-        self.firebaseFirestoreManager = firebaseFirestoreManager
         
         setupBindings()
         Task { [weak self] in
@@ -80,7 +74,7 @@ final class ImagePickerViewModel: ObservableObject {
             return
         }
         
-        let results = await firebaseFirestoreManager.findWriter(by: query)
+        let results = await componentsUseCase.findWriter(by: query)
         self.usersData = results
         self.toUserSearchResults = results.map { (name: $0.name, kabinettNumber: String(format: "%06d", $0.kabinettNumber)) }
     }
@@ -115,7 +109,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     @MainActor
     func fetchCurrentWriter() async {
-        let publisher = firebaseFirestoreManager.getCurrentWriter()
+        let publisher = componentsUseCase.getCurrentWriter()
         for await result in publisher.values {
             self.fromUser = result
             self.fromUserName = result.name
@@ -188,8 +182,8 @@ final class ImagePickerViewModel: ObservableObject {
         error = nil
         
         do {
-            let envelopes = try await componentsLoadStuffUseCase.loadEnvelopes().get()
-            let stamps = try await componentsLoadStuffUseCase.loadStamps().get()
+            let envelopes = try await componentsUseCase.loadEnvelopes().get()
+            let stamps = try await componentsUseCase.loadStamps().get()
             
             if let firstEnvelope = envelopes.first {
                 self.envelopeURL = firstEnvelope
