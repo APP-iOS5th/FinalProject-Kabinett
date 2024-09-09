@@ -117,7 +117,7 @@ struct LetterBoxDetailEnvelopeCell: View {
                         KFImage(URL(string: letter.envelopeImageUrlString))
                             .resizable()
                     )
-                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                    .shadow(color: .primary300, radius: 4, x: 0, y: 0)
             )
     
             // 새로운 편지에 붙을 빨간 동그라미
