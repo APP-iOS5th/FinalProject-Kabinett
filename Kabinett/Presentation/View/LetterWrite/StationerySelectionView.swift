@@ -13,6 +13,11 @@ struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
+    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
+    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
     var body: some View {
         NavigationStack {
@@ -27,6 +32,9 @@ struct StationerySelectionView: View {
                                 .font(.system(size: 19))
                                 .foregroundStyle(.contentPrimary)
                         }
+                    } backAction: {
+                        resetViewModels()
+                        dismiss()
                     }
                     
                     List {
@@ -68,7 +76,20 @@ struct StationerySelectionView: View {
                 }
             }
         }
-        .slideToDismiss()
+        .slideToDismiss(action: {
+            resetViewModels()
+        })
+    }
+    
+    private func resetViewModels() {
+        letterContent.reset()
+        userSelectionViewModel.reset()
+        stationerySelectionViewModel.reset()
+        fontSelectionViewModel.reset()
+        contentWriteViewModel.reset()
+        envelopeStampSelectionViewModel.reset()
+        imagePickerViewModel.resetState()
+        customTabViewModel.hideOptions()
     }
 }
 

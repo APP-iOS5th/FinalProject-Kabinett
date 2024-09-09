@@ -18,7 +18,7 @@ final class CustomTabViewModel: ObservableObject {
     @Published var resetLetterBox: Bool = false
     @Published var resetProfile: Bool = false
     
-    @Published var letterWrite: Bool = false
+    @Published var isLetterWrite: Bool = false
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -78,6 +78,7 @@ final class CustomTabViewModel: ObservableObject {
     func showImportDialogAndHideOptions() {
         showOptions = false
         showImportDialog = true
+        isLetterWrite = false
     }
     
     func showWriteLetterViewAndHideOptions() {

@@ -87,7 +87,7 @@ struct ScrollableLetterView: View {
                                             
                                             Button {
                                                 customViewModel.showPhotoLibrary = true
-                                                customViewModel.letterWrite = true
+                                                customViewModel.isLetterWrite = true
                                             } label: {
                                                 Image(systemName: "photo.on.rectangle.angled")
                                                     .font(.system(size: 15))
