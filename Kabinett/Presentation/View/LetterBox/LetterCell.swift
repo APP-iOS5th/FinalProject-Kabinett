@@ -78,7 +78,7 @@ struct LetterCell: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: geometry.size.width * 0.88)
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                .shadow(radius: 5, x: 5, y: 5)
+                .shadow(color: .primary300, radius: 5, x: 3, y: 3)
                 .padding(.bottom, 30)
         }
     }
@@ -143,7 +143,7 @@ struct ContentRectangleView: View {
                     )
                     .aspectRatio(9/13, contentMode: .fit)
                     .frame(width: geometry.size.width * 0.88)
-                    .shadow(radius: 5, x: 5, y: 5)
+                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
                 
                 VStack {
                     Text("\(toUserName)에게")

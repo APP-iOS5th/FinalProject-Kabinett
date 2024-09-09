@@ -23,8 +23,15 @@ struct ContentWriteView: View {
                 }
             
             VStack {
-                NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                NavigationBarView(titleName: "", isColor: true) {
+                    NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 
                 ScrollableLetterView(letterContent: $letterContent)
             }

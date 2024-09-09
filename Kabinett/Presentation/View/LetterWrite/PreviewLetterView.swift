@@ -26,8 +26,10 @@ struct PreviewLetterView: View {
             Color(.background).ignoresSafeArea()
             
             VStack {
-                NavigationBarView(destination: EmptyView(), titleName: "", isNavigation: false)
-                    .padding(.bottom, UIScreen.main.bounds.height * 0.3)
+                NavigationBarView(titleName: "", isColor: true) {
+                    NavigationLink(destination: EmptyView()) {}
+                }
+                .padding(.bottom, UIScreen.main.bounds.height * 0.3)
                 
                 ZStack(alignment: .topLeading) {
                     KFImage(URL(string: letterContent.envelopeImageUrlString))

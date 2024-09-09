@@ -48,19 +48,15 @@ struct SearchBarView: View {
             .background(TransparentBlurView(removeAllFilters: false))
             .cornerRadius(10)
             
-            if !searchText.isEmpty {
-                Button(action: {
-                    withAnimation {
-                        showSearchBarView.toggle()
-                        self.searchText = ""
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundStyle(.primary600)
+            Button(action: {
+                withAnimation {
+                    showSearchBarView = false
+                    self.searchText = ""
+                    viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                 }
-            } else {
-                EmptyView()
+            }) {
+                Image(systemName: "xmark.circle.fill")
+                    .foregroundStyle(.primary600)
             }
         }
         .padding(.top, 10)

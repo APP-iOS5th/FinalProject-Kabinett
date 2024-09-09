@@ -26,8 +26,11 @@
 		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
 		534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterCell.swift */; };
+		53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53573A472C8BF18A00BD69AF /* DragHelper.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
+		538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538150502C8AD5FB007B1E5A /* LayoutHelper.swift */; };
+		538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538150532C8AF04B007B1E5A /* Extension+LetterType.swift */; };
 		53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */; };
 		53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */; };
 		53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */; };
@@ -147,8 +150,11 @@
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
 		534C67B62C7FF85700F0C175 /* LetterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCell.swift; sourceTree = "<group>"; };
+		53573A472C8BF18A00BD69AF /* DragHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragHelper.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		538150502C8AD5FB007B1E5A /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
+		538150532C8AF04B007B1E5A /* Extension+LetterType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+LetterType.swift"; sourceTree = "<group>"; };
 		53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailViewModel.swift; sourceTree = "<group>"; };
 		53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxView.swift; sourceTree = "<group>"; };
 		53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailView.swift; sourceTree = "<group>"; };
@@ -261,6 +267,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5381504D2C8AD44A007B1E5A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				538150502C8AD5FB007B1E5A /* LayoutHelper.swift */,
+				53573A472C8BF18A00BD69AF /* DragHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5381504E2C8AD4C9007B1E5A /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
+			);
+			path = Stubs;
+			sourceTree = "<group>";
+		};
+		5381504F2C8AD54A007B1E5A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				530912CB2C7045F200964130 /* ToastView.swift */,
+				535961902C74F5870031E181 /* CalendarView.swift */,
+				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
+				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		538150522C8AF02F007B1E5A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				538150532C8AF04B007B1E5A /* Extension+LetterType.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		57635A6B2C88890E00727CC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,16 +438,13 @@
 		8366B6F22C65ECE10021FAE0 /* LetterBox */ = {
 			isa = PBXGroup;
 			children = (
+				5381504F2C8AD54A007B1E5A /* Components */,
 				53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */,
 				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
 				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
 				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
-				530912CB2C7045F200964130 /* ToastView.swift */,
-				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
-				535961902C74F5870031E181 /* CalendarView.swift */,
 				5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */,
 				534C67B62C7FF85700F0C175 /* LetterCell.swift */,
-				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -461,8 +500,10 @@
 		8366B6F72C65ED080021FAE0 /* LetterBox */ = {
 			isa = PBXGroup;
 			children = (
+				538150522C8AF02F007B1E5A /* Extensions */,
+				5381504E2C8AD4C9007B1E5A /* Stubs */,
+				5381504D2C8AD44A007B1E5A /* Helpers */,
 				530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */,
-				530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */,
 				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
 				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
 				53A99EA82C81914B00896AAC /* CalendarViewModel.swift */,
@@ -821,6 +862,7 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
@@ -830,6 +872,7 @@
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
@@ -881,6 +924,7 @@
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
+				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,
 				577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */,
 				53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */,

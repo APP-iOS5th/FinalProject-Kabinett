@@ -106,7 +106,11 @@ extension DefaultProfileUseCase: ProfileUseCase {
     }
     
     func deleteId() async -> Bool {
-        await authManager.deleteAccount()
+        guard let currentUser = authManager.getCurrentUser() else {
+            logger.error("Delete without user is not allowed.")
+            return false
+        }
+        await authManager.deleteAccount(of: currentUser)
         
         return true
     }

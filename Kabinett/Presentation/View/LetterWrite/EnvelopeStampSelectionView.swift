@@ -34,11 +34,25 @@ struct EnvelopeStampSelectionView: View {
             
             VStack {
                 if letterContent.dataSource == .fromImagePicker {
-                    NavigationBarView(destination: LetterCompletionView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
-                        .padding(.bottom, 25)
+                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
+                        NavigationLink(destination: LetterCompletionView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
+                    }
+                    .padding(.bottom, 25)
                 } else {
-                    NavigationBarView(destination: PreviewLetterView(letterContent: $letterContent), titleName: "봉투와 우표 고르기", isNavigation: true)
-                        .padding(.bottom, 25)
+                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
+                        NavigationLink(destination: PreviewLetterView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
+                    }
+                    .padding(.bottom, 25)
                 }
                 
                 VStack {

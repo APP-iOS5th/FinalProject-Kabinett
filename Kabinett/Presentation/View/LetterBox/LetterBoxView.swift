@@ -16,26 +16,18 @@ struct LetterBoxView: View {
     @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
     
-    @State private var searchText: String = ""
-    @State private var showSearchBarView = false
-    @State private var isTextFieldFocused = false
-    
-    let columns = [
-        GridItem(.flexible(minimum: 220), spacing: -60),
-        GridItem(.flexible(minimum: 220))
-    ]
-    
     var body: some View {
         ZStack {
             NavigationStack {
                 ZStack {
                     Color.background
+                        .ignoresSafeArea()
                     
-                    LazyVGrid(columns: columns, spacing: 40) {
+                    LazyVGrid(columns: gridItems(), spacing: LayoutHelper.shared.getSize(forSE: 0.039, forOthers: 0.039)) {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(letterType: type, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)) {
+                            NavigationLink(destination: LetterBoxDetailView(letterType: type)) {
                                 LetterBoxCell(type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
@@ -43,6 +35,7 @@ struct LetterBoxView: View {
                             })
                         }
                     }
+                    .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
                     
                     VStack {
                         if showToast {
@@ -52,17 +45,17 @@ struct LetterBoxView: View {
                                 .zIndex(1)
                                 .onAppear {
                                     letterBoxViewModel.fetchWelcomeLetter()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    
+                                    Timer.scheduledTimer(withTimeInterval: 3.3, repeats: false) { _ in
                                         withAnimation {
                                             showToast = false
                                         }
                                     }
                                 }
-                                .padding(.bottom, 65)
+                                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.0004, forOthers: 0.001))
                         }
                     }
                 }
-                .ignoresSafeArea()
                 .onAppear() {
                     withAnimation {
                         if isFirstLaunch {
@@ -70,38 +63,20 @@ struct LetterBoxView: View {
                             isFirstLaunch = false
                         }
                     }
-                    showSearchBarView = false
-                    searchText = ""
-                    
-                    if calendarViewModel.startDateFiltering {
-                        calendarViewModel.startDateFiltering.toggle()
-                    }
                     
                     letterBoxViewModel.fetchLetterBoxLetters()
                     letterBoxViewModel.fetchIsRead()
                 }
             }
             .tint(.black)
-            .buttonStyle(PlainButtonStyle())
-            
-            if showSearchBarView {
-                VStack {
-                    ZStack {
-                        Color.clear
-                            .background(Material.ultraThinMaterial)
-                            .blur(radius: 1.5)
-
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: currentLetterType)
-                            .padding(.top, 50)
-                            .edgesIgnoringSafeArea(.top)
-                            .zIndex(1)
-                    }
-                    .frame(maxHeight: .zero)
-                    
-                    Spacer()
-                }
-            }
         }
+    }
+    
+    func gridItems() -> [GridItem] {
+        [
+            GridItem(.flexible(minimum: 220), spacing: LayoutHelper.shared.getSize(forSE: -0.1, forOthers: -0.063)),
+            GridItem(.flexible(minimum: 220))
+        ]
     }
 }
 
