@@ -79,7 +79,7 @@ struct LetterWritingView: View {
             if showCalendar {
                 DatePicker("", selection: $viewModel.date, displayedComponents: [.date])
                     .datePickerStyle(.graphical)
-                    .frame(maxHeight: 400)
+                    .frame(maxHeight: 350)
                     .background(Color.white)
                     .cornerRadius(20)
                     .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
@@ -106,7 +106,7 @@ struct FormToUserView: View {
     var body: some View {
         VStack(spacing: 20) {
             userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
-            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: true)
+            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
         .onAppear {
             letterContent.fromUserId = viewModel.fromUserId ?? ""

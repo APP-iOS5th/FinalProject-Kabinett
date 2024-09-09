@@ -115,8 +115,8 @@ struct LetterCompletionView: View {
                 let success = await viewModel.saveImportingImage()
                 if success {
                     customTabViewModel.navigateToLetterBox()
-                    customTabViewModel.selectedTab = 0
                     dismiss()
+                    customTabViewModel.selectedTab = 0
                 } else {
                     print("Failed to save letter")
                 }
