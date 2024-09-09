@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct StationerySelectionView: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
@@ -67,6 +68,7 @@ struct StationerySelectionView: View {
                 }
             }
         }
+        .slideToDismiss()
     }
 }
 
