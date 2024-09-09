@@ -51,7 +51,7 @@ struct LetterBoxView: View {
                                     }
                                 }
                             }
-                            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.0004, forOthers: 0.001))
+                            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.01, forOthers: 0.01))
                     }
                 }
             }
