@@ -7,25 +7,29 @@
 
 import SwiftUI
 
-struct NavigationBarView<Destination: View>: View {
-    @Environment(\.presentationMode) var presentationMode
-    let destination: Destination
-    let titleName: String
-    let isNavigation: Bool
-    let action: (() -> Void)?
+struct NavigationBarView<ToolbarContent: View>: View {
+    @Environment(\.dismiss) private var dismiss
     
-    init(destination: Destination, titleName: String, isNavigation: Bool, action: (() -> Void)? = nil) {
-        self.destination = destination
+    let titleName: String
+    let isColor: Bool
+    let toolbarContent: ToolbarContent
+    let backAction: (() -> Void)?
+    
+    init(titleName: String, isColor: Bool, @ViewBuilder toolbarContent: () -> ToolbarContent, backAction: (() -> Void)? = nil) {
         self.titleName = titleName
-        self.isNavigation = isNavigation
-        self.action = action
+        self.isColor = isColor
+        self.toolbarContent = toolbarContent()
+        self.backAction = backAction
     }
     
     var body: some View {
         ZStack {
             HStack {
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    if let backAction = backAction {
+                        backAction()
+                    }
+                    dismiss()
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.system(size: 22, weight: .semibold))
@@ -42,23 +46,10 @@ struct NavigationBarView<Destination: View>: View {
             
             HStack {
                 Spacer()
-                
-                if isNavigation {
-                    NavigationLink(destination: destination) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundColor(.contentPrimary)
-                    }
-                } else if let action = action {
-                    Button("다음", action: action)
-                        .fontWeight(.medium)
-                        .font(.system(size: 19))
-                        .foregroundColor(.contentPrimary)
-                }
+                toolbarContent
             }
         }
         .padding(.top, 12)
-        .background(Color("Background"))
+        .background(isColor ? .background : .clear)
     }
 }
