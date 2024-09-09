@@ -38,7 +38,7 @@ struct ContentWriteView: View {
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .slideToDismiss() // 스크롤 부분이라 어색함.
+//        .slideToDismiss() // 스크롤 부분이라 어색함.
         .overlay(
             ImagePickerView()
         )
@@ -110,15 +110,15 @@ struct ScrollableLetterView: View {
                                                              maxHeight: geo.size.height,
                                                              font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
                                             .onChange(of: viewModel.textViewHeights[i]) {
-                                                if viewModel.textViewHeights[i] >= geo.size.height {
+                                                if viewModel.textViewHeights[i] > geo.size.height {
                                                     viewModel.createNewLetter()
                                                 }
                                             }
-                                            .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
+                                            .onChange(of: viewModel.texts[i]) {
                                                 if letterContent.content.isEmpty {
                                                     letterContent.content.append("")
                                                 }
-                                                letterContent.content[0] = viewModel.texts[0]
+                                                letterContent.content = viewModel.texts
                                             }
                                         }
                                         Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
@@ -145,12 +145,12 @@ struct ScrollableLetterView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
-            .onChange(of: viewModel.texts.count) {
-                withAnimation {
-                    viewModel.currentIndex = viewModel.texts.count - 1
-                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
-                }
-            }
+//            .onChange(of: viewModel.texts.count) {
+//                withAnimation {
+//                    viewModel.currentIndex = viewModel.texts.count - 1
+//                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+//                }
+//            }
         }
     }
 }
@@ -158,6 +158,7 @@ struct ScrollableLetterView: View {
 
 // MARK: - CustomTextEditor.swift
 struct CustomTextEditor: UIViewRepresentable {
+    @EnvironmentObject var viewModel: ContentWriteViewModel
     @Binding var text: String
     @Binding var height: CGFloat
     var maxWidth: CGFloat
@@ -166,27 +167,32 @@ struct CustomTextEditor: UIViewRepresentable {
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
+        var viewModel: ContentWriteViewModel
         
-        init(parent: CustomTextEditor) {
+        init(parent: CustomTextEditor, viewModel: ContentWriteViewModel) {
             self.parent = parent
+            self.viewModel = viewModel
         }
         
         func textViewDidChange(_ textView: UITextView) {
             let newSize = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
             
-            if newSize.height <= parent.maxHeight {
+            if newSize.height < parent.maxHeight {
                 parent.text = textView.text
                 DispatchQueue.main.async {
                     self.parent.height = newSize.height
                 }
             } else {
+                if viewModel.texts.last != "" {
+                    viewModel.createNewLetter()
+                }
                 textView.text = parent.text
             }
         }
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
+        Coordinator(parent: self, viewModel: viewModel)
     }
     
     func makeUIView(context: Context) -> UITextView {
