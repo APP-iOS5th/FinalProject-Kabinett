@@ -31,7 +31,7 @@ struct ContentWriteView: View {
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .slideToDismiss() // 여긴 좀 이상하네 ..
+        .slideToDismiss() // 스크롤 부분이라 어색함.
         .overlay(
             ImagePickerView()
         )
@@ -66,7 +66,7 @@ struct ScrollableLetterView: View {
                                             Image(systemName: "arrow.down.circle.dotted")
                                         }
                                         .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                         .padding(.top, 10)
                                     
                                     VStack {

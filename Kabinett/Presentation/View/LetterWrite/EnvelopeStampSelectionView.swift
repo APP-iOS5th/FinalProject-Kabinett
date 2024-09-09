@@ -46,7 +46,7 @@ struct EnvelopeStampSelectionView: View {
                         if let firstEnvelope = viewModel.envelopes.first {
                             KFImage(URL(string: envelopeImageUrl))
                                 .resizable()
-                                .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                 .onAppear {
                                     if letterContent.envelopeImageUrlString.isEmpty {
                                         envelopeImageUrl = firstEnvelope
@@ -246,7 +246,7 @@ struct StampCell: View {
                                             .resizable()
                                             .aspectRatio(9/9.7, contentMode: .fit)
                                             .padding(10)
-                                            .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                             .onTapGesture {
                                                 viewModel.stampSelectStationery(coordinates: (rowIndex, columnIndex))
                                                 stampImageUrl = viewModel.stamps[index]
