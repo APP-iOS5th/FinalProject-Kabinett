@@ -8,8 +8,8 @@
 import SwiftUI
 
 extension View {
-    func slideToDismiss(threshold: CGFloat = 100) -> some View {
-        self.modifier(SlideToDismissModifier(threshold: threshold))
+    func slideToDismiss(threshold: CGFloat = 100, action: @escaping () -> Void = {}) -> some View {
+        self.modifier(SlideToDismissModifier(threshold: threshold, action: action))
     }
 }
 
@@ -17,6 +17,7 @@ struct SlideToDismissModifier: ViewModifier {
     @Environment(\.dismiss) var dismiss
     @State private var offset = CGSize.zero
     var threshold: CGFloat = 100
+    var action: () -> Void
 
     func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
@@ -34,6 +35,7 @@ struct SlideToDismissModifier: ViewModifier {
                         }
                         .onEnded { _ in
                             if offset.width > threshold {
+                                action()
                                 dismiss()
                             } else {
                                 withAnimation {
