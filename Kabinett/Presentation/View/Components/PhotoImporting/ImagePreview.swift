@@ -23,7 +23,7 @@ struct ImagePreview: View {
                     OverlappingImagesView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
                     Spacer()
                     Button(action: {
-                        if customViewModel.letterWrite {
+                        if customViewModel.isLetterWrite {
                             dismiss()
                         } else {
                             showLetterWritingView = true
@@ -43,7 +43,9 @@ struct ImagePreview: View {
             .navigationBarItems(leading: Button(action: {
                 dismiss()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    customViewModel.showImportDialog = true
+                    if customViewModel.isLetterWrite == false {
+                        customViewModel.showImportDialog = true
+                    }
                 }
             }) {
                 Image(systemName: "chevron.left")

@@ -9,9 +9,15 @@ import SwiftUI
 import Kingfisher
 
 struct StationerySelectionView: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
+    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
+    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
+    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
     var body: some View {
         NavigationStack {
@@ -19,7 +25,17 @@ struct StationerySelectionView: View {
                 Color(.background).ignoresSafeArea()
                 
                 VStack {
-                    NavigationBarView(destination: FontSelectionView(letterContent: $letterContent), titleName: "편지지 고르기", isNavigation: true)
+                    NavigationBarView(titleName: "편지지 고르기", isColor: true) {
+                        NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
+                    } backAction: {
+                        resetViewModels()
+                        dismiss()
+                    }
                     
                     List {
                         ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
@@ -60,6 +76,20 @@ struct StationerySelectionView: View {
                 }
             }
         }
+        .slideToDismiss(action: {
+            resetViewModels()
+        })
+    }
+    
+    private func resetViewModels() {
+        letterContent.reset()
+        userSelectionViewModel.reset()
+        stationerySelectionViewModel.reset()
+        fontSelectionViewModel.reset()
+        contentWriteViewModel.reset()
+        envelopeStampSelectionViewModel.reset()
+        imagePickerViewModel.resetState()
+        customTabViewModel.hideOptions()
     }
 }
 

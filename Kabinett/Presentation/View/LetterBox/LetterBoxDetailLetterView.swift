@@ -13,6 +13,9 @@ struct LetterBoxDetailLetterView: View {
     
     @State private var showDetailLetter = false
     
+    @State private var offset: CGFloat = 0
+    @State private var showDeleteButton = false
+    
     var letterType: LetterType
     var letter: Letter
     
@@ -23,51 +26,54 @@ struct LetterBoxDetailLetterView: View {
             Color.background
                 .edgesIgnoringSafeArea(.all)
             
-            ZStack(alignment: .trailing) {
-                if viewModel.showDeleteButton {
-                    Button(action: {
-                        guard let letterId = letter.id else { return }
-                        viewModel.deleteLetter(letterId: letterId, letterType: letterType)
-                        dismiss()
-                    }) {
-                        Text("삭제하기")
-                            .font(.system(size: 16))
-                            .foregroundColor(.alert)
+            VStack {
+                NavigationBarView(titleName: letterType.description, isColor: true) {}
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                
+                Spacer()
+                
+                ZStack(alignment: .trailing) {
+                    if showDeleteButton {
+                        Button(action: {
+                            guard let letterId = letter.id else { return }
+                            viewModel.deleteLetter(letterId: letterId, letterType: letterType)
+                            dismiss()
+                        }) {
+                            Text("삭제하기")
+                                .font(.system(size: 16))
+                                .foregroundColor(.alert)
+                        }
+                        .padding(.trailing, letter.isRead ? -20 : -5)
                     }
-                    .padding(.trailing, letter.isRead ? -20 : -5)
+                    
+                    HStack {
+                        LetterBoxDetailEnvelopeCell(letter: letter)
+                            .onTapGesture {
+                                if !letter.isRead {
+                                    guard let letterId = letter.id else { return }
+                                    viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
+                                    letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                                }
+                                showDetailLetter = true
+                            }
+                    }
+                    .offset(x: offset)
+                    .gesture(
+                        DragGesture()
+                            .onChanged { value in
+                                DragHelper.handleDragGesture(value: value, offset: &offset, showDeleteButton: &showDeleteButton)
+                            }
+                            .onEnded { _ in
+                                DragHelper.handleDragEnd(offset: &offset, showDeleteButton: &showDeleteButton)
+                            }
+                    )
+                    .animation(.spring(), value: offset)
                 }
                 
-                HStack {
-                    LetterBoxDetailEnvelopeCell(letter: letter)
-                        .onTapGesture {
-                            if !letter.isRead {
-                                guard let letterId = letter.id else { return }
-                                viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
-                                letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
-                            }
-                            showDetailLetter = true
-                        }
-                }
-                .offset(x: viewModel.offset)
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            viewModel.handleDragGesture(value: value)
-                        }
-                        .onEnded { _ in
-                            viewModel.handleDragEnd()
-                        }
-                )
-                .animation(.spring(), value: viewModel.offset)
+                Spacer()
             }
         }
-        .onAppear {
-            viewModel.offset = 0
-            viewModel.showDeleteButton = false
-        }
-        .navigationTitle(letterType.description)
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: BackButtonView(action: { dismiss() }))
         .fullScreenCover(isPresented: $showDetailLetter) {
             LetterCell(letter: letter)
         }

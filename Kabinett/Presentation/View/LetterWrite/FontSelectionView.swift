@@ -19,18 +19,22 @@ struct FontSelectionView: View {
                 }
             
             VStack(alignment: .leading) {
-                NavigationBarView(destination: ContentWriteView(letterContent: $letterContent), titleName: "서체 고르기", isNavigation: true)
+                NavigationBarView(titleName: "서체 고르기", isColor: true) {
+                    NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
                 
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
                         VStack {
                             HStack {
                                 Text("\(viewModel.dummyFonts[i].fontName)")
-                                    .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
+                                    .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 Spacer()
-                            }
-                            .onTapGesture {
-                                UIApplication.shared.endEditing()
                             }
                             .padding(.top, 20)
                             HStack {
@@ -41,18 +45,18 @@ struct FontSelectionView: View {
                                 )
                                 .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
                                 .padding(.leading, 6)
-                                .font(viewModel.font(file: viewModel.dummyFonts[i].regularFont))
+                                .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))
                                 .onAppear {
                                     if letterContent.fontString == nil {
-                                        letterContent.fontString = viewModel.dummyFonts[viewModel.selectedIndex].regularFont
+                                        letterContent.fontString = viewModel.dummyFonts[viewModel.selectedIndex].font
                                     }
                                 }
                                 Button {
                                     viewModel.selectedIndex = i
-                                    letterContent.fontString = viewModel.dummyFonts[i].regularFont
+                                    letterContent.fontString = viewModel.dummyFonts[i].font
                                 } label: {
                                     if letterContent.fontString == nil {
                                         Image(i == viewModel.selectedIndex ? "checked" : "unchecked")
@@ -60,7 +64,7 @@ struct FontSelectionView: View {
                                             .frame(width: 32, height: 32)
                                             .padding([.leading], 5)
                                     } else {
-                                        Image(viewModel.dummyFonts[i].regularFont == letterContent.fontString ? "checked" : "unchecked")
+                                        Image(viewModel.dummyFonts[i].font == letterContent.fontString ? "checked" : "unchecked")
                                             .resizable()
                                             .frame(width: 32, height: 32)
                                             .padding([.leading], 5)
@@ -97,6 +101,7 @@ struct FontSelectionView: View {
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .navigationBarBackButtonHidden()
+        .slideToDismiss()
     }
 }
 

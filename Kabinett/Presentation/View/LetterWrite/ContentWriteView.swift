@@ -23,14 +23,22 @@ struct ContentWriteView: View {
                 }
             
             VStack {
-                NavigationBarView(destination: EnvelopeStampSelectionView(letterContent: $letterContent), titleName: "", isNavigation: true)
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                NavigationBarView(titleName: "", isColor: true) {
+                    NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
+                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 
                 ScrollableLetterView(letterContent: $letterContent)
             }
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
+        .slideToDismiss() // 스크롤 부분이라 어색함.
         .overlay(
             ImagePickerView()
         )
@@ -50,6 +58,7 @@ struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
+    @EnvironmentObject var fontViewModel: FontSelectionViewModel
     
     var body: some View {
         ScrollViewReader { scrollViewProxy in
@@ -64,7 +73,7 @@ struct ScrollableLetterView: View {
                                             Image(systemName: "arrow.down.circle.dotted")
                                         }
                                         .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 5, y: 5)
+                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                         .padding(.top, 10)
                                     
                                     VStack {
@@ -78,7 +87,7 @@ struct ScrollableLetterView: View {
                                             
                                             Button {
                                                 customViewModel.showPhotoLibrary = true
-                                                customViewModel.letterWrite = true
+                                                customViewModel.isLetterWrite = true
                                             } label: {
                                                 Image(systemName: "photo.on.rectangle.angled")
                                                     .font(.system(size: 15))
@@ -99,7 +108,7 @@ struct ScrollableLetterView: View {
                                                              height: $viewModel.textViewHeights[i],
                                                              maxWidth: geo.size.width,
                                                              maxHeight: geo.size.height,
-                                                             font: viewModel.selectedFont(font: letterContent.fontString ?? ""))
+                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
                                             .onChange(of: viewModel.textViewHeights[i]) {
                                                 if viewModel.textViewHeights[i] >= geo.size.height {
                                                     viewModel.createNewLetter()
@@ -121,8 +130,7 @@ struct ScrollableLetterView: View {
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                                    
+                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
                                 }
                                 .aspectRatio(9/13, contentMode: .fit)
                                 .frame(width: UIScreen.main.bounds.width * 0.88)
@@ -136,7 +144,7 @@ struct ScrollableLetterView: View {
                 .scrollTargetLayout()
             }
             .scrollTargetBehavior(.viewAligned)
-            .font(.custom(letterContent.fontString ?? "SFDisplay", size: 15))
+            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
             .onChange(of: viewModel.texts.count) {
                 withAnimation {
                     viewModel.currentIndex = viewModel.texts.count - 1
@@ -191,6 +199,10 @@ struct CustomTextEditor: UIViewRepresentable {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = font
         
+        textView.autocorrectionType = .no
+        textView.spellCheckingType = .no
+        textView.smartInsertDeleteType = .no
+        
         let maxWidthConstraint = NSLayoutConstraint(item: textView,
                                                     attribute: .width,
                                                     relatedBy: .lessThanOrEqual,
@@ -204,6 +216,10 @@ struct CustomTextEditor: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
+        if uiView.text == text && uiView.font == font {
+            return
+        }
+        
         uiView.text = text
         uiView.font = font
         
