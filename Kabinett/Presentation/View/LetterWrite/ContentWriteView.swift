@@ -78,26 +78,27 @@ struct ScrollableLetterView: View {
                                     
                                     VStack {
                                         HStack {
-                                            Text(i == 0 ? letterContent.fromUserName : "")
+                                            Text(i == 0 ? letterContent.toUserName : "")
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .onTapGesture {
                                                     UIApplication.shared.endEditing()
                                                 }
                                             Spacer()
                                             
-                                            Button {
-                                                customViewModel.showPhotoLibrary = true
-                                                customViewModel.isLetterWrite = true
-                                            } label: {
-                                                Image(systemName: "photo.on.rectangle.angled")
-                                                    .font(.system(size: 15))
-                                                    .padding(.horizontal, 13)
-                                                    .padding(.vertical, 8)
-                                                    .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
-                                                    .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
-                                                    .clipShape(Capsule())
+                                            if i == viewModel.texts.count-1 {
+                                                Button {
+                                                    customViewModel.showPhotoLibrary = true
+                                                    customViewModel.isLetterWrite = true
+                                                } label: {
+                                                    Image(systemName: "photo.on.rectangle.angled")
+                                                        .font(.system(size: 15))
+                                                        .padding(.horizontal, 13)
+                                                        .padding(.vertical, 8)
+                                                        .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
+                                                        .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
+                                                        .clipShape(Capsule())
+                                                }
                                             }
-                                            
                                         }
                                         .padding(.top, 45)
                                         .padding(.leading, 2)
@@ -125,7 +126,7 @@ struct ScrollableLetterView: View {
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                         
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
+                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
                                             .padding(.bottom, 30)
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -145,12 +146,12 @@ struct ScrollableLetterView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
-//            .onChange(of: viewModel.texts.count) {
-//                withAnimation {
-//                    viewModel.currentIndex = viewModel.texts.count - 1
-//                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
-//                }
-//            }
+            .onChange(of: viewModel.texts.count) {
+                withAnimation {
+                    viewModel.currentIndex = viewModel.texts.count - 1
+                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                }
+            }
         }
     }
 }
