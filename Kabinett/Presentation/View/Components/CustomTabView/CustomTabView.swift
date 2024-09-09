@@ -35,6 +35,7 @@ struct CustomTabView: View {
             }
             .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
             viewModel.setupTabBarAppearance()
         }
