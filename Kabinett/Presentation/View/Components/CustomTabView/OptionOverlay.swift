@@ -52,10 +52,9 @@ struct OptionOverlay: View {
                     }
                     .cornerRadius(10)
                     .padding(.horizontal)
-                    .padding(.bottom, viewModel.getSafeAreaBottom())
+                    .padding(.bottom, viewModel.calculateOptionOverlayBottomPadding())
                 }
                 .background(Color.clear)
-                .transition(.move(edge: .bottom))
             }
             .background(ClearBackground())
         }

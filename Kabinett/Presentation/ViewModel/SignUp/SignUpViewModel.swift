@@ -27,6 +27,7 @@ final class SignUpViewModel: ObservableObject {
     @Published var signUpError: String?
     @Published var showAlert: Bool = false
     @Published var showSignUpFlow: Bool = false
+    @Published var isLoading: Bool = false
     
     private var nonce: String = ""
     
@@ -45,11 +46,12 @@ final class SignUpViewModel: ObservableObject {
     
     @MainActor
     func getNumbers() async {
+        isLoading = true
         let numbers = await signUpUseCase.getAvailableKabinettNumbers()
-        availablekabinettNumbers = numbers
-            .map {
-                $0.formatKabinettNumber()
-            }
+        await MainActor.run {
+            availablekabinettNumbers = numbers.map { $0.formatKabinettNumber() }
+            isLoading = false
+        }
     }
     
     func handleSignInWithAppleRequest(_ request: ASAuthorizationAppleIDRequest) {

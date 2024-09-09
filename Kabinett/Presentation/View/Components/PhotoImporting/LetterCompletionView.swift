@@ -52,53 +52,70 @@ struct LetterCompletionView: View {
     }
     
     private var letterPreviewView: some View {
-        ZStack {
+        ZStack(alignment: .topLeading) {
             KFImage(URL(string: letterContent.envelopeImageUrlString))
                 .resizable()
                 .placeholder {
                     ProgressView()
                 }
-                .frame(width: 315, height: 145)
+                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                .aspectRatio(9/4, contentMode: .fit)
             
-            GeometryReader { geometry in
-                ZStack {
-                    VStack(alignment: .leading, spacing: 2) {
+            VStack {
+                HStack(alignment: .top) {
+                    VStack {
                         Text("보내는 사람")
                             .font(.system(size: 7))
+                            .padding(.bottom, 1)
                         Text(viewModel.fromUserName)
                             .font(.system(size: 14))
                     }
-                    .position(x: 60, y: 35)
+                    .padding(.leading, 25)
                     
-                    Text(viewModel.postScript ?? letterContent.postScript ?? "")
-                        .font(.system(size: 10))
-                        .position(x: 85, y: geometry.size.height - 35)
+                    Spacer()
+                }
+                .padding(.top, 25)
+                
+                Spacer()
+                
+                HStack(alignment: .top) {
+                    VStack {
+                        Text(viewModel.postScript ?? letterContent.postScript ?? "")
+                            .font(.system(size: 10))
+                    }
+                    .padding(.leading, 25)
                     
-                    VStack(alignment: .leading, spacing: 2) {
+                    Spacer()
+                    
+                    VStack {
                         Text("받는 사람")
                             .font(.system(size: 7))
+                            .padding(.bottom, 1)
+                            .padding(.leading, -5)
                         Text(viewModel.toUserName)
                             .font(.system(size: 14))
                     }
-                    .position(x: geometry.size.width - 90, y: geometry.size.height - 30)
-                    
-                    KFImage(URL(string: letterContent.stampImageUrlString))
-                        .resizable()
-                        .placeholder {
-                            ProgressView()
-                        }
-                        .frame(width: 34, height: 38)
-                        .position(x: geometry.size.width - 40, y: 35)
-                    
-                    Text(viewModel.formattedDate)
-                        .monospaced()
-                        .font(.system(size: 12))
-                        .position(x: geometry.size.width - 80, y: 25)
-                    
+                    .padding(.trailing, 100)
                 }
+                .padding(.bottom, 25)
             }
+            
+            
+            KFImage(URL(string: letterContent.stampImageUrlString))
+                .resizable()
+                .placeholder {
+                    ProgressView()
+                }
+                .frame(width: 34, height: 38)
+                .position(x: UIScreen.main.bounds.width * 0.75, y: 45)
+            
+            
+            Text(viewModel.formattedDate)
+                .monospaced()
+                .font(.system(size: 12))
+                .position(x: UIScreen.main.bounds.width * 0.7, y: 35)
         }
-        .frame(width: 315, height: 145)
+        .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.width * 0.85 * 4/9)
     }
     
     private var completionMessageView: some View {
@@ -115,8 +132,8 @@ struct LetterCompletionView: View {
                 let success = await viewModel.saveImportingImage()
                 if success {
                     customTabViewModel.navigateToLetterBox()
-                    customTabViewModel.selectedTab = 0
                     dismiss()
+                    customTabViewModel.selectedTab = 0
                 } else {
                     print("Failed to save letter")
                 }
