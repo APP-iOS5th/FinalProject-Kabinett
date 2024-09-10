@@ -13,7 +13,6 @@ struct LetterBoxView: View {
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    @State private var currentLetterType: LetterType = .all
     @State private var showToast: Bool = false
     
     var body: some View {
@@ -26,11 +25,11 @@ struct LetterBoxView: View {
                     ForEach(LetterType.allCases, id: \.self) { type in
                         let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                         
-                        NavigationLink(destination: LetterBoxDetailView(letterType: type)) {
+                        NavigationLink(destination: LetterBoxDetailView()) {
                             LetterBoxCell(type: type, unreadCount: unreadCount)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
-                            currentLetterType = type
+                            calendarViewModel.currentLetterType = type
                         })
                     }
                 }
