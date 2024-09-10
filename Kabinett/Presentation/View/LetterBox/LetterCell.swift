@@ -12,6 +12,10 @@ struct LetterCell: View {
     @State private var selectedIndex: Int = 0
     var letter: Letter
     
+    private var totalPageCount: Int {
+        return LetterHelper.calculateTotalPageCount(for: letter)
+    }
+    
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -42,28 +46,14 @@ struct LetterCell: View {
                     .gesture(
                         DragGesture()
                             .onEnded { value in
-                                if value.translation.width < -50 && selectedIndex < totalPageCount - 1 {
-                                    selectedIndex += 1
-                                } else if value.translation.width > 50 && selectedIndex > 0 {
-                                    selectedIndex -= 1
-                                }
+                                DragHelper.handlePageChangeGesture(value: value, selectedIndex: &selectedIndex, totalPageCount: totalPageCount)
                             }
                     )
                 }
             }
         }
     }
-    
-    private var totalPageCount: Int {
-        if letter.content.isEmpty && letter.photoContents.isEmpty {
-            return 1
-        }
-        if letter.content.isEmpty && !letter.photoContents.isEmpty {
-            return letter.photoContents.count
-        }
-        return letter.content.count + letter.photoContents.count
-    }
-    
+   
     @ViewBuilder
     private func createPageView(index: Int, geometry: GeometryProxy) -> some View {
         if letter.content.isEmpty == false || (letter.content.isEmpty && letter.photoContents.isEmpty) {
@@ -72,20 +62,14 @@ struct LetterCell: View {
                     stationeryImageUrlString: letter.stationeryImageUrlString,
                     fromUserName: letter.fromUserName,
                     toUserName: letter.toUserName,
-                    letterContent: letter.content.isEmpty ? " " : letter.content[index].isEmpty ? " " : letter.content[index],
+                    letterContent: letter.content[safe: index] ?? " ",
                     fontString: letter.fontString ?? "SFDisplay",
                     date: letter.date,
                     currentPageIndex: index,
                     totalPages: max(letter.content.count, 1)
                 )
             } else if !letter.photoContents.isEmpty && index >= letter.content.count {
-                KFImage(URL(string: letter.photoContents[index - letter.content.count]))
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: geometry.size.width * 0.88)
-                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                    .padding(.bottom, 30)
+                displayPhoto(index: index - letter.content.count, geometry: geometry)
             } else {
                 ContentRectangleView(
                     stationeryImageUrlString: letter.stationeryImageUrlString,
@@ -99,132 +83,17 @@ struct LetterCell: View {
                 )
             }
         } else if letter.content.isEmpty && !letter.photoContents.isEmpty {
-            KFImage(URL(string: letter.photoContents[index]))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: geometry.size.width * 0.88)
-                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                .padding(.bottom, 30)
+            displayPhoto(index: index, geometry: geometry)
         }
     }
-}
-
-struct BeforeButtonView: View {
-    @Binding var selectedIndex: Int
     
-    var body: some View {
-        Button(action: {
-            if selectedIndex > 0 {
-                selectedIndex -= 1
-            }
-        }) {
-            Image(systemName: "chevron.left")
-                .font(.system(size: 22, weight: .regular))
-                .foregroundStyle(.contentPrimary)
-                .padding(.leading, 4)
-        }
-        .padding()
-        .opacity(selectedIndex > 0 ? 1 : 0)
-    }
-}
-
-struct CloseButtonView: View {
-    var dismiss: () -> Void
-    
-    var body: some View {
-        Button(action: {
-            dismiss()
-        }) {
-            Image(systemName: "xmark")
-                .font(.system(size: 22, weight: .regular))
-                .foregroundStyle(.contentPrimary)
-                .padding(.trailing, 4)
-        }
-        .padding()
-    }
-}
-
-struct ContentRectangleView: View {
-    var stationeryImageUrlString: String?
-    var fromUserName: String
-    var toUserName: String
-    var letterContent: String
-    var fontString: String
-    var date: Date
-    
-    var currentPageIndex: Int
-    var totalPages: Int
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Rectangle()
-                    .fill(Color.clear)
-                    .background(
-                        (stationeryImageUrlString != nil) ?
-                        AnyView(KFImage(URL(string: stationeryImageUrlString!))
-                            .resizable()) :
-                            AnyView(Color.white)
-                    )
-                    .aspectRatio(9/13, contentMode: .fit)
-                    .frame(width: geometry.size.width * 0.88)
-                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                
-                VStack {
-                    Text("\(toUserName)에게")
-                        .font(.custom(fontString, size: 14))
-                        .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, geometry.size.height * 0.2)
-                        .padding(.leading, 10)
-                        .opacity(currentPageIndex == 0 ? 1 : 0)
-                    
-                    Text(letterContent.forceCharWrapping)
-                        .font(.custom(fontString, size: 14))
-                        .foregroundStyle(.contentPrimary)
-                        .lineSpacing(11)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 15)
-                        .padding(.leading, 10)
-                    
-                    Spacer()
-                    
-                    Text(formattedDate(date: date))
-                        .font(.custom(fontString, size: 14))
-                        .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.bottom, 0.1)
-                        .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
-                    
-                    Text("\(fromUserName)가")
-                        .font(.custom(fontString, size: 14))
-                        .foregroundStyle(.contentPrimary)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .padding(.bottom, geometry.size.height * 0.2)
-                        .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
-                }
-                .padding(.horizontal, geometry.size.width * 0.06)
-                .frame(width: geometry.size.width * 0.88, height: geometry.size.height)
-            }
-            .padding(.bottom, 30)
+    private func displayPhoto(index: Int, geometry: GeometryProxy) -> some View {
+        KFImage(URL(string: letter.photoContents[index]))
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: geometry.size.width * 0.88)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-        }
-    }
-    
-    private func formattedDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 M월 d일"
-        return formatter.string(from: date)
+            .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+            .padding(.bottom, 30)
     }
 }
-
-extension String {
-    var forceCharWrapping: Self {
-        self.map({ String($0) }).joined(separator: "\u{200B}")
-    }
-}
-
-//#Preview {
-//    LetterCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
-//}
