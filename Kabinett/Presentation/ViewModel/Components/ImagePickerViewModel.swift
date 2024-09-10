@@ -126,13 +126,13 @@ final class ImagePickerViewModel: ObservableObject {
         print("Starting fetchCurrentWriter...")
         let publisher = componentsUseCase.getCurrentWriter()
         
-        for await user in publisher.values {
-            print("Received user from getCurrentWriter: \(user)")
-            self.fromUser = user
-            self.fromUserId = user.id
-            self.fromUserName = user.name
-            self.fromUserKabinettNumber = user.kabinettNumber
-            self.userKabiNumber = String(format: "%06d", user.kabinettNumber)
+        for await writer in publisher.values {
+            print("Received user from getCurrentWriter: \(writer)")
+            self.fromUser = writer
+            self.fromUserId = writer.id
+            self.fromUserName = writer.name
+            self.fromUserKabinettNumber = writer.kabinettNumber
+            self.userKabiNumber = String(format: "%06d", writer.kabinettNumber)
             
             print("Updated fromUser: \(String(describing: self.fromUser))")
             print("Updated fromUserId: \(String(describing: self.fromUserId))")

@@ -88,6 +88,7 @@ class UserSelectionViewModel: ObservableObject {
             print("update!!", writer)
             self.fromUser = writer
             updateFromUser()
+            print("Updated fromUser: \(String(describing: self.fromUser))")
         }
     }
     
