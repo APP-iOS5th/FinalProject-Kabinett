@@ -55,25 +55,51 @@ struct LetterCell: View {
     }
     
     private var totalPageCount: Int {
+        if letter.content.isEmpty && letter.photoContents.isEmpty {
+            return 1
+        }
+        if letter.content.isEmpty && !letter.photoContents.isEmpty {
+            return letter.photoContents.count
+        }
         return letter.content.count + letter.photoContents.count
     }
     
     @ViewBuilder
     private func createPageView(index: Int, geometry: GeometryProxy) -> some View {
-        
-        if letter.content.isEmpty || index < letter.content.count {
-            ContentRectangleView(
-                stationeryImageUrlString: letter.stationeryImageUrlString,
-                fromUserName: letter.fromUserName,
-                toUserName: letter.toUserName,
-                letterContent: letter.content.isEmpty ? " " : letter.content[index].isEmpty ? " " : letter.content[index],
-                fontString: letter.fontString ?? "SFDisplay",
-                date: letter.date,
-                currentPageIndex: index,
-                totalPages: max(letter.content.count, 1)
-            )
-        } else {
-            KFImage(URL(string: letter.photoContents[index - letter.content.count]))
+        if letter.content.isEmpty == false || (letter.content.isEmpty && letter.photoContents.isEmpty) {
+            if index < letter.content.count {
+                ContentRectangleView(
+                    stationeryImageUrlString: letter.stationeryImageUrlString,
+                    fromUserName: letter.fromUserName,
+                    toUserName: letter.toUserName,
+                    letterContent: letter.content.isEmpty ? " " : letter.content[index].isEmpty ? " " : letter.content[index],
+                    fontString: letter.fontString ?? "SFDisplay",
+                    date: letter.date,
+                    currentPageIndex: index,
+                    totalPages: max(letter.content.count, 1)
+                )
+            } else if !letter.photoContents.isEmpty && index >= letter.content.count {
+                KFImage(URL(string: letter.photoContents[index - letter.content.count]))
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: geometry.size.width * 0.88)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                    .padding(.bottom, 30)
+            } else {
+                ContentRectangleView(
+                    stationeryImageUrlString: letter.stationeryImageUrlString,
+                    fromUserName: letter.fromUserName,
+                    toUserName: letter.toUserName,
+                    letterContent: " ",
+                    fontString: letter.fontString ?? "SFDisplay",
+                    date: letter.date,
+                    currentPageIndex: 0,
+                    totalPages: 1
+                )
+            }
+        } else if letter.content.isEmpty && !letter.photoContents.isEmpty {
+            KFImage(URL(string: letter.photoContents[index]))
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: geometry.size.width * 0.88)
