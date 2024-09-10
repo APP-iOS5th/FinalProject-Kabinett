@@ -41,6 +41,19 @@ final class FirestoreLetterManager {
         )
     }
     
+    actor SafeListeners {
+        var listeners: [ListenerRegistration] = []
+        
+        func addListener(_ listener: ListenerRegistration) {
+            listeners.append(listener)
+        }
+        
+        func removeAllListeners() {
+            listeners.forEach { $0.remove() }
+            listeners.removeAll()
+        }
+    }
+    
     func validateLetter(
         userId: String,
         letterId: String,
@@ -172,6 +185,7 @@ final class FirestoreLetterManager {
         letterType: [String]
     ) -> AsyncStream<[Letter]> {
         AsyncStream { continuation in
+//            var letterResult: [Letter] = []
             let listeners = letterType.map { type in
                 db.collection("Writers")
                     .document(userId)
@@ -192,8 +206,10 @@ final class FirestoreLetterManager {
                             let letters = try snapshot.documents.compactMap { document in
                                 try document.data(as: Letter.self)
                             }
-
+                            
+//                            letterResult.append(contentsOf: letters)
                             let sortedLetters = letters.sorted { $0.date > $1.date }
+                            
                             continuation.yield(sortedLetters)
                         } catch {
                             self.logger.error("Data Parsing Error: \(error.localizedDescription)")
@@ -277,14 +293,20 @@ final class FirestoreLetterManager {
         
         do {
             for type in letterType {
-                try await validateLetter(userId: userId, letterId: letterId, letterType: type)
-                try await db.collection("Writers")
+                let documentRef = db.collection("Writers")
                     .document(userId)
                     .collection(type)
                     .document(letterId)
-                    .delete()
                 
-                removeSucceeded = true
+                let documentSnapshot = try await documentRef.getDocument()
+                
+                if documentSnapshot.exists {
+                    try await validateLetter(userId: userId, letterId: letterId, letterType: type)
+                    try await documentRef.delete()
+                    removeSucceeded = true
+                } else {
+                    logger.error("Document does not exist in \(type) collection.")
+                }
             }
             
             if removeSucceeded {
@@ -307,14 +329,19 @@ final class FirestoreLetterManager {
         
         do {
             for type in letterType {
-                try await validateLetter(userId: userId, letterId: letterId, letterType: type)
-                try await db.collection("Writers")
+                let documentRef = db.collection("Writers")
                     .document(userId)
                     .collection(type)
                     .document(letterId)
-                    .setData(["isRead": true], merge: true)
                 
-                updateSucceeded = true
+                let documentSnapshot = try await documentRef.getDocument()
+                
+                if documentSnapshot.exists {
+                    try await documentRef.setData(["isRead": true], merge: true)
+                    updateSucceeded = true
+                } else {
+                    logger.error("Document does not exist in \(type) collection.")
+                }
             }
             
             if updateSucceeded {
@@ -328,31 +355,42 @@ final class FirestoreLetterManager {
         }
     }
     
-    func getIsReadCount(userId: String) async -> Result<[LetterType: Int], any Error> {
-        var result: [LetterType: Int] = [:]
-        
-        let typeToCollectionName: [LetterType: String] = [
-            .toMe: "ToMe",
-            .received: "Received"
-        ]
-        
-        do {
+    func getIsReadCount(userId: String) -> AsyncStream<[LetterType: Int]> {
+        AsyncStream { continuation in
+            let typeToCollectionName: [LetterType: String] = [
+                .toMe: "ToMe",
+                .received: "Received"
+            ]
+            var result: [LetterType: Int] = [:]
+            
+            let safeListeners = SafeListeners()
+            
             for (type, collectionName) in typeToCollectionName {
-                let querySnapshot = try await db.collection("Writers")
+                let listener = db.collection("Writers")
                     .document(userId)
                     .collection(collectionName)
                     .whereField("isRead", isEqualTo: false)
-                    .getDocuments()
-                
-                result[type] = querySnapshot.documents.count
+                    .addSnapshotListener { querySnapshot, error in
+                        if let error = error {
+                            self.logger.error("Failed to get Count: \(error.localizedDescription)")
+                            return
+                        }
+                        
+                        result[type] = querySnapshot?.documents.count ?? 0
+                        result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
+                        
+                        continuation.yield(result)
+                    }
+                Task {
+                    await safeListeners.addListener(listener)
+                }
             }
             
-            result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
-            
-            return .success(result)
-        } catch {
-            logger.error("Failed to get Count: \(error.localizedDescription)")
-            return .failure(error)
+            continuation.onTermination = { @Sendable _ in
+                Task {
+                    await safeListeners.removeAllListeners()
+                }
+            }
         }
     }
     

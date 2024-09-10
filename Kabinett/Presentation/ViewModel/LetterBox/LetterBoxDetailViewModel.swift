@@ -9,20 +9,23 @@ import SwiftUI
 
 class LetterBoxDetailViewModel: ObservableObject {
     private let letterBoxUseCase: LetterBoxUseCase
+    private var letterDetailTask: Task<Void, Never>?
     
-    init(letterBoxUseCase: LetterBoxUseCase) {
+    init(
+        letterBoxUseCase: LetterBoxUseCase
+    ) {
         self.letterBoxUseCase = letterBoxUseCase
     }
     
     @Published var letterBoxDetailLetters: [Letter] = []
-    
     @Published var errorMessage: String?
     
     func fetchLetterBoxDetailLetters(letterType: LetterType) {
-        Task { @MainActor in
-            let letterStream = await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
-            
-            for await letterArray in letterStream {
+        letterDetailTask?.cancel()
+        letterDetailTask = Task { @MainActor in
+            for await letterArray in await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType) {
+                if Task.isCancelled { break }
+                print("Received letters for type \(letterType): \(letterArray.count)")
                 self.letterBoxDetailLetters = letterArray
             }
         }
@@ -56,5 +59,9 @@ class LetterBoxDetailViewModel: ObservableObject {
                 self.errorMessage = error.localizedDescription
             }
         }
+    }
+    
+    deinit {
+        letterDetailTask?.cancel()
     }
 }

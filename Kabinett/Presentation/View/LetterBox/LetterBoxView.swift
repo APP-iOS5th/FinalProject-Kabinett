@@ -62,7 +62,6 @@ struct LetterBoxView: View {
                         isFirstLaunch = false
                     }
                 }
-                letterBoxViewModel.fetchIsRead()
             }
         }
         .tint(.black)

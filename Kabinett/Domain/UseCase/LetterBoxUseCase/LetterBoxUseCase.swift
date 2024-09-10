@@ -14,7 +14,7 @@ protocol LetterBoxUseCase {
         letterType: LetterType
     ) async -> AsyncStream<[Letter]>
     
-    func getIsRead() async -> Result<[LetterType: Int], any Error>
+    func getIsRead() -> AsyncStream<[LetterType: Int]>
     
     func searchBy(
         findKeyword: String,

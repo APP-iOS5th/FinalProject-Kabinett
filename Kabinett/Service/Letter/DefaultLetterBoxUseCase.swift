@@ -30,12 +30,15 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
     // letter 타입별 로딩
     func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
-        let userId = await authManager.getCurrentUser()?.uid ?? ""
-        
-        return letterManager.getLetters(
-            userId: userId,
-            letterType: letterType.types
-        )
+        AsyncStream { continuation in
+            Task {
+                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
+                for await letters in self.letterManager.getLetters(userId: userId, letterType: letterType.types) {
+                    continuation.yield(letters)
+                }
+                continuation.finish()
+            }
+        }
     }
     
     // main 편지함 letter 3개 로딩
@@ -44,25 +47,32 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
             Task {
                 let types: [LetterType] = [.sent, .received, .toMe, .all]
                 
-                for type in types {
-                    Task {
-                        for await letters in await getLetterBoxDetailLetters(letterType: type) {
-                            
-                            let newResult = [type: Array(letters.prefix(3))]
-                            continuation.yield(newResult)
-                            
+                await withTaskGroup(of: Void.self) { group in
+                    for type in types {
+                        group.addTask {
+                            for await letters in await self.getLetterBoxDetailLetters(letterType: type) {
+                                let newResult = [type: Array(letters.prefix(3))]
+                                continuation.yield(newResult)
+                            }
                         }
                     }
                 }
+                continuation.finish()
             }
         }
     }
-
     
     // 안읽은 letter 개수 로딩
-    func getIsRead() async -> Result<[LetterType: Int], any Error> {
-        let userId = await authManager.getCurrentUser()?.uid ?? ""
-        return await letterManager.getIsReadCount(userId: userId)
+    func getIsRead() -> AsyncStream<[LetterType: Int]> {
+        return AsyncStream { continuation in
+            Task {
+                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
+                for try await result in self.letterManager.getIsReadCount(userId: userId) {
+                    continuation.yield(result)
+                }
+                continuation.finish()
+            }
+        }
     }
     
     // keyword 기준 letter 검색
