@@ -24,17 +24,6 @@ struct UserSelectionView: View {
                     HStack {
                         Spacer()
                         Button("완료") {
-                            letterContent.fromUserId = viewModel.fromUser?.id
-                            letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                            if letterContent.toUserId == "" {
-                                viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
-                            }
-                            letterContent.toUserId = viewModel.toUser?.id
-                            letterContent.toUserName = viewModel.toUser?.name ?? ""
-                            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-                            
-                            letterContent.date = Date()
                             dismiss()
                         }
                     }
@@ -112,12 +101,6 @@ struct FormToUser: View {
         }
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
-            letterContent.fromUserId = viewModel.fromUser?.id
-            letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-            if letterContent.toUserId == "" {
-                viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
-            }
             letterContent.toUserId = viewModel.toUser?.id
             letterContent.toUserName = viewModel.toUser?.name ?? ""
             letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
