@@ -151,6 +151,7 @@ class ProfileViewModel: ObservableObject {
     func signout() async {
         let success = await profileUseCase.signout()
         if success {
+            currentWriter = WriterViewModel(name: "", formattedNumber: "", imageUrlString: nil)
             navigateState = .toLogin
         } else {
             print("로그아웃에 실패했어요.")
