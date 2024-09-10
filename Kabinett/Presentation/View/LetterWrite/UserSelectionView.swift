@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
@@ -186,14 +187,13 @@ struct SearchBar: View {
                     ForEach(viewModel.usersData) { user in
                         HStack {
                             if let profileImage = user.profileImage {
-                                AsyncImage(url: URL(string: profileImage)) { image in
-                                    image
-                                        .resizable()
-                                        .frame(width: 25, height: 25)
-                                        .clipShape(.circle)
-                                } placeholder: {
-                                    ProgressView()
-                                }
+                                KFImage(URL(string: profileImage))
+                                    .placeholder {
+                                        ProgressView()
+                                    }
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                                    .clipShape(.circle)
                             } else {
                                 Image(systemName: "person.crop.circle")
                                     .resizable()
