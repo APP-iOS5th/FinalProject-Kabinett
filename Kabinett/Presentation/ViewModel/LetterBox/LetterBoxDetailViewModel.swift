@@ -20,12 +20,10 @@ class LetterBoxDetailViewModel: ObservableObject {
     
     func fetchLetterBoxDetailLetters(letterType: LetterType) {
         Task { @MainActor in
-            let result = await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
-            switch result {
-            case .success(let letterArray):
+            let letterStream = await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
+            
+            for await letterArray in letterStream {
                 self.letterBoxDetailLetters = letterArray
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
             }
         }
     }

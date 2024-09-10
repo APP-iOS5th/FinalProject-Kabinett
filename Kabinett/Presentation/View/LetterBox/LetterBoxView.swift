@@ -62,8 +62,6 @@ struct LetterBoxView: View {
                         isFirstLaunch = false
                     }
                 }
-                
-                letterBoxViewModel.fetchLetterBoxLetters()
                 letterBoxViewModel.fetchIsRead()
             }
         }

@@ -14,19 +14,17 @@ class LetterBoxViewModel: ObservableObject {
     @Published var isReadLetters: [LetterType: Int] = [:]
     
     @Published var errorMessage: String?
+    private var task: Task<Void, Never>?
     
     init(letterBoxUseCase: LetterBoxUseCase) {
         self.letterBoxUseCase = letterBoxUseCase
+        fetchLetterBoxLetters()
     }
     
     func fetchLetterBoxLetters() {
-        Task { @MainActor in
-            let result = await letterBoxUseCase.getLetterBoxLetters()
-            switch result {
-            case .success(let letterDictionary):
-                self.letterBoxLetters = letterDictionary
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
+        task = Task { @MainActor in
+            for await letters in letterBoxUseCase.getLetterBoxLetters() {
+                self.letterBoxLetters.merge(letters) { _, new in new }
             }
         }
     }
@@ -55,5 +53,9 @@ class LetterBoxViewModel: ObservableObject {
         Task { @MainActor in
             _ = await letterBoxUseCase.getWelcomeLetter()
         }
+    }
+    
+    deinit {
+        task?.cancel()
     }
 }

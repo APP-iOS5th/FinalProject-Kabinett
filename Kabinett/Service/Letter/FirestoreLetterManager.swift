@@ -170,27 +170,40 @@ final class FirestoreLetterManager {
     func getLetters(
         userId: String,
         letterType: [String]
-    ) async -> Result<[Letter], any Error> {
-        do {
-            var letterResult: [Letter] = []
-            
-            for type in letterType {
-                let snapshot = try await db.collection("Writers")
+    ) -> AsyncStream<[Letter]> {
+        AsyncStream { continuation in
+            let listeners = letterType.map { type in
+                db.collection("Writers")
                     .document(userId)
                     .collection(type)
-                    .getDocuments()
-                
-                let letters = try snapshot.documents.compactMap { document in
-                    try document.data(as: Letter.self)
-                }
-                letterResult.append(contentsOf: letters)
+                    .addSnapshotListener { snapshot, error in
+                        if let error = error {
+                            self.logger.error("Get Letters Error: \(error.localizedDescription)")
+                            continuation.finish()
+                            return
+                        }
+                        
+                        guard let snapshot = snapshot else {
+                            continuation.finish()
+                            return
+                        }
+                        
+                        do {
+                            let letters = try snapshot.documents.compactMap { document in
+                                try document.data(as: Letter.self)
+                            }
+
+                            let sortedLetters = letters.sorted { $0.date > $1.date }
+                            continuation.yield(sortedLetters)
+                        } catch {
+                            self.logger.error("Data Parsing Error: \(error.localizedDescription)")
+                            continuation.finish()
+                        }
+                    }
             }
-            letterResult.sort { $0.date > $1.date }
-            
-            return .success(letterResult)
-        } catch {
-            logger.error("Get Letters Error: \(error.localizedDescription)")
-            return .failure(error)
+            continuation.onTermination = { @Sendable _ in
+                listeners.forEach { $0.remove() }
+            }
         }
     }
     

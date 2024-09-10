@@ -8,10 +8,12 @@
 import Foundation
 
 protocol LetterBoxUseCase {
-    func getLetterBoxLetters() async -> Result<[LetterType: [Letter]], any Error>
+    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]>
+    
     func getLetterBoxDetailLetters(
         letterType: LetterType
-    ) async -> Result<[Letter], any Error>
+    ) async -> AsyncStream<[Letter]>
+    
     func getIsRead() async -> Result<[LetterType: Int], any Error>
     
     func searchBy(

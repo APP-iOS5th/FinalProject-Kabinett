@@ -46,12 +46,22 @@ class LetterBoxUseCaseStub: LetterBoxUseCase {
         ]
     }
     
-    func getLetterBoxLetters() async -> Result<[LetterType: [Letter]], any Error> {
-        return .success(LetterBoxUseCaseStub.sampleLetterDictionary)
+    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
+        AsyncStream { continuation in
+            let sampleData = LetterBoxUseCaseStub.sampleLetterDictionary
+            
+            continuation.yield(sampleData)
+            continuation.finish()
+        }
     }
     
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
-        return .success(LetterBoxUseCaseStub.sampleLetterDictionary[letterType]!)
+    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
+        AsyncStream { continuation in
+            if let sampleLetters = LetterBoxUseCaseStub.sampleLetterDictionary[letterType] {
+                continuation.yield(sampleLetters)
+            }
+            continuation.finish()
+        }
     }
     
     func getIsRead() async -> Result<[LetterType : Int], any Error> {

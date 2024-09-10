@@ -27,56 +27,41 @@ final class DefaultLetterBoxUseCase {
 }
 
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
+    
     // letter 타입별 로딩
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
+    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
         let userId = await authManager.getCurrentUser()?.uid ?? ""
         
-        switch letterType {
-        case .sent:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Sent"]
-            )
-        case .received:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Received"]
-            )
-        case .toMe:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["ToMe"]
-            )
-        case .all:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Sent", "ToMe", "Received"]
-            )
-        }
+        return letterManager.getLetters(
+            userId: userId,
+            letterType: letterType.types
+        )
     }
     
     // main 편지함 letter 3개 로딩
-    func getLetterBoxLetters() async -> Result<[LetterType : [Letter]], any Error> {
-        var result: [LetterType: [Letter]] = [:]
-        
-        for type in [LetterType.toMe, .sent, .received, .all] {
-            let lettersResult = await getLetterBoxDetailLetters(letterType: type)
-            
-            switch lettersResult {
-            case .success(let letters):
-                result[type] = Array(letters.prefix(3))
-            case .failure(let error):
-                logger.error("Failed getLetterBoxLetters: \(error.localizedDescription)")
-                return .failure(error)
+    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
+        AsyncStream { continuation in
+            Task {
+                let types: [LetterType] = [.sent, .received, .toMe, .all]
+                
+                for type in types {
+                    Task {
+                        for await letters in await getLetterBoxDetailLetters(letterType: type) {
+                            
+                            let newResult = [type: Array(letters.prefix(3))]
+                            continuation.yield(newResult)
+                            
+                        }
+                    }
+                }
             }
         }
-        return .success(result)
     }
+
     
     // 안읽은 letter 개수 로딩
     func getIsRead() async -> Result<[LetterType: Int], any Error> {
         let userId = await authManager.getCurrentUser()?.uid ?? ""
-//        let userId = await authManager.getCurrentUserAsync()?.uid ?? ""
         return await letterManager.getIsReadCount(userId: userId)
     }
     
@@ -228,5 +213,16 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     func getWelcomeLetter() async -> Result<Bool, any Error> {
         let userId = await authManager.getCurrentUser()?.uid ?? ""
         return await letterManager.getWelcomeLetter(userId: userId)
+    }
+}
+
+extension LetterType {
+    var types: [String] {
+        switch self {
+        case .sent: return ["Sent"]
+        case .received: return ["Received"]
+        case .toMe: return ["ToMe"]
+        case .all: return ["Sent", "Received", "ToMe"]
+        }
     }
 }
