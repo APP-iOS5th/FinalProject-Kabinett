@@ -196,8 +196,6 @@ struct CalendarBar: View {
     @EnvironmentObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    var letterType: LetterType
-    
     var body: some View {
         VStack {
             HStack {
@@ -224,7 +222,7 @@ struct CalendarBar: View {
                         calendarViewModel.startDateFiltering.toggle()
                         calendarViewModel.startDate = Date()
                         calendarViewModel.endDate = Date()
-                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")

@@ -18,7 +18,7 @@ final class CustomTabViewModel: ObservableObject {
     @Published var resetLetterBox: Bool = false
     @Published var resetProfile: Bool = false
     
-    @Published var letterWrite: Bool = false
+    @Published var isLetterWrite: Bool = false
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -78,6 +78,7 @@ final class CustomTabViewModel: ObservableObject {
     func showImportDialogAndHideOptions() {
         showOptions = false
         showImportDialog = true
+        isLetterWrite = false
     }
     
     func showWriteLetterViewAndHideOptions() {
@@ -99,11 +100,24 @@ final class CustomTabViewModel: ObservableObject {
     }
     
     // MARK: OptionOverlay Button 위치 관련 Method
-    func getSafeAreaBottom(additionalPadding: CGFloat = 7.5) -> CGFloat {
+    func calculateOptionOverlayBottomPadding() -> CGFloat {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
         let safeAreaBottom = windowScene?.windows.first?.safeAreaInsets.bottom ?? 0
-        return safeAreaBottom + additionalPadding
+        
+        if safeAreaBottom > 0 {
+            return safeAreaBottom + 20
+        } else {
+            return 55
+        }
     }
-    
+    // MARK: OptionOverlay TabBar 위치 관련 Method
+    func calculateYPosition(viewHeight: CGFloat, bottomSafeAreaHeight: CGFloat) -> CGFloat{
+        
+        if bottomSafeAreaHeight > 0 {
+            return viewHeight / 2 - bottomSafeAreaHeight + 30
+        } else {
+            return viewHeight / 2 - bottomSafeAreaHeight - 15
+        }
+    }
 }

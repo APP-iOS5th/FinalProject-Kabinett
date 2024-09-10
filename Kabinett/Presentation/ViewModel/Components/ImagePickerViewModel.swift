@@ -30,7 +30,6 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var userKabiNumber: String?
     @Published var fromUserId: String?
     @Published var toUserId: String?
-    @Published var searchText: String = ""
     @Published var checkLogin: Bool = false
     @Published var isLoading: Bool = false
     @Published var error: Error?
@@ -49,7 +48,7 @@ final class ImagePickerViewModel: ObservableObject {
     
     var formattedDate: String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy. mm. dd "
+        formatter.dateFormat = "yyyy.MM.dd"
         return formatter.string(from: date)
     }
     
@@ -204,6 +203,7 @@ final class ImagePickerViewModel: ObservableObject {
     func saveImportingImage() async -> Bool {
         isLoading = true
         error = nil
+        
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
             envelope: envelopeURL ?? "",
@@ -225,6 +225,7 @@ final class ImagePickerViewModel: ObservableObject {
             isLoading = false
             return true
         case .failure(let error):
+            print("Failed to save letter: \(error)")
             self.error = error
             isLoading = false
             return false
@@ -233,7 +234,13 @@ final class ImagePickerViewModel: ObservableObject {
     
     // MARK: - Methods (편지 저장 후 초기화)
     func resetState() {
-        photoContents = []
         selectedItems = []
+        photoContents = []
+        fromUserName = ""
+        toUserName = ""
+        date = Date()
+        postScript = nil
+        envelopeURL = nil
+        stampURL = nil
     }
 }

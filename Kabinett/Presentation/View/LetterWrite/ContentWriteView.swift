@@ -39,9 +39,6 @@ struct ContentWriteView: View {
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
         .slideToDismiss() // 스크롤 부분이라 어색함.
-        .overlay(
-            ImagePickerView()
-        )
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
                 imageViewModel.selectedItems = newValue
@@ -70,7 +67,7 @@ struct ScrollableLetterView: View {
                                 ZStack {
                                     KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
                                         .placeholder {
-                                            Image(systemName: "arrow.down.circle.dotted")
+                                            ProgressView()
                                         }
                                         .resizable()
                                         .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
@@ -87,7 +84,7 @@ struct ScrollableLetterView: View {
                                             
                                             Button {
                                                 customViewModel.showPhotoLibrary = true
-                                                customViewModel.letterWrite = true
+                                                customViewModel.isLetterWrite = true
                                             } label: {
                                                 Image(systemName: "photo.on.rectangle.angled")
                                                     .font(.system(size: 15))
