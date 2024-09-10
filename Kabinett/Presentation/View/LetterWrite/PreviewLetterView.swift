@@ -33,6 +33,9 @@ struct PreviewLetterView: View {
                 
                 ZStack(alignment: .topLeading) {
                     KFImage(URL(string: letterContent.envelopeImageUrlString))
+                        .placeholder {
+                            ProgressView()
+                        }
                         .resizable()
                         .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                     
@@ -50,6 +53,9 @@ struct PreviewLetterView: View {
                             Spacer()
                             
                             KFImage(URL(string: letterContent.stampImageUrlString))
+                                .placeholder {
+                                    ProgressView()
+                                }
                                 .resizable()
                                 .aspectRatio(9/9.7, contentMode: .fit)
                                 .frame(width: UIScreen.main.bounds.width * 0.1)
