@@ -59,6 +59,9 @@ struct EnvelopeStampSelectionView: View {
                     ZStack(alignment: .topLeading) {
                         if let firstEnvelope = viewModel.envelopes.first {
                             KFImage(URL(string: envelopeImageUrl))
+                                .placeholder {
+                                    ProgressView()
+                                }
                                 .resizable()
                                 .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                 .onAppear {
@@ -84,6 +87,9 @@ struct EnvelopeStampSelectionView: View {
                                 
                                 if let firstStamp = viewModel.stamps.first {
                                     KFImage(URL(string: stampImageUrl))
+                                        .placeholder {
+                                            ProgressView()
+                                        }
                                         .resizable()
                                         .aspectRatio(9/9.7, contentMode: .fit)
                                         .frame(width: UIScreen.main.bounds.width * 0.1)
