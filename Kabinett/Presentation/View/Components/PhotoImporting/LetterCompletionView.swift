@@ -37,6 +37,8 @@ struct LetterCompletionView: View {
                 await viewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeURL = viewModel.envelopeURL ?? letterContent.envelopeImageUrlString
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
+                print("LetterCompletionView appeared")
+                viewModel.printCurrentState(label: "LetterCompletionView onAppear")
             }
         }
     }
@@ -107,7 +109,7 @@ struct LetterCompletionView: View {
                     ProgressView()
                 }
                 .frame(width: 34, height: 38)
-                .position(x: UIScreen.main.bounds.width * 0.75, y: 45)
+                .position(x: UIScreen.main.bounds.width * 0.75, y: 55)
             
             
             Text(viewModel.formattedDate)
@@ -129,13 +131,18 @@ struct LetterCompletionView: View {
     private var saveButton: some View {
         Button(action: {
             Task {
+                print("Save button tapped")
+                viewModel.printCurrentState(label: "Before saving")
                 let success = await viewModel.saveImportingImage()
                 if success {
+                    print("Letter saved successfully")
+                    viewModel.printCurrentState(label: "After successful save")
                     customTabViewModel.navigateToLetterBox()
                     dismiss()
                     customTabViewModel.selectedTab = 0
                 } else {
                     print("Failed to save letter")
+                    viewModel.printCurrentState(label: "After failed save")
                 }
             }
         }) {

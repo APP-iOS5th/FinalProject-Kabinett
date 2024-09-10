@@ -51,6 +51,10 @@ struct LetterWritingView: View {
                     .environmentObject(envelopeStampSelectionViewModel)
             }
         }
+        .onAppear {
+                    print("LetterWritingView appeared")
+            viewModel.printCurrentState(label: "LetterWritingView onAppear")
+                }
     }
     
     private func dateField() -> some View {
@@ -96,6 +100,7 @@ struct LetterWritingView: View {
         letterWriteViewModel.date = viewModel.date
         letterWriteViewModel.photoContents = viewModel.photoContents
         letterWriteViewModel.dataSource = .fromImagePicker
+        viewModel.printCurrentState(label: "After updateLetterWrite")
     }
 }
 
@@ -111,11 +116,11 @@ struct FormToUserView: View {
         .onAppear {
             letterContent.fromUserId = viewModel.fromUserId ?? ""
             letterContent.fromUserName = viewModel.fromUserName
-            letterContent.fromUserKabinettNumber = Int(viewModel.userKabiNumber ?? "0")
-            letterContent.toUserId = ""
-            letterContent.toUserName = ""
-            letterContent.toUserKabinettNumber = 0
-            letterContent.date = Date()
+            viewModel.fromUserKabinettNumber = Int(viewModel.userKabiNumber ?? "0")
+            viewModel.toUserId = ""
+            viewModel.toUserName = ""
+            viewModel.date = Date()
+            viewModel.printCurrentState(label: "FormToUserView onAppear")
         }
     }
     
@@ -225,13 +230,12 @@ struct FormToUserView: View {
         }
         
         private func updateUser(name: String) {
-            if isFromUser {
-                letterContent.fromUserName = name
-                viewModel.fromUserName = name
-            } else {
-                viewModel.updateSelectedUser(&letterContent, selectedUserName: name)
-                viewModel.toUserName = name
+                if isFromUser {
+                    viewModel.fromUserName = name
+                } else {
+                    viewModel.updateSelectedUser(selectedUserName: name)
+                }
+                viewModel.printCurrentState(label: "After updateUser")
             }
-        }
     }
 }

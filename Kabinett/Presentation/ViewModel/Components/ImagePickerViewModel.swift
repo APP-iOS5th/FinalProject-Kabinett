@@ -12,25 +12,35 @@ import Combine
 final class ImagePickerViewModel: ObservableObject {
     
     @Published var selectedItems: [PhotosPickerItem] = []
+    
     @Published var photoContents: [Data] = []
-    @Published var fromUserName: String = ""
-    @Published var toUserName: String = ""
     @Published var date: Date = Date()
+    @Published var isRead: Bool = false
+    
     @Published var postScript: String?
     @Published var envelopeURL: String?
     @Published var stampURL: String?
-    @Published var fromUser: Writer? = nil
-    @Published var toUser: Writer? = nil
-    @Published var usersData: [Writer] = []
-    @Published var fromUserSearchResults: [(name: String, kabinettNumber: String)] = []
-    @Published var toUserSearchResults: [(name: String, kabinettNumber: String)] = []
+    
+    @Published var fromUserId: String?
+    @Published var fromUserName: String = ""
+    @Published var fromUserKabinettNumber: Int? = nil
+    
+    @Published var toUserId: String?
+    @Published var toUserName: String = ""
+    @Published var toUserKabinettNumber: Int? = nil
+    
     @Published var fromUserSearch: String = ""
     @Published var toUserSearch: String = ""
     @Published var debouncedSearchText: String = ""
+    
+    @Published var fromUser: Writer? = nil
+    @Published var toUser: Writer? = nil
+    @Published var usersData: [Writer] = []
+    
+    @Published var fromUserSearchResults: [(name: String, kabinettNumber: String)] = []
+    @Published var toUserSearchResults: [(name: String, kabinettNumber: String)] = []
     @Published var userKabiNumber: String?
-    @Published var fromUserId: String?
-    @Published var toUserId: String?
-    @Published var checkLogin: Bool = false
+    
     @Published var isLoading: Bool = false
     @Published var error: Error?
     
@@ -45,11 +55,24 @@ final class ImagePickerViewModel: ObservableObject {
             await self?.fetchCurrentWriter()
         }
     }
-    
-    var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        return formatter.string(from: date)
+    func printCurrentState(label: String = "") {
+        print("\n--- Current State \(label) ---")
+        print("photoContents: \(photoContents.count) items")
+        print("date: \(date)")
+        print("isRead: \(isRead)")
+        print("postScript: \(postScript ?? "nil")")
+        print("envelopeURL: \(envelopeURL ?? "nil")")
+        print("stampURL: \(stampURL ?? "nil")")
+        print("fromUserId: \(fromUserId ?? "nil")")
+        print("fromUserName: \(fromUserName)")
+        print("fromUserKabinettNumber: \(fromUserKabinettNumber ?? 0)")
+        print("toUserId: \(toUserId ?? "nil")")
+        print("toUserName: \(toUserName)")
+        print("toUserKabinettNumber: \(toUserKabinettNumber ?? 0)")
+        print("fromUserSearch: \(fromUserSearch)")
+        print("toUserSearch: \(toUserSearch)")
+        print("debouncedSearchText: \(debouncedSearchText)")
+        print("-------------------------")
     }
     
     private func setupBindings() {
@@ -79,44 +102,47 @@ final class ImagePickerViewModel: ObservableObject {
     }
     
     
-    func updateSelectedUser(_ letterContent: inout LetterWriteModel, selectedUserName: String) {
-        if let user = usersData.first(where: { $0.name == selectedUserName }) {
-            toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
-        } else {
-            toUser = Writer(name: selectedUserName, kabinettNumber: 0, profileImage: nil)
+    func updateSelectedUser(selectedUserName: String) {
+            if let user = usersData.first(where: { $0.name == selectedUserName }) {
+                toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
+            } else {
+                toUser = Writer(name: selectedUserName, kabinettNumber: 0, profileImage: nil)
+            }
+            self.toUserId = toUser?.id
+            self.toUserName = toUser?.name ?? ""
+            self.toUserKabinettNumber = toUser?.kabinettNumber
+            
+            printCurrentState(label: "After updateSelectedUser")
         }
-        letterContent.toUserId = toUser?.id
-        letterContent.toUserName = toUser?.name ?? ""
-        letterContent.toUserKabinettNumber = toUser?.kabinettNumber
-        self.toUserName = selectedUserName
-    }
     
     func isCurrentUser(kabiNumber: Int) -> String {
         fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
     }
     
-    func updateCurrentUser() {
-        if let fromUser = fromUser {
-            if fromUser.kabinettNumber == 0 {
-                checkLogin = false
-            } else {
-                checkLogin = true
-            }
-            toUser = fromUser
-        }
-    }
+    
     
     @MainActor
     func fetchCurrentWriter() async {
+        print("Starting fetchCurrentWriter...")
         let publisher = componentsUseCase.getCurrentWriter()
-        for await result in publisher.values {
-            self.fromUser = result
-            self.fromUserName = result.name
-            self.userKabiNumber = String(format: "%06d", result.kabinettNumber)
-            self.fromUserId = result.id
-            updateCurrentUser()
-            var letterContent = LetterWriteModel()
-            updateSelectedUser(&letterContent, selectedUserName: result.name)
+        
+        for await user in publisher.values {
+            print("Received user from getCurrentWriter: \(user)")
+            self.fromUser = user
+            self.fromUserId = user.id
+            self.fromUserName = user.name
+            self.fromUserKabinettNumber = user.kabinettNumber
+            self.userKabiNumber = String(format: "%06d", user.kabinettNumber)
+            
+            print("Updated fromUser: \(String(describing: self.fromUser))")
+            print("Updated fromUserId: \(String(describing: self.fromUserId))")
+            print("Updated fromUserName: \(self.fromUserName)")
+            print("Updated fromUserKabinettNumber: \(String(describing: self.fromUserKabinettNumber))")
+            print("Updated userKabiNumber: \(String(describing: self.userKabiNumber))")
+            
+            
+            print("Current user information fetched and updated:")
+            printCurrentState(label: "After fetchCurrentWriter")
             break
         }
     }
@@ -200,37 +226,42 @@ final class ImagePickerViewModel: ObservableObject {
     
     // MARK: - Request to Save Letter Data
     @MainActor
-    func saveImportingImage() async -> Bool {
-        isLoading = true
-        error = nil
-        
-        let result = await componentsUseCase.saveLetter(
-            postScript: postScript,
-            envelope: envelopeURL ?? "",
-            stamp: stampURL ?? "",
-            fromUserId: fromUserId,
-            fromUserName: fromUserName,
-            fromUserKabinettNumber: Int(userKabiNumber ?? "0"),
-            toUserId: toUser?.id,
-            toUserName: toUser?.name ?? "",
-            toUserKabinettNumber: toUser?.kabinettNumber,
-            photoContents: photoContents,
-            date: date,
-            isRead: false
-        )
-        
-        switch result {
-        case .success:
-            resetState()
-            isLoading = false
-            return true
-        case .failure(let error):
-            print("Failed to save letter: \(error)")
-            self.error = error
-            isLoading = false
-            return false
+        func saveImportingImage() async -> Bool {
+            isLoading = true
+            error = nil
+            printCurrentState(label: "Before saveImportingImage")
+            
+            if fromUserId == nil || fromUserKabinettNumber == nil {
+                await fetchCurrentWriter()
+            }
+            
+            let result = await componentsUseCase.saveLetter(
+                postScript: postScript,
+                envelope: envelopeURL ?? "",
+                stamp: stampURL ?? "",
+                fromUserId: fromUserId,
+                fromUserName: fromUserName,
+                fromUserKabinettNumber: fromUserKabinettNumber,
+                toUserId: toUserId,
+                toUserName: toUserName,
+                toUserKabinettNumber: toUserKabinettNumber,
+                photoContents: photoContents,
+                date: date,
+                isRead: false
+            )
+            printCurrentState(label: "After saveImportingImage")
+            switch result {
+            case .success:
+                resetState()
+                isLoading = false
+                return true
+            case .failure(let error):
+                print("Failed to save letter: \(error)")
+                self.error = error
+                isLoading = false
+                return false
+            }
         }
-    }
     
     // MARK: - Methods (편지 저장 후 초기화)
     func resetState() {
@@ -242,5 +273,11 @@ final class ImagePickerViewModel: ObservableObject {
         postScript = nil
         envelopeURL = nil
         stampURL = nil
+    }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter.string(from: date)
     }
 }
