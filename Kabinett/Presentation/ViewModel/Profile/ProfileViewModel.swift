@@ -56,7 +56,7 @@ class ProfileViewModel: ObservableObject {
     // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     func loadCurrentWriter() {
         profileUseCase
-            .getCurrentWriterPublisher()
+            .getCurrentWriter()
             .map { writer in
                 WriterViewModel(
                     name: writer.name,

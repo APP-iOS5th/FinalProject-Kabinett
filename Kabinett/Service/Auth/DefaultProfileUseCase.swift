@@ -50,15 +50,12 @@ extension DefaultProfileUseCase: ProfileUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentWriterPublisher() -> AnyPublisher<Writer, Never> {
+    func getCurrentWriter() -> AnyPublisher<Writer, Never> {
         authManager
             .getCurrentUser()
             .compactMap { $0 }
             .asyncMap { [weak self] user in
-                if user.isAnonymous { return .anonymousWriter }
-                else {
-                    return await self?.writerManager.getWriterDocument(with: user.uid)
-                }
+                await self?.writerManager.getWriterDocument(with: user.uid)
             }
             .compactMap { $0 }
             .eraseToAnyPublisher()
