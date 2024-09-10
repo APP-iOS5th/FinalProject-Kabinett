@@ -92,8 +92,10 @@ final class AuthManager {
             
             if code == .credentialAlreadyInUse {
                 logger.debug("This credential already in use, delete current user and retry signing.")
-                
-                let existingUser = await signInWith(credential: credential)
+                guard let newCredential = error.userInfo[AuthErrorUserInfoUpdatedCredentialKey] as? OAuthCredential else {
+                    fatalError("Credential failed")
+                }
+                let existingUser = await signInWith(credential: newCredential)
                 await deleteAccount(of: user)
                 
                 return .existingUser(existingUser)
