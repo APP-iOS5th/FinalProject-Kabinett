@@ -56,25 +56,6 @@ final class ImagePickerViewModel: ObservableObject {
             await fetchCurrentWriter()
         }
     }
-    func printCurrentState(label: String = "") {
-        print("\n--- Current State \(label) ---")
-        print("photoContents: \(photoContents.count) items")
-        print("date: \(date)")
-        print("isRead: \(isRead)")
-        print("postScript: \(postScript ?? "nil")")
-        print("envelopeURL: \(envelopeURL ?? "nil")")
-        print("stampURL: \(stampURL ?? "nil")")
-        print("fromUserId: \(fromUserId ?? "nil")")
-        print("fromUserName: \(fromUserName)")
-        print("fromUserKabinettNumber: \(fromUserKabinettNumber ?? 0)")
-        print("toUserId: \(toUserId ?? "nil")")
-        print("toUserName: \(toUserName)")
-        print("toUserKabinettNumber: \(toUserKabinettNumber ?? 0)")
-        print("fromUserSearch: \(fromUserSearch)")
-        print("toUserSearch: \(toUserSearch)")
-        print("debouncedSearchText: \(debouncedSearchText)")
-        print("-------------------------")
-    }
     
     private func setupBindings() {
         $fromUserSearch
@@ -98,6 +79,7 @@ final class ImagePickerViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // MARK: 현재 사용자 정보 업데이트
     func updateFromUser() {
         if let fromUser = fromUser {
             checkLogin = fromUser.kabinettNumber != 0
@@ -118,9 +100,9 @@ final class ImagePickerViewModel: ObservableObject {
                 toUserKabinettNumber = nil
             }
         }
-        printCurrentState(label: "After updateFromUser")
     }
     
+    // MARK: 사용자 검색 기능
     @MainActor
     func searchUsers(query: String, isFromUser: Bool) async {
         guard !query.isEmpty else {
@@ -137,10 +119,8 @@ final class ImagePickerViewModel: ObservableObject {
         
         if isFromUser {
             self.fromUserSearchResults = formattedResults
-            print("From user search results: \(formattedResults)")
         } else {
             self.toUserSearchResults = formattedResults
-            print("To user search results: \(formattedResults)")
         }
     }
     
@@ -155,32 +135,27 @@ final class ImagePickerViewModel: ObservableObject {
         self.toUserName = toUser?.name ?? ""
         self.toUserKabinettNumber = toUser?.kabinettNumber
         
-        printCurrentState(label: "After updateSelectedUser")
     }
     
+    // MARK: 현재 사용자 여부 확인
     func isCurrentUser(kabiNumber: Int) -> String {
         fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
     }
     
     
-    
+    // MARK: 현재 로그인한 사용자 정보 가져오기
     @MainActor
     func fetchCurrentWriter() async {
-        print("Starting fetchCurrentWriter...")
         let publisher = componentsUseCase.getCurrentWriter()
         
         for await writer in publisher.values {
-            print("Received user from getCurrentWriter: \(writer)")
             self.fromUser = writer
             updateFromUser()
-            print("Updated fromUser: \(String(describing: self.fromUser))")
-            print("Current user information fetched and updated:")
-            printCurrentState(label: "After fetchCurrentWriter")
             break
         }
     }
     
-    // MARK: - Image Loading
+    // MARK: 선택된 이미지 로드
     private func loadImagesTask() async throws -> [Data] {
         try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
             for item in selectedItems {
@@ -257,12 +232,11 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Request to Save Letter Data
+    // MARK: 편지저장
     @MainActor
     func saveImportingImage() async -> Bool {
         isLoading = true
         error = nil
-        printCurrentState(label: "Before saveImportingImage")
         
         if fromUserId == nil || fromUserKabinettNumber == nil {
             await fetchCurrentWriter()
@@ -282,7 +256,6 @@ final class ImagePickerViewModel: ObservableObject {
             date: date,
             isRead: false
         )
-        printCurrentState(label: "After saveImportingImage")
         switch result {
         case .success:
             resetState()
@@ -296,7 +269,7 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Methods (편지 저장 후 초기화)
+    // MARK: Methods (편지 저장 후 초기화)
     func resetState() {
         selectedItems = []
         photoContents = []
