@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct CustomTabBar: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
+    @EnvironmentObject var profileViewModel: ProfileViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -51,18 +53,28 @@ struct CustomTabBar: View {
         Button(action: {
             viewModel.handleTabSelection(tag)
         }) {
-            if viewModel.selectedTab == tag {
-                Image(systemName: "circle.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.primary600)
-            } else {
-                Image(systemName: "person.circle")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.primary300)
+            ZStack {
+                if let image = profileViewModel.currentWriter.imageUrlString {
+                    KFImage(URL(string: image))
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 24, height: 24)
+                        .clipShape(Circle())
+                        .overlay(
+                            Circle().stroke(viewModel.selectedTab == tag ? Color.primary900 : Color.clear, lineWidth: 1.5)
+                                .scaleEffect(1.15)
+                        )
+                } else {
+                    Image(systemName: "circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 24, height: 24)
+                        .foregroundStyle(Color.primary300)
+                        .overlay(
+                            Circle().stroke(viewModel.selectedTab == tag ? Color.primary900 : Color.clear, lineWidth: 1.5)
+                                .scaleEffect(1.15)
+                        )
+                }
             }
         }
     }
