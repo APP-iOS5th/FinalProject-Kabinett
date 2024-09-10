@@ -121,8 +121,6 @@ struct FormToUser: View {
             letterContent.toUserId = viewModel.toUser?.id
             letterContent.toUserName = viewModel.toUser?.name ?? ""
             letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-            
-            letterContent.date = Date()
         }
         
         HStack {
@@ -130,6 +128,19 @@ struct FormToUser: View {
                 .foregroundStyle(Color("ContentPrimary"))
                 .font(.system(size: 16))
                 .bold()
+                .onAppear {
+                    letterContent.fromUserId = viewModel.fromUser?.id
+                    letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+                    letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+                    if letterContent.toUserId == "" {
+                        viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
+                    }
+                    letterContent.toUserId = viewModel.toUser?.id
+                    letterContent.toUserName = viewModel.toUser?.name ?? ""
+                    letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+                    
+                    letterContent.date = Date()
+                }
             Spacer(minLength: 37)
             let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
             let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
