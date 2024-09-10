@@ -40,6 +40,11 @@
 		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
 		53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */; };
 		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
+		53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */; };
+		53FC6B842C90204D00E7D9A8 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B832C90204D00E7D9A8 /* ButtonView.swift */; };
+		53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */; };
+		53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B872C9020C100E7D9A8 /* Extension+String.swift */; };
+		53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B892C90221600E7D9A8 /* LetterHelper.swift */; };
 		57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* ContentWriteView.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
@@ -165,6 +170,11 @@
 		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
 		53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStrokePathView.swift; sourceTree = "<group>"; };
 		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
+		53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Collection.swift"; sourceTree = "<group>"; };
+		53FC6B832C90204D00E7D9A8 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRectangleView.swift; sourceTree = "<group>"; };
+		53FC6B872C9020C100E7D9A8 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
+		53FC6B892C90221600E7D9A8 /* LetterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterHelper.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* ContentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteView.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
@@ -274,6 +284,7 @@
 			children = (
 				538150502C8AD5FB007B1E5A /* LayoutHelper.swift */,
 				53573A472C8BF18A00BD69AF /* DragHelper.swift */,
+				53FC6B892C90221600E7D9A8 /* LetterHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -294,6 +305,8 @@
 				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
 				53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */,
+				53FC6B832C90204D00E7D9A8 /* ButtonView.swift */,
+				53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -302,6 +315,8 @@
 			isa = PBXGroup;
 			children = (
 				538150532C8AF04B007B1E5A /* Extension+LetterType.swift */,
+				53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */,
+				53FC6B872C9020C100E7D9A8 /* Extension+String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -856,8 +871,10 @@
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
+				53FC6B842C90204D00E7D9A8 /* ButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
+				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
@@ -892,6 +909,7 @@
 				04DEC0F42C6F171E00D289EA /* SignUpViewModel.swift in Sources */,
 				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
 				04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */,
+				53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
@@ -915,6 +933,7 @@
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
 				AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */,
+				53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */,
 				57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */,
@@ -924,6 +943,7 @@
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
 				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
+				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,

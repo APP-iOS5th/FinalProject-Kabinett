@@ -25,4 +25,12 @@ struct DragHelper {
             showDeleteButton = false
         }
     }
+    
+    static func handlePageChangeGesture(value: DragGesture.Value, selectedIndex: inout Int, totalPageCount: Int) {
+        if value.translation.width < -50 && selectedIndex < totalPageCount - 1 {
+            selectedIndex += 1
+        } else if value.translation.width > 50 && selectedIndex > 0 {
+            selectedIndex -= 1
+        }
+    }
 }
