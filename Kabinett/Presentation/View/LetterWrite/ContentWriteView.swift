@@ -39,9 +39,6 @@ struct ContentWriteView: View {
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
         .slideToDismiss() // 스크롤 부분이라 어색함.
-        .overlay(
-            ImagePickerView()
-        )
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
                 imageViewModel.selectedItems = newValue
