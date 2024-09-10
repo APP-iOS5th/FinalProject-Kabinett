@@ -52,9 +52,9 @@ struct LetterWritingView: View {
             }
         }
         .onAppear {
-                    print("LetterWritingView appeared")
+            print("LetterWritingView appeared")
             viewModel.printCurrentState(label: "LetterWritingView onAppear")
-                }
+        }
     }
     
     private func dateField() -> some View {
@@ -114,12 +114,20 @@ struct FormToUserView: View {
             userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
         .onAppear {
-            letterContent.fromUserId = viewModel.fromUserId ?? ""
-            letterContent.fromUserName = viewModel.fromUserName
-            viewModel.fromUserKabinettNumber = Int(viewModel.userKabiNumber ?? "0")
-            viewModel.toUserId = ""
-            viewModel.toUserName = ""
-            viewModel.date = Date()
+            
+            if let fromUser = viewModel.fromUser {
+                letterContent.fromUserId = fromUser.id
+                letterContent.fromUserName = fromUser.name
+                viewModel.fromUserName = fromUser.name
+                viewModel.fromUserKabinettNumber = fromUser.kabinettNumber
+            }
+            
+            letterContent.toUserId = letterContent.fromUserId
+            letterContent.toUserName = letterContent.fromUserName
+            viewModel.toUserId = letterContent.fromUserId
+            viewModel.toUserName = letterContent.fromUserName
+            viewModel.toUserKabinettNumber = viewModel.fromUserKabinettNumber
+            
             viewModel.printCurrentState(label: "FormToUserView onAppear")
         }
     }
@@ -230,12 +238,17 @@ struct FormToUserView: View {
         }
         
         private func updateUser(name: String) {
-                if isFromUser {
-                    viewModel.fromUserName = name
-                } else {
-                    viewModel.updateSelectedUser(selectedUserName: name)
+            if isFromUser {
+                viewModel.fromUserName = name
+                letterContent.fromUserName = name
+                if let user = viewModel.usersData.first(where: { $0.name == name }) {
+                    letterContent.fromUserId = user.id
+                    viewModel.fromUserKabinettNumber = user.kabinettNumber
                 }
-                viewModel.printCurrentState(label: "After updateUser")
+            } else {
+                viewModel.updateSelectedUser(selectedUserName: name)
             }
+            viewModel.printCurrentState(label: "After updateUser")
+        }
     }
 }
