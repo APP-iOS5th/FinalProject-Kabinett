@@ -45,7 +45,8 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
         AsyncStream { continuation in
             Task {
-                let types: [LetterType] = [.sent, .received, .toMe, .all]
+                let types: [LetterType] = [.all, .sent, .received, .toMe]
+                
                 
                 await withTaskGroup(of: Void.self) { group in
                     for type in types {

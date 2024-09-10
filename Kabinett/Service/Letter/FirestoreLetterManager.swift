@@ -185,7 +185,7 @@ final class FirestoreLetterManager {
         letterType: [String]
     ) -> AsyncStream<[Letter]> {
         AsyncStream { continuation in
-//            var letterResult: [Letter] = []
+            var combinedLetters: [Letter] = []
             let listeners = letterType.map { type in
                 db.collection("Writers")
                     .document(userId)
@@ -202,19 +202,25 @@ final class FirestoreLetterManager {
                             return
                         }
                         
-                        do {
-                            let letters = try snapshot.documents.compactMap { document in
-                                try document.data(as: Letter.self)
+                        snapshot.documentChanges.forEach { change in
+                            do {
+                                let letter = try change.document.data(as: Letter.self)
+                                
+                                switch change.type {
+                                case .added, .modified:
+                                    combinedLetters.removeAll { $0.id == letter.id }
+                                    combinedLetters.append(letter)
+                                    
+                                case .removed:
+                                    combinedLetters.removeAll { $0.id == letter.id }
+                                }
+                            } catch {
+                                self.logger.error("Data Parsing Error: \(error.localizedDescription)")
                             }
-                            
-//                            letterResult.append(contentsOf: letters)
-                            let sortedLetters = letters.sorted { $0.date > $1.date }
-                            
-                            continuation.yield(sortedLetters)
-                        } catch {
-                            self.logger.error("Data Parsing Error: \(error.localizedDescription)")
-                            continuation.finish()
                         }
+                        
+                        let sortedLetters = combinedLetters.sorted { $0.date > $1.date }
+                        continuation.yield(sortedLetters)
                     }
             }
             continuation.onTermination = { @Sendable _ in

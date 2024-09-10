@@ -25,7 +25,6 @@ class LetterBoxDetailViewModel: ObservableObject {
         letterDetailTask = Task { @MainActor in
             for await letterArray in await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType) {
                 if Task.isCancelled { break }
-                print("Received letters for type \(letterType): \(letterArray.count)")
                 self.letterBoxDetailLetters = letterArray
             }
         }
