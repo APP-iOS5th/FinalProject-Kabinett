@@ -52,7 +52,6 @@ struct ImagePreview: View {
                     .font(.system(size: 18, weight: .semibold))
                     .foregroundColor(.primary900)
             })
-            .navigationBarTitle("선택한 사진", displayMode: .inline)
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
