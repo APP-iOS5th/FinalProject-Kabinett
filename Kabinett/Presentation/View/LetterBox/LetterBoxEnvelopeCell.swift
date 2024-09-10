@@ -120,7 +120,6 @@ struct LetterBoxDetailEnvelopeCell: View {
                     .shadow(color: .primary300, radius: 4, x: 0, y: 0)
             )
     
-            // 새로운 편지에 붙을 빨간 동그라미
             if !letter.isRead {
                 Image("RedSticker")
                     .resizable()

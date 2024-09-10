@@ -12,8 +12,6 @@ struct LetterBoxDetailView: View {
     @EnvironmentObject var viewModel: LetterBoxDetailViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    @State var letterType: LetterType
-    
     @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
     
@@ -21,16 +19,10 @@ struct LetterBoxDetailView: View {
     @State var searchText: String = ""
     @State var isTextFieldFocused: Bool = false
     
-    //    let letters = Array(0...16) // dummy
-    //    let letters: [Int] = [] // empty dummy
     @State private var letters: [Letter] = []
     
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
-    }
-    
-    init(letterType: LetterType) {
-        self.letterType = letterType
     }
     
     var body: some View {
@@ -40,9 +32,9 @@ struct LetterBoxDetailView: View {
             
             VStack {
                 if showSearchBarView {
-                    SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: letterType)
+                    SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: calendarViewModel.currentLetterType)
                 } else {
-                    NavigationBarView(titleName: letterType.description, isColor: false, toolbarContent: {
+                    NavigationBarView(titleName: calendarViewModel.currentLetterType.description, isColor: false, toolbarContent: {
                         toolbarItems()
                     }, backAction: {
                         if calendarViewModel.startDateFiltering {
@@ -62,7 +54,7 @@ struct LetterBoxDetailView: View {
                 }
                 
                 if calendarViewModel.startDateFiltering {
-                    CalendarBar(letterType: letterType)
+                    CalendarBar()
                         .background(
                             GeometryReader { geo in
                                 Color.clear
@@ -102,11 +94,11 @@ struct LetterBoxDetailView: View {
         .onAppear {
             if showSearchBarView {
                 isTextFieldFocused = false
-                viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
+                viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: calendarViewModel.currentLetterType)
             } else if calendarViewModel.startDateFiltering {
-                viewModel.fetchSearchByDate(letterType: letterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                viewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
             } else {
-                viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
             }
         }
     }
@@ -121,7 +113,7 @@ struct LetterBoxDetailView: View {
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             } else {
-                Text(letterType.setEmptyMessage())
+                Text(calendarViewModel.currentLetterType.setEmptyMessage())
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             }
@@ -133,7 +125,7 @@ struct LetterBoxDetailView: View {
             
             VStack(spacing: 25) {
                 ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
-                    NavigationLink(destination: LetterBoxDetailLetterView(letterType: letterType, letter: letter)) {
+                    NavigationLink(destination: LetterBoxDetailLetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
                         LetterBoxDetailEnvelopeCell(letter: letter)
                     }
                 }
@@ -144,7 +136,7 @@ struct LetterBoxDetailView: View {
             ScrollView {
                 LazyVStack(spacing: -75) {
                     ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
-                        NavigationLink(destination: LetterBoxDetailLetterView(letterType: letterType, letter: letter)) {
+                        NavigationLink(destination: LetterBoxDetailLetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
                             if idx < 2 {
                                 LetterBoxDetailEnvelopeCell(letter: letter)
                                     .padding(.bottom, idx == 0 ? 82 : 37)
@@ -170,7 +162,7 @@ struct LetterBoxDetailView: View {
                         calendarViewModel.startDateFiltering = false
                         calendarViewModel.startDate = Date()
                         calendarViewModel.endDate = Date()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
+                        viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
                     showSearchBarView.toggle()
                     isTextFieldFocused = true
@@ -186,7 +178,7 @@ struct LetterBoxDetailView: View {
             Button {
                 withAnimation {
                     calendarViewModel.showCalendarView = true
-                    calendarViewModel.currentLetterType = letterType
+                    calendarViewModel.currentLetterType = calendarViewModel.currentLetterType
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
