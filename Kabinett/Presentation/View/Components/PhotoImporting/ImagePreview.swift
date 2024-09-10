@@ -29,7 +29,7 @@ struct ImagePreview: View {
                             showLetterWritingView = true
                         }
                     }) {
-                        Text("편지 선택하기")
+                        Text(customViewModel.isLetterWrite ? "사진 동봉하기" : "편지 선택하기")
                             .font(.system(size: 16))
                             .fontWeight(.semibold)
                             .foregroundStyle(Color.white)
