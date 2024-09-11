@@ -41,7 +41,7 @@
 		53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */; };
 		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
 		53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */; };
-		53FC6B842C90204D00E7D9A8 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B832C90204D00E7D9A8 /* ButtonView.swift */; };
+		53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B832C90204D00E7D9A8 /* CloseButtonView.swift */; };
 		53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */; };
 		53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B872C9020C100E7D9A8 /* Extension+String.swift */; };
 		53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B892C90221600E7D9A8 /* LetterHelper.swift */; };
@@ -171,7 +171,7 @@
 		53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStrokePathView.swift; sourceTree = "<group>"; };
 		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
 		53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Collection.swift"; sourceTree = "<group>"; };
-		53FC6B832C90204D00E7D9A8 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		53FC6B832C90204D00E7D9A8 /* CloseButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButtonView.swift; sourceTree = "<group>"; };
 		53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRectangleView.swift; sourceTree = "<group>"; };
 		53FC6B872C9020C100E7D9A8 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		53FC6B892C90221600E7D9A8 /* LetterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterHelper.swift; sourceTree = "<group>"; };
@@ -305,7 +305,7 @@
 				53A99EA62C8190B600896AAC /* SearchBarView.swift */,
 				5359618C2C7488DD0031E181 /* TransparentBlurView.swift */,
 				53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */,
-				53FC6B832C90204D00E7D9A8 /* ButtonView.swift */,
+				53FC6B832C90204D00E7D9A8 /* CloseButtonView.swift */,
 				53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */,
 			);
 			path = Components;
@@ -871,7 +871,7 @@
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
-				53FC6B842C90204D00E7D9A8 /* ButtonView.swift in Sources */,
+				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
 				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
