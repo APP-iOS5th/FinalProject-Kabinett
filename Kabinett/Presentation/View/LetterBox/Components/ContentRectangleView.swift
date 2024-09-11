@@ -35,7 +35,7 @@ struct ContentRectangleView: View {
                     .shadow(color: .primary300, radius: 5, x: 3, y: 3)
                 
                 VStack {
-                    Text("\(toUserName)에게")
+                    Text(toUserName)
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +60,7 @@ struct ContentRectangleView: View {
                         .padding(.bottom, 0.1)
                         .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
                     
-                    Text("\(fromUserName)가")
+                    Text(fromUserName)
                         .font(.custom(fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
