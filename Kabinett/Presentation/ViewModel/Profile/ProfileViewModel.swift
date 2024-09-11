@@ -80,6 +80,9 @@ class ProfileViewModel: ObservableObject {
                     self?.navigateState = .toLogin
                 case .registered:
                     self?.navigateState = .toProfile
+                    Task {
+                        await self?.fetchAppleID()
+                    }
                 }
             }
             .store(in: &cancellables)
