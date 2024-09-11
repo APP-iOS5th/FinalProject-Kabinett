@@ -70,7 +70,7 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func checkUserStatus() async {
-        await profileUseCase.getCurrentUserStatus()
+        profileUseCase.getCurrentUserStatus()
             .receive(on: DispatchQueue.main)
             .print()
             .sink { [weak self] status in

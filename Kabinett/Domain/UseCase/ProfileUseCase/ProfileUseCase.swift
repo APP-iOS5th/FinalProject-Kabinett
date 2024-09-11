@@ -15,7 +15,7 @@ enum UserStatus {
 }
 
 protocol ProfileUseCase {
-    func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never>
+    func getCurrentUserStatus() -> AnyPublisher<UserStatus, Never>
     func getCurrentWriter() -> AnyPublisher<Writer, Never>
     func getAppleID() async -> String
     func updateWriter(
@@ -27,11 +27,10 @@ protocol ProfileUseCase {
 }
 
 final class ProfileUseCaseStub: ProfileUseCase {
-    func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never> {
+    func getCurrentUserStatus() -> AnyPublisher<UserStatus, Never> {
 //        Just(.anonymous)
 //        Just(.incomplete)
         Just(.registered)
-        
             .eraseToAnyPublisher()
     }
     func getCurrentWriter() -> AnyPublisher<Writer, Never> {
