@@ -44,7 +44,7 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var checkLogin: Bool = false
     @Published var isLoading: Bool = false
     @Published var error: Error?
-
+    
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
     
@@ -54,6 +54,27 @@ final class ImagePickerViewModel: ObservableObject {
         setupBindings()
         Task {
             await fetchCurrentWriter()
+        }
+    }
+    
+    
+    @MainActor
+    func updateDefaultUsers() {
+        if let fromUser = fromUser {
+            let userName = "\(fromUser.name)(나)"
+            fromUserName = userName
+            fromUserId = fromUser.id
+            fromUserKabinettNumber = fromUser.kabinettNumber
+            
+            if fromUser.kabinettNumber != 0 {
+                toUserName = userName
+                toUserId = fromUser.id
+                toUserKabinettNumber = fromUser.kabinettNumber
+            } else {
+                toUserName = userName
+                toUserId = nil
+                toUserKabinettNumber = nil
+            }
         }
     }
     
@@ -80,27 +101,27 @@ final class ImagePickerViewModel: ObservableObject {
     }
     
     // MARK: 현재 사용자 정보 업데이트
-       func updateFromUser() {
-           if let fromUser = fromUser {
-               checkLogin = fromUser.kabinettNumber != 0
-               fromUserId = fromUser.id
-               fromUserName = fromUser.name
-               fromUserKabinettNumber = fromUser.kabinettNumber
-               userKabiNumber = String(format: "%06d", fromUser.kabinettNumber)
-               
-               if checkLogin {
-                   toUser = fromUser
-                   toUserId = fromUser.id
-                   toUserName = fromUser.name
-                   toUserKabinettNumber = fromUser.kabinettNumber
-               } else {
-                   toUser = nil
-                   toUserId = nil
-                   toUserName = ""
-                   toUserKabinettNumber = nil
-               }
-           }
-       }
+    func updateFromUser() {
+        if let fromUser = fromUser {
+            checkLogin = fromUser.kabinettNumber != 0
+            fromUserId = fromUser.id
+            fromUserName = fromUser.name
+            fromUserKabinettNumber = fromUser.kabinettNumber
+            userKabiNumber = String(format: "%06d", fromUser.kabinettNumber)
+            
+            if checkLogin {
+                toUser = fromUser
+                toUserId = fromUser.id
+                toUserName = fromUser.name
+                toUserKabinettNumber = fromUser.kabinettNumber
+            } else {
+                toUser = nil
+                toUserId = nil
+                toUserName = ""
+                toUserKabinettNumber = nil
+            }
+        }
+    }
     
     // MARK: 사용자 검색 기능
     @MainActor
@@ -137,23 +158,18 @@ final class ImagePickerViewModel: ObservableObject {
         
     }
     
-    // MARK: 현재 사용자 여부 확인
-    func isCurrentUser(kabiNumber: Int) -> String {
-        fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
-    }
-    
     
     // MARK: 현재 로그인한 사용자 정보 가져오기
     @MainActor
-       func fetchCurrentWriter() async {
-           let publisher = componentsUseCase.getCurrentWriter()
-           
-           for await writer in publisher.values {
-               self.fromUser = writer
-               updateFromUser()
-               break
-           }
-       }
+    func fetchCurrentWriter() async {
+        let publisher = componentsUseCase.getCurrentWriter()
+        
+        for await writer in publisher.values {
+            self.fromUser = writer
+            updateFromUser()
+            break
+        }
+    }
     
     // MARK: 선택된 이미지 로드
     private func loadImagesTask() async throws -> [Data] {

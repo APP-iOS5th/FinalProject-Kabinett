@@ -14,6 +14,8 @@ struct ImagePreview: View {
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
+    @State private var navigateToEnvelopeStamp = false
+    @State private var letterContent = LetterWriteModel()
     
     var body: some View {
         NavigationStack {
@@ -57,12 +59,16 @@ struct ImagePreview: View {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView()
+                LetterWritingView(letterContent: $letterContent, showEnvelopeStamp: $navigateToEnvelopeStamp)
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
+            .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
+                EnvelopeStampSelectionView(letterContent: $letterContent)
+                    .environmentObject(envelopeStampSelectionViewModel)
+            }
         }
         .slideToDismiss {
             imageViewModel.resetSelections()
