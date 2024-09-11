@@ -145,8 +145,10 @@ struct SearchBar: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var searchText: String
     @ObservedObject var viewModel: UserSelectionViewModel
+    @State var isSearchBar: Bool = true
     
     var body: some View {
+        
         VStack {
             HStack {
                 Image(systemName: "magnifyingglass")
@@ -162,13 +164,16 @@ struct SearchBar: View {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundStyle(Color("Primary100"))
                     }
+                    .onAppear {
+                        isSearchBar = true
+                    }
                 }
             }
             .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
             .background(Color(.white))
             .clipShape(.capsule)
             
-            if !viewModel.debouncedSearchText.isEmpty {
+            if !viewModel.debouncedSearchText.isEmpty && isSearchBar {
                 Divider()
                     .padding([.leading, .trailing], 10)
                     .padding(.top, -6)
@@ -179,6 +184,7 @@ struct SearchBar: View {
                             viewModel.updateToUser(&letterContent, toUserName: viewModel.debouncedSearchText)
                             searchText = ""
                             UIApplication.shared.endEditing()
+                            isSearchBar = false
                         }
                         .padding(.leading, 35)
                         .listRowSeparator(.hidden)
@@ -213,6 +219,7 @@ struct SearchBar: View {
                             viewModel.updateToUser(&letterContent, toUserName: user.name)
                             searchText = ""
                             UIApplication.shared.endEditing()
+                            isSearchBar = false
                         }
                     }
                 }
@@ -223,7 +230,7 @@ struct SearchBar: View {
         }
         .padding(.top, 2)
         .background(viewModel.debouncedSearchText.isEmpty ? Color.clear : Color.white)
-        .cornerRadius(16)
+        .cornerRadius(20)
     }
 }
 

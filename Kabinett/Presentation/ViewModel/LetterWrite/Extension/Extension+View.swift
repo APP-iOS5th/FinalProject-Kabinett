@@ -21,8 +21,7 @@ struct SlideToDismissModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         ZStack(alignment: .leading) {
-            Color.clear
-                .opacity(Double(1 - abs(offset.width) / UIScreen.main.bounds.width))
+            Color(.background).ignoresSafeArea()
             
             content
                 .offset(x: offset.width)

@@ -180,7 +180,7 @@ struct CalendarOverlayView: View {
                     .ignoresSafeArea()
                     .onTapGesture {
                         withAnimation {
-                            calendarViewModel.showCalendarView.toggle()
+                            calendarViewModel.showCalendarView = false
                         }
                     }
                 

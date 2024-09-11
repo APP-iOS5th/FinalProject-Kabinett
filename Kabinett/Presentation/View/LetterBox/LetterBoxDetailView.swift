@@ -89,6 +89,15 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
+        .slideToDismiss(action: {
+            if calendarViewModel.startDateFiltering {
+                calendarViewModel.startDateFiltering.toggle()
+            }
+            
+            if showSearchBarView {
+                showSearchBarView.toggle()
+            }
+        })
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
@@ -173,7 +182,7 @@ struct LetterBoxDetailView: View {
                     .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
-            .padding(.trailing, 3)
+            .padding(.trailing, 5)
             
             Button {
                 withAnimation {

@@ -27,6 +27,9 @@ struct FontSelectionView: View {
                             .foregroundStyle(.contentPrimary)
                     }
                 }
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
                 
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in

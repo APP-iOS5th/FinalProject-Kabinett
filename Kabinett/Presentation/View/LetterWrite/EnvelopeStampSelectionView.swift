@@ -52,80 +52,81 @@ struct EnvelopeStampSelectionView: View {
                                 .foregroundStyle(.contentPrimary)
                         }
                     }
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
                     .padding(.bottom, 25)
                 }
                 
                 VStack {
-                    ZStack(alignment: .topLeading) {
-                        if let firstEnvelope = viewModel.envelopes.first {
-                            KFImage(URL(string: envelopeImageUrl))
-                                .placeholder {
-                                    ProgressView()
-                                }
-                                .resizable()
-                                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                .onAppear {
-                                    if letterContent.envelopeImageUrlString.isEmpty {
-                                        envelopeImageUrl = firstEnvelope
+                    GeometryReader { geo in
+                        ZStack(alignment: .topLeading) {
+                            if let firstEnvelope = viewModel.envelopes.first {
+                                KFImage(URL(string: envelopeImageUrl))
+                                    .placeholder {
+                                        ProgressView()
                                     }
-                                    letterContent.envelopeImageUrlString = envelopeImageUrl
-                                }
-                        }
-                        
-                        VStack {
-                            HStack(alignment: .top) {
-                                VStack {
-                                    Text("보내는 사람")
-                                        .font(.system(size: 7))
-                                        .padding(.bottom, 1)
-                                    Text(letterContent.fromUserName)
-                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
-                                }
-                                .padding(.leading, 25)
-                                
-                                Spacer()
-                                
-                                if let firstStamp = viewModel.stamps.first {
-                                    KFImage(URL(string: stampImageUrl))
-                                        .placeholder {
-                                            ProgressView()
+                                    .resizable()
+                                    .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                                    .onAppear {
+                                        if letterContent.envelopeImageUrlString.isEmpty {
+                                            envelopeImageUrl = firstEnvelope
                                         }
-                                        .resizable()
-                                        .aspectRatio(9/9.7, contentMode: .fit)
-                                        .frame(width: UIScreen.main.bounds.width * 0.1)
-                                        .padding(.trailing, 25)
-                                        .onAppear {
-                                            if letterContent.stampImageUrlString.isEmpty {
-                                                stampImageUrl = firstStamp
+                                        letterContent.envelopeImageUrlString = envelopeImageUrl
+                                    }
+                            }
+                            
+                            VStack {
+                                HStack(alignment: .top) {
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("보내는 사람")
+                                            .font(.system(size: 7))
+                                        Text(letterContent.fromUserName)
+                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    if let firstStamp = viewModel.stamps.first {
+                                        KFImage(URL(string: stampImageUrl))
+                                            .placeholder {
+                                                ProgressView()
                                             }
-                                            letterContent.stampImageUrlString = stampImageUrl
-                                        }
+                                            .resizable()
+                                            .aspectRatio(9/9.7, contentMode: .fit)
+                                            .frame(width: geo.size.width * 0.12)
+                                            .onAppear {
+                                                if letterContent.stampImageUrlString.isEmpty {
+                                                    stampImageUrl = firstStamp
+                                                }
+                                                letterContent.stampImageUrlString = stampImageUrl
+                                            }
+                                    }
                                 }
-                            }
-                            .padding(.top, 25)
-                            
-                            Spacer()
-                            
-                            HStack(alignment: .top) {
-                                VStack {
-                                    Text(text)
-                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
-                                }
-                                .padding(.leading, 25)
                                 
                                 Spacer()
                                 
-                                VStack {
-                                    Text("받는 사람")
-                                        .font(.system(size: 7))
-                                        .padding(.bottom, 1)
-                                        .padding(.leading, -5)
-                                    Text(letterContent.toUserName)
-                                        .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                HStack(alignment: .top) {
+                                    VStack {
+                                        Text(text)
+                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                            .frame(width: geo.size.width * 0.43, alignment: .leading)
+                                    }
+                                    
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("받는 사람")
+                                            .font(.system(size: 7))
+                                        Text(letterContent.toUserName)
+                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                    }
+                                    .padding(.top, -1)
+                                    .padding(.leading, geo.size.width * 0.1)
+                                    
+                                    Spacer()
                                 }
-                                .padding(.trailing, 100)
+                                .padding(.top, -1)
                             }
-                            .padding(.bottom, 30)
+                            .padding((geo.size.height * 0.16))
                         }
                     }
                     .aspectRatio(9/4, contentMode: .fit)
