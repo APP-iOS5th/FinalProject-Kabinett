@@ -29,6 +29,9 @@ struct LetterWritingView: View {
                 .padding([.leading, .trailing], 20)
                 .padding(.top, 20)
             }
+            .onTapGesture {
+                                    UIApplication.shared.endEditing()
+                                }
             .navigationBarItems(
                 leading: Button(action: {
                     dismiss()
@@ -109,13 +112,19 @@ struct FormToUserView: View {
             userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
         .onAppear {
-            letterContent.fromUserId = viewModel.fromUserId ?? ""
-            letterContent.fromUserName = viewModel.fromUserName
-            letterContent.fromUserKabinettNumber = Int(viewModel.userKabiNumber ?? "0")
-            letterContent.toUserId = ""
-            letterContent.toUserName = ""
-            letterContent.toUserKabinettNumber = 0
-            letterContent.date = Date()
+            
+            if let fromUser = viewModel.fromUser {
+                letterContent.fromUserId = fromUser.id
+                letterContent.fromUserName = fromUser.name
+                viewModel.fromUserName = fromUser.name
+                viewModel.fromUserKabinettNumber = fromUser.kabinettNumber
+            }
+            
+            letterContent.toUserId = letterContent.fromUserId
+            letterContent.toUserName = letterContent.fromUserName
+            viewModel.toUserId = letterContent.fromUserId
+            viewModel.toUserName = letterContent.fromUserName
+            viewModel.toUserKabinettNumber = viewModel.fromUserKabinettNumber
         }
     }
     
@@ -226,11 +235,14 @@ struct FormToUserView: View {
         
         private func updateUser(name: String) {
             if isFromUser {
-                letterContent.fromUserName = name
                 viewModel.fromUserName = name
+                letterContent.fromUserName = name
+                if let user = viewModel.usersData.first(where: { $0.name == name }) {
+                    letterContent.fromUserId = user.id
+                    viewModel.fromUserKabinettNumber = user.kabinettNumber
+                }
             } else {
-                viewModel.updateSelectedUser(&letterContent, selectedUserName: name)
-                viewModel.toUserName = name
+                viewModel.updateSelectedUser(selectedUserName: name)
             }
         }
     }

@@ -107,7 +107,7 @@ struct LetterCompletionView: View {
                     ProgressView()
                 }
                 .frame(width: 34, height: 38)
-                .position(x: UIScreen.main.bounds.width * 0.75, y: 45)
+                .position(x: UIScreen.main.bounds.width * 0.75, y: 55)
             
             
             Text(viewModel.formattedDate)

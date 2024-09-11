@@ -12,24 +12,35 @@ import Combine
 final class ImagePickerViewModel: ObservableObject {
     
     @Published var selectedItems: [PhotosPickerItem] = []
+    
     @Published var photoContents: [Data] = []
-    @Published var fromUserName: String = ""
-    @Published var toUserName: String = ""
     @Published var date: Date = Date()
+    @Published var isRead: Bool = false
+    
     @Published var postScript: String?
     @Published var envelopeURL: String?
     @Published var stampURL: String?
-    @Published var fromUser: Writer? = nil
-    @Published var toUser: Writer? = nil
-    @Published var usersData: [Writer] = []
-    @Published var fromUserSearchResults: [(name: String, kabinettNumber: String)] = []
-    @Published var toUserSearchResults: [(name: String, kabinettNumber: String)] = []
+    
+    @Published var fromUserId: String?
+    @Published var fromUserName: String = ""
+    @Published var fromUserKabinettNumber: Int? = nil
+    
+    @Published var toUserId: String?
+    @Published var toUserName: String = ""
+    @Published var toUserKabinettNumber: Int? = nil
+    
     @Published var fromUserSearch: String = ""
     @Published var toUserSearch: String = ""
     @Published var debouncedSearchText: String = ""
+    
+    @Published var fromUser: Writer? = nil
+    @Published var toUser: Writer? = nil
+    @Published var usersData: [Writer] = []
+    
+    @Published var fromUserSearchResults: [(name: String, kabinettNumber: String)] = []
+    @Published var toUserSearchResults: [(name: String, kabinettNumber: String)] = []
     @Published var userKabiNumber: String?
-    @Published var fromUserId: String?
-    @Published var toUserId: String?
+    
     @Published var checkLogin: Bool = false
     @Published var isLoading: Bool = false
     @Published var error: Error?
@@ -41,87 +52,110 @@ final class ImagePickerViewModel: ObservableObject {
         self.componentsUseCase = componentsUseCase
         
         setupBindings()
-        Task { [weak self] in
-            await self?.fetchCurrentWriter()
+        Task {
+            await fetchCurrentWriter()
         }
     }
     
-    var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy.MM.dd"
-        return formatter.string(from: date)
-    }
-    
     private func setupBindings() {
+        $fromUserSearch
+            .debounce(for: .seconds(1), scheduler: RunLoop.main)
+            .removeDuplicates()
+            .sink { [weak self] text in
+                Task { [weak self] in
+                    await self?.searchUsers(query: text, isFromUser: true)
+                }
+            }
+            .store(in: &cancellables)
+        
         $toUserSearch
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] text in
-                self?.debouncedSearchText = text
                 Task { [weak self] in
-                    await self?.searchUsers(query: text)
+                    await self?.searchUsers(query: text, isFromUser: false)
                 }
             }
             .store(in: &cancellables)
     }
     
+    // MARK: 현재 사용자 정보 업데이트
+    func updateFromUser() {
+        if let fromUser = fromUser {
+            checkLogin = fromUser.kabinettNumber != 0
+            fromUserId = fromUser.id
+            fromUserName = fromUser.name
+            fromUserKabinettNumber = fromUser.kabinettNumber
+            userKabiNumber = String(format: "%06d", fromUser.kabinettNumber)
+            
+            if checkLogin {
+                toUser = fromUser
+                toUserId = fromUser.id
+                toUserName = fromUser.name
+                toUserKabinettNumber = fromUser.kabinettNumber
+            } else {
+                toUser = nil
+                toUserId = nil
+                toUserName = ""
+                toUserKabinettNumber = nil
+            }
+        }
+    }
+    
+    // MARK: 사용자 검색 기능
     @MainActor
-    func searchUsers(query: String) async {
+    func searchUsers(query: String, isFromUser: Bool) async {
         guard !query.isEmpty else {
-            self.usersData = []
-            self.toUserSearchResults = []
+            if isFromUser {
+                self.fromUserSearchResults = []
+            } else {
+                self.toUserSearchResults = []
+            }
             return
         }
         
         let results = await componentsUseCase.findWriter(by: query)
-        self.usersData = results
-        self.toUserSearchResults = results.map { (name: $0.name, kabinettNumber: String(format: "%06d", $0.kabinettNumber)) }
+        let formattedResults = results.map { (name: $0.name, kabinettNumber: String(format: "%06d", $0.kabinettNumber)) }
+        
+        if isFromUser {
+            self.fromUserSearchResults = formattedResults
+        } else {
+            self.toUserSearchResults = formattedResults
+        }
     }
     
     
-    func updateSelectedUser(_ letterContent: inout LetterWriteModel, selectedUserName: String) {
+    func updateSelectedUser(selectedUserName: String) {
         if let user = usersData.first(where: { $0.name == selectedUserName }) {
             toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {
             toUser = Writer(name: selectedUserName, kabinettNumber: 0, profileImage: nil)
         }
-        letterContent.toUserId = toUser?.id
-        letterContent.toUserName = toUser?.name ?? ""
-        letterContent.toUserKabinettNumber = toUser?.kabinettNumber
-        self.toUserName = selectedUserName
+        self.toUserId = toUser?.id
+        self.toUserName = toUser?.name ?? ""
+        self.toUserKabinettNumber = toUser?.kabinettNumber
+        
     }
     
+    // MARK: 현재 사용자 여부 확인
     func isCurrentUser(kabiNumber: Int) -> String {
         fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
     }
     
-    func updateCurrentUser() {
-        if let fromUser = fromUser {
-            if fromUser.kabinettNumber == 0 {
-                checkLogin = false
-            } else {
-                checkLogin = true
-            }
-            toUser = fromUser
-        }
-    }
     
+    // MARK: 현재 로그인한 사용자 정보 가져오기
     @MainActor
     func fetchCurrentWriter() async {
         let publisher = componentsUseCase.getCurrentWriter()
-        for await result in publisher.values {
-            self.fromUser = result
-            self.fromUserName = result.name
-            self.userKabiNumber = String(format: "%06d", result.kabinettNumber)
-            self.fromUserId = result.id
-            updateCurrentUser()
-            var letterContent = LetterWriteModel()
-            updateSelectedUser(&letterContent, selectedUserName: result.name)
+        
+        for await writer in publisher.values {
+            self.fromUser = writer
+            updateFromUser()
             break
         }
     }
     
-    // MARK: - Image Loading
+    // MARK: 선택된 이미지 로드
     private func loadImagesTask() async throws -> [Data] {
         try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
             for item in selectedItems {
@@ -198,11 +232,15 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Request to Save Letter Data
+    // MARK: 편지저장
     @MainActor
     func saveImportingImage() async -> Bool {
         isLoading = true
         error = nil
+        
+        if fromUserId == nil || fromUserKabinettNumber == nil {
+            await fetchCurrentWriter()
+        }
         
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
@@ -210,15 +248,14 @@ final class ImagePickerViewModel: ObservableObject {
             stamp: stampURL ?? "",
             fromUserId: fromUserId,
             fromUserName: fromUserName,
-            fromUserKabinettNumber: Int(userKabiNumber ?? "0"),
-            toUserId: toUser?.id,
-            toUserName: toUser?.name ?? "",
-            toUserKabinettNumber: toUser?.kabinettNumber,
+            fromUserKabinettNumber: fromUserKabinettNumber ?? 0,
+            toUserId: toUserId,
+            toUserName: toUserName,
+            toUserKabinettNumber: toUserKabinettNumber ?? 0,
             photoContents: photoContents,
             date: date,
             isRead: false
         )
-        
         switch result {
         case .success:
             resetState()
@@ -232,7 +269,7 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Methods (편지 저장 후 초기화)
+    // MARK: Methods (편지 저장 후 초기화)
     func resetState() {
         selectedItems = []
         photoContents = []
@@ -242,5 +279,11 @@ final class ImagePickerViewModel: ObservableObject {
         postScript = nil
         envelopeURL = nil
         stampURL = nil
+    }
+    
+    var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy.MM.dd"
+        return formatter.string(from: date)
     }
 }
