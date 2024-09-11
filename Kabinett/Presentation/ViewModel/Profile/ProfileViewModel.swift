@@ -42,6 +42,7 @@ class ProfileViewModel: ObservableObject {
     @Published private(set) var profileUpdateError: String?
     @Published var showProfileAlert = false
     @Published var navigateState: NavigateState = .toLogin
+    @Published var showSettingsView = false
     
     init(profileUseCase: ProfileUseCase) {
         self.profileUseCase = profileUseCase
@@ -152,7 +153,6 @@ class ProfileViewModel: ObservableObject {
         let success = await profileUseCase.signout()
         if success {
             currentWriter = WriterViewModel(name: "", formattedNumber: "", imageUrlString: nil)
-            navigateState = .toLogin
         } else {
             print("로그아웃에 실패했어요.")
         }
@@ -161,9 +161,7 @@ class ProfileViewModel: ObservableObject {
     @MainActor
     func deletieID() async {
         let success = await profileUseCase.deleteId()
-        if success {
-            navigateState = .toLogin
-        } else {
+        if !success {
             print("회원탈퇴에 실패했어요.")
         }
     }

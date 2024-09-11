@@ -12,64 +12,60 @@ import Kingfisher
 struct ProfileSettingsView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
-    @Binding var shouldNavigateToProfileView: Bool
-    var onComplete: () -> Void
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.background.ignoresSafeArea(.all)
-                VStack {
-                    photoPickerView()
-                    userInfoInputFields()
-                }
-                .navigationTitle("프로필 설정")
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: {
-                            dismiss()
-                        }) {
-                            HStack {
-                                Image(systemName: "chevron.left")
-                                    .font(.system(size: 18, weight: .semibold))
-                                    .padding(.leading, 5)
-                            }
-                            .foregroundColor(.primary900)
+        ZStack {
+            Color.background.ignoresSafeArea(.all)
+            VStack {
+                photoPickerView()
+                userInfoInputFields()
+            }
+            .navigationTitle("프로필 설정")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 18, weight: .semibold))
+                                .padding(.leading, 5)
                         }
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            Task {
-                                await viewModel.completeProfileUpdate()
-                                viewModel.newUserName = ""
-                                onComplete()
-                                dismiss()
-                            }
-                        }) {
-                            Text("완료")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundColor(.contentPrimary)
-                                .padding(.trailing, UIScreen.main.bounds.width * 0.0186)
-                        }
+                        .foregroundColor(.primary900)
                     }
                 }
             }
-            .onDisappear {
-                viewModel.croppedImage = nil
-                viewModel.selectedImageItem = nil
-            }
-            .sheet(isPresented: $viewModel.isShowingCropper) {
-                if let profileImage = viewModel.selectedImage {
-                    ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        Task {
+                            await viewModel.completeProfileUpdate()
+                            viewModel.newUserName = ""
+                            viewModel.showSettingsView = false
+                        }
+                    }) {
+                        Text("완료")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundColor(.contentPrimary)
+                            .padding(.trailing, UIScreen.main.bounds.width * 0.0186)
+                    }
                 }
             }
         }
+        .onDisappear {
+            viewModel.croppedImage = nil
+            viewModel.selectedImageItem = nil
+        }
+        .sheet(isPresented: $viewModel.isShowingCropper) {
+            if let profileImage = viewModel.selectedImage {
+                ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
+            }
+        }
     }
+    
     @ViewBuilder
     private func photoPickerView() -> some View {
         PhotosPicker(

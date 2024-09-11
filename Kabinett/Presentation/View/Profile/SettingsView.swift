@@ -10,23 +10,15 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
-    @Binding var shouldNavigateToProfileView: Bool
-    var onAccountActionComplete: () -> Void
     
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     
     var body: some View {
-        NavigationStack {
+        
             ZStack {
                 Color.background.ignoresSafeArea(.all)
                 VStack(alignment: .leading) {
-                    NavigationLink(destination: ProfileSettingsView(
-                        shouldNavigateToProfileView: $shouldNavigateToProfileView,
-                        onComplete: {
-                            shouldNavigateToProfileView = true
-                            dismiss()
-                        }
-                    )) {
+                    NavigationLink(destination: ProfileSettingsView()) {
                         HStack{
                             Text("프로필 설정")
                                 .fontWeight(.medium)
@@ -46,9 +38,7 @@ struct SettingsView: View {
                     .buttonStyle(PlainButtonStyle())
                     
                     
-                    NavigationLink(destination: AccountSettingsView(onComplete: {
-                        onAccountActionComplete()
-                    })) {
+                    NavigationLink(destination: AccountSettingsView()) {
                         HStack{
                             Text("계정 설정")
                                 .fontWeight(.medium)
@@ -103,7 +93,7 @@ struct SettingsView: View {
                 }
             }
         }
-    }
+    
 }
     
     //#Preview {
