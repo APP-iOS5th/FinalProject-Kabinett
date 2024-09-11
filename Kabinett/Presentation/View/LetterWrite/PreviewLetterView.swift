@@ -31,65 +31,62 @@ struct PreviewLetterView: View {
                 }
                 .padding(.bottom, UIScreen.main.bounds.height * 0.3)
                 
-                ZStack(alignment: .topLeading) {
-                    KFImage(URL(string: letterContent.envelopeImageUrlString))
-                        .placeholder {
-                            ProgressView()
-                        }
-                        .resizable()
-                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                    
-                    VStack {
-                        HStack(alignment: .top) {
-                            VStack {
-                                Text("보내는 사람")
-                                    .font(.system(size: 7))
-                                    .padding(.bottom, 1)
-                                Text(letterContent.fromUserName)
-                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                GeometryReader { geo in
+                    ZStack(alignment: .topLeading) {
+                        KFImage(URL(string: letterContent.envelopeImageUrlString))
+                            .placeholder {
+                                ProgressView()
                             }
-                            .padding(.leading, 25)
-                            
-                            Spacer()
-                            
-                            KFImage(URL(string: letterContent.stampImageUrlString))
-                                .placeholder {
-                                    ProgressView()
+                            .resizable()
+                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+
+                        VStack {
+                            HStack(alignment: .top) {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("보내는 사람")
+                                        .font(.system(size: 7))
+                                    Text(letterContent.fromUserName)
+                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
-                                .resizable()
-                                .aspectRatio(9/9.7, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.1)
-                                .padding(.trailing, 25)
-                        }
-                        .padding(.top, 25)
-                        
-                        Spacer()
-                        
-                        HStack(alignment: .top) {
-                            VStack {
-                                Text(letterContent.postScript ?? "")
-                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                
+                                Spacer()
+                                
+                                KFImage(URL(string: letterContent.stampImageUrlString))
+                                    .placeholder {
+                                        ProgressView()
+                                    }
+                                    .resizable()
+                                    .aspectRatio(9/9.7, contentMode: .fit)
+                                    .frame(width: geo.size.width * 0.12)
                             }
-                            .padding(.leading, 25)
                             
                             Spacer()
                             
-                            VStack {
-                                Text("받는 사람")
-                                    .font(.system(size: 7))
-                                    .padding(.bottom, 1)
-                                    .padding(.leading, -5)
-                                Text(letterContent.toUserName)
-                                    .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                            HStack(alignment: .top) {
+                                VStack {
+                                    Text(letterContent.postScript ?? "")
+                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                        .frame(width: geo.size.width * 0.43, alignment: .leading)
+                                }
+                                
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("받는 사람")
+                                        .font(.system(size: 7))
+                                    Text(letterContent.toUserName)
+                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                }
+                                .padding(.top, -1)
+                                .padding(.leading, geo.size.width * 0.1)
+                                
+                                Spacer()
                             }
-                            .padding(.trailing, 100)
+                            .padding(.top, -1)
                         }
-                        .padding(.bottom, 25)
+                        .padding(geo.size.height * 0.16)
                     }
-                    
                 }
                 .aspectRatio(9/4, contentMode: .fit)
-                .padding(.bottom, 30)
+                .padding(.bottom,30)
                 
                 VStack {
                     Text("편지가 완성되었어요.")
