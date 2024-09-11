@@ -25,8 +25,6 @@ struct LetterCell: View {
             
             VStack {
                 HStack {
-                    BeforeButtonView(selectedIndex: $selectedIndex)
-                    
                     Spacer()
                     
                     CloseButtonView { dismiss() }

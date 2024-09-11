@@ -73,6 +73,7 @@ struct LetterBoxDetailLetterView: View {
                 Spacer()
             }
         }
+        .slideToDismiss()
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $showDetailLetter) {
             LetterCell(letter: letter)
