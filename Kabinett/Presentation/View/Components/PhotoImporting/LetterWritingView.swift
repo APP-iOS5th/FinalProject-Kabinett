@@ -29,6 +29,9 @@ struct LetterWritingView: View {
                 .padding([.leading, .trailing], 20)
                 .padding(.top, 20)
             }
+            .onTapGesture {
+                                    UIApplication.shared.endEditing()
+                                }
             .navigationBarItems(
                 leading: Button(action: {
                     dismiss()
@@ -50,10 +53,6 @@ struct LetterWritingView: View {
                 EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
-        }
-        .onAppear {
-            print("LetterWritingView appeared")
-            viewModel.printCurrentState(label: "LetterWritingView onAppear")
         }
     }
     
@@ -100,7 +99,6 @@ struct LetterWritingView: View {
         letterWriteViewModel.date = viewModel.date
         letterWriteViewModel.photoContents = viewModel.photoContents
         letterWriteViewModel.dataSource = .fromImagePicker
-        viewModel.printCurrentState(label: "After updateLetterWrite")
     }
 }
 
@@ -127,8 +125,6 @@ struct FormToUserView: View {
             viewModel.toUserId = letterContent.fromUserId
             viewModel.toUserName = letterContent.fromUserName
             viewModel.toUserKabinettNumber = viewModel.fromUserKabinettNumber
-            
-            viewModel.printCurrentState(label: "FormToUserView onAppear")
         }
     }
     
@@ -248,7 +244,6 @@ struct FormToUserView: View {
             } else {
                 viewModel.updateSelectedUser(selectedUserName: name)
             }
-            viewModel.printCurrentState(label: "After updateUser")
         }
     }
 }
