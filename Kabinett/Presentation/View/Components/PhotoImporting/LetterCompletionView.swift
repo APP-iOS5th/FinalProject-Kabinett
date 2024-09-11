@@ -39,10 +39,17 @@ struct LetterCompletionView: View {
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
             }
         }
+        .slideToDismiss {
+            letterContent.reset()
+            viewModel.resetSelections()
+            dismiss()
+        }
     }
     
     private var backButton: some View {
         Button(action: {
+            letterContent.reset()
+            viewModel.resetSelections()
             dismiss()
         }) {
             Image(systemName: "chevron.left")
@@ -63,57 +70,64 @@ struct LetterCompletionView: View {
             
             VStack {
                 HStack(alignment: .top) {
-                    VStack {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text("보내는 사람")
                             .font(.system(size: 7))
-                            .padding(.bottom, 1)
+                            .foregroundStyle(.contentPrimary)
                         Text(viewModel.fromUserName)
                             .font(.system(size: 14))
+                            .foregroundStyle(.contentPrimary)
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.57, alignment: .leading)
                     }
-                    .padding(.leading, 25)
                     
                     Spacer()
+                    
+                    ZStack(alignment: .topTrailing) {
+                        KFImage(URL(string: letterContent.stampImageUrlString))
+                            .resizable()
+                            .placeholder {
+                                ProgressView()
+                            }
+                            .frame(width: UIScreen.main.bounds.width * 0.09, height: UIScreen.main.bounds.height * 0.046)
+                            .aspectRatio(contentMode: .fit)
+                        
+                        Text(viewModel.formattedDate)
+                            .monospaced()
+                            .font(.system(size: 12))
+                            .fontWeight(.medium)
+                            .foregroundColor(.black)
+                            .padding(2)
+                            .background(Color.clear)
+                            .cornerRadius(4)
+                            .offset(x: -UIScreen.main.bounds.width * 0.06, y: -UIScreen.main.bounds.height * 0.005)
+                    }
                 }
+                .padding(.horizontal, 25)
                 .padding(.top, 25)
                 
                 Spacer()
                 
                 HStack(alignment: .top) {
-                    VStack {
-                        Text(viewModel.postScript ?? letterContent.postScript ?? "")
-                            .font(.system(size: 10))
-                    }
-                    .padding(.leading, 25)
+                    Text(viewModel.postScript ?? letterContent.postScript ?? "")
+                        .font(.system(size: 10))
+                        .foregroundStyle(.contentPrimary)
+                        .frame(width: UIScreen.main.bounds.width * 0.4, alignment: .leading)
                     
                     Spacer()
                     
-                    VStack {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text("받는 사람")
                             .font(.system(size: 7))
-                            .padding(.bottom, 1)
-                            .padding(.leading, -5)
+                            .foregroundStyle(.contentPrimary)
                         Text(viewModel.toUserName)
                             .font(.system(size: 14))
+                            .foregroundStyle(.contentPrimary)
+                            .frame(maxWidth: UIScreen.main.bounds.width * 0.26, alignment: .leading)
                     }
-                    .padding(.trailing, 100)
                 }
+                .padding(.horizontal, 25)
                 .padding(.bottom, 25)
             }
-            
-            
-            KFImage(URL(string: letterContent.stampImageUrlString))
-                .resizable()
-                .placeholder {
-                    ProgressView()
-                }
-                .frame(width: 34, height: 38)
-                .position(x: UIScreen.main.bounds.width * 0.75, y: 55)
-            
-            
-            Text(viewModel.formattedDate)
-                .monospaced()
-                .font(.system(size: 12))
-                .position(x: UIScreen.main.bounds.width * 0.7, y: 35)
         }
         .frame(width: UIScreen.main.bounds.width * 0.85, height: UIScreen.main.bounds.width * 0.85 * 4/9)
     }

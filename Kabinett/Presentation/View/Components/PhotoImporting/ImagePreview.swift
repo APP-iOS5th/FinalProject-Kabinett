@@ -41,6 +41,7 @@ struct ImagePreview: View {
                 }
             }
             .navigationBarItems(leading: Button(action: {
+                imageViewModel.resetSelections()
                 dismiss()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     if customViewModel.isLetterWrite == false {
@@ -55,13 +56,22 @@ struct ImagePreview: View {
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
-            .fullScreenCover(isPresented: $showLetterWritingView) {
+            .sheet(isPresented: $showLetterWritingView) {
                 LetterWritingView()
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
+        }
+        .slideToDismiss {
+            imageViewModel.resetSelections()
+            dismiss()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if customViewModel.isLetterWrite == false {
+                    customViewModel.showImportDialog = true
+                }
+            }
         }
     }
 }

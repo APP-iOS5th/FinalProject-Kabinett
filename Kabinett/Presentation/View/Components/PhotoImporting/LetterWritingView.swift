@@ -30,10 +30,12 @@ struct LetterWritingView: View {
                 .padding(.top, 20)
             }
             .onTapGesture {
-                                    UIApplication.shared.endEditing()
-                                }
+                UIApplication.shared.endEditing()
+            }
             .navigationBarItems(
                 leading: Button(action: {
+                    letterWriteViewModel.reset()
+                    viewModel.resetSelections()
                     dismiss()
                 }) {
                     Image(systemName: "chevron.left")
@@ -53,6 +55,10 @@ struct LetterWritingView: View {
                 EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
+        }
+        .slideToDismiss {
+            viewModel.resetSelections()
+            dismiss()
         }
     }
     
@@ -111,6 +117,7 @@ struct FormToUserView: View {
             userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
             userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
+        
         .onAppear {
             
             if let fromUser = viewModel.fromUser {
@@ -126,6 +133,7 @@ struct FormToUserView: View {
             viewModel.toUserName = letterContent.fromUserName
             viewModel.toUserKabinettNumber = viewModel.fromUserKabinettNumber
         }
+        
     }
     
     private func userField(title: String, name: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
