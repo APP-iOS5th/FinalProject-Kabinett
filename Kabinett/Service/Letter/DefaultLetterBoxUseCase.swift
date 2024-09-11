@@ -27,57 +27,53 @@ final class DefaultLetterBoxUseCase {
 }
 
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
+    
     // letter 타입별 로딩
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> Result<[Letter], any Error> {
-        let userId = await authManager.getCurrentUser()?.uid ?? ""
-        
-        switch letterType {
-        case .sent:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Sent"]
-            )
-        case .received:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Received"]
-            )
-        case .toMe:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["ToMe"]
-            )
-        case .all:
-            return await letterManager.getLetters(
-                userId: userId,
-                letterType: ["Sent", "ToMe", "Received"]
-            )
+    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
+        AsyncStream { continuation in
+            Task {
+                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
+                for await letters in self.letterManager.getLetters(userId: userId, letterType: letterType.types) {
+                    continuation.yield(letters)
+                }
+                continuation.finish()
+            }
         }
     }
     
     // main 편지함 letter 3개 로딩
-    func getLetterBoxLetters() async -> Result<[LetterType : [Letter]], any Error> {
-        var result: [LetterType: [Letter]] = [:]
-        
-        for type in [LetterType.toMe, .sent, .received, .all] {
-            let lettersResult = await getLetterBoxDetailLetters(letterType: type)
-            
-            switch lettersResult {
-            case .success(let letters):
-                result[type] = Array(letters.prefix(3))
-            case .failure(let error):
-                logger.error("Failed getLetterBoxLetters: \(error.localizedDescription)")
-                return .failure(error)
+    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
+        AsyncStream { continuation in
+            Task {
+                let types: [LetterType] = [.all, .sent, .received, .toMe]
+                
+                
+                await withTaskGroup(of: Void.self) { group in
+                    for type in types {
+                        group.addTask {
+                            for await letters in await self.getLetterBoxDetailLetters(letterType: type) {
+                                let newResult = [type: Array(letters.prefix(3))]
+                                continuation.yield(newResult)
+                            }
+                        }
+                    }
+                }
+                continuation.finish()
             }
         }
-        return .success(result)
     }
     
     // 안읽은 letter 개수 로딩
-    func getIsRead() async -> Result<[LetterType: Int], any Error> {
-        let userId = await authManager.getCurrentUser()?.uid ?? ""
-//        let userId = await authManager.getCurrentUserAsync()?.uid ?? ""
-        return await letterManager.getIsReadCount(userId: userId)
+    func getIsRead() -> AsyncStream<[LetterType: Int]> {
+        return AsyncStream { continuation in
+            Task {
+                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
+                for try await result in self.letterManager.getIsReadCount(userId: userId) {
+                    continuation.yield(result)
+                }
+                continuation.finish()
+            }
+        }
     }
     
     // keyword 기준 letter 검색
@@ -228,5 +224,16 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     func getWelcomeLetter() async -> Result<Bool, any Error> {
         let userId = await authManager.getCurrentUser()?.uid ?? ""
         return await letterManager.getWelcomeLetter(userId: userId)
+    }
+}
+
+extension LetterType {
+    var types: [String] {
+        switch self {
+        case .sent: return ["Sent"]
+        case .received: return ["Received"]
+        case .toMe: return ["ToMe"]
+        case .all: return ["Sent", "Received", "ToMe"]
+        }
     }
 }
