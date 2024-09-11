@@ -14,19 +14,21 @@ class LetterBoxViewModel: ObservableObject {
     @Published var isReadLetters: [LetterType: Int] = [:]
     
     @Published var errorMessage: String?
+    private var letterTask: Task<Void, Never>?
+    private var isReadTask: Task<Void, Never>?
     
     init(letterBoxUseCase: LetterBoxUseCase) {
         self.letterBoxUseCase = letterBoxUseCase
+        fetchLetterBoxLetters()
+        fetchIsRead()
     }
     
     func fetchLetterBoxLetters() {
-        Task { @MainActor in
-            let result = await letterBoxUseCase.getLetterBoxLetters()
-            switch result {
-            case .success(let letterDictionary):
-                self.letterBoxLetters = letterDictionary
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
+        letterTask?.cancel()
+        letterTask = Task { @MainActor in
+            for await letters in letterBoxUseCase.getLetterBoxLetters() {
+                if Task.isCancelled { break }
+                self.letterBoxLetters.merge(letters) { _, new in new }
             }
         }
     }
@@ -36,13 +38,11 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     func fetchIsRead() {
-        Task { @MainActor in
-            let result = await letterBoxUseCase.getIsRead()
-            switch result {
-            case .success(let isReadDictionary):
-                self.isReadLetters = isReadDictionary
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
+        isReadTask?.cancel()
+        isReadTask = Task { @MainActor in
+            for await letterCount in letterBoxUseCase.getIsRead() {
+                if Task.isCancelled { break }
+                self.isReadLetters = letterCount
             }
         }
     }
@@ -55,5 +55,10 @@ class LetterBoxViewModel: ObservableObject {
         Task { @MainActor in
             _ = await letterBoxUseCase.getWelcomeLetter()
         }
+    }
+    
+    deinit {
+        letterTask?.cancel()
+        isReadTask?.cancel()
     }
 }
