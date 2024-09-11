@@ -25,9 +25,9 @@ struct ProfileSettingsView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
+                    Button {
                         dismiss()
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 18, weight: .semibold))
@@ -39,13 +39,13 @@ struct ProfileSettingsView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
+                    Button {
                         Task {
                             await viewModel.completeProfileUpdate()
                             viewModel.newUserName = ""
                             viewModel.showSettingsView = false
                         }
-                    }) {
+                    } label: {
                         Text("완료")
                             .fontWeight(.medium)
                             .font(.system(size: 19))

@@ -19,9 +19,9 @@ struct AccountSettingsView: View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
             VStack {
-                Button(action: {
+                Button {
                     showLogoutAlert = true
-                }) {
+                } label: {
                     HStack{
                         Text("로그아웃하기")
                             .fontWeight(.medium)
@@ -52,9 +52,9 @@ struct AccountSettingsView: View {
                 
                 Spacer()
                 
-                Button(action: {
+                Button {
                     showAccountDeletionAlert = true
-                }) {
+                } label: {
                     VStack {
                         Text("회원 탈퇴하기")
                             .font(.system(size: 18))
@@ -86,9 +86,9 @@ struct AccountSettingsView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
+                    Button {
                         dismiss()
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 18, weight: .semibold))

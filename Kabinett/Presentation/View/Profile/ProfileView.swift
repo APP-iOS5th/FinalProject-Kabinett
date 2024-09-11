@@ -64,9 +64,9 @@ struct ProfileView: View {
                 .navigationBarBackButtonHidden()
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
+                        Button {
                             viewModel.showSettingsView = true
-                        }) {
+                        } label: {
                             Image(systemName: "gearshape")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))

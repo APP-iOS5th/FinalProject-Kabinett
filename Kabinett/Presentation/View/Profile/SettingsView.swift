@@ -36,7 +36,6 @@ struct SettingsView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                
                 NavigationLink(destination: AccountSettingsView()) {
                     HStack{
                         Text("계정 설정")
@@ -78,9 +77,9 @@ struct SettingsView: View {
             .navigationBarBackButtonHidden(true)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
+                    Button {
                         dismiss()
-                    }) {
+                    } label: {
                         HStack {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 18, weight: .semibold))
