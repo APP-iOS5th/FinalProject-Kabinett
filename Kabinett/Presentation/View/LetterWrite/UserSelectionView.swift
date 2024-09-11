@@ -219,6 +219,7 @@ struct SearchBar: View {
                             viewModel.updateToUser(&letterContent, toUserName: user.name)
                             searchText = ""
                             UIApplication.shared.endEditing()
+                            isSearchBar = false
                         }
                     }
                 }
