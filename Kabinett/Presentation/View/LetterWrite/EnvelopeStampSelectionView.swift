@@ -52,6 +52,9 @@ struct EnvelopeStampSelectionView: View {
                                 .foregroundStyle(.contentPrimary)
                         }
                     }
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
                     .padding(.bottom, 25)
                 }
                 
