@@ -137,9 +137,3 @@ struct ProfileSettingsView: View {
         }
     }
 }
-
-
-
-//#Preview {
-//    ProfileSettingsView(viewModel: ProfileSettingsViewModel(), shouldNavigateToProfileView: <#Binding<Bool>#>)
-//}

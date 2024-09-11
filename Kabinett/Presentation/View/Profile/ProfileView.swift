@@ -83,7 +83,3 @@ struct ProfileView: View {
         }
     }
 }
-
-//#Preview {
-//    ProfileView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-//}

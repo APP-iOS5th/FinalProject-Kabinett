@@ -95,7 +95,3 @@ struct SettingsView: View {
         }
     
 }
-    
-    //#Preview {
-    //    SettingsView(profileViewModel: ProfileSettingsViewModel(profileUseCase: ProfileUseCaseStub()))
-    //}
