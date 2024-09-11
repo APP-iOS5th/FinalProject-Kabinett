@@ -182,7 +182,7 @@ struct LetterBoxDetailView: View {
                     .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
-            .padding(.trailing, 3)
+            .padding(.trailing, 5)
             
             Button {
                 withAnimation {
