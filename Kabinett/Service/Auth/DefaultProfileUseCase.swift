@@ -36,7 +36,7 @@ final class DefaultProfileUseCase {
 
 // MARK: - Public Methods
 extension DefaultProfileUseCase: ProfileUseCase {
-    func getCurrentUserStatus() async -> AnyPublisher<UserStatus, Never> {
+    func getCurrentUserStatus() -> AnyPublisher<UserStatus, Never> {
         authManager
             .getCurrentUser()
             .compactMap { $0 }
