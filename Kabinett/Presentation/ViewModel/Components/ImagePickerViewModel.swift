@@ -258,6 +258,7 @@ final class ImagePickerViewModel: ObservableObject {
         if fromUserId == nil || fromUserKabinettNumber == nil {
             await fetchCurrentWriter()
         }
+        print("Saving postScript in ViewModel: \(postScript ?? "nil")")
         
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
