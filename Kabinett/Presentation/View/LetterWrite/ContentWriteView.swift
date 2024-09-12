@@ -32,6 +32,9 @@ struct ContentWriteView: View {
                     }
                 }
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
                 
                 ScrollableLetterView(letterContent: $letterContent)
             }
