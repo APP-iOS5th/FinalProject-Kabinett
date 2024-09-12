@@ -49,6 +49,10 @@ struct UserSelectionView: View {
                                     .lineSpacing(3)
                                     .foregroundStyle(Color("ContentSecondary"))
                                     .bold()
+                                    .onAppear {
+                                        letterContent.toUserName = "나"
+                                        letterContent.fromUserName = "나"
+                                    }
                                 HStack {
                                     Spacer()
                                     Button("로그인하기") {
