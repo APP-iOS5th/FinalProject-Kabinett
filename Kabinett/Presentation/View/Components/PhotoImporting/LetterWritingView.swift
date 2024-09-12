@@ -94,19 +94,27 @@ struct LetterWritingView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8))
                 }
             }
-            
-            if showCalendar {
-                DatePicker("", selection: $viewModel.date, displayedComponents: [.date])
-                    .datePickerStyle(.graphical)
-                    .frame(maxHeight: 350)
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
-                    .onChange(of: viewModel.date) { _, _ in
-                        showCalendar = false
+        }
+        .sheet(isPresented: $showCalendar) {
+            DatePicker("", selection: $viewModel.date, displayedComponents: [.date])
+                .datePickerStyle(.graphical)
+                .frame(maxHeight: 350)
+                .background(Color.white)
+                .cornerRadius(5)
+                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                .padding()
+                .presentationDetents([.height(470)])
+                .presentationBackground(.clear)
+                .presentationCornerRadius(5)
+                .interactiveDismissDisabled()
+                .onChange(of: viewModel.date) { oldValue, newValue in
+                    if oldValue != newValue {
+                        letterContent.date = newValue
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            showCalendar = false
+                        }
                     }
-                    .gesture(DragGesture().onChanged { _ in })
-            }
+                }
         }
     }
     
