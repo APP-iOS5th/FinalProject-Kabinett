@@ -137,7 +137,7 @@ struct LetterCompletionView: View {
             Text("편지가 완성되었어요.")
             Text("소중한 편지를 보관할게요.")
         }
-        .font(.system(size: 18, weight: .medium))
+        .font(.system(size: 18, weight: .semibold))
     }
     
     private var saveButton: some View {
