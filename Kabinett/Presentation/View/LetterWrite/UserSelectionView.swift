@@ -14,71 +14,70 @@ struct UserSelectionView: View {
     @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
-
-            ZStack {
-                Color(.primary100).ignoresSafeArea()
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
+        
+        ZStack {
+            Color(.primary100).ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("완료") {
+                        dismiss()
                     }
+                }
+                .fontWeight(.medium)
+                .font(.system(size: 19))
+                .foregroundColor(.contentPrimary)
+                .padding(.bottom, -3)
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button("완료") {
-                            dismiss()
+                FormToUser(letterContent: $letterContent)
+                
+                HStack {
+                    if viewModel.checkLogin {
+                        Spacer(minLength: 95)
+                        VStack {
+                            SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
                         }
-                    }
-                    .fontWeight(.medium)
-                    .font(.system(size: 19))
-                    .foregroundColor(.contentPrimary)
-                    .padding(.bottom, -3)
-                    
-                    FormToUser(letterContent: $letterContent)
-                    
-                    HStack {
-                        if viewModel.checkLogin {
-                            Spacer(minLength: 95)
-                            VStack {
-                                SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
-                            }
-                        } else {
-                            Spacer(minLength: 65)
-                            VStack {
-                                Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요.")
-                                    .font(.system(size: 12))
-                                    .lineSpacing(3)
-                                    .foregroundStyle(Color("ContentSecondary"))
-                                    .bold()
-                                    .onAppear {
-                                        letterContent.toUserName = "나"
-                                        letterContent.fromUserName = "나"
-                                    }
-                                HStack {
-                                    Spacer()
-                                    Button("로그인하기") {
-                                        viewModel.showModal = true
-                                    }
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(Color("ContentPrimary"))
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .underline()
-                                    .padding(.top, 15)
-                                    .sheet(isPresented: $viewModel.showModal) {
-                                        LetterWriteLoginView()
-                                    }
+                    } else {
+                        Spacer(minLength: 65)
+                        VStack {
+                            Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요.")
+                                .font(.system(size: 12))
+                                .lineSpacing(3)
+                                .foregroundStyle(Color("ContentSecondary"))
+                                .bold()
+                                .onAppear {
+                                    letterContent.toUserName = "나"
+                                    letterContent.fromUserName = "나"
+                                }
+                            HStack {
+                                Spacer()
+                                Button("로그인하기") {
+                                    viewModel.showModal = true
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(Color("ContentPrimary"))
+                                .font(.system(size: 16))
+                                .bold()
+                                .underline()
+                                .padding(.top, 15)
+                                .sheet(isPresented: $viewModel.showModal) {
+                                    LetterWriteLoginView()
                                 }
                             }
-                            Spacer()
                         }
+                        Spacer()
                     }
-                    .padding(.top, 1)
-                    Spacer()
                 }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                .padding(.top, 24)
+                .padding(.top, 1)
+                Spacer()
             }
-        
+            .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+            .padding(.top, 24)
+        }
     }
 }
 
@@ -241,8 +240,6 @@ struct SearchBar: View {
 
 // MARK: - LetterWriteLoginView
 struct LetterWriteLoginView: View {
-    @EnvironmentObject var viewModel : UserSelectionViewModel
-    
     var body: some View {
         NavigationStack {
             ZStack (alignment: .topTrailing) {

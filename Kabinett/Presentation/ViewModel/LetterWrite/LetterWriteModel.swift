@@ -13,7 +13,7 @@ class LetterWriteModel: ObservableObject {
     @Published var postScript: String? = nil
     @Published var envelopeImageUrlString: String = ""
     @Published var stampImageUrlString: String = ""
-
+    
     @Published var fromUserId: String? = nil
     @Published var fromUserName: String = ""
     @Published var fromUserKabinettNumber: Int? = nil
@@ -35,24 +35,24 @@ class LetterWriteModel: ObservableObject {
     }
     
     func reset() {
-            fontString = nil
-            postScript = nil
-            envelopeImageUrlString = ""
-            stampImageUrlString = ""
-
-            fromUserId = nil
-            fromUserName = ""
-            fromUserKabinettNumber = nil
-            
-            toUserId = nil
-            toUserName = ""
-            toUserKabinettNumber = nil
-            
-            content = []
-            photoContents = []
-            date = Date()
-            stationeryImageUrlString = nil
-            isRead = false
-            dataSource = .fromLetterWriting
-        }
+        fontString = nil
+        postScript = nil
+        envelopeImageUrlString = ""
+        stampImageUrlString = ""
+        
+        fromUserId = nil
+        fromUserName = ""
+        fromUserKabinettNumber = nil
+        
+        toUserId = nil
+        toUserName = ""
+        toUserKabinettNumber = nil
+        
+        content = []
+        photoContents = []
+        date = Date()
+        stationeryImageUrlString = nil
+        isRead = false
+        dataSource = .fromLetterWriting
+    }
 }
