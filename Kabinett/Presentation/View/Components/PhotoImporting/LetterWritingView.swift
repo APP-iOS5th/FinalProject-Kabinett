@@ -12,8 +12,8 @@ struct LetterWritingView: View {
     @EnvironmentObject var customViewModel: CustomTabViewModel
     @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var letterWriteViewModel = LetterWriteModel()
-    @State private var showEnvelopeStampSelection = false
+    @Binding var letterContent: LetterWriteModel
+    @Binding var showEnvelopeStamp: Bool
     @State private var showCalendar = false
     
     var body: some View {
@@ -22,7 +22,7 @@ struct LetterWritingView: View {
                 Color.primary100.edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    FormToUserView(letterContent: $letterWriteViewModel, viewModel: viewModel)
+                    FormToUserView(letterContent: $letterContent, viewModel: viewModel)
                     dateField()
                     Spacer()
                 }
@@ -30,10 +30,12 @@ struct LetterWritingView: View {
                 .padding(.top, 20)
             }
             .onTapGesture {
-                                    UIApplication.shared.endEditing()
-                                }
+                UIApplication.shared.endEditing()
+            }
             .navigationBarItems(
                 leading: Button(action: {
+                    letterContent.reset()
+                    viewModel.resetSelections()
                     dismiss()
                 }) {
                     Image(systemName: "chevron.left")
@@ -41,7 +43,8 @@ struct LetterWritingView: View {
                 },
                 trailing: Button(action: {
                     updateLetterWrite()
-                    showEnvelopeStampSelection = true
+                    dismiss()
+                    showEnvelopeStamp = true
                 }) {
                     Text("완료")
                         .fontWeight(.medium)
@@ -49,11 +52,24 @@ struct LetterWritingView: View {
                         .foregroundColor(.contentPrimary)
                 }
             )
-            .navigationDestination(isPresented: $showEnvelopeStampSelection) {
-                EnvelopeStampSelectionView(letterContent: $letterWriteViewModel)
-                    .environmentObject(envelopeStampSelectionViewModel)
-            }
         }
+        .slideToDismiss {
+            viewModel.resetSelections()
+            dismiss()
+        }
+        .task {
+            await viewModel.fetchCurrentWriter()
+            viewModel.updateDefaultUsers()
+            updateLetterWriteFromViewModel()
+        }
+    }
+    
+    private func updateLetterWriteFromViewModel() {
+        letterContent.fromUserName = viewModel.fromUserName
+        letterContent.fromUserId = viewModel.fromUserId
+        letterContent.toUserName = viewModel.toUserName
+        letterContent.toUserId = viewModel.toUserId
+        
     }
     
     private func dateField() -> some View {
@@ -89,16 +105,17 @@ struct LetterWritingView: View {
                     .onChange(of: viewModel.date) { _, _ in
                         showCalendar = false
                     }
+                    .gesture(DragGesture().onChanged { _ in })
             }
         }
     }
     
     private func updateLetterWrite() {
-        letterWriteViewModel.fromUserName = viewModel.fromUserName
-        letterWriteViewModel.toUserName = viewModel.toUserName
-        letterWriteViewModel.date = viewModel.date
-        letterWriteViewModel.photoContents = viewModel.photoContents
-        letterWriteViewModel.dataSource = .fromImagePicker
+        letterContent.fromUserName = viewModel.fromUserName
+        letterContent.toUserName = viewModel.toUserName
+        letterContent.date = viewModel.date
+        letterContent.photoContents = viewModel.photoContents
+        letterContent.dataSource = .fromImagePicker
     }
 }
 
@@ -111,8 +128,8 @@ struct FormToUserView: View {
             userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
             userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
         }
+        
         .onAppear {
-            
             if let fromUser = viewModel.fromUser {
                 letterContent.fromUserId = fromUser.id
                 letterContent.fromUserName = fromUser.name
@@ -126,6 +143,7 @@ struct FormToUserView: View {
             viewModel.toUserName = letterContent.fromUserName
             viewModel.toUserKabinettNumber = viewModel.fromUserKabinettNumber
         }
+        
     }
     
     private func userField(title: String, name: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {

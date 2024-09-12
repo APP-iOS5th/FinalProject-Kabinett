@@ -57,6 +57,27 @@ final class ImagePickerViewModel: ObservableObject {
         }
     }
     
+    
+    @MainActor
+    func updateDefaultUsers() {
+        if let fromUser = fromUser {
+            let userName = "\(fromUser.name)(나)"
+            fromUserName = userName
+            fromUserId = fromUser.id
+            fromUserKabinettNumber = fromUser.kabinettNumber
+            
+            if fromUser.kabinettNumber != 0 {
+                toUserName = userName
+                toUserId = fromUser.id
+                toUserKabinettNumber = fromUser.kabinettNumber
+            } else {
+                toUserName = userName
+                toUserId = nil
+                toUserKabinettNumber = nil
+            }
+        }
+    }
+    
     private func setupBindings() {
         $fromUserSearch
             .debounce(for: .seconds(1), scheduler: RunLoop.main)
@@ -137,11 +158,6 @@ final class ImagePickerViewModel: ObservableObject {
         
     }
     
-    // MARK: 현재 사용자 여부 확인
-    func isCurrentUser(kabiNumber: Int) -> String {
-        fromUser?.kabinettNumber == kabiNumber ? "(나)" : ""
-    }
-    
     
     // MARK: 현재 로그인한 사용자 정보 가져오기
     @MainActor
@@ -218,10 +234,10 @@ final class ImagePickerViewModel: ObservableObject {
             let envelopes = try await componentsUseCase.loadEnvelopes().get()
             let stamps = try await componentsUseCase.loadStamps().get()
             
-            if let firstEnvelope = envelopes.first {
+            if self.envelopeURL == nil, let firstEnvelope = envelopes.first {
                 self.envelopeURL = firstEnvelope
             }
-            if let firstStamp = stamps.first {
+            if self.stampURL == nil, let firstStamp = stamps.first {
                 self.stampURL = firstStamp
             }
             isLoading = false
@@ -279,6 +295,19 @@ final class ImagePickerViewModel: ObservableObject {
         postScript = nil
         envelopeURL = nil
         stampURL = nil
+    }
+    
+    func resetSelections() {
+        selectedItems = []
+        photoContents = []
+        postScript = nil
+        envelopeURL = nil
+        stampURL = nil
+        toUserId = nil
+        toUserName = ""
+        toUserKabinettNumber = nil
+        toUserSearch = ""
+        toUserSearchResults = []
     }
     
     var formattedDate: String {

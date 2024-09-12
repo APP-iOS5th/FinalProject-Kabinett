@@ -14,6 +14,8 @@ struct ImagePreview: View {
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
+    @State private var navigateToEnvelopeStamp = false
+    @State private var letterContent = LetterWriteModel()
     
     var body: some View {
         NavigationStack {
@@ -41,6 +43,7 @@ struct ImagePreview: View {
                 }
             }
             .navigationBarItems(leading: Button(action: {
+                imageViewModel.resetSelections()
                 dismiss()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     if customViewModel.isLetterWrite == false {
@@ -55,13 +58,26 @@ struct ImagePreview: View {
             .fullScreenCover(isPresented: $showDetailView) {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
-            .fullScreenCover(isPresented: $showLetterWritingView) {
-                LetterWritingView()
+            .sheet(isPresented: $showLetterWritingView) {
+                LetterWritingView(letterContent: $letterContent, showEnvelopeStamp: $navigateToEnvelopeStamp)
                     .environmentObject(imageViewModel)
                     .environmentObject(customViewModel)
                     .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
+            .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
+                EnvelopeStampSelectionView(letterContent: $letterContent)
+                    .environmentObject(envelopeStampSelectionViewModel)
+            }
+        }
+        .slideToDismiss {
+            imageViewModel.resetSelections()
+            dismiss()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                if customViewModel.isLetterWrite == false {
+                    customViewModel.showImportDialog = true
+                }
+            }
         }
     }
 }

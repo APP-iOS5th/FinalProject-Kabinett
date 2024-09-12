@@ -50,5 +50,8 @@ struct ImageDetailView: View {
             })
             .background(Color.background.edgesIgnoringSafeArea(.all))
         }
+        .slideToDismiss {
+            showDetailView = false
+        }
     }
 }
