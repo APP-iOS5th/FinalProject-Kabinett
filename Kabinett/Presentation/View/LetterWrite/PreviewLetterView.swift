@@ -39,7 +39,7 @@ struct PreviewLetterView: View {
                             }
                             .resizable()
                             .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-
+                        
                         VStack {
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading, spacing: 2) {

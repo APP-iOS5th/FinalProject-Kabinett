@@ -78,7 +78,7 @@ struct ScrollableLetterView: View {
                                     
                                     VStack {
                                         HStack {
-                                            Text(i == 0 ? letterContent.fromUserName : "")
+                                            Text(i == 0 ? letterContent.toUserName : "")
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .onTapGesture {
                                                     UIApplication.shared.endEditing()
@@ -125,7 +125,7 @@ struct ScrollableLetterView: View {
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                         
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.toUserName : "")
+                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
                                             .padding(.bottom, 30)
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
