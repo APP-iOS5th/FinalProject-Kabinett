@@ -14,7 +14,7 @@ struct UserSelectionView: View {
     @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
-        NavigationStack {
+
             ZStack {
                 Color(.primary100).ignoresSafeArea()
                     .onTapGesture {
@@ -78,7 +78,7 @@ struct UserSelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 .padding(.top, 24)
             }
-        }
+        
     }
 }
 
@@ -244,11 +244,13 @@ struct LetterWriteLoginView: View {
     @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
-        ZStack (alignment: .topTrailing) {
-            LoginView()
-            Rectangle()
-                .frame(width: 100, height: 100)
-                .foregroundStyle(Color(.background))
+        NavigationStack {
+            ZStack (alignment: .topTrailing) {
+                LoginView()
+                Rectangle()
+                    .frame(width: 100, height: 100)
+                    .foregroundStyle(Color(.background))
+            }
         }
     }
 }
