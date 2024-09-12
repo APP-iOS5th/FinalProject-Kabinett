@@ -12,6 +12,7 @@ struct LetterCompletionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ImagePickerViewModel
     @EnvironmentObject var customTabViewModel: CustomTabViewModel
+    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var envelopeURL: String = ""
     @State private var stampURL: String = ""
@@ -40,16 +41,12 @@ struct LetterCompletionView: View {
             }
         }
         .slideToDismiss {
-            letterContent.reset()
-            viewModel.resetSelections()
             dismiss()
         }
     }
     
     private var backButton: some View {
         Button(action: {
-            letterContent.reset()
-            viewModel.resetSelections()
             dismiss()
         }) {
             Image(systemName: "chevron.left")
@@ -143,11 +140,16 @@ struct LetterCompletionView: View {
     private var saveButton: some View {
         Button(action: {
             Task {
+                if viewModel.postScript == nil {
+                    viewModel.postScript = letterContent.postScript
+                }
+                
                 let success = await viewModel.saveImportingImage()
                 if success {
                     customTabViewModel.navigateToLetterBox()
                     dismiss()
                     customTabViewModel.selectedTab = 0
+                    envelopeStampSelectionViewModel.reset()
                 } else {
                     print("Failed to save letter")
                 }
