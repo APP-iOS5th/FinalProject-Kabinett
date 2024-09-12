@@ -42,65 +42,21 @@ class ProfileViewModel: ObservableObject {
     @Published private(set) var profileUpdateError: String?
     @Published var showProfileAlert = false
     @Published var navigateState: NavigateState = .toLogin
-    
-    init(profileUseCase: ProfileUseCase) {
-        self.profileUseCase = profileUseCase
-        
-        loadCurrentWriter()
-        
-        Task {
-            await checkUserStatus()
-            await fetchAppleID()
-        }
-    }
-    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    func loadCurrentWriter() {
-        profileUseCase
-            .getCurrentWriter()
-            .map { writer in
-                WriterViewModel(
-                    name: writer.name,
-                    formattedNumber: writer.kabinettNumber.formatKabinettNumber(),
-                    imageUrlString: writer.profileImage
-                )
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$currentWriter)
-    }
-    
-    @MainActor
-    func checkUserStatus() async {
-        await profileUseCase.getCurrentUserStatus()
-            .receive(on: DispatchQueue.main)
-            .print()
-            .sink { [weak self] status in
-                self?.userStatus = status
-                switch status {
-                case .anonymous, .incomplete:
-                    self?.navigateState = .toLogin
-                case .registered:
-                    self?.navigateState = .toProfile
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    @MainActor
-    private func fetchAppleID() async {
-        self.appleID = await profileUseCase.getAppleID()
-    }
-    
-    var isUserNameVaild: Bool {
-        return !newUserName.isEmpty
-    }
+    @Published var showSettingsView = false
     
     var displayName: String {
         return newUserName.isEmpty ? currentWriter.name : newUserName
     }
     
+    init(profileUseCase: ProfileUseCase) {
+        self.profileUseCase = profileUseCase
+        
+        loadCurrentWriter()
+        checkUserStatus()
+    }
+    
     @MainActor
     func completeProfileUpdate() async {
-        
         let success = await profileUseCase.updateWriter(
             newWriterName: displayName,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
@@ -152,7 +108,6 @@ class ProfileViewModel: ObservableObject {
         let success = await profileUseCase.signout()
         if success {
             currentWriter = WriterViewModel(name: "", formattedNumber: "", imageUrlString: nil)
-            navigateState = .toLogin
         } else {
             print("로그아웃에 실패했어요.")
         }
@@ -161,10 +116,48 @@ class ProfileViewModel: ObservableObject {
     @MainActor
     func deletieID() async {
         let success = await profileUseCase.deleteId()
-        if success {
-            navigateState = .toLogin
-        } else {
+        if !success {
             print("회원탈퇴에 실패했어요.")
         }
+    }
+    
+    // MARK: - Private Methods
+    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
+    private func loadCurrentWriter() {
+        profileUseCase
+            .getCurrentWriter()
+            .map { writer in
+                WriterViewModel(
+                    name: writer.name,
+                    formattedNumber: writer.kabinettNumber.formatKabinettNumber(),
+                    imageUrlString: writer.profileImage
+                )
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$currentWriter)
+    }
+    
+    private func checkUserStatus() {
+        profileUseCase.getCurrentUserStatus()
+            .receive(on: DispatchQueue.main)
+            .print()
+            .sink { [weak self] status in
+                self?.userStatus = status
+                switch status {
+                case .anonymous, .incomplete:
+                    self?.navigateState = .toLogin
+                case .registered:
+                    self?.navigateState = .toProfile
+                    Task { [weak self] in
+                        await self?.fetchAppleID()
+                    }
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    @MainActor
+    private func fetchAppleID() async {
+        self.appleID = await profileUseCase.getAppleID()
     }
 }
