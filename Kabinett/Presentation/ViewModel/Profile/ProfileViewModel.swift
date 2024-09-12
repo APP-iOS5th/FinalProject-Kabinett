@@ -52,64 +52,11 @@ class ProfileViewModel: ObservableObject {
         self.profileUseCase = profileUseCase
         
         loadCurrentWriter()
-        
-        Task {
-            await checkUserStatus()
-            await fetchAppleID()
-        }
-    }
-
-    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
-    func loadCurrentWriter() {
-        profileUseCase
-            .getCurrentWriter()
-            .map { writer in
-                WriterViewModel(
-                    name: writer.name,
-                    formattedNumber: writer.kabinettNumber.formatKabinettNumber(),
-                    imageUrlString: writer.profileImage
-                )
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$currentWriter)
-    }
-    
-    @MainActor
-    func checkUserStatus() async {
-        profileUseCase.getCurrentUserStatus()
-            .receive(on: DispatchQueue.main)
-            .print()
-            .sink { [weak self] status in
-                self?.userStatus = status
-                switch status {
-                case .anonymous, .incomplete:
-                    self?.navigateState = .toLogin
-                case .registered:
-                    self?.navigateState = .toProfile
-                    Task {
-                        await self?.fetchAppleID()
-                    }
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
-    @MainActor
-    private func fetchAppleID() async {
-        self.appleID = await profileUseCase.getAppleID()
-    }
-    
-    var isUserNameVaild: Bool {
-        return !newUserName.isEmpty
-    }
-    
-    var displayName: String {
-        return newUserName.isEmpty ? currentWriter.name : newUserName
+        checkUserStatus()
     }
     
     @MainActor
     func completeProfileUpdate() async {
-        
         let success = await profileUseCase.updateWriter(
             newWriterName: displayName,
             profileImage: croppedImage?.jpegData(compressionQuality: 0.8)
@@ -190,14 +137,8 @@ class ProfileViewModel: ObservableObject {
             .assign(to: &$currentWriter)
     }
     
-    @MainActor
-    private func fetchAppleID() async {
-        self.appleID = await profileUseCase.getAppleID()
-    }
-    
-    @MainActor
-    private func checkUserStatus() async {
-        await profileUseCase.getCurrentUserStatus()
+    private func checkUserStatus() {
+        profileUseCase.getCurrentUserStatus()
             .receive(on: DispatchQueue.main)
             .print()
             .sink { [weak self] status in
@@ -207,8 +148,16 @@ class ProfileViewModel: ObservableObject {
                     self?.navigateState = .toLogin
                 case .registered:
                     self?.navigateState = .toProfile
+                    Task { [weak self] in
+                        await self?.fetchAppleID()
+                    }
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    @MainActor
+    private func fetchAppleID() async {
+        self.appleID = await profileUseCase.getAppleID()
     }
 }
