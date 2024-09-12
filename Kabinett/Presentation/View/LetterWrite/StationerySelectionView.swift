@@ -74,6 +74,10 @@ struct StationerySelectionView: View {
                     await envelopeStampSelectionViewModel.loadStamps()
                     await envelopeStampSelectionViewModel.loadEnvelopes()
                 }
+                
+                if envelopeStampSelectionViewModel.envelopeSelectedIndex != (0,0) || envelopeStampSelectionViewModel.stampSelectedIndex != (0,0) {
+                    envelopeStampSelectionViewModel.reset()
+                }
             }
         }
         .slideToDismiss(action: {

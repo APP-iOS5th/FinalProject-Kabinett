@@ -139,18 +139,18 @@ struct LetterCompletionView: View {
     
     private var saveButton: some View {
         Button(action: {
+            customTabViewModel.navigateToLetterBox()
+            dismiss()
+            customTabViewModel.selectedTab = 0
+            envelopeStampSelectionViewModel.reset()
+            
             Task {
                 if viewModel.postScript == nil {
                     viewModel.postScript = letterContent.postScript
                 }
                 
                 let success = await viewModel.saveImportingImage()
-                if success {
-                    customTabViewModel.navigateToLetterBox()
-                    dismiss()
-                    customTabViewModel.selectedTab = 0
-                    envelopeStampSelectionViewModel.reset()
-                } else {
+                if !success {
                     print("Failed to save letter")
                 }
             }
