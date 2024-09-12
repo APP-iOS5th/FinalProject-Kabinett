@@ -60,14 +60,10 @@ struct ImagePreview: View {
             }
             .sheet(isPresented: $showLetterWritingView) {
                 LetterWritingView(letterContent: $letterContent, showEnvelopeStamp: $navigateToEnvelopeStamp)
-                    .environmentObject(imageViewModel)
-                    .environmentObject(customViewModel)
-                    .environmentObject(envelopeStampSelectionViewModel)
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
             .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
                 EnvelopeStampSelectionView(letterContent: $letterContent)
-                    .environmentObject(envelopeStampSelectionViewModel)
             }
         }
         .slideToDismiss {
