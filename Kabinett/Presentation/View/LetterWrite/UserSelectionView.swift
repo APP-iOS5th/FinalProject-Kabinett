@@ -97,7 +97,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(viewModel.fromUser?.name ?? "") (나)")
+            Text(viewModel.checkLogin ? "\(viewModel.fromUser?.name ?? "") (나)" : "나")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -132,8 +132,8 @@ struct FormToUser: View {
             Spacer(minLength: 37)
             let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
             let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
-            Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
-                .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
+            Text(viewModel.checkLogin ? "\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))" : "나")
+                .foregroundStyle(viewModel.checkLogin ? Color.black : Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
                 .background(Color.white)
