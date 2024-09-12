@@ -14,66 +14,69 @@ struct UserSelectionView: View {
     @EnvironmentObject var viewModel : UserSelectionViewModel
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(.primary100).ignoresSafeArea()
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
+        
+        ZStack {
+            Color(.primary100).ignoresSafeArea()
+                .onTapGesture {
+                    UIApplication.shared.endEditing()
+                }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button("완료") {
+                        dismiss()
                     }
+                }
+                .fontWeight(.medium)
+                .font(.system(size: 19))
+                .foregroundColor(.contentPrimary)
+                .padding(.bottom, -3)
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button("완료") {
-                            dismiss()
+                FormToUser(letterContent: $letterContent)
+                
+                HStack {
+                    if viewModel.checkLogin {
+                        Spacer(minLength: 95)
+                        VStack {
+                            SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
                         }
-                    }
-                    .fontWeight(.medium)
-                    .font(.system(size: 19))
-                    .foregroundColor(.contentPrimary)
-                    .padding(.bottom, -3)
-                    
-                    FormToUser(letterContent: $letterContent)
-                    
-                    HStack {
-                        if viewModel.checkLogin {
-                            Spacer(minLength: 95)
-                            VStack {
-                                SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
-                            }
-                        } else {
-                            Spacer(minLength: 65)
-                            VStack {
-                                Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요.")
-                                    .font(.system(size: 12))
-                                    .lineSpacing(3)
-                                    .foregroundStyle(Color("ContentSecondary"))
-                                    .bold()
-                                HStack {
-                                    Spacer()
-                                    Button("로그인하기") {
-                                        viewModel.showModal = true
-                                    }
-                                    .buttonStyle(.plain)
-                                    .foregroundStyle(Color("ContentPrimary"))
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .underline()
-                                    .padding(.top, 15)
-                                    .sheet(isPresented: $viewModel.showModal) {
-                                        LetterWriteLoginView()
-                                    }
+                    } else {
+                        Spacer(minLength: 65)
+                        VStack {
+                            Text("로그인을 하면 다른 사람에게도 편지를 \n보낼 수 있어요.")
+                                .font(.system(size: 12))
+                                .lineSpacing(3)
+                                .foregroundStyle(Color("ContentSecondary"))
+                                .bold()
+                                .onAppear {
+                                    letterContent.toUserName = "나"
+                                    letterContent.fromUserName = "나"
+                                }
+                            HStack {
+                                Spacer()
+                                Button("로그인하기") {
+                                    viewModel.showModal = true
+                                }
+                                .buttonStyle(.plain)
+                                .foregroundStyle(Color("ContentPrimary"))
+                                .font(.system(size: 16))
+                                .bold()
+                                .underline()
+                                .padding(.top, 15)
+                                .sheet(isPresented: $viewModel.showModal) {
+                                    LetterWriteLoginView()
                                 }
                             }
-                            Spacer()
                         }
+                        Spacer()
                     }
-                    .padding(.top, 1)
-                    Spacer()
                 }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                .padding(.top, 24)
+                .padding(.top, 1)
+                Spacer()
             }
+            .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+            .padding(.top, 24)
         }
     }
 }
@@ -93,7 +96,7 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 22)
-            Text("\(viewModel.fromUser?.name ?? "") (나)")
+            Text(viewModel.checkLogin ? "\(viewModel.fromUser?.name ?? "") (나)" : "나")
                 .foregroundStyle(Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
@@ -128,8 +131,8 @@ struct FormToUser: View {
             Spacer(minLength: 37)
             let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
             let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
-            Text("\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))")
-                .foregroundStyle(viewModel.toUser?.name == "나" ? Color("ContentSecondary") : Color.black)
+            Text(viewModel.checkLogin ? "\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))" : "나")
+                .foregroundStyle(viewModel.checkLogin ? Color.black : Color("ContentSecondary"))
                 .font(.system(size: 15))
                 .frame(maxWidth: .infinity, minHeight: 35)
                 .background(Color.white)
@@ -237,14 +240,14 @@ struct SearchBar: View {
 
 // MARK: - LetterWriteLoginView
 struct LetterWriteLoginView: View {
-    @EnvironmentObject var viewModel : UserSelectionViewModel
-    
     var body: some View {
-        ZStack (alignment: .topTrailing) {
-            LoginView()
-            Rectangle()
-                .frame(width: 100, height: 100)
-                .foregroundStyle(Color(.background))
+        NavigationStack {
+            ZStack (alignment: .topTrailing) {
+                LoginView()
+                Rectangle()
+                    .frame(width: 100, height: 100)
+                    .foregroundStyle(Color(.background))
+            }
         }
     }
 }
