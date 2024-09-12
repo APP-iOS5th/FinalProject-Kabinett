@@ -13,25 +13,20 @@ struct CustomTabView: View {
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
-
+    
     @State private var letterWriteViewModel = LetterWriteModel()
-    @State private var paths: [NavigationPath] = [NavigationPath(), NavigationPath(), NavigationPath()]
-
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $viewModel.selectedTab) {
-                NavigationStack(path: $paths[0]) {
-                    LetterBoxView()
-                }
-                .tag(0)
+                LetterBoxView()
+                    .tag(0)
                 
                 Color.clear
                     .tag(1)
                 
-                NavigationStack(path: $paths[2]) {
-                    ProfileView()
-                }
-                .tag(2)
+                ProfileView()
+                    .tag(2)
             }
             .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
         }

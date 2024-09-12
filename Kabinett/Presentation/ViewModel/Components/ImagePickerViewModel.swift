@@ -44,6 +44,7 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var checkLogin: Bool = false
     @Published var isLoading: Bool = false
     @Published var error: Error?
+    @Published var isAnonymous: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private let componentsUseCase: ComponentsUseCase
@@ -61,19 +62,18 @@ final class ImagePickerViewModel: ObservableObject {
     @MainActor
     func updateDefaultUsers() {
         if let fromUser = fromUser {
-            let userName = "\(fromUser.name)(나)"
-            fromUserName = userName
+            fromUserName = isAnonymous ? "나" : fromUser.name
             fromUserId = fromUser.id
             fromUserKabinettNumber = fromUser.kabinettNumber
             
-            if fromUser.kabinettNumber != 0 {
-                toUserName = userName
-                toUserId = fromUser.id
-                toUserKabinettNumber = fromUser.kabinettNumber
-            } else {
-                toUserName = userName
+            if isAnonymous {
+                toUserName = "나"
                 toUserId = nil
                 toUserKabinettNumber = nil
+            } else {
+                toUserName = fromUser.name
+                toUserId = fromUser.id
+                toUserKabinettNumber = fromUser.kabinettNumber
             }
         }
     }
@@ -104,8 +104,9 @@ final class ImagePickerViewModel: ObservableObject {
     func updateFromUser() {
         if let fromUser = fromUser {
             checkLogin = fromUser.kabinettNumber != 0
+            isAnonymous = fromUser.kabinettNumber == 0
             fromUserId = fromUser.id
-            fromUserName = fromUser.name
+            fromUserName = isAnonymous ? "나" : fromUser.name
             fromUserKabinettNumber = fromUser.kabinettNumber
             userKabiNumber = String(format: "%06d", fromUser.kabinettNumber)
             
@@ -117,7 +118,7 @@ final class ImagePickerViewModel: ObservableObject {
             } else {
                 toUser = nil
                 toUserId = nil
-                toUserName = ""
+                toUserName = "나"
                 toUserKabinettNumber = nil
             }
         }
