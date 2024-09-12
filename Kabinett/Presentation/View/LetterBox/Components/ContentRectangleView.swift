@@ -44,9 +44,9 @@ struct ContentRectangleView: View {
                         .opacity(currentPageIndex == 0 ? 1 : 0)
                     
                     Text(letterContent.forceCharWrapping)
-                        .font(.custom(fontString, size: 14))
+                        .font(.custom(fontString, size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.015)))
                         .foregroundStyle(.contentPrimary)
-                        .lineSpacing(11)
+                        .lineSpacing(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 15)
                         .padding(.leading, 10)
