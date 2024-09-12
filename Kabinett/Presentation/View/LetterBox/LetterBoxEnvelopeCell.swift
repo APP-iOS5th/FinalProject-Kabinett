@@ -107,7 +107,6 @@ struct LetterBoxDetailEnvelopeCell: View {
                         }
                     }
                 }
-                .border(.gray, width: 0.1)
             }
             .frame(width: LayoutHelper.shared.getWidth(forSE: 0.8, forOthers: 0.8), height: LayoutHelper.shared.getSize(forSE: 0.2, forOthers: 0.17))
             .background(
