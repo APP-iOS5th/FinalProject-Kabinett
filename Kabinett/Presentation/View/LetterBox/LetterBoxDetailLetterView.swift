@@ -15,10 +15,15 @@ struct LetterBoxDetailLetterView: View {
     @State private var offset: CGFloat = 0
     @State private var showDeleteButton = false
     
+    @State private var letter: Letter
     var letterType: LetterType
-    var letter: Letter
     
     @Environment(\.dismiss) private var dismiss
+    
+    init(letterType: LetterType, letter: Letter) {
+        self.letterType = letterType
+        _letter = State(initialValue: letter)
+    }
     
     var body: some View {
         ZStack {
@@ -49,6 +54,8 @@ struct LetterBoxDetailLetterView: View {
                         LetterBoxDetailEnvelopeCell(letter: letter)
                             .onTapGesture {
                                 if !letter.isRead {
+                                    letter.isRead = true
+                                    
                                     guard let letterId = letter.id else { return }
                                     viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
                                 }
