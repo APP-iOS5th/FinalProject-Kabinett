@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LetterBoxDetailLetterView: View {
     @EnvironmentObject var viewModel: LetterViewModel
-    @EnvironmentObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
     
     @State private var showDetailLetter = false
     
@@ -52,7 +51,6 @@ struct LetterBoxDetailLetterView: View {
                                 if !letter.isRead {
                                     guard let letterId = letter.id else { return }
                                     viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
-                                    letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                                 }
                                 showDetailLetter = true
                             }

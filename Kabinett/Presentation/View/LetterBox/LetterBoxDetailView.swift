@@ -19,8 +19,6 @@ struct LetterBoxDetailView: View {
     @State var searchText: String = ""
     @State var isTextFieldFocused: Bool = false
     
-    @State private var letters: [Letter] = []
-    
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
     }
