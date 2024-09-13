@@ -1,5 +1,5 @@
 //
-//  LetterBoxDetailLetterView.swift
+//  LetterView.swift
 //  Kabinett
 //
 //  Created by uunwon on 8/28/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LetterBoxDetailLetterView: View {
+struct LetterView: View {
     @EnvironmentObject var viewModel: LetterViewModel
     
     @State private var showDetailLetter = false
@@ -51,7 +51,7 @@ struct LetterBoxDetailLetterView: View {
                     }
                     
                     HStack {
-                        LetterBoxDetailEnvelopeCell(letter: letter)
+                        LargeEnvelopeCell(letter: letter)
                             .onTapGesture {
                                 if !letter.isRead {
                                     letter.isRead = true
@@ -81,7 +81,7 @@ struct LetterBoxDetailLetterView: View {
         .slideToDismiss()
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $showDetailLetter) {
-            LetterCell(letter: letter)
+            LetterContentView(letter: letter)
         }
     }
 }
@@ -89,6 +89,6 @@ struct LetterBoxDetailLetterView: View {
 
 
 //#Preview {
-//    LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
+//    LetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
 //        .environmentObject(LetterViewModel())
 //}

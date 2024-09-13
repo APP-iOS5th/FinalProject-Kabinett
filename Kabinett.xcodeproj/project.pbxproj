@@ -20,12 +20,12 @@
 		04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0F92C75863600D289EA /* CropBox.swift */; };
 		04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */; };
 		04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */; };
-		5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */; };
+		5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300DA4D2C7EC2F9005F22EB /* LetterView.swift */; };
 		530912CC2C7045F200964130 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530912CB2C7045F200964130 /* ToastView.swift */; };
 		530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */; };
 		530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */; };
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
-		534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterCell.swift */; };
+		534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterContentView.swift */; };
 		53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53573A472C8BF18A00BD69AF /* DragHelper.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
@@ -37,7 +37,7 @@
 		53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */; };
 		53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA62C8190B600896AAC /* SearchBarView.swift */; };
 		53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A99EA82C81914B00896AAC /* CalendarViewModel.swift */; };
-		53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */; };
+		53BA8D212C69E4B60084D5CC /* LetterEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BA8D202C69E4B60084D5CC /* LetterEnvelopeCell.swift */; };
 		53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */; };
 		53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */; };
 		53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */; };
@@ -151,11 +151,11 @@
 		04DEC0F92C75863600D289EA /* CropBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropBox.swift; sourceTree = "<group>"; };
 		04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCropper.swift; sourceTree = "<group>"; };
 		04DEC0FD2C7EDB1100D289EA /* KabinettNumberFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettNumberFormatter.swift; sourceTree = "<group>"; };
-		5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxDetailLetterView.swift; sourceTree = "<group>"; };
+		5300DA4D2C7EC2F9005F22EB /* LetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterView.swift; sourceTree = "<group>"; };
 		530912CB2C7045F200964130 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxViewModel.swift; sourceTree = "<group>"; };
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
-		534C67B62C7FF85700F0C175 /* LetterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCell.swift; sourceTree = "<group>"; };
+		534C67B62C7FF85700F0C175 /* LetterContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterContentView.swift; sourceTree = "<group>"; };
 		53573A472C8BF18A00BD69AF /* DragHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragHelper.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -167,7 +167,7 @@
 		53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxCell.swift; sourceTree = "<group>"; };
 		53A99EA62C8190B600896AAC /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		53A99EA82C81914B00896AAC /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxEnvelopeCell.swift; sourceTree = "<group>"; };
+		53BA8D202C69E4B60084D5CC /* LetterEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterEnvelopeCell.swift; sourceTree = "<group>"; };
 		53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStrokePathView.swift; sourceTree = "<group>"; };
 		53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterViewModel.swift; sourceTree = "<group>"; };
 		53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Collection.swift"; sourceTree = "<group>"; };
@@ -279,6 +279,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		536AE7FB2C94881C002A3046 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				53BA8D202C69E4B60084D5CC /* LetterEnvelopeCell.swift */,
+				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		5381504D2C8AD44A007B1E5A /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,13 +462,12 @@
 		8366B6F22C65ECE10021FAE0 /* LetterBox */ = {
 			isa = PBXGroup;
 			children = (
+				536AE7FB2C94881C002A3046 /* Cells */,
 				5381504F2C8AD54A007B1E5A /* Components */,
-				53BA8D202C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift */,
 				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
 				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
-				53A482D92C6C6F2D00F00A9A /* LetterBoxCell.swift */,
-				5300DA4D2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift */,
-				534C67B62C7FF85700F0C175 /* LetterCell.swift */,
+				5300DA4D2C7EC2F9005F22EB /* LetterView.swift */,
+				534C67B62C7FF85700F0C175 /* LetterContentView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -873,7 +881,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
-				5300DA4E2C7EC2F9005F22EB /* LetterBoxDetailLetterView.swift in Sources */,
+				5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */,
 				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
@@ -887,7 +895,7 @@
 				AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
-				534C67B72C7FF85700F0C175 /* LetterCell.swift in Sources */,
+				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
@@ -927,7 +935,7 @@
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
-				53BA8D212C69E4B60084D5CC /* LetterBoxEnvelopeCell.swift in Sources */,
+				53BA8D212C69E4B60084D5CC /* LetterEnvelopeCell.swift in Sources */,
 				AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */,
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
