@@ -1,5 +1,5 @@
 //
-//  LetterBoxEnvelopeCell.swift
+//  SmallEnvelopeCell.swift
 //  Kabinett
 //
 //  Created by uunwon on 8/12/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct LetterBoxEnvelopeCell: View {
+struct SmallEnvelopeCell: View {
     @EnvironmentObject var fontViewModel: FontSelectionViewModel
     var letter: Letter
     
@@ -63,7 +63,7 @@ struct LetterBoxEnvelopeCell: View {
     }
 }
 
-struct LetterBoxDetailEnvelopeCell: View {
+struct LargeEnvelopeCell: View {
     @EnvironmentObject var fontViewModel: FontSelectionViewModel
     var letter: Letter
     
@@ -133,6 +133,6 @@ struct LetterBoxDetailEnvelopeCell: View {
 }
 
 #Preview {
-//    LetterBoxEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
-    LetterBoxDetailEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
+//    SmallEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
+    LargeEnvelopeCell(letter: LetterBoxUseCaseStub.sampleSearchOfDateLetters[0])
 }

@@ -1,5 +1,5 @@
 //
-//  LetterView.swift
+//  LetterContentView.swift
 //  Kabinett
 //
 //  Created by uunwon on 8/29/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Kingfisher
 
-struct LetterCell: View {
+struct LetterContentView: View {
     @State private var selectedIndex: Int = 0
     var letter: Letter
     

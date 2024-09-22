@@ -23,7 +23,7 @@ struct LetterBoxCell: View {
                 ForEach(Array(letters.reversed().enumerated()), id: \.element.id) { index, letter in
                     let (xOffset, yOffset, rotation) = LayoutHelper.calculateOffsetAndRotation(for: index, totalCount: letters.count)
                     
-                    LetterBoxEnvelopeCell(letter: letter)
+                    SmallEnvelopeCell(letter: letter)
                         .offset(x: xOffset, y: yOffset)
                         .rotationEffect(.degrees(rotation))
                 }
