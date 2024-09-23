@@ -19,8 +19,6 @@ struct LetterBoxDetailView: View {
     @State var searchText: String = ""
     @State var isTextFieldFocused: Bool = false
     
-    @State private var letters: [Letter] = []
-    
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
     }
@@ -134,8 +132,8 @@ struct LetterBoxDetailView: View {
             
             VStack(spacing: 25) {
                 ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
-                    NavigationLink(destination: LetterBoxDetailLetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
-                        LetterBoxDetailEnvelopeCell(letter: letter)
+                    NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                        LargeEnvelopeCell(letter: letter)
                     }
                 }
             }
@@ -145,12 +143,12 @@ struct LetterBoxDetailView: View {
             ScrollView {
                 LazyVStack(spacing: -75) {
                     ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
-                        NavigationLink(destination: LetterBoxDetailLetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                        NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
                             if idx < 2 {
-                                LetterBoxDetailEnvelopeCell(letter: letter)
+                                LargeEnvelopeCell(letter: letter)
                                     .padding(.bottom, idx == 0 ? 82 : 37)
                             } else {
-                                LetterBoxDetailEnvelopeCell(letter: letter)
+                                LargeEnvelopeCell(letter: letter)
                                     .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                     .zIndex(Double(idx))
                                     .padding(.bottom, idx % 3 == 1 ? 37 : 0)

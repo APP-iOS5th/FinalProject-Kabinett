@@ -17,7 +17,7 @@ struct SignUpNameInputView: View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
             VStack(alignment: .leading){
-                Text("이름을 알려주세요.")
+                Text("카비넷에서 사용할 닉네임을 입력해주세요.")
                     .fontWeight(.regular)
                     .font(.system(size: 16))
                     .foregroundStyle(.contentPrimary)

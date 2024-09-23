@@ -1,5 +1,5 @@
 //
-//  LetterBoxDetailLetterView.swift
+//  LetterView.swift
 //  Kabinett
 //
 //  Created by uunwon on 8/28/24.
@@ -7,19 +7,23 @@
 
 import SwiftUI
 
-struct LetterBoxDetailLetterView: View {
+struct LetterView: View {
     @EnvironmentObject var viewModel: LetterViewModel
-    @EnvironmentObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
     
     @State private var showDetailLetter = false
     
     @State private var offset: CGFloat = 0
     @State private var showDeleteButton = false
     
+    @State private var letter: Letter
     var letterType: LetterType
-    var letter: Letter
     
     @Environment(\.dismiss) private var dismiss
+    
+    init(letterType: LetterType, letter: Letter) {
+        self.letterType = letterType
+        _letter = State(initialValue: letter)
+    }
     
     var body: some View {
         ZStack {
@@ -47,12 +51,13 @@ struct LetterBoxDetailLetterView: View {
                     }
                     
                     HStack {
-                        LetterBoxDetailEnvelopeCell(letter: letter)
+                        LargeEnvelopeCell(letter: letter)
                             .onTapGesture {
                                 if !letter.isRead {
+                                    letter.isRead = true
+                                    
                                     guard let letterId = letter.id else { return }
                                     viewModel.updateLetterReadStatus(letterId: letterId, letterType: letterType)
-                                    letterBoxDetailViewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                                 }
                                 showDetailLetter = true
                             }
@@ -76,7 +81,7 @@ struct LetterBoxDetailLetterView: View {
         .slideToDismiss()
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $showDetailLetter) {
-            LetterCell(letter: letter)
+            LetterContentView(letter: letter)
         }
     }
 }
@@ -84,6 +89,6 @@ struct LetterBoxDetailLetterView: View {
 
 
 //#Preview {
-//    LetterBoxDetailLetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
+//    LetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
 //        .environmentObject(LetterViewModel())
 //}
