@@ -33,7 +33,7 @@ final class DefaultPhotoLetterUseCase {
     }
 }
 
-extension DefaultPhotoLetterUseCase: ComponentsUseCase {
+extension DefaultPhotoLetterUseCase: ImportLetterUseCase {
     func saveLetter(postScript: String?,
                     envelope: String,
                     stamp: String,

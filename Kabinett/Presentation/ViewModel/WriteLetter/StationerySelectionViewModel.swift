@@ -13,9 +13,9 @@ class StationerySelectionViewModel: ObservableObject {
     @Published var selectedIndex: (Int, Int) = (0, 0)
     @Published var stationerys: [String] = []
     
-    private let useCase: LetterWriteUseCase
+    private let useCase: WriteLetterUseCase
     
-    init(useCase: LetterWriteUseCase) {
+    init(useCase: WriteLetterUseCase) {
         self.useCase = useCase
         Task {
             await loadStationeries()

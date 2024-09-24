@@ -47,9 +47,9 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var isAnonymous: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
-    private let componentsUseCase: ComponentsUseCase
+    private let componentsUseCase: ImportLetterUseCase
     
-    init(componentsUseCase: ComponentsUseCase) {
+    init(componentsUseCase: ImportLetterUseCase) {
         self.componentsUseCase = componentsUseCase
         
         setupBindings()

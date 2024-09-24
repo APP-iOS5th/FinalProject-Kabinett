@@ -1,5 +1,5 @@
 //
-//  LetterWriteUseCase.swift
+//  ImportLetterUseCase.swift
 //  Kabinett
 //
 //  Created by JIHYE SEOK on 8/12/24.
@@ -8,9 +8,8 @@
 import Foundation
 import Combine
 
-protocol LetterWriteUseCase {
-    func saveLetter(font: String, 
-                    postScript: String?,
+protocol ImportLetterUseCase {
+    func saveLetter(postScript: String?, 
                     envelope: String,
                     stamp: String,
                     fromUserId: String?, 
@@ -19,10 +18,8 @@ protocol LetterWriteUseCase {
                     toUserId: String?, 
                     toUserName: String,
                     toUserKabinettNumber: Int?,
-                    content: [String],
                     photoContents: [Data],
                     date: Date,
-                    stationery: String,
                     isRead: Bool
     ) async -> Result<Bool, any Error>
     func findWriter(by query: String) async -> [Writer]
@@ -30,5 +27,4 @@ protocol LetterWriteUseCase {
     
     func loadEnvelopes() async -> Result<[String], any Error>
     func loadStamps() async -> Result<[String], any Error>
-    func loadStationeries() async -> Result<[String], any Error>
 }

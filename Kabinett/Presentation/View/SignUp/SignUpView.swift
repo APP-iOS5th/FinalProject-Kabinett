@@ -1,5 +1,5 @@
 //
-//  LoginView.swift
+//  SignUpView.swift
 //  Kabinett
 //
 //  Created by Yule on 8/12/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 import AuthenticationServices
 
-struct LoginView: View {
+struct SignUpView: View {
     @EnvironmentObject private var viewModel: SignUpViewModel
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     
@@ -66,5 +66,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    SignUpView()
 }

@@ -9,12 +9,12 @@ import Foundation
 import SwiftUI
 
 class PreviewLetterViewModel: ObservableObject {
-    private let useCase: LetterWriteUseCase
+    private let useCase: WriteLetterUseCase
     
     @Published var isSaveSuccessful: Bool = false
     @Published var errorMessage: String? = nil
     
-    init(useCase: LetterWriteUseCase) {
+    init(useCase: WriteLetterUseCase) {
         self.useCase = useCase
     }
     
