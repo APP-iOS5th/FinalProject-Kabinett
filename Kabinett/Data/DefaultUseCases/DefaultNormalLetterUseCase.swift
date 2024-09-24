@@ -33,7 +33,7 @@ final class DefaultNormalLetterUseCase {
     }
 }
 
-extension DefaultNormalLetterUseCase: LetterWriteUseCase {
+extension DefaultNormalLetterUseCase: WriteLetterUseCase {
     func saveLetter(font: String, 
                     postScript: String?,
                     envelope: String,

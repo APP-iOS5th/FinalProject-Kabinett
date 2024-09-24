@@ -20,9 +20,9 @@ class UserSelectionViewModel: ObservableObject {
     @Published var showModal: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
-    private let useCase: LetterWriteUseCase
+    private let useCase: WriteLetterUseCase
     
-    init(useCase: LetterWriteUseCase) {
+    init(useCase: WriteLetterUseCase) {
         self.useCase = useCase
         
         $searchText
