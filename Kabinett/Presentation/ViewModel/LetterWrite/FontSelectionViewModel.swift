@@ -49,13 +49,13 @@ class FontSelectionViewModel: ObservableObject {
         return selectedIndex == index
     }
     
-    func selectedUIFont(font: String) -> UIFont {
+    func selectedUIFont(font: String, size: CGFloat) -> UIFont {
         if font == "SFMONO" {
-            return UIFont.monospacedSystemFont(ofSize: 15, weight: .regular)
+            return UIFont.monospacedSystemFont(ofSize: size, weight: .regular)
         }  else if font == "SFDisplay" {
-            return UIFont.systemFont(ofSize: 15)
+            return UIFont.systemFont(ofSize: size)
         } else {
-            return UIFont(name: font, size: 15) ?? UIFont.systemFont(ofSize: 15)
+            return UIFont(name: font, size: size) ?? UIFont.systemFont(ofSize: size)
         }
     }
     

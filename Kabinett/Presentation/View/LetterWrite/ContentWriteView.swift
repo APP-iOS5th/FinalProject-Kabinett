@@ -108,7 +108,7 @@ struct ScrollableLetterView: View {
                                                              height: $viewModel.textViewHeights[i],
                                                              maxWidth: geo.size.width,
                                                              maxHeight: geo.size.height,
-                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
+                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: 15))
                                             .onChange(of: viewModel.textViewHeights[i]) {
                                                 if viewModel.textViewHeights[i] >= geo.size.height {
                                                     viewModel.createNewLetter()
