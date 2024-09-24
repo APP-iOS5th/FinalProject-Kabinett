@@ -37,8 +37,6 @@ struct CustomTabBar: View {
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }
     
-    
-    
     private func tabItem(image: UIImage, tag: Int) -> some View {
         Button(action: {
             viewModel.handleTabSelection(tag)

@@ -15,7 +15,7 @@ struct ProfileView: View {
         NavigationStack {
             Group {
                 if case .toLogin = viewModel.navigateState {
-                    LoginView()
+                    SignUpView()
                 } else {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)

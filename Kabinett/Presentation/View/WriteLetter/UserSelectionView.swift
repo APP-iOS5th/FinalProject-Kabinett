@@ -243,7 +243,7 @@ struct LetterWriteLoginView: View {
     var body: some View {
         NavigationStack {
             ZStack (alignment: .topTrailing) {
-                LoginView()
+                SignUpView()
                 Rectangle()
                     .frame(width: 100, height: 100)
                     .foregroundStyle(Color(.background))
