@@ -5,22 +5,39 @@
 //  Created by Song Kim on 8/22/24.
 //
 
-import Foundation
 import SwiftUI
 
 class ContentWriteViewModel: ObservableObject {
-    @Published var texts: [String] = [""]
-    @Published var textViewHeights: [CGFloat] = [CGFloat](repeating: .zero, count: 1)
-    
-    @Published var currentIndex: Int = 0
-    
-    func reset() {
-        texts = [""]
-        textViewHeights = [CGFloat](repeating: .zero, count: 1)
+    @Published var text: String = ""
+    @Published var pageCnt: Int = 1
+
+    let maxCharactersPerPage = 340 // 한 페이지당 최대
+
+    // 페이지의 텍스트를 가져오는 메서드
+    func getPageText(for pageIndex: Int) -> String {
+        let startIndex = text.index(text.startIndex, offsetBy: pageIndex * maxCharactersPerPage, limitedBy: text.endIndex) ?? text.endIndex
+        let endIndex = text.index(startIndex, offsetBy: maxCharactersPerPage, limitedBy: text.endIndex) ?? text.endIndex
+        return String(text[startIndex..<endIndex])
+    }
+
+    // 특정 페이지의 텍스트를 업데이트하는 메서드
+    func updateText(for pageIndex: Int, with newValue: String) {
+        let startIndex = text.index(text.startIndex, offsetBy: pageIndex * maxCharactersPerPage, limitedBy: text.endIndex) ?? text.endIndex
+        let endIndex = text.index(startIndex, offsetBy: maxCharactersPerPage, limitedBy: text.endIndex) ?? text.endIndex
+        
+        text.replaceSubrange(startIndex..<endIndex, with: newValue)
+        adjustPageCount()
+    }
+
+    // 페이지 수 조정
+    func adjustPageCount() {
+        let totalCharacters = text.count
+        pageCnt = max(1, (totalCharacters + maxCharactersPerPage - 1) / maxCharactersPerPage)
     }
     
-    func createNewLetter() {
-        texts.append("")
-        textViewHeights.append(.zero)
+    // 텍스트 초기화
+    func reset() {
+        text = ""
+        pageCnt = 1
     }
 }
