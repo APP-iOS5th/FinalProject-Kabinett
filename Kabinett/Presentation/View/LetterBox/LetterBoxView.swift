@@ -36,22 +36,11 @@ struct LetterBoxView: View {
                 .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
                 
                 VStack {
-                    if showToast {
-                        Spacer()
-                        ToastView(message: "카비넷 팀의 편지가 도착했어요.", horizontalPadding: 50)
-                            .transition(.move(edge: .bottom))
-                            .zIndex(1)
-                            .onAppear {
-                                letterBoxViewModel.fetchWelcomeLetter()
-                                
-                                Timer.scheduledTimer(withTimeInterval: 3.3, repeats: false) { _ in
-                                    withAnimation {
-                                        showToast = false
-                                    }
-                                }
-                            }
-                            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.01, forOthers: 0.01))
-                    }
+                    Spacer()
+                    ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $showToast)
+                        .onAppear {
+                             letterBoxViewModel.fetchWelcomeLetter()
+                        }
                 }
             }
             .onAppear() {
