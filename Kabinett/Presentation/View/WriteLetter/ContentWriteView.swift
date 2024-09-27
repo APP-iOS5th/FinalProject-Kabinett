@@ -14,6 +14,7 @@ struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -35,13 +36,40 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+                HStack {
+                    Button {
+                        viewModel.createNewLetter()
+                    } label: {
+                        Image(systemName: "plus.square")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    Button {
+                        viewModel.deleteLetter()
+                    } label: {
+                        Image(systemName: "minus.square")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    Button {
+                        customViewModel.showPhotoLibrary = true
+                        customViewModel.isLetterWrite = true
+                    } label: {
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                }
+                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 40)
+                .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
+                .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
+                .clipShape(Capsule())
                 
                 ScrollableLetterView(letterContent: $letterContent)
             }
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .slideToDismiss() // 스크롤 부분이라 어색함.
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
                 imageViewModel.selectedItems = newValue
@@ -57,7 +85,6 @@ struct ContentWriteView: View {
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
-    @EnvironmentObject var customViewModel: CustomTabViewModel
     @EnvironmentObject var fontViewModel: FontSelectionViewModel
     
     var body: some View {
@@ -84,20 +111,6 @@ struct ScrollableLetterView: View {
                                                     UIApplication.shared.endEditing()
                                                 }
                                             Spacer()
-                                            
-                                            Button {
-                                                customViewModel.showPhotoLibrary = true
-                                                customViewModel.isLetterWrite = true
-                                            } label: {
-                                                Image(systemName: "photo.on.rectangle.angled")
-                                                    .font(.system(size: 15))
-                                                    .padding(.horizontal, 13)
-                                                    .padding(.vertical, 8)
-                                                    .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
-                                                    .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
-                                                    .clipShape(Capsule())
-                                            }
-                                            
                                         }
                                         .padding(.top, 45)
                                         .padding(.leading, 2)

@@ -23,4 +23,10 @@ class ContentWriteViewModel: ObservableObject {
         texts.append("")
         textViewHeights.append(.zero)
     }
+    
+    func deleteLetter() {
+        if texts.count > 1 {
+
+        }
+    }
 }
