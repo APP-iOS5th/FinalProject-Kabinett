@@ -104,63 +104,15 @@ struct ScrollableLetterView: View {
                                         .padding(.bottom, 3)
                                         
                                         GeometryReader { geo in
-                                            CustomTextEditor(text: $viewModel.texts[i],
-                                                             height: $viewModel.textViewHeights[i],
-                                                             maxWidth: geo.size.width,
-                                                             maxHeight: geo.size.height,
-                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "",
-                                                                                                size: {
-                                                if letterContent.fontString == "SourceHanSerifK-Regular" {
-                                                    return (UIScreen.main.bounds.width * 0.0333)
-                                                } else if letterContent.fontString == "NanumMyeongjoOTF" {
-                                                    return (UIScreen.main.bounds.width * 0.0392)
-                                                } else if letterContent.fontString == "Baskervville-Regular" {
-                                                    return (UIScreen.main.bounds.width * 0.0369)
-                                                } else if letterContent.fontString == "Pecita" {
-                                                    return (UIScreen.main.bounds.width * 0.037)
-                                                } else {
-                                                    return (UIScreen.main.bounds.width * 0.0382)
-                                                }
-                                            }()),
-                                                             lineSpacing: {
-                                                if letterContent.fontString == "Pecita" {
-                                                    return (UIScreen.main.bounds.width * 0.0069)
-                                                } else if letterContent.fontString == "SFDisplay" {
-                                                    return (UIScreen.main.bounds.width * 0.0013)
-                                                } else if letterContent.fontString == "goormSansOTF4" {
-                                                    return (UIScreen.main.bounds.width * 0.0013)
-                                                }  else if letterContent.fontString == "Baskervville-Regular" {
-                                                    return (UIScreen.main.bounds.width * 0.002)
-                                                } else {
-                                                    return 0.0
-                                                }
-                                            }(),
-                                                             kerning: {
-                                                if letterContent.fontString == "SFMONO" {
-                                                    return -(UIScreen.main.bounds.width * 0.0025)
-                                                } else if letterContent.fontString == "SFDisplay" {
-                                                    return (UIScreen.main.bounds.width * 0.0005)
-                                                } else if letterContent.fontString == "goormSansOTF4" {
-                                                    return (UIScreen.main.bounds.width * 0.001)
-                                                } else {
-                                                    return 0.0
-                                                }
-                                            }()
+                                            CustomTextEditor(
+                                                text: $viewModel.texts[i]
+                                                ,height: $viewModel.textViewHeights[i]
+                                                ,maxWidth: geo.size.width
+                                                ,maxHeight: geo.size.height
+                                                ,font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSizeCheck(font: letterContent.fontString ?? ""))
+                                                ,lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? "")
+                                                ,kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
                                             )
-                                            .onChange(of: viewModel.textViewHeights[i]) {
-                                                if viewModel.textViewHeights[i] >= geo.size.height {
-                                                    viewModel.createNewLetter()
-                                                }
-                                            }
-                                            .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                                if letterContent.content.isEmpty {
-                                                    letterContent.content.append("")
-                                                }
-                                                letterContent.content[0] = viewModel.texts[0]
-                                            }
-                                            .onAppear {
-                                                print(UIScreen.main.bounds.width)
-                                            }
                                         }
                                         Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                             .padding(.trailing, 2)
@@ -204,8 +156,8 @@ struct CustomTextEditor: UIViewRepresentable {
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
-    var lineSpacing: CGFloat  // Line height
-    var kerning: CGFloat  // Letter spacing (kerning)
+    var lineSpacing: CGFloat
+    var kerning: CGFloat
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor

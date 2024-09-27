@@ -29,6 +29,8 @@ class FontSelectionViewModel: ObservableObject {
         Fonts(fontName: "Pecita", font: "Pecita"),
     ]
     
+    let screenSize = UIScreen.main.bounds.width
+    
     init() {
         updateText()
     }
@@ -69,7 +71,40 @@ class FontSelectionViewModel: ObservableObject {
         }
     }
     
-    func fontsizeCheck(font: String, screenWidth: Int) -> CGFloat {
-        return 15.0
+    func fontSizeCheck(font: String) -> CGFloat {
+        if font == "SourceHanSerifK-Regular" {
+            return screenSize * 0.0333
+        } else if font == "NanumMyeongjoOTF" {
+            return screenSize * 0.0392
+        } else if font == "Baskervville-Regular" {
+            return screenSize * 0.0369
+        } else if font == "Pecita" {
+            return screenSize * 0.037
+        }
+        return (screenSize * 0.0382)
+    }
+    
+    func lineSpacing(font: String) -> CGFloat {
+        if font == "Pecita" {
+            return screenSize * 0.0069
+        } else if font == "SFDisplay" {
+            return screenSize * 0.0013
+        } else if font == "goormSansOTF4" {
+            return screenSize * 0.0013
+        }  else if font == "Baskervville-Regular" {
+            return screenSize * 0.002
+        }
+        return 0.0
+    }
+    
+    func kerning(font: String) -> CGFloat {
+        if font == "SFMONO" {
+            return -(screenSize * 0.0025)
+        } else if font == "SFDisplay" {
+            return (screenSize * 0.0005)
+        } else if font == "goormSansOTF4" {
+            return (screenSize * 0.001)
+        }
+        return 0.0
     }
 }
