@@ -119,7 +119,6 @@ struct ScrollableLetterView: View {
                                         GeometryReader { geo in
                                             CustomTextEditor(
                                                 text: $viewModel.texts[i]
-                                                ,height: $viewModel.textViewHeights[i]
                                                 ,maxWidth: geo.size.width
                                                 ,maxHeight: geo.size.height
                                                 ,font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSizeCheck(font: letterContent.fontString ?? ""))
@@ -165,12 +164,13 @@ struct ScrollableLetterView: View {
 // MARK: - CustomTextEditor.swift
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
-    @Binding var height: CGFloat
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
     var lineSpacing: CGFloat
     var kerning: CGFloat
+    
+    let maxCharacterLimit: Int = 427
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
@@ -180,16 +180,11 @@ struct CustomTextEditor: UIViewRepresentable {
         }
         
         func textViewDidChange(_ textView: UITextView) {
-            let newSize = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
-            
-            if newSize.height <= parent.maxHeight {
-                parent.text = textView.text
-                DispatchQueue.main.async {
-                    self.parent.height = newSize.height
-                }
-            } else {
-                textView.text = parent.text
+            if textView.text.count > parent.maxCharacterLimit {
+                textView.text = String(textView.text.prefix(parent.maxCharacterLimit))
             }
+
+            parent.text = textView.text
         }
     }
     
@@ -227,13 +222,6 @@ struct CustomTextEditor: UIViewRepresentable {
         }
         
         uiView.attributedText = createAttributedString(text: text, font: font, lineSpacing: lineSpacing, kerning: kerning)
-        
-        let newSize = uiView.sizeThatFits(CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude))
-        DispatchQueue.main.async {
-            if newSize.height <= maxHeight {
-                self.height = newSize.height
-            }
-        }
     }
     
     private func createAttributedString(text: String, font: UIFont, lineSpacing: CGFloat, kerning: CGFloat) -> NSAttributedString {
