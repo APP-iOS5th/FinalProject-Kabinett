@@ -15,9 +15,8 @@ final class CustomTabViewModel: ObservableObject {
     @Published var showPhotoLibrary: Bool = false
     @Published var showImagePreview: Bool = false
     @Published var showWriteLetterView: Bool = false
-    @Published var resetLetterBox: Bool = false
-    @Published var resetProfile: Bool = false
-    
+    @Published var letterBoxNavigationPath = NavigationPath()
+    @Published var profileNavigationPath = NavigationPath()
     @Published var isLetterWrite: Bool = false
     
     // MARK: TabView SystemImage Size
@@ -31,22 +30,6 @@ final class CustomTabViewModel: ObservableObject {
         self.profileImage = UIImage(systemName: "circle.fill")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
     }
     
-    func handleTabSelection(_ tab: Int) {
-        if tab == selectedTab {
-            if tab == 0 {
-                resetLetterBox = true
-            } else if tab == 2 {
-                resetProfile = true
-            }
-        } else if tab == 1 {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                showOptions = true
-            }
-        } else {
-            selectedTab = tab
-        }
-    }
-    
     func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
         let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
@@ -58,6 +41,22 @@ final class CustomTabViewModel: ObservableObject {
         
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    func handleTabSelection(_ tab: Int) {
+        if tab == selectedTab {
+            if tab == 0 {
+                letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
+            } else if tab == 2 {
+                profileNavigationPath.removeLast(profileNavigationPath.count)
+            }
+        } else if tab == 1 {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                showOptions = true
+            }
+        } else {
+            selectedTab = tab
+        }
     }
     
     func navigateToLetterBox() {
