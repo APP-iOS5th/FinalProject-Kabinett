@@ -71,7 +71,7 @@ class FontSelectionViewModel: ObservableObject {
         }
     }
     
-    func fontSizeCheck(font: String) -> CGFloat {
+    func fontSize(font: String) -> CGFloat {
         if font == "SourceHanSerifK-Regular" {
             return screenSize * 0.0333
         } else if font == "NanumMyeongjoOTF" {

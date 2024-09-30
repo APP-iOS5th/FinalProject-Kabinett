@@ -36,7 +36,7 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-                HStack {
+                HStack(alignment: .center) {
                     Button {
                         viewModel.createNewLetter()
                     } label: {
@@ -60,7 +60,7 @@ struct ContentWriteView: View {
                             .frame(width: UIScreen.main.bounds.width/3)
                     }
                 }
-                .frame(maxWidth: UIScreen.main.bounds.width, maxHeight: 40)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.88, maxHeight: 40)
                 .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
                 .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                 .clipShape(Capsule())
@@ -121,11 +121,12 @@ struct ScrollableLetterView: View {
                                                 text: $viewModel.texts[i]
                                                 ,maxWidth: geo.size.width
                                                 ,maxHeight: geo.size.height
-                                                ,font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSizeCheck(font: letterContent.fontString ?? ""))
+                                                ,font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSize(font: letterContent.fontString ?? ""))
                                                 ,lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? "")
                                                 ,kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
                                             )
                                         }
+
                                         Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                             .padding(.trailing, 2)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
