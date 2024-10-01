@@ -13,8 +13,6 @@ struct LetterBoxView: View {
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
-    @State private var showToast: Bool = false
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -37,16 +35,13 @@ struct LetterBoxView: View {
                 
                 VStack {
                     Spacer()
-                    ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $showToast)
-                        .onAppear {
-                             letterBoxViewModel.fetchWelcomeLetter()
-                        }
+                    ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $letterBoxViewModel.showToast)
                 }
             }
             .onAppear() {
                 withAnimation {
                     if isFirstLaunch {
-                        showToast = true
+                        letterBoxViewModel.fetchWelcomeLetter()
                         isFirstLaunch = false
                     }
                 }
