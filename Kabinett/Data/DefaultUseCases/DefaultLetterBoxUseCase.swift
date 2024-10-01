@@ -47,7 +47,6 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
             Task {
                 let types: [LetterType] = [.all, .sent, .received, .toMe]
                 
-                
                 await withTaskGroup(of: Void.self) { group in
                     for type in types {
                         group.addTask {
@@ -222,8 +221,12 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     }
     
     func getWelcomeLetter() async -> Result<Bool, any Error> {
-        let userId = await authManager.getCurrentUser()?.uid ?? ""
-        return await letterManager.getWelcomeLetter(userId: userId)
+        if let currentUser = await authManager.getCurrentUser(), currentUser.isAnonymous {
+            let userId = currentUser.uid
+            return await letterManager.getWelcomeLetter(userId: userId)
+        } else {
+            return .failure(LetterError.identityUser)
+        }
     }
 }
 

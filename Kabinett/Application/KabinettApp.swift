@@ -73,13 +73,13 @@ struct KabinettApp: App {
             authManager: authManager,
             writerManager: writerManager
         )
-        let normalLetterUseCase = DefaultNormalLetterUseCase(
+        let normalLetterUseCase = DefaultWriteLetterUseCase(
             authManager: authManager,
             writerManager: writerManager,
             letterManager: letterManager,
             letterStorageManager: letterStorageManager
         )
-        let photoLetterUseCase = DefaultPhotoLetterUseCase(
+        let photoLetterUseCase = DefaultImportLetterUseCase(
             authManager: authManager,
             writerManager: writerManager,
             letterManager: letterManager,
