@@ -17,11 +17,13 @@ struct ImageCropper: View {
 
     var body: some View {
         if let imageToCrop = imageToCrop {
+            let normalizedImage = imageToCrop.normalized()
+
             VStack {
                 Spacer()
-                imageView(image: imageToCrop)
+                imageView(image: normalizedImage)
                 Spacer()
-                actionButtons(image: imageToCrop)
+                actionButtons(image: normalizedImage)
                 if let croppedImage = croppedImage {
                     croppedImageView(croppedImage: croppedImage)
                 }
@@ -90,5 +92,20 @@ struct ImageCropper: View {
             .resizable()
             .scaledToFit()
             .frame(width: 110)
+    }
+}
+
+extension UIImage {
+    func normalized() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale) // 새로운 캔버스 만들기
+        self.draw(in: CGRect(origin: .zero, size: self.size)) // heic의 이미지 회전 정보를 무시하고 새로 그림
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage ?? self
     }
 }
