@@ -15,6 +15,7 @@ struct ContentWriteView: View {
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
+    @State var currentIndex: Int = 0
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -65,7 +66,10 @@ struct ContentWriteView: View {
                 .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                 .clipShape(Capsule())
                 
-                ScrollableLetterView(letterContent: $letterContent)
+                ScrollableLetterView(letterContent: $letterContent, currentIndex: $currentIndex)
+                    .onChange(of: currentIndex) {
+                        print("Leading Anchor Key: \(currentIndex)")
+                    }
             }
         }
         .navigationBarBackButtonHidden()
@@ -80,81 +84,105 @@ struct ContentWriteView: View {
     }
 }
 
+// PreferenceKey를 사용하여 각 색상 뷰의 앵커 위치를 저장할 키를 정의
+struct AnchorsKey: PreferenceKey {
+    typealias Value = [Int: Anchor<CGPoint>]
+
+    static var defaultValue: Value { [ : ] }
+
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value.merge(nextValue()) { $1 }
+    }
+}
 
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @Binding var currentIndex: Int
     
     var body: some View {
-        ScrollViewReader { scrollViewProxy in
-            ZStack(alignment: .top) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
-                        ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                            VStack {
-                                ZStack {
-                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                        .padding(.top, 10)
-                                    
-                                    VStack {
-                                        HStack {
-                                            Text(i == 0 ? letterContent.toUserName : "")
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .onTapGesture {
-                                                    UIApplication.shared.endEditing()
-                                                }
-                                            Spacer()
-                                        }
-                                        .padding(.top, 45)
-                                        .padding(.leading, 2)
-                                        .padding(.bottom, 3)
+        GeometryReader { geometry in
+            ScrollViewReader { scrollViewProxy in
+                ZStack(alignment: .top) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
+                            ForEach(0..<viewModel.texts.count, id: \.self) { i in
+                                VStack {
+                                    ZStack {
+                                        KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                            .placeholder {
+                                                ProgressView()
+                                            }
+                                            .resizable()
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                                            .padding(.top, 10)
                                         
-                                        GeometryReader { geo in
-                                            CustomTextEditor(
-                                                text: $viewModel.texts[i]
-                                                ,maxWidth: geo.size.width
-                                                ,maxHeight: geo.size.height
-                                                ,font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSize(font: letterContent.fontString ?? ""))
-                                                ,lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? "")
-                                                ,kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
-                                            )
+                                        VStack {
+                                            HStack {
+                                                Text(i == 0 ? letterContent.toUserName : "")
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                    .onTapGesture {
+                                                        UIApplication.shared.endEditing()
+                                                    }
+                                                Spacer()
+                                            }
+                                            .padding(.top, 45)
+                                            .padding(.leading, 2)
+                                            .padding(.bottom, 3)
+                                            
+                                            GeometryReader { geo in
+                                                CustomTextEditor(
+                                                    text: $viewModel.texts[i],
+                                                    maxWidth: geo.size.width,
+                                                    maxHeight: geo.size.height,
+                                                    font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSize(font: letterContent.fontString ?? "")),
+                                                    lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? ""),
+                                                    kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
+                                                )
+                                            }
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                                .padding(.trailing, 2)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
+                                                .padding(.bottom, 30)
+                                                .padding(.trailing, 2)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
                                         }
-
-                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                            .padding(.trailing, 2)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                            .padding(.bottom, 30)
-                                            .padding(.trailing, 2)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
+                                    .aspectRatio(9/13, contentMode: .fit)
+                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    .id(i)
+                                    Spacer()
+                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                                 }
-                                .aspectRatio(9/13, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .id(i)
-                                Spacer()
                             }
                         }
+                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                    .scrollTargetLayout()
                 }
-                .scrollTargetLayout()
-            }
-            .scrollTargetBehavior(.viewAligned)
-            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
-            .onChange(of: viewModel.texts.count) {
-                withAnimation {
-                    viewModel.currentIndex = viewModel.texts.count - 1
-                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                .scrollTargetBehavior(.viewAligned)
+                .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
+                .onChange(of: viewModel.texts.count) {
+                    withAnimation {
+                        viewModel.currentIndex = viewModel.texts.count - 1
+                        scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                    }
+                }
+                .onPreferenceChange(AnchorsKey.self) { anchors in
+                    let leadingAnchor = anchors
+                        .filter { geometry[$0.value].x >= 0 }
+                        .sorted { geometry[$0.value].x < geometry[$1.value].x }
+                        .first
+
+                    if currentIndex != leadingAnchor?.key ?? 0 {
+                        currentIndex = leadingAnchor?.key ?? 0
+                    }
                 }
             }
         }
