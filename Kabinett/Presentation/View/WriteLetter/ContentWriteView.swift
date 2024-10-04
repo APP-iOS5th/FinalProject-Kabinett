@@ -45,10 +45,25 @@ struct ContentWriteView: View {
                             .frame(width: UIScreen.main.bounds.width/3)
                     }
                     Button {
+                        if viewModel.texts.count > 1 {
+                            viewModel.isDeleteAlertPresented = true
+                        }
                     } label: {
                         Image(systemName: "minus.square")
                             .font(.system(size: 15))
                             .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    .alert(isPresented: $viewModel.isDeleteAlertPresented) {
+                        Alert(
+                            title: Text("Delete Page"),
+                            message: Text("현재 페이지를 삭제하시겠습니까?"),
+                            primaryButton: .destructive(Text("삭제")) {
+                                viewModel.deleteLetter(idx: viewModel.currentIndex)
+                            },
+                            secondaryButton: .cancel(Text("취소")) {
+                                viewModel.isDeleteAlertPresented = false
+                            }
+                        )
                     }
                     Button {
                         customViewModel.showPhotoLibrary = true
