@@ -15,7 +15,6 @@ struct ContentWriteView: View {
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
-    @State var currentIndex: Int = 0
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -39,14 +38,13 @@ struct ContentWriteView: View {
                 }
                 HStack(alignment: .center) {
                     Button {
-                        viewModel.createNewLetter(idx: currentIndex)
+                        viewModel.createNewLetter(idx: viewModel.currentIndex)
                     } label: {
                         Image(systemName: "plus.square")
                             .font(.system(size: 15))
                             .frame(width: UIScreen.main.bounds.width/3)
                     }
                     Button {
-                        viewModel.deleteLetter(idx: currentIndex)
                     } label: {
                         Image(systemName: "minus.square")
                             .font(.system(size: 15))
@@ -66,10 +64,9 @@ struct ContentWriteView: View {
                 .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                 .clipShape(Capsule())
                 
-                ScrollableLetterView(letterContent: $letterContent, currentIndex: $currentIndex)
-                    .onChange(of: currentIndex) {
-                        print("Leading Anchor Key: \(currentIndex)") // 확인용 출력 코드
-                    }
+                ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
+                
+                Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
             }
         }
         .navigationBarBackButtonHidden()
@@ -84,16 +81,6 @@ struct ContentWriteView: View {
     }
 }
 
-// PreferenceKey를 사용하여 각 색상 뷰의 앵커 위치를 저장할 키를 정의
-struct AnchorsKey: PreferenceKey {
-    typealias Value = [Int: Anchor<CGPoint>]
-
-    static var defaultValue: Value { [ : ] }
-
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value.merge(nextValue()) { $1 }
-    }
-}
 
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
@@ -142,6 +129,12 @@ struct ScrollableLetterView: View {
                                                     kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
                                                 )
                                             }
+                                            .onChange(of: viewModel.texts[i]) {
+                                                letterContent.content = viewModel.texts
+                                            }
+                                            .onChange(of: viewModel.texts.count) {
+                                                letterContent.content = viewModel.texts
+                                            }
                                             
                                             Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
                                                 .padding(.trailing, 2)
@@ -178,13 +171,23 @@ struct ScrollableLetterView: View {
                         .filter { geometry[$0.value].x >= 0 }
                         .sorted { geometry[$0.value].x < geometry[$1.value].x }
                         .first
-
+                    
                     if currentIndex != leadingAnchor?.key ?? 0 {
                         currentIndex = leadingAnchor?.key ?? 0
                     }
                 }
             }
         }
+    }
+}
+
+struct AnchorsKey: PreferenceKey {
+    typealias Value = [Int: Anchor<CGPoint>]
+    
+    static var defaultValue: Value { [ : ] }
+    
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value.merge(nextValue()) { $1 }
     }
 }
 
@@ -211,7 +214,7 @@ struct CustomTextEditor: UIViewRepresentable {
             if textView.text.count > parent.maxCharacterLimit {
                 textView.text = String(textView.text.prefix(parent.maxCharacterLimit))
             }
-
+            
             parent.text = textView.text
         }
     }

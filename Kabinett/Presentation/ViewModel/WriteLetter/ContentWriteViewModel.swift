@@ -10,9 +10,11 @@ import SwiftUI
 
 class ContentWriteViewModel: ObservableObject {
     @Published var texts: [String] = [""]
+    @Published var currentIndex: Int = 0
     
     func reset() {
         texts = [""]
+        currentIndex = 0
     }
     
     func createNewLetter(idx: Int) {
