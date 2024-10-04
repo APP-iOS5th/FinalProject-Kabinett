@@ -14,14 +14,14 @@ struct ImageCropper: View {
     @State var cropArea: CGRect = .init(x: 0, y: 0, width: 110, height: 110)
     @State var imageViewSize: CGSize = .zero
     @State var croppedImage: UIImage? = nil
-
+    
     var body: some View {
-        if let imageToCrop = imageToCrop {
+        if let image = imageToCrop?.normalized() {
             VStack {
                 Spacer()
-                imageView(image: imageToCrop)
+                imageView(image: image)
                 Spacer()
-                actionButtons(image: imageToCrop)
+                actionButtons(image: image)
                 if let croppedImage = croppedImage {
                     croppedImageView(croppedImage: croppedImage)
                 }
@@ -32,7 +32,7 @@ struct ImageCropper: View {
             Text("No image available for cropping.")
         }
     }
-
+    
     @ViewBuilder
     private func imageView(image: UIImage) -> some View {
         Image(uiImage: image)
@@ -50,7 +50,7 @@ struct ImageCropper: View {
                 }
             }
     }
-
+    
     @ViewBuilder
     private func actionButtons(image: UIImage) -> some View {
         HStack {
@@ -61,16 +61,16 @@ struct ImageCropper: View {
                     .font(.system(size: 20))
                     .foregroundColor(.white)
             }
-
+            
             Spacer()
-
+            
             Text("이미지 자르기")
                 .fontWeight(.medium)
                 .font(.system(size: 18))
                 .foregroundColor(.white)
-
+            
             Spacer()
-
+            
             Button(action: {
                 viewModel.crop(image: image, cropArea: cropArea, imageViewSize: imageViewSize)
                 croppedImage = viewModel.croppedImage
@@ -83,12 +83,27 @@ struct ImageCropper: View {
         .frame(width: 350)
         .padding(.bottom, 10)
     }
-
+    
     @ViewBuilder
     private func croppedImageView(croppedImage: UIImage) -> some View {
         Image(uiImage: croppedImage)
             .resizable()
             .scaledToFit()
             .frame(width: 110)
+    }
+}
+
+extension UIImage {
+    func normalized() -> UIImage {
+        if self.imageOrientation == .up {
+            return self
+        }
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale) // 새로운 캔버스 만들기
+        self.draw(in: CGRect(origin: .zero, size: self.size)) // heic의 이미지 회전 정보를 무시하고 새로 그림
+        let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return normalizedImage ?? self
     }
 }
