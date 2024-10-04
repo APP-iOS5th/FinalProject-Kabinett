@@ -10,21 +10,18 @@ import SwiftUI
 
 class ContentWriteViewModel: ObservableObject {
     @Published var texts: [String] = [""]
-    @Published var currentIndex: Int = 0
     
     func reset() {
         texts = [""]
     }
     
-    func createNewLetter() {
-        texts.append("")
-        currentIndex = texts.count
+    func createNewLetter(idx: Int) {
+        texts.insert("", at: idx+1)
     }
     
-    func deleteLetter() {
+    func deleteLetter(idx: Int) {
         if texts.count > 1 {
-            texts.remove(at: currentIndex)
-            currentIndex = texts.count
+            texts.remove(at: idx)
         }
     }
 }

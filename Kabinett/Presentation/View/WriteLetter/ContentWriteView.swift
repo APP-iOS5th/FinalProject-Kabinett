@@ -39,14 +39,14 @@ struct ContentWriteView: View {
                 }
                 HStack(alignment: .center) {
                     Button {
-                        viewModel.createNewLetter()
+                        viewModel.createNewLetter(idx: currentIndex)
                     } label: {
                         Image(systemName: "plus.square")
                             .font(.system(size: 15))
                             .frame(width: UIScreen.main.bounds.width/3)
                     }
                     Button {
-                        viewModel.deleteLetter()
+                        viewModel.deleteLetter(idx: currentIndex)
                     } label: {
                         Image(systemName: "minus.square")
                             .font(.system(size: 15))
@@ -68,7 +68,7 @@ struct ContentWriteView: View {
                 
                 ScrollableLetterView(letterContent: $letterContent, currentIndex: $currentIndex)
                     .onChange(of: currentIndex) {
-                        print("Leading Anchor Key: \(currentIndex)")
+                        print("Leading Anchor Key: \(currentIndex)") // 확인용 출력 코드
                     }
             }
         }
@@ -170,8 +170,7 @@ struct ScrollableLetterView: View {
                 .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
                 .onChange(of: viewModel.texts.count) {
                     withAnimation {
-                        viewModel.currentIndex = viewModel.texts.count - 1
-                        scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                        scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
                     }
                 }
                 .onPreferenceChange(AnchorsKey.self) { anchors in
