@@ -10,3 +10,9 @@ import Foundation
 protocol InjectionKey {
     associatedtype Value
 }
+
+extension InjectionKey {
+    static var currentValue: Value {
+        DIContainer.shared.resolve(for: Self.self)
+    }
+}
