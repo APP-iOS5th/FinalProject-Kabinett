@@ -47,7 +47,8 @@ final class ProfileUseCaseStub: ProfileUseCase {
     }
     
     func signout() async -> Bool {
-        true
+        try? await Task.sleep(for: .seconds(1)) // 프로그레스뷰 테스트
+        return true
     }
     
     func deleteId() async -> Bool {

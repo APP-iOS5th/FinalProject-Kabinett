@@ -43,6 +43,7 @@ class ProfileViewModel: ObservableObject {
     @Published var showProfileAlert = false
     @Published var navigateState: NavigateState = .toLogin
     @Published var showSettingsView = false
+    @Published var isLoading: Bool = false
     
     var displayName: String {
         return newUserName.isEmpty ? currentWriter.name : newUserName
@@ -105,7 +106,9 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func signout() async {
+        startLoading()
         let success = await profileUseCase.signout()
+        stopLoading()
         if success {
             currentWriter = WriterViewModel(name: "", formattedNumber: "", imageUrlString: nil)
         } else {
@@ -122,7 +125,6 @@ class ProfileViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
-    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     private func loadCurrentWriter() {
         profileUseCase
             .getCurrentWriter()
@@ -154,6 +156,18 @@ class ProfileViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    private func startLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
+    }
+    
+    private func stopLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = false
+        }
     }
     
     @MainActor
