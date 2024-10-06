@@ -117,6 +117,7 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
+		E2E0DCD12CAED20800596DF7 /* CustomProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* CustomProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +247,7 @@
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
+		E2E0DCD02CAED20800596DF7 /* CustomProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -512,6 +514,7 @@
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
 				04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */,
 				04DEC0F92C75863600D289EA /* CropBox.swift */,
+				E2E0DCD02CAED20800596DF7 /* CustomProgressView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -945,6 +948,7 @@
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
+				E2E0DCD12CAED20800596DF7 /* CustomProgressView.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */,

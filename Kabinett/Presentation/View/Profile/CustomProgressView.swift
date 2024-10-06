@@ -9,7 +9,13 @@ import SwiftUI
 
 struct CustomProgressView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            Color.background.ignoresSafeArea(.all)
+            Image("CustomProgressView")
+                .resizable()
+                .frame(width: 100, height: 100)
+                .cornerRadius(17)
+        }
     }
 }
 
