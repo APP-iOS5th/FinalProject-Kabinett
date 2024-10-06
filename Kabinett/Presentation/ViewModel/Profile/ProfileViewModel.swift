@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 import PhotosUI
-
 import os
 
 class ProfileViewModel: ObservableObject {
@@ -64,8 +63,8 @@ class ProfileViewModel: ObservableObject {
         )
         
         if !success {
-            profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
             showProfileAlert = true
+            self.profileUpdateError = "프로필 업데이트 오류 발생"
         }
     }
     

@@ -43,7 +43,8 @@ final class ProfileUseCaseStub: ProfileUseCase {
     }
     
     func updateWriter(newWriterName: String, profileImage: Data?) async -> Bool {
-        true
+//        true
+        false
     }
     
     func signout() async -> Bool {

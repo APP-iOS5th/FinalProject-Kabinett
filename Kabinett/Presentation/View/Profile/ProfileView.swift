@@ -20,21 +20,13 @@ struct ProfileView: View {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)
                         if viewModel.profileUpdateError != nil {
-                            VStack {
-                                Text("프로필을 불러오는 데 문제가 발생했어요.")
-                                    .fontWeight(.regular)
-                                    .foregroundColor(.alert)
-                                    .font(.headline)
-                                    .padding()
-                                
-                                NavigationLink(destination: SignUpNameInputView()) {
-                                    Text("다시 시도하기")
-                                        .padding()
-                                        .background(Color.primary900)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                }
-                            }
+//                            VStack {
+//                                Text("프로필을 불러오는 데 문제가 발생했어요.")
+//                                    .fontWeight(.regular)
+//                                    .foregroundColor(.alert)
+//                                    .font(.headline)
+//                                    .padding()
+//                            }
                         } else {
                             VStack {
                                 if let image = viewModel.currentWriter.imageUrlString {
@@ -61,6 +53,15 @@ struct ProfileView: View {
                                     .monospaced()
                             }
                         }
+                    }
+                    .alert(
+                        "오류",
+                        isPresented: $viewModel.showProfileAlert
+                    ) {
+                        Button("확인", role: .cancel) {
+                        }
+                    } message: {
+                        Text(viewModel.profileUpdateError ?? "프로필을 불러오는 데 문제가 발생했어요.")
                     }
                     .navigationBarBackButtonHidden()
                     .toolbar {
