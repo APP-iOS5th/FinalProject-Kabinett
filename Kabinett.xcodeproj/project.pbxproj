@@ -90,6 +90,12 @@
 		7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
+		83358CAD2CB2621400D1DD00 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CAC2CB2621400D1DD00 /* Module.swift */; };
+		83358CAF2CB2643400D1DD00 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CAE2CB2643400D1DD00 /* DIContainer.swift */; };
+		83358CB12CB2644400D1DD00 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CB02CB2644400D1DD00 /* Injected.swift */; };
+		83358CB32CB2645300D1DD00 /* InjectionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CB22CB2645300D1DD00 /* InjectionKey.swift */; };
+		83358CB82CB2673000D1DD00 /* ServiceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CB72CB2673000D1DD00 /* ServiceKeys.swift */; };
+		83358CBC2CB2674900D1DD00 /* UseCaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83358CBB2CB2674900D1DD00 /* UseCaseKeys.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FD2C644BF0003635F3 /* Preview Assets.xcassets */; };
@@ -219,6 +225,12 @@
 		7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritingView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
+		83358CAC2CB2621400D1DD00 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		83358CAE2CB2643400D1DD00 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		83358CB02CB2644400D1DD00 /* Injected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		83358CB22CB2645300D1DD00 /* InjectionKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InjectionKey.swift; sourceTree = "<group>"; };
+		83358CB72CB2673000D1DD00 /* ServiceKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceKeys.swift; sourceTree = "<group>"; };
+		83358CBB2CB2674900D1DD00 /* UseCaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseKeys.swift; sourceTree = "<group>"; };
 		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -444,6 +456,27 @@
 			path = SignUpUseCase;
 			sourceTree = "<group>";
 		};
+		83358CAB2CB2620600D1DD00 /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				83358CB42CB2652F00D1DD00 /* Keys */,
+				83358CAC2CB2621400D1DD00 /* Module.swift */,
+				83358CAE2CB2643400D1DD00 /* DIContainer.swift */,
+				83358CB02CB2644400D1DD00 /* Injected.swift */,
+				83358CB22CB2645300D1DD00 /* InjectionKey.swift */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
+		83358CB42CB2652F00D1DD00 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				83358CB72CB2673000D1DD00 /* ServiceKeys.swift */,
+				83358CBB2CB2674900D1DD00 /* UseCaseKeys.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
 		8366B6EF2C65ECC50021FAE0 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -611,6 +644,7 @@
 		838697C72C64B7FB00E76230 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				83358CAB2CB2620600D1DD00 /* DIContainer */,
 				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
 			);
 			path = Application;
@@ -902,6 +936,7 @@
 				AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
+				83358CAD2CB2621400D1DD00 /* Module.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
@@ -920,7 +955,11 @@
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
+				83358CB12CB2644400D1DD00 /* Injected.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
+				83358CB82CB2673000D1DD00 /* ServiceKeys.swift in Sources */,
+				83358CBC2CB2674900D1DD00 /* UseCaseKeys.swift in Sources */,
+				83358CAF2CB2643400D1DD00 /* DIContainer.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
@@ -964,6 +1003,7 @@
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
+				83358CB32CB2645300D1DD00 /* InjectionKey.swift in Sources */,
 				AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */,
 				53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */,
 				57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */,
