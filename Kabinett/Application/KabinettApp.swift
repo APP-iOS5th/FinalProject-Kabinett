@@ -114,13 +114,15 @@ struct KabinettApp: App {
         _profileViewModel = .init(
             wrappedValue: ProfileViewModel(
                 profileUseCase: profileUseCase
+//                profileUseCase: ProfileUseCaseStub()
             )
         )
         
         // MARK: - SignUp ViewModel
         _signUpViewModel = .init(
             wrappedValue: SignUpViewModel(
-                signUpUseCase: signUpUseCase
+//                signUpUseCase: signUpUseCase
+                signUpUseCase: SignUpUseCaseStub()
             )
         )
         

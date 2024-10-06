@@ -15,6 +15,7 @@ struct SignUpView: View {
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
+            
             GeometryReader { geometry in
                 VStack {
                     Circle()
@@ -50,6 +51,9 @@ struct SignUpView: View {
                 
             }
         }
+        .overlay(
+            viewModel.isLoading ? CustomProgressView() : nil
+        )
         .navigationDestination(isPresented: $viewModel.showSignUpFlow) {
             SignUpNameInputView()
         }
@@ -65,6 +69,6 @@ struct SignUpView: View {
     }
 }
 
-#Preview {
-    SignUpView()
-}
+//#Preview {
+//    SignUpView()
+//}
