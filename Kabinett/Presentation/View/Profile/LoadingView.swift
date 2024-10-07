@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomProgressView: View {
+struct LoadingView: View {
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
@@ -20,5 +20,5 @@ struct CustomProgressView: View {
 }
 
 #Preview {
-    CustomProgressView()
+    LoadingView()
 }

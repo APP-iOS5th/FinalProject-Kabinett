@@ -59,6 +59,7 @@ final class SignUpViewModel: ObservableObject {
         request.nonce = sha256(nonce)
     }
 
+    @MainActor 
     func handleAuthorization(result: Result<ASAuthorization, Error>) {
         switch result {
         case .success(let authorization):
@@ -109,12 +110,14 @@ final class SignUpViewModel: ObservableObject {
         return result
     }
     
+    @MainActor
     private func startLoading() {
         DispatchQueue.main.async {
             self.isLoading = true
         }
     }
     
+    @MainActor
     private func stopLoading() {
         DispatchQueue.main.async {
             self.isLoading = false

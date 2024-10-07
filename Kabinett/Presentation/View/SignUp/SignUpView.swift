@@ -52,7 +52,7 @@ struct SignUpView: View {
             }
         }
         .overlay(
-            viewModel.isLoading ? CustomProgressView() : nil
+            viewModel.isLoading ? LoadingView() : nil
         )
         .navigationDestination(isPresented: $viewModel.showSignUpFlow) {
             SignUpNameInputView()
@@ -68,7 +68,3 @@ struct SignUpView: View {
         }
     }
 }
-
-//#Preview {
-//    SignUpView()
-//}

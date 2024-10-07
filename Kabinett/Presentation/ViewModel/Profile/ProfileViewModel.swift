@@ -157,12 +157,14 @@ class ProfileViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    @MainActor
     private func startLoading() {
         DispatchQueue.main.async {
             self.isLoading = true
         }
     }
     
+    @MainActor
     private func stopLoading() {
         DispatchQueue.main.async {
             self.isLoading = false

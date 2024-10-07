@@ -131,7 +131,3 @@ struct SignUpKabinettNumberSelectView: View {
         }
     }
 }
-
-//#Preview {
-//    SignUpKabinettNumberSelectView()
-//}
