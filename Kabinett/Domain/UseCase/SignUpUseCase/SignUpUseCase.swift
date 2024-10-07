@@ -31,10 +31,12 @@ final class SignUpUseCaseStub: SignUpUseCase {
         [1, 100000, 445544]
     }
     
-    func signUp(with authorization: ASAuthorization, nonce: String) async -> SignUpResult {
-//        .newUser
-        .registered
-//        .signInOnly
+    func signUp(with authorization: ASAuthorization, nonce: String) async ->
+    SignUpResult {
+        try? await Task.sleep(for: .seconds(1)) // 프로그레스뷰 테스트
+        //        .newUser
+            return .registered
+        //        .signInOnly
     }
     
     func startLoginUser(with userName: String, kabinettNumber: Int) async -> Bool {
