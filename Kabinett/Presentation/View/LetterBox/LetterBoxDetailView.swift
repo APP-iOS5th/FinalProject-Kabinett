@@ -196,9 +196,3 @@ struct LetterBoxDetailView: View {
         }
     }
 }
-
-//#Preview {
-//    LetterBoxDetailView(letterType: .all, showSearchBarView: .constant(false), searchText: .constant(""), isTextFieldFocused: .constant(false))
-//        .environmentObject(LetterBoxDetailViewModel())
-//        .environmentObject(CalendarViewModel())
-//}
