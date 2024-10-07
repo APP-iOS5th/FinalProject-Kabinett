@@ -14,6 +14,7 @@ struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
+    @EnvironmentObject var customViewModel: CustomTabViewModel
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -35,13 +36,56 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+                HStack(alignment: .center) {
+                    Button {
+                        viewModel.createNewLetter(idx: viewModel.currentIndex)
+                    } label: {
+                        Image(systemName: "plus.square")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    Button {
+                        if viewModel.texts.count > 1 {
+                            viewModel.isDeleteAlertPresented = true
+                        }
+                    } label: {
+                        Image(systemName: "minus.square")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                    .alert(isPresented: $viewModel.isDeleteAlertPresented) {
+                        Alert(
+                            title: Text("Delete Page"),
+                            message: Text("현재 페이지를 삭제하시겠습니까?"),
+                            primaryButton: .destructive(Text("삭제")) {
+                                viewModel.deleteLetter(idx: viewModel.currentIndex)
+                            },
+                            secondaryButton: .cancel(Text("취소")) {
+                                viewModel.isDeleteAlertPresented = false
+                            }
+                        )
+                    }
+                    Button {
+                        customViewModel.showPhotoLibrary = true
+                        customViewModel.isLetterWrite = true
+                    } label: {
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width/3)
+                    }
+                }
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.88, maxHeight: 40)
+                .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
+                .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
+                .clipShape(Capsule())
                 
-                ScrollableLetterView(letterContent: $letterContent)
+                ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
+                
+                Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
             }
         }
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
-        .slideToDismiss() // 스크롤 부분이라 어색함.
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
                 imageViewModel.selectedItems = newValue
@@ -57,101 +101,108 @@ struct ContentWriteView: View {
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: ContentWriteViewModel
-    @EnvironmentObject var customViewModel: CustomTabViewModel
     @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @Binding var currentIndex: Int
     
     var body: some View {
-        ScrollViewReader { scrollViewProxy in
-            ZStack(alignment: .top) {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
-                        ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                            VStack {
-                                ZStack {
-                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                        .padding(.top, 10)
-                                    
-                                    VStack {
-                                        HStack {
-                                            Text(i == 0 ? letterContent.toUserName : "")
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .onTapGesture {
-                                                    UIApplication.shared.endEditing()
-                                                }
-                                            Spacer()
-                                            
-                                            Button {
-                                                customViewModel.showPhotoLibrary = true
-                                                customViewModel.isLetterWrite = true
-                                            } label: {
-                                                Image(systemName: "photo.on.rectangle.angled")
-                                                    .font(.system(size: 15))
-                                                    .padding(.horizontal, 13)
-                                                    .padding(.vertical, 8)
-                                                    .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
-                                                    .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
-                                                    .clipShape(Capsule())
+        GeometryReader { geometry in
+            ScrollViewReader { scrollViewProxy in
+                ZStack(alignment: .top) {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
+                            ForEach(0..<viewModel.texts.count, id: \.self) { i in
+                                VStack {
+                                    ZStack {
+                                        KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                            .placeholder {
+                                                ProgressView()
                                             }
-                                            
-                                        }
-                                        .padding(.top, 45)
-                                        .padding(.leading, 2)
-                                        .padding(.bottom, 3)
+                                            .resizable()
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                                            .padding(.top, 10)
                                         
-                                        GeometryReader { geo in
-                                            CustomTextEditor(text: $viewModel.texts[i],
-                                                             height: $viewModel.textViewHeights[i],
-                                                             maxWidth: geo.size.width,
-                                                             maxHeight: geo.size.height,
-                                                             font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? ""))
-                                            .onChange(of: viewModel.textViewHeights[i]) {
-                                                if viewModel.textViewHeights[i] >= geo.size.height {
-                                                    viewModel.createNewLetter()
-                                                }
+                                        VStack {
+                                            HStack {
+                                                Text(i == 0 ? letterContent.toUserName : "")
+                                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                                    .onTapGesture {
+                                                        UIApplication.shared.endEditing()
+                                                    }
+                                                Spacer()
                                             }
-                                            .onChange(of: viewModel.texts[i]) {  //일단 한 페에지만 구현
-                                                if letterContent.content.isEmpty {
-                                                    letterContent.content.append("")
-                                                }
-                                                letterContent.content[0] = viewModel.texts[0]
+                                            .padding(.top, 45)
+                                            .padding(.leading, 2)
+                                            .padding(.bottom, 3)
+                                            
+                                            GeometryReader { geo in
+                                                CustomTextEditor(
+                                                    text: $viewModel.texts[i],
+                                                    maxWidth: geo.size.width,
+                                                    maxHeight: geo.size.height,
+                                                    font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSize(font: letterContent.fontString ?? "")),
+                                                    lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? ""),
+                                                    kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
+                                                )
                                             }
+                                            .onChange(of: viewModel.texts[i]) {
+                                                letterContent.content = viewModel.texts
+                                            }
+                                            .onChange(of: viewModel.texts.count) {
+                                                letterContent.content = viewModel.texts
+                                            }
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                                .padding(.trailing, 2)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
+                                                .padding(.bottom, 30)
+                                                .padding(.trailing, 2)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
                                         }
-                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                            .padding(.trailing, 2)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                            .padding(.bottom, 30)
-                                            .padding(.trailing, 2)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
+                                    .aspectRatio(9/13, contentMode: .fit)
+                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    .id(i)
+                                    Spacer()
+                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                                 }
-                                .aspectRatio(9/13, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .id(i)
-                                Spacer()
                             }
                         }
+                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                    .scrollTargetLayout()
                 }
-                .scrollTargetLayout()
-            }
-            .scrollTargetBehavior(.viewAligned)
-            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
-            .onChange(of: viewModel.texts.count) {
-                withAnimation {
-                    viewModel.currentIndex = viewModel.texts.count - 1
-                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                .scrollTargetBehavior(.viewAligned)
+                .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
+                .onChange(of: viewModel.texts.count) {
+                    withAnimation {
+                        scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
+                    }
+                }
+                .onPreferenceChange(AnchorsKey.self) { anchors in
+                    let leadingAnchor = anchors
+                        .filter { geometry[$0.value].x >= 0 }
+                        .sorted { geometry[$0.value].x < geometry[$1.value].x }
+                        .first
+                    
+                    if currentIndex != leadingAnchor?.key ?? 0 {
+                        currentIndex = leadingAnchor?.key ?? 0
+                    }
                 }
             }
         }
+    }
+}
+
+struct AnchorsKey: PreferenceKey {
+    typealias Value = [Int: Anchor<CGPoint>]
+    
+    static var defaultValue: Value { [ : ] }
+    
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value.merge(nextValue()) { $1 }
     }
 }
 
@@ -159,10 +210,13 @@ struct ScrollableLetterView: View {
 // MARK: - CustomTextEditor.swift
 struct CustomTextEditor: UIViewRepresentable {
     @Binding var text: String
-    @Binding var height: CGFloat
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
+    var lineSpacing: CGFloat
+    var kerning: CGFloat
+    
+    let maxCharacterLimit: Int = 427
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
@@ -172,16 +226,11 @@ struct CustomTextEditor: UIViewRepresentable {
         }
         
         func textViewDidChange(_ textView: UITextView) {
-            let newSize = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
-            
-            if newSize.height <= parent.maxHeight {
-                parent.text = textView.text
-                DispatchQueue.main.async {
-                    self.parent.height = newSize.height
-                }
-            } else {
-                textView.text = parent.text
+            if textView.text.count > parent.maxCharacterLimit {
+                textView.text = String(textView.text.prefix(parent.maxCharacterLimit))
             }
+            
+            parent.text = textView.text
         }
     }
     
@@ -197,8 +246,6 @@ struct CustomTextEditor: UIViewRepresentable {
         textView.textContainerInset = .zero
         textView.textContainer.lineFragmentPadding = 0
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = font
-        
         textView.autocorrectionType = .no
         textView.spellCheckingType = .no
         textView.smartInsertDeleteType = .no
@@ -220,14 +267,19 @@ struct CustomTextEditor: UIViewRepresentable {
             return
         }
         
-        uiView.text = text
-        uiView.font = font
+        uiView.attributedText = createAttributedString(text: text, font: font, lineSpacing: lineSpacing, kerning: kerning)
+    }
+    
+    private func createAttributedString(text: String, font: UIFont, lineSpacing: CGFloat, kerning: CGFloat) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineSpacing
         
-        let newSize = uiView.sizeThatFits(CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude))
-        DispatchQueue.main.async {
-            if newSize.height <= maxHeight {
-                self.height = newSize.height
-            }
-        }
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .kern: kerning,
+            .paragraphStyle: paragraphStyle
+        ]
+        
+        return NSAttributedString(string: text, attributes: attributes)
     }
 }
