@@ -18,6 +18,12 @@ final class CustomTabViewModel: ObservableObject {
     @Published var letterBoxNavigationPath = NavigationPath()
     @Published var profileNavigationPath = NavigationPath()
     @Published var isLetterWrite: Bool = false
+    @Published var previousTab: Int?
+    
+    static let profileTabDoubleTappedNotification = Notification.Name("profileTabDoubleTapped")
+    
+    private var lastTabSelectionTime: Date?
+    private let doubleTapInterval: TimeInterval = 0.2
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -44,18 +50,41 @@ final class CustomTabViewModel: ObservableObject {
     }
     
     func handleTabSelection(_ tab: Int) {
+        let now = Date()
+        
         if tab == selectedTab {
-            if tab == 0 {
-                letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
-            } else if tab == 2 {
-                profileNavigationPath.removeLast(profileNavigationPath.count)
+            if let lastTime = lastTabSelectionTime,
+               now.timeIntervalSince(lastTime) <= doubleTapInterval {
+                resetNavigationForTab(tab)
+                if tab == 2 {
+                    NotificationCenter.default.post(name: CustomTabViewModel.profileTabDoubleTappedNotification, object: nil)
+                }
+                lastTabSelectionTime = nil
+            } else {
+                lastTabSelectionTime = now
             }
         } else if tab == 1 {
             withAnimation(.easeInOut(duration: 0.3)) {
                 showOptions = true
             }
         } else {
+            if let prevTab = previousTab, prevTab != tab {
+                resetNavigationForTab(prevTab)
+            }
             selectedTab = tab
+            lastTabSelectionTime = now
+            previousTab = tab
+        }
+    }
+    
+    private func resetNavigationForTab(_ tab: Int) {
+        switch tab {
+        case 0:
+            letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
+        case 2:
+            profileNavigationPath.removeLast(profileNavigationPath.count)
+        default:
+            break
         }
     }
     
