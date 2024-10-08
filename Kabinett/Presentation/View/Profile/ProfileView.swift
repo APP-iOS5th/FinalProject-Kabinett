@@ -10,9 +10,10 @@ import Kingfisher
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $customTabViewModel.profileNavigationPath) {
             Group {
                 if case .toLogin = viewModel.navigateState {
                     SignUpView()
@@ -83,5 +84,13 @@ struct ProfileView: View {
                 SettingsView()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabDoubleTappedNotification)) { _ in
+                    viewModel.resetToInitialState()
+                }
+        .onChange(of: customTabViewModel.selectedTab) { oldValue, newValue in
+                    if oldValue == 2 && newValue != 2 {
+                        viewModel.resetToInitialState()
+                    }
+                }
     }
 }

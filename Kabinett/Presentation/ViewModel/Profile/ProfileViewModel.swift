@@ -161,3 +161,17 @@ class ProfileViewModel: ObservableObject {
         self.appleID = await profileUseCase.getAppleID()
     }
 }
+
+extension ProfileViewModel {
+    func resetToInitialState() {
+        showSettingsView = false
+        profileUpdateError = nil
+        newUserName = ""
+        selectedImageItem = nil
+        selectedImage = nil
+        isShowingCropper = false
+        croppedImage = nil
+        showProfileAlert = false
+        loadCurrentWriter()
+    }
+}
