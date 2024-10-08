@@ -12,6 +12,7 @@ import os
 enum LetterError: Error {
     case invalidLetterId
     case invalidUser
+    case identityUser
 }
 
 enum LetterSaveError: Error {

@@ -10,17 +10,21 @@ import SwiftUI
 
 class ContentWriteViewModel: ObservableObject {
     @Published var texts: [String] = [""]
-    @Published var textViewHeights: [CGFloat] = [CGFloat](repeating: .zero, count: 1)
-    
     @Published var currentIndex: Int = 0
+    @Published var isDeleteAlertPresented = false
     
     func reset() {
         texts = [""]
-        textViewHeights = [CGFloat](repeating: .zero, count: 1)
+        currentIndex = 0
     }
     
-    func createNewLetter() {
-        texts.append("")
-        textViewHeights.append(.zero)
+    func createNewLetter(idx: Int) {
+        texts.insert("", at: idx+1)
+    }
+    
+    func deleteLetter(idx: Int) {
+        if texts.count > 1 {
+            texts.remove(at: idx)
+        }
     }
 }

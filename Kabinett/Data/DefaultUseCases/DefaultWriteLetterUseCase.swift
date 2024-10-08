@@ -1,5 +1,5 @@
 //
-//  DefaultPhotoLetterUseCase.swift
+//  DefaultWriteLetterUseCase.swift
 //  Kabinett
 //
 //  Created by JIHYE SEOK on 9/5/24.
@@ -9,7 +9,7 @@ import Foundation
 import Combine
 import os
 
-final class DefaultPhotoLetterUseCase {
+final class DefaultWriteLetterUseCase {
     private let logger: Logger
     private let authManager: AuthManager
     private let writerManager: FirestoreWriterManager
@@ -24,7 +24,7 @@ final class DefaultPhotoLetterUseCase {
     ) {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
-            category: "DefaultPhotoLetterUseCase"
+            category: "DefaultWriteLetterUseCase"
         )
         self.authManager = authManager
         self.writerManager = writerManager
@@ -33,8 +33,9 @@ final class DefaultPhotoLetterUseCase {
     }
 }
 
-extension DefaultPhotoLetterUseCase: ImportLetterUseCase {
-    func saveLetter(postScript: String?,
+extension DefaultWriteLetterUseCase: WriteLetterUseCase {
+    func saveLetter(font: String, 
+                    postScript: String?,
                     envelope: String,
                     stamp: String,
                     fromUserId: String?,
@@ -43,16 +44,24 @@ extension DefaultPhotoLetterUseCase: ImportLetterUseCase {
                     toUserId: String?,
                     toUserName: String,
                     toUserKabinettNumber: Int?,
+                    content: [String],
                     photoContents: [Data],
                     date: Date,
+                    stationery: String,
                     isRead: Bool
     ) async -> Result<Bool, any Error> {
+        
         do {
-            let photoContentStringUrl = try await letterStorageManager.convertPhotoToUrl(photoContents: photoContents)
+            let photoContentStringUrl: [String]
+            if !photoContents.isEmpty {
+                photoContentStringUrl = try await letterStorageManager.convertPhotoToUrl(photoContents: photoContents)
+            } else {
+                photoContentStringUrl = []
+            }
             
             let letter = Letter(
                 id: nil,
-                fontString: nil,
+                fontString: font,
                 postScript: postScript ?? "",
                 envelopeImageUrlString: envelope,
                 stampImageUrlString: stamp,
@@ -62,15 +71,16 @@ extension DefaultPhotoLetterUseCase: ImportLetterUseCase {
                 toUserId: toUserId ?? "",
                 toUserName: toUserName,
                 toUserKabinettNumber: toUserKabinettNumber ?? 0,
-                content: [],
+                content: content,
                 photoContents: photoContentStringUrl,
                 date: date,
-                stationeryImageUrlString: nil,
+                stationeryImageUrlString: stationery,
                 isRead: isRead)
             
             return await letterManager.saveLetterToFireStore(letter: letter, fromUserId: fromUserId, toUserId: toUserId)
+            
         } catch {
-            logger.error("Failed to save Photo Letter: \(error.localizedDescription)")
+            logger.error("Failed to save Normal Letter: \(error.localizedDescription)")
             return .failure(error)
         }
     }
@@ -113,5 +123,10 @@ extension DefaultPhotoLetterUseCase: ImportLetterUseCase {
     // 우표 로딩
     func loadStamps() async -> Result<[String], any Error> {
         await letterStorageManager.loadStorage(path: "Stamps")
+    }
+    
+    // 편지지 로딩
+    func loadStationeries() async -> Result<[String], any Error> {
+        await letterStorageManager.loadStorage(path: "Stationeries")
     }
 }
