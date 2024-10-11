@@ -20,22 +20,30 @@ struct StationerySelectionView: View {
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 Color(.background).ignoresSafeArea()
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            BackButton()
+                        }
+                        
+                        ToolbarItem(placement: .topBarTrailing) {
+                            NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
+                                Text("다음")
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 19))
+                                    .foregroundStyle(.contentPrimary)
+                            }
+                            .padding(.trailing, UIScreen.main.bounds.width * 0.02)
+                        }
+                    }
+                    .toolbarBackground(Color(.background))
+                    .navigationTitle("편지지 고르기")
+                    .navigationBarTitleDisplayMode(.inline)
                 
                 VStack {
-                    NavigationBarView(titleName: "편지지 고르기", isColor: true) {
-                        NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    } backAction: {
-                        resetViewModels()
-                        dismiss()
-                    }
                     
                     List {
                         ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
@@ -66,9 +74,12 @@ struct StationerySelectionView: View {
                 UserSelectionView(letterContent: $letterContent)
                     .presentationDetents(userSelectionViewModel.searchText.isEmpty ? [.height(300), .large] : [.large])
             }
+            .onAppear(perform: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                    stationerySelectionViewModel.showModal = true
+                }
+            })
             .onAppear {
-                stationerySelectionViewModel.showModal = true
-                
                 Task {
                     await stationerySelectionViewModel.loadStationeries()
                     await envelopeStampSelectionViewModel.loadStamps()
@@ -80,9 +91,6 @@ struct StationerySelectionView: View {
                 }
             }
         }
-        .slideToDismiss(action: {
-            resetViewModels()
-        })
     }
     
     private func resetViewModels() {

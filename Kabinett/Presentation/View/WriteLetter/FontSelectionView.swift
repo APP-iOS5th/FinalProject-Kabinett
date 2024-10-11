@@ -17,20 +17,29 @@ struct FontSelectionView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            
-            VStack(alignment: .leading) {
-                NavigationBarView(titleName: "서체 고르기", isColor: true) {
-                    NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButton()
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
+                        .padding(.trailing, UIScreen.main.bounds.width * 0.02)
+                        .onTapGesture {
+                            UIApplication.shared.endEditing()
+                        }
                     }
                 }
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
-                
+                .toolbarBackground(Color(.background))
+                .navigationTitle("서체 고르기")
+                .navigationBarTitleDisplayMode(.inline)
+            
+            VStack(alignment: .leading) {
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
                         VStack {

@@ -24,13 +24,15 @@ struct PreviewLetterView: View {
     var body: some View {
         ZStack {
             Color(.background).ignoresSafeArea()
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButton()
+                    }
+                }
+                .toolbarBackground(Color(.background))
             
             VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EmptyView()) {}
-                }
-                .padding(.bottom, UIScreen.main.bounds.height * 0.3)
-                
+                Spacer()
                 GeometryReader { geo in
                     ZStack(alignment: .topLeading) {
                         KFImage(URL(string: letterContent.envelopeImageUrlString))
@@ -77,8 +79,6 @@ struct PreviewLetterView: View {
                                 }
                                 .padding(.top, -1)
                                 .padding(.leading, geo.size.width * 0.1)
-                                
-                                Spacer()
                             }
                             .padding(.top, -1)
                         }
@@ -140,7 +140,6 @@ struct PreviewLetterView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .slideToDismiss()
         .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }

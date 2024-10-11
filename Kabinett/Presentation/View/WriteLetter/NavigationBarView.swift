@@ -53,3 +53,29 @@ struct NavigationBarView<ToolbarContent: View>: View {
         .background(isColor ? .background : .clear)
     }
 }
+
+struct BackButton: View {
+    @Environment(\.dismiss) private var dismiss
+    var body: some View {
+        Button {
+            dismiss()
+        } label: {
+            Image(systemName: "chevron.backward")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(Color("ContentPrimary"))
+                .contentShape(Rectangle())
+        }
+        .padding(.leading, UIScreen.main.bounds.width * 0.02)
+    }
+}
+
+extension UINavigationController: ObservableObject, UIGestureRecognizerDelegate {
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    open func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return viewControllers.count > 1
+    }
+}

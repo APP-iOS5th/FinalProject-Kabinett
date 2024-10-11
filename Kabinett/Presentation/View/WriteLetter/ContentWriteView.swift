@@ -22,20 +22,27 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            
-            VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButton()
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
+                        .padding(.trailing, UIScreen.main.bounds.width * 0.02)
+                        .onTapGesture {
+                            UIApplication.shared.endEditing()
+                        }
                     }
                 }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
+                .toolbarBackground(Color(.background))
+            
+            VStack {
                 HStack(alignment: .center) {
                     Button {
                         viewModel.createNewLetter(idx: viewModel.currentIndex)
@@ -78,6 +85,7 @@ struct ContentWriteView: View {
                 .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
                 .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                 .clipShape(Capsule())
+                .padding(.top, 12)
                 
                 ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
                 

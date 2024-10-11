@@ -31,33 +31,38 @@ struct EnvelopeStampSelectionView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        BackButton()
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        if letterContent.dataSource == .fromImagePicker {
+                            NavigationLink(destination: LetterCompletionView(letterContent: $letterContent)) {
+                                Text("다음")
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 19))
+                                    .foregroundStyle(.contentPrimary)
+                            }
+                        } else {
+                            NavigationLink(destination: PreviewLetterView(letterContent: $letterContent)) {
+                                Text("다음")
+                                    .fontWeight(.medium)
+                                    .font(.system(size: 19))
+                                    .foregroundStyle(.contentPrimary)
+                            }
+                            .padding(.trailing, UIScreen.main.bounds.width * 0.02)
+                            .onTapGesture {
+                                UIApplication.shared.endEditing()
+                            }
+                        }
+                    }
+                }
+                .toolbarBackground(Color(.background))
+                .navigationTitle("봉투와 우표 고르기")
+                .navigationBarTitleDisplayMode(.inline)
             
             VStack {
-                if letterContent.dataSource == .fromImagePicker {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: LetterCompletionView(letterContent: $letterContent)) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .padding(.bottom, 25)
-                } else {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: PreviewLetterView(letterContent: $letterContent)) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    .padding(.bottom, 25)
-                }
-                
                 VStack {
                     GeometryReader { geo in
                         ZStack(alignment: .topLeading) {
@@ -151,9 +156,9 @@ struct EnvelopeStampSelectionView: View {
                 }
                 SelectionTabView(letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
             }
+            .padding(.top, 20)
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .slideToDismiss()
         .task {
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
