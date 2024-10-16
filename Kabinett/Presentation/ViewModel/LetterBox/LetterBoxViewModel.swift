@@ -12,6 +12,7 @@ class LetterBoxViewModel: ObservableObject {
     
     @Published var letterBoxLetters: [LetterType: [Letter]] = [:]
     @Published var isReadLetters: [LetterType: Int] = [:]
+    @Published var showToast = false
     
     @Published var errorMessage: String?
     private var letterTask: Task<Void, Never>?
@@ -53,7 +54,14 @@ class LetterBoxViewModel: ObservableObject {
     
     func fetchWelcomeLetter() {
         Task { @MainActor in
-            _ = await letterBoxUseCase.getWelcomeLetter()
+            let result = await letterBoxUseCase.getWelcomeLetter()
+            switch result {
+            case .success:
+                self.showToast = true
+            case .failure(let error):
+                self.showToast = false
+                self.errorMessage = error.localizedDescription
+            }
         }
     }
     

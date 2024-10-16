@@ -85,10 +85,3 @@ struct LetterView: View {
         }
     }
 }
-
-
-
-//#Preview {
-//    LetterView(letterType: .all, letter: LetterBoxUseCaseStub.sampleSearchOfKeywordLetters[0])
-//        .environmentObject(LetterViewModel())
-//}
