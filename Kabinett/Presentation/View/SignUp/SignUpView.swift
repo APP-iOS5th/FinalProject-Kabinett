@@ -15,6 +15,7 @@ struct SignUpView: View {
     var body: some View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
+            
             GeometryReader { geometry in
                 VStack {
                     Circle()
@@ -50,6 +51,9 @@ struct SignUpView: View {
                 
             }
         }
+        .overlay(
+            viewModel.isLoading ? LoadingView() : nil
+        )
         .navigationDestination(isPresented: $viewModel.showSignUpFlow) {
             SignUpNameInputView()
         }
@@ -63,8 +67,4 @@ struct SignUpView: View {
             Text(viewModel.loginError ?? "로그인 오류가 발생했어요. 카비넷 팀에게 알려주세요.")
         }
     }
-}
-
-#Preview {
-    SignUpView()
 }

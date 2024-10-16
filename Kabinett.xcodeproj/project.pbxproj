@@ -62,6 +62,7 @@
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* PreviewLetterView.swift */; };
 		57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */; };
+		57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */; };
@@ -123,6 +124,7 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
+		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +198,7 @@
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* PreviewLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterView.swift; sourceTree = "<group>"; };
 		57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterViewModel.swift; sourceTree = "<group>"; };
+		57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.otf; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
 		57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LetterWriteModel.swift; path = Kabinett/Presentation/ViewModel/WriteLetter/LetterWriteModel.swift; sourceTree = SOURCE_ROOT; };
@@ -258,6 +261,7 @@
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
+		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -349,6 +353,7 @@
 		57ED9CE12C7375AC00A4312C /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */,
 				577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */,
 				57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */,
 				577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */,
@@ -545,6 +550,7 @@
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
 				04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */,
 				04DEC0F92C75863600D289EA /* CropBox.swift */,
+				E2E0DCD02CAED20800596DF7 /* LoadingView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -900,6 +906,7 @@
 				57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */,
 				57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */,
 				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
+				57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */,
 				57ED9CE72C73780100A4312C /* Pecita.otf in Resources */,
 				839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */,
 				57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */,
@@ -984,6 +991,7 @@
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
+				E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */,

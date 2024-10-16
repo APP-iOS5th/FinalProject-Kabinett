@@ -99,6 +99,9 @@ struct AccountSettingsView: View {
                 }
             }
         }
+        .overlay(
+            viewModel.isLoading ? LoadingView() : nil
+            )
         .navigationTitle("계정 설정")
         .navigationBarTitleDisplayMode(.inline)
     }
