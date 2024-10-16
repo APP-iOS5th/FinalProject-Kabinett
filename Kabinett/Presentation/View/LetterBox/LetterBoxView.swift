@@ -9,9 +9,14 @@ import SwiftUI
 
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    
+    @StateObject private var letterBoxViewModel: LetterBoxViewModel
+    @StateObject private var calendarViewModel = CalendarViewModel()
+    
+    init() {
+        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
+        _letterBoxViewModel = StateObject(wrappedValue: LetterBoxViewModel(letterBoxUseCase: letterBoxUseCase))
+    }
     
     var body: some View {
         NavigationStack(path: $customTabViewModel.letterBoxNavigationPath) {
@@ -23,8 +28,8 @@ struct LetterBoxView: View {
                     ForEach(LetterType.allCases, id: \.self) { type in
                         let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                         
-                        NavigationLink(value: type) {
-                            LetterBoxCell(type: type, unreadCount: unreadCount)
+                        NavigationLink(destination: LetterBoxDetailView(calendarViewModel: calendarViewModel)) {
+                            LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
                             calendarViewModel.currentLetterType = type

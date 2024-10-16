@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct SmallEnvelopeCell: View {
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @StateObject private var fontViewModel = FontSelectionViewModel()
     var letter: Letter
     
     var body: some View {
@@ -64,7 +64,7 @@ struct SmallEnvelopeCell: View {
 }
 
 struct LargeEnvelopeCell: View {
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @StateObject private var fontViewModel = FontSelectionViewModel()
     var letter: Letter
     
     var body: some View {
