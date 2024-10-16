@@ -29,12 +29,10 @@ struct ToastView: View {
             }
             .offset(y: actualCurrentOffset.height)
             .onAppear {
-                withAnimation(.easeOut(duration: 1.2)) {
+                withAnimation(.easeOut(duration: 1)) {
                     actualCurrentOffset = CGSize(width: 0, height: 0)
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.6) {
-                    withAnimation(.easeInOut(duration: 1.3)) {
+                } completion: {
+                    withAnimation(Animation.easeInOut(duration: 1.5).delay(1.2)) {
                         actualCurrentOffset = CGSize(width: 0, height: UIScreen.main.bounds.height)
                         showToast = false
                     }
