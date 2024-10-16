@@ -13,12 +13,6 @@ import FirebaseFirestore
 
 @main
 struct KabinettApp: App {
-    // MARK: - LetterBox Flow
-    @StateObject private var letterViewModel: LetterViewModel
-    @StateObject private var letterBoxViewModel: LetterBoxViewModel
-    @StateObject private var letterBoxDetailViewModel: LetterBoxDetailViewModel
-    @StateObject private var calendarViewModel: CalendarViewModel
-    
     // MARK: - Profile Flow
     @StateObject private var profileViewModel: ProfileViewModel
     
@@ -88,30 +82,6 @@ struct KabinettApp: App {
             letterManager: letterManager,
             letterStorageManager: letterStorageManager
         )
-        let letterboxUseCase = DefaultLetterBoxUseCase(
-            letterManager: letterManager,
-            authManager: authManager
-        )
-        
-        // MARK: - LetterBox ViewModels
-        _letterViewModel = .init(
-            wrappedValue: LetterViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _letterBoxViewModel = .init(
-            wrappedValue: LetterBoxViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _letterBoxDetailViewModel = .init(
-            wrappedValue: LetterBoxDetailViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _calendarViewModel = .init(
-            wrappedValue: CalendarViewModel()
-        )
         
         // MARK: - Profile ViewModel
         _profileViewModel = .init(
@@ -169,10 +139,6 @@ struct KabinettApp: App {
     var body: some Scene {
         WindowGroup {
             CustomTabView()
-                .environmentObject(letterViewModel)
-                .environmentObject(letterBoxViewModel)
-                .environmentObject(letterBoxDetailViewModel)
-                .environmentObject(calendarViewModel)
                 .environmentObject(profileViewModel)
                 .environmentObject(signUpViewModel)
                 .environmentObject(imagePickerViewModel)

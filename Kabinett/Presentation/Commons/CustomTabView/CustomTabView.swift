@@ -11,8 +11,6 @@ import PhotosUI
 struct CustomTabView: View {
     @EnvironmentObject var viewModel: CustomTabViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     @State private var letterWriteViewModel = LetterWriteModel()
     
@@ -43,11 +41,10 @@ struct CustomTabView: View {
             }
         }
         .overlay(
-            Group {
+            ZStack {
                 if viewModel.showOptions {
                     OptionOverlay()
                 }
-                CalendarOverlayView()
             }
         )
         .overlay(ImportDialog())

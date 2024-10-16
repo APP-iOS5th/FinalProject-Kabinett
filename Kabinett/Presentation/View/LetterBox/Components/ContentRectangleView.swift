@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ContentRectangleView: View {
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @StateObject var fontViewModel = FontSelectionViewModel()
     
     var stationeryImageUrlString: String?
     var fromUserName: String
