@@ -76,7 +76,3 @@ struct SignUpOvalTextFieldStyle: TextFieldStyle {
             .frame(width: width, height: 54)
     }
 }
-
-//#Preview {
-//    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
-//

@@ -9,7 +9,6 @@ import SwiftUI
 import Combine
 import AuthenticationServices
 import CryptoKit
-
 import os
 
 final class SignUpViewModel: ObservableObject {
@@ -59,10 +58,12 @@ final class SignUpViewModel: ObservableObject {
         nonce = randomNonceString()
         request.nonce = sha256(nonce)
     }
-    
+
+    @MainActor 
     func handleAuthorization(result: Result<ASAuthorization, Error>) {
         switch result {
         case .success(let authorization):
+            startLoading()
             Task { @MainActor in
                 let result = await signUpUseCase.signUp(with: authorization, nonce: nonce)
                 switch result {
@@ -71,6 +72,7 @@ final class SignUpViewModel: ObservableObject {
                 case .registered:
                     showSignUpFlow = false
                 }
+                stopLoading()
             }
         case let .failure(error):
             logger.error("Apple Sign in error: \(error.localizedDescription)")
@@ -106,6 +108,20 @@ final class SignUpViewModel: ObservableObject {
             }
         }
         return result
+    }
+    
+    @MainActor
+    private func startLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
+    }
+    
+    @MainActor
+    private func stopLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = false
+        }
     }
     
     private func sha256(_ input: String) -> String {

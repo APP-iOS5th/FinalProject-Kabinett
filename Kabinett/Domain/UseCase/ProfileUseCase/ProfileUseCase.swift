@@ -43,11 +43,12 @@ final class ProfileUseCaseStub: ProfileUseCase {
     }
     
     func updateWriter(newWriterName: String, profileImage: Data?) async -> Bool {
-        true
+        false
     }
     
     func signout() async -> Bool {
-        true
+        try? await Task.sleep(for: .seconds(1)) // 프로그레스뷰 테스트
+        return true
     }
     
     func deleteId() async -> Bool {
