@@ -12,14 +12,7 @@ import UIKit
 struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: PreviewLetterViewModel
-    
-    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
-    @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
-    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
-    @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
     var body: some View {
         ZStack {
@@ -121,12 +114,6 @@ struct PreviewLetterView: View {
                                          isRead: false)
                     
                     letterContent.reset()
-                    userSelectionViewModel.reset()
-                    stationerySelectionViewModel.reset()
-                    fontSelectionViewModel.reset()
-                    contentWriteViewModel.reset()
-                    envelopStampSelectionViewModel.reset()
-                    imagePickerViewModel.resetState()
                     customTabViewModel.hideOptions()
                 } label: {
                     Text("편지 보내기")

@@ -166,7 +166,7 @@ struct ScrollableLetterView: View {
                                     .frame(width: UIScreen.main.bounds.width * 0.88)
                                     .id(i)
                                     Spacer()
-                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                                 }
                             }
                         }
