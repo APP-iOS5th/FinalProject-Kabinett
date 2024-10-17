@@ -45,6 +45,7 @@
 		53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */; };
 		53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B872C9020C100E7D9A8 /* Extension+String.swift */; };
 		53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B892C90221600E7D9A8 /* LetterHelper.swift */; };
+		5703CCC62CC1371F00C51B8C /* FontUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5703CCC52CC1371F00C51B8C /* FontUtility.swift */; };
 		57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* ContentWriteView.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
@@ -177,6 +178,7 @@
 		53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRectangleView.swift; sourceTree = "<group>"; };
 		53FC6B872C9020C100E7D9A8 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		53FC6B892C90221600E7D9A8 /* LetterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterHelper.swift; sourceTree = "<group>"; };
+		5703CCC52CC1371F00C51B8C /* FontUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontUtility.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* ContentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteView.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 		8366B6F82C65ED0F0021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
+				5703CCC52CC1371F00C51B8C /* FontUtility.swift */,
 				57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
@@ -933,6 +936,7 @@
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				5703CCC62CC1371F00C51B8C /* FontUtility.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,

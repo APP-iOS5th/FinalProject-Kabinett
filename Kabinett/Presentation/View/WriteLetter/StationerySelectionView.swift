@@ -12,12 +12,6 @@ struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
-    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
     
     var body: some View {
         NavigationStack {
@@ -33,7 +27,6 @@ struct StationerySelectionView: View {
                                 .foregroundStyle(.contentPrimary)
                         }
                     } backAction: {
-                        resetViewModels()
                         dismiss()
                     }
                     
@@ -64,36 +57,17 @@ struct StationerySelectionView: View {
             .navigationBarBackButtonHidden()
             .sheet(isPresented: $stationerySelectionViewModel.showModal) {
                 UserSelectionView(letterContent: $letterContent)
-                    .presentationDetents(userSelectionViewModel.searchText.isEmpty ? [.height(300), .large] : [.large])
+                    .presentationDetents([.height(300), .large])
             }
             .onAppear {
                 stationerySelectionViewModel.showModal = true
                 
                 Task {
                     await stationerySelectionViewModel.loadStationeries()
-                    await envelopeStampSelectionViewModel.loadStamps()
-                    await envelopeStampSelectionViewModel.loadEnvelopes()
-                }
-                
-                if envelopeStampSelectionViewModel.envelopeSelectedIndex != (0,0) || envelopeStampSelectionViewModel.stampSelectedIndex != (0,0) {
-                    envelopeStampSelectionViewModel.reset()
                 }
             }
         }
-        .slideToDismiss(action: {
-            resetViewModels()
-        })
-    }
-    
-    private func resetViewModels() {
-        letterContent.reset()
-        userSelectionViewModel.reset()
-        stationerySelectionViewModel.reset()
-        fontSelectionViewModel.reset()
-        contentWriteViewModel.reset()
-        envelopeStampSelectionViewModel.reset()
-        imagePickerViewModel.resetState()
-        customTabViewModel.hideOptions()
+        .slideToDismiss()
     }
 }
 

@@ -12,7 +12,6 @@ struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
     @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
@@ -155,6 +154,9 @@ struct EnvelopeStampSelectionView: View {
         }
         .slideToDismiss()
         .task {
+            await viewModel.loadStamps()
+            await viewModel.loadEnvelopes()
+            
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
                 await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
