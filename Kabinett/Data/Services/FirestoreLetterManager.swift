@@ -33,14 +33,12 @@ final class FirestoreLetterManager {
     private let logger: Logger
     
     private let db = Firestore.firestore()
-    private let storageManager: FirestorageLetterManager
     
-    init(storageManager: FirestorageLetterManager) {
+    init() {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
-        self.storageManager = storageManager
     }
     
     actor SafeListeners {
@@ -205,9 +203,6 @@ final class FirestoreLetterManager {
                         }
                         
                         snapshot.documentChanges.forEach { diff in
-                            let data = diff.document.data()
-                            print(data)
-                            
                             switch diff.type {
                             case .added:
                                 if let newLetter = try? diff.document.data(as: Letter.self) {
@@ -314,10 +309,6 @@ final class FirestoreLetterManager {
                 
                 if documentSnapshot.exists {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: type)
-                    
-                    if let photoUrls = documentSnapshot.data()?["photoContents"] as? [String] {
-                        try await storageManager.deleteData(urls: photoUrls, path: "Users/photoContents")
-                    }
                     
                     try await documentRef.delete()
                     removeSucceeded = true
