@@ -20,7 +20,7 @@ struct SmallEnvelopeCell: View {
                         .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.006, forOthers: 0.006)))
                         .foregroundStyle(.contentPrimary)
                     Text(letter.fromUserName)
-                        .font(fontViewModel.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
+                        .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.4, forOthers: 0.443), alignment: .leading)
                 }
@@ -46,7 +46,7 @@ struct SmallEnvelopeCell: View {
                         .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.006, forOthers: 0.006)))
                         .foregroundStyle(.contentPrimary)
                     Text(letter.toUserName)
-                        .font(fontViewModel.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
+                        .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.0122, forOthers: 0.0122)))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.17, forOthers: 0.2), alignment: .leading)
                         .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008))
@@ -77,7 +77,7 @@ struct LargeEnvelopeCell: View {
                                 .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.009, forOthers: 0.008)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.fromUserName)
-                                .font(fontViewModel.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.018, forOthers: 0.017)))
+                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.018, forOthers: 0.017)))
                                 .foregroundStyle(.contentPrimary)
                                 .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.57, forOthers: 0.57), alignment: .leading)
                         }
@@ -94,7 +94,7 @@ struct LargeEnvelopeCell: View {
                     
                     HStack(alignment: .top) {
                         Text(letter.postScript ?? "")
-                            .font(fontViewModel.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012, forOthers: 0.012)))
+                            .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012, forOthers: 0.012)))
                             .foregroundStyle(.contentPrimary)
                             .frame(width: LayoutHelper.shared.getWidth(forSE: 0.4, forOthers: 0.4), alignment: .leading)
                         
@@ -103,7 +103,7 @@ struct LargeEnvelopeCell: View {
                                 .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.toUserName)
-                                .font(fontViewModel.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.017)))
+                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.017)))
                                 .foregroundStyle(.contentPrimary)
                                 .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.26, forOthers: 0.26), alignment: .leading)
                         }

@@ -29,8 +29,6 @@ class FontSelectionViewModel: ObservableObject {
         Fonts(fontName: "Pecita", font: "Pecita"),
     ]
     
-    let screenSize = UIScreen.main.bounds.width
-    
     init() {
         updateText()
     }
@@ -50,8 +48,12 @@ class FontSelectionViewModel: ObservableObject {
     func isSelected(index: Int) -> Bool {
         return selectedIndex == index
     }
+}
+
+class FontUtility {
+    static let screenSize = UIScreen.main.bounds.width
     
-    func selectedUIFont(font: String, size: CGFloat) -> UIFont {
+    static func selectedUIFont(font: String, size: CGFloat) -> UIFont {
         if font == "SFMONO" {
             return UIFont.monospacedSystemFont(ofSize: size, weight: .regular)
         }  else if font == "SFDisplay" {
@@ -61,7 +63,7 @@ class FontSelectionViewModel: ObservableObject {
         }
     }
     
-    func selectedFont(font: String, size: CGFloat) -> Font {
+    static func selectedFont(font: String, size: CGFloat) -> Font {
         if font == "SFMONO" {
             return .system(size: size, design: .monospaced)
         } else if font == "SFDisplay" {
@@ -71,7 +73,7 @@ class FontSelectionViewModel: ObservableObject {
         }
     }
     
-    func fontSize(font: String) -> CGFloat {
+    static func fontSize(font: String) -> CGFloat {
         if font == "SourceHanSerifK-Regular" {
             return screenSize * 0.0333
         } else if font == "NanumMyeongjoOTF" {
@@ -84,7 +86,7 @@ class FontSelectionViewModel: ObservableObject {
         return (screenSize * 0.0382)
     }
     
-    func lineSpacing(font: String) -> CGFloat {
+    static func lineSpacing(font: String) -> CGFloat {
         if font == "Pecita" {
             return screenSize * 0.0069
         } else if font == "SFDisplay" {
@@ -97,7 +99,7 @@ class FontSelectionViewModel: ObservableObject {
         return 0.0
     }
     
-    func kerning(font: String) -> CGFloat {
+    static func kerning(font: String) -> CGFloat {
         if font == "SFMONO" {
             return -(screenSize * 0.0025)
         } else if font == "SFDisplay" {

@@ -139,9 +139,9 @@ struct ScrollableLetterView: View {
                                                     text: $viewModel.texts[i],
                                                     maxWidth: geo.size.width,
                                                     maxHeight: geo.size.height,
-                                                    font: fontViewModel.selectedUIFont(font: letterContent.fontString ?? "", size: fontViewModel.fontSize(font: letterContent.fontString ?? "")),
-                                                    lineSpacing: fontViewModel.lineSpacing(font: letterContent.fontString ?? ""),
-                                                    kerning: fontViewModel.kerning(font: letterContent.fontString ?? "")
+                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? "")),
+                                                    lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
+                                                    kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
                                                 )
                                             }
                                             .onChange(of: viewModel.texts[i]) {
@@ -175,7 +175,7 @@ struct ScrollableLetterView: View {
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
-                .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 15))
+                .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 15))
                 .onChange(of: viewModel.texts.count) {
                     withAnimation {
                         scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)

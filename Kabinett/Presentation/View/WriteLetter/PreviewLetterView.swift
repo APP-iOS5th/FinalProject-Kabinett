@@ -46,7 +46,7 @@ struct PreviewLetterView: View {
                                     Text("보내는 사람")
                                         .font(.system(size: 7))
                                     Text(letterContent.fromUserName)
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 
                                 Spacer()
@@ -65,7 +65,7 @@ struct PreviewLetterView: View {
                             HStack(alignment: .top) {
                                 VStack {
                                     Text(letterContent.postScript ?? "")
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                         .frame(width: geo.size.width * 0.43, alignment: .leading)
                                 }
                                 
@@ -73,7 +73,7 @@ struct PreviewLetterView: View {
                                     Text("받는 사람")
                                         .font(.system(size: 7))
                                     Text(letterContent.toUserName)
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.top, -1)
                                 .padding(.leading, geo.size.width * 0.1)
