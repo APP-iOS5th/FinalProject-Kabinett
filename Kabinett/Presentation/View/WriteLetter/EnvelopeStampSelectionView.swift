@@ -82,7 +82,7 @@ struct EnvelopeStampSelectionView: View {
                                         Text("보내는 사람")
                                             .font(.system(size: 7))
                                         Text(letterContent.fromUserName)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                     }
                                     
                                     Spacer()
@@ -109,7 +109,7 @@ struct EnvelopeStampSelectionView: View {
                                 HStack(alignment: .top) {
                                     VStack {
                                         Text(text)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                             .frame(width: geo.size.width * 0.43, alignment: .leading)
                                     }
                                     
@@ -117,7 +117,7 @@ struct EnvelopeStampSelectionView: View {
                                         Text("받는 사람")
                                             .font(.system(size: 7))
                                         Text(letterContent.toUserName)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                     }
                                     .padding(.top, -1)
                                     .padding(.leading, geo.size.width * 0.1)
