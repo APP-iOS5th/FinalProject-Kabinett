@@ -55,10 +55,6 @@ struct UserSelectionView: View {
                                 .lineSpacing(3)
                                 .foregroundStyle(Color("ContentSecondary"))
                                 .bold()
-                                .onAppear {
-                                    letterContent.toUserName = "나"
-                                    letterContent.fromUserName = "나"
-                                }
                             HStack {
                                 Spacer()
                                 Button("로그인하기") {
@@ -94,8 +90,6 @@ struct FormToUser: View {
     @ObservedObject var viewModel : UserSelectionViewModel
     
     var body: some View {
-        let fromName = letterContent.fromUserName.isEmpty ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
-        
         HStack {
             Text("보내는 사람")
                 .foregroundStyle(Color("ContentPrimary"))
@@ -111,9 +105,18 @@ struct FormToUser: View {
         }
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
-            letterContent.toUserId = viewModel.toUser?.id
-            letterContent.toUserName = viewModel.checkLogin ? viewModel.toUser?.name ?? "" : "나"
-            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+            if viewModel.checkLogin {
+                letterContent.fromUserId = viewModel.fromUser?.id
+                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+                letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+                letterContent.toUserId = viewModel.toUser?.id
+                letterContent.toUserName = viewModel.toUser?.name ?? ""
+                letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+            } else {
+                letterContent.toUserName = "나"
+                letterContent.fromUserName = "나"
+            }
+            letterContent.date = Date()
         }
         
         HStack {
@@ -121,21 +124,8 @@ struct FormToUser: View {
                 .foregroundStyle(Color("ContentPrimary"))
                 .font(.system(size: 16))
                 .bold()
-                .onAppear {
-                    letterContent.fromUserId = viewModel.fromUser?.id
-                    letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                    letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                    if letterContent.toUserId == "" {
-                        viewModel.updateToUser(&letterContent, toUserName: letterContent.fromUserName)
-                    }
-                    letterContent.toUserId = viewModel.toUser?.id
-                    letterContent.toUserName = viewModel.toUser?.name ?? ""
-                    letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-                    
-                    letterContent.date = Date()
-                }
             Spacer(minLength: 37)
-            let toName = letterContent.toUserName.isEmpty ? fromName : letterContent.toUserName
+            let toName = letterContent.toUserName.isEmpty ? viewModel.toUser?.name ?? "" : letterContent.toUserName
             let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
             Text(viewModel.checkLogin ? "\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))" : "나")
                 .foregroundStyle(viewModel.checkLogin ? Color.black : Color("ContentSecondary"))
