@@ -11,7 +11,13 @@ import Kingfisher
 struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
+    @StateObject var viewModel : StationerySelectionViewModel
+    
+    init(letterContent: Binding<LetterWriteModel>) {
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
+        self._letterContent = letterContent
+    }
     
     var body: some View {
         NavigationStack {
@@ -31,16 +37,16 @@ struct StationerySelectionView: View {
                     }
                     
                     List {
-                        ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
+                        ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
                             HStack {
                                 ForEach(0..<2, id: \.self) { columnIndex in
-                                    let index = stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)
+                                    let index = viewModel.index(row: rowIndex, column: columnIndex)
                                     StationeryCell(
                                         index: index,
                                         rowIndex: rowIndex,
                                         columnIndex: columnIndex,
                                         letterContent: $letterContent,
-                                        stationerySelectionViewModel: stationerySelectionViewModel
+                                        stationerySelectionViewModel: viewModel
                                     )
                                 }
                             }
@@ -55,15 +61,15 @@ struct StationerySelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
             .navigationBarBackButtonHidden()
-            .sheet(isPresented: $stationerySelectionViewModel.showModal) {
+            .sheet(isPresented: $viewModel.showModal) {
                 UserSelectionView(letterContent: $letterContent)
                     .presentationDetents([.height(300), .large])
             }
             .onAppear {
-                stationerySelectionViewModel.showModal = true
+                viewModel.showModal = true
                 
                 Task {
-                    await stationerySelectionViewModel.loadStationeries()
+                    await viewModel.loadStationeries()
                 }
             }
         }

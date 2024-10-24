@@ -11,7 +11,13 @@ import Kingfisher
 struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var viewModel : UserSelectionViewModel
+    @StateObject var viewModel : UserSelectionViewModel
+    
+    init(letterContent: Binding<LetterWriteModel>) {
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        _viewModel = StateObject(wrappedValue: UserSelectionViewModel(useCase: writeLetterUseCase))
+        self._letterContent = letterContent
+    }
     
     var body: some View {
         
@@ -33,7 +39,7 @@ struct UserSelectionView: View {
                 .foregroundColor(.contentPrimary)
                 .padding(.bottom, -3)
                 
-                FormToUser(letterContent: $letterContent)
+                FormToUser(letterContent: $letterContent, viewModel: viewModel)
                 
                 HStack {
                     if viewModel.checkLogin {
@@ -85,7 +91,7 @@ struct UserSelectionView: View {
 // MARK: - FormToUserView
 struct FormToUser: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel : UserSelectionViewModel
+    @ObservedObject var viewModel : UserSelectionViewModel
     
     var body: some View {
         let fromName = letterContent.fromUserName.isEmpty ? viewModel.fromUser?.name ?? "" : letterContent.fromUserName
@@ -106,7 +112,7 @@ struct FormToUser: View {
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
             letterContent.toUserId = viewModel.toUser?.id
-            letterContent.toUserName = viewModel.toUser?.name ?? ""
+            letterContent.toUserName = viewModel.checkLogin ? viewModel.toUser?.name ?? "" : "나"
             letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
         }
         

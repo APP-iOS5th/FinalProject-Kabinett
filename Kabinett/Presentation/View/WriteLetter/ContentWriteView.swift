@@ -12,7 +12,7 @@ import PhotosUI
 
 struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: ContentWriteViewModel
+    @StateObject var viewModel = ContentWriteViewModel()
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
     
@@ -79,7 +79,7 @@ struct ContentWriteView: View {
                 .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
                 .clipShape(Capsule())
                 
-                ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
+                ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
                 
                 Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
             }
@@ -100,8 +100,7 @@ struct ContentWriteView: View {
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: ContentWriteViewModel
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @ObservedObject var viewModel: ContentWriteViewModel
     @Binding var currentIndex: Int
     
     var body: some View {
