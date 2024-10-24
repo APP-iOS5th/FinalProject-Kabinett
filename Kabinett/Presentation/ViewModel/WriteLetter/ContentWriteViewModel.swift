@@ -12,7 +12,7 @@ class ContentWriteViewModel: ObservableObject {
     @Published var texts: [String] = [""]
     @Published var currentIndex: Int = 0
     @Published var isDeleteAlertPresented = false
-
+    
     func reset() {
         texts = [""]
         currentIndex = 0
