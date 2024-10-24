@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Combine
 import os
 
 enum LetterError: Error {
@@ -31,8 +32,9 @@ struct Query {
 
 final class FirestoreLetterManager {
     private let logger: Logger
-    
     private let db = Firestore.firestore()
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         self.logger = Logger(
@@ -183,51 +185,78 @@ final class FirestoreLetterManager {
     func getLetters(
         userId: String,
         letterType: [String]
-    ) -> AsyncStream<[Letter]> {
-        AsyncStream { continuation in
-            var combinedLetters: [Letter] = []
-            
-            let listeners = letterType.map { type in
-                db.collection("Writers")
-                    .document(userId)
-                    .collection(type)
-                    .addSnapshotListener { querySnapshot, error in
-                        guard let snapshot = querySnapshot else {
-                            self.logger.error("Error fetching snapshots: \(error?.localizedDescription ?? "")")
-                            return
-                        }
-                        
-                        if let error = error {
-                            self.logger.error("Get Letters Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        snapshot.documentChanges.forEach { diff in
-                            switch diff.type {
-                            case .added:
-                                if let newLetter = try? diff.document.data(as: Letter.self) {
-                                    combinedLetters.append(newLetter)
-                                }
-                            case .modified:
-                                if let modifiedLetter = try? diff.document.data(as: Letter.self),
-                                   let index = combinedLetters.firstIndex(where: { $0.id == modifiedLetter.id }) {
-                                    combinedLetters[index] = modifiedLetter
-                                }
-                            case .removed:
-                                if let removedLetter = try? diff.document.data(as: Letter.self) {
-                                    combinedLetters.removeAll { $0.id == removedLetter.id }
-                                }
-                            }
-                        }
-                        
-                        let sortedLetters = combinedLetters.sorted { $0.date > $1.date }
-                        continuation.yield(sortedLetters)
-                    }
+    ) -> AnyPublisher<[Letter], Never> {
+        let publishers = letterType.map { type in
+            createLetterPublisher(userId: userId, type: type)
+        }
+        
+        return Publishers.MergeMany(publishers)
+            .scan([Letter]()) { currentLetters, newLetters in
+                self.mergeLetters(existingLetters: currentLetters, newLetters: newLetters)
             }
-            continuation.onTermination = { @Sendable _ in
-                listeners.forEach { $0.remove() }
+            .map { $0.sorted { $0.date > $1.date } }
+            .eraseToAnyPublisher()
+    }
+    
+    private func createLetterPublisher(
+        userId: String,
+        type: String
+    ) -> AnyPublisher<[Letter], Never> {
+        let subject = PassthroughSubject<[Letter], Never>()
+        
+        let listener = db.collection("Writers")
+            .document(userId)
+            .collection(type)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    self.logger.error("Error fetching snapshots: \(error.localizedDescription)")
+                    subject.send([])
+                    return
+                }
+                
+                guard let snapshot = querySnapshot else {
+                    self.logger.error("Snapshot is nil")
+                    subject.send([])
+                    return
+                }
+                
+                let letters = snapshot.documentChanges.compactMap { diff -> Letter? in
+                    switch diff.type {
+                    case .added, .modified:
+                        return try? diff.document.data(as: Letter.self)
+                    case .removed:
+                        return nil
+                    }
+                }
+                subject.send(letters)
+            }
+        
+        return subject
+            .handleEvents(receiveCancel: {
+                listener.remove()
+            })
+            .eraseToAnyPublisher()
+    }
+    
+    private func mergeLetters(
+        existingLetters: [Letter],
+        newLetters: [Letter]
+    ) -> [Letter] {
+        var updatedLetters = existingLetters
+        
+        for newLetter in newLetters {
+            if let index = updatedLetters.firstIndex(where: { $0.id == newLetter.id }) {
+                updatedLetters[index] = newLetter
+            } else {
+                updatedLetters.append(newLetter)
             }
         }
+        
+        // 기존 편지 중 현재 타입에 없는 편지 제거
+        let newIds = Set(newLetters.map { $0.id })
+        updatedLetters.removeAll { !newIds.contains($0.id) }
+        
+        return updatedLetters
     }
     
     func searchByKeyword(

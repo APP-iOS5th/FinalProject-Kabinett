@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import os
 
 final class DefaultLetterBoxUseCase {
@@ -28,38 +29,34 @@ final class DefaultLetterBoxUseCase {
 
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
-    // letter 타입별 로딩
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
-        AsyncStream { continuation in
-            Task {
-                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
-                for await letters in self.letterManager.getLetters(userId: userId, letterType: letterType.types) {
-                    continuation.yield(letters)
-                }
-                continuation.finish()
+    func getLetterBoxDetailLetters(letterType: LetterType) -> AnyPublisher<[Letter], Never> {
+        authManager.getCurrentUser()
+            .compactMap { $0?.uid }
+            .flatMap { userId in
+                self.letterManager.getLetters(userId: userId, letterType: letterType.types)
             }
-        }
+            .eraseToAnyPublisher()
     }
     
-    // main 편지함 letter 3개 로딩
-    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
-        AsyncStream { continuation in
-            Task {
-                let types: [LetterType] = [.all, .sent, .received, .toMe]
-                
-                await withTaskGroup(of: Void.self) { group in
-                    for type in types {
-                        group.addTask {
-                            for await letters in await self.getLetterBoxDetailLetters(letterType: type) {
-                                let newResult = [type: Array(letters.prefix(3))]
-                                continuation.yield(newResult)
-                            }
-                        }
-                    }
+    func getLetterBoxLetters() -> AnyPublisher<[LetterType : [Letter]], Never> {
+        let types: [LetterType] = [.all, .sent, .received, .toMe]
+        
+        let publishers = types.map { type in
+            getLetterBoxDetailLetters(letterType: type)
+                .map { letters in
+                    [type: Array(letters.prefix(3))]
                 }
-                continuation.finish()
-            }
+                .eraseToAnyPublisher()
         }
+        
+        return Publishers.MergeMany(publishers)
+            .collect()
+            .map { results in
+                results.reduce(into: [LetterType: [Letter]]()) { combined, result in
+                    combined.merge(result) { _, new in new }
+                }
+            }
+            .eraseToAnyPublisher()
     }
     
     // 안읽은 letter 개수 로딩
