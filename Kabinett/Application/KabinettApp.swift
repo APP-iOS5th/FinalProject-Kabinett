@@ -19,13 +19,9 @@ struct KabinettApp: App {
     // MARK: - SignUp Flow
     @StateObject private var signUpViewModel: SignUpViewModel
     
-    // MARK: - LetterWrite Flow
-    @StateObject private var userSelectionViewModel: UserSelectionViewModel
-    @StateObject private var stationerySelectionViewModel: StationerySelectionViewModel
-    @StateObject private var fontSelectionViewModel: FontSelectionViewModel
-    @StateObject private var contentWriteViewModel: ContentWriteViewModel
-    @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @StateObject private var previewLetterViewModel: PreviewLetterViewModel
+    // MARK: - Componets Flow
+    @StateObject private var imagePickerViewModel: ImagePickerViewModel
+    @StateObject private var customTabViewModel: CustomTabViewModel
     
     init() {
         // Init Firebase App
@@ -89,32 +85,14 @@ struct KabinettApp: App {
             )
         )
         
-        // MARK: - LetterWrite ViewModels
-        _userSelectionViewModel = .init(
-            wrappedValue: UserSelectionViewModel(
-                useCase: normalLetterUseCase
+        // MARK: - Componets ViewModels
+        _imagePickerViewModel = .init(
+            wrappedValue: ImagePickerViewModel(
+                componentsUseCase: photoLetterUseCase
             )
         )
-        _stationerySelectionViewModel = .init(
-            wrappedValue: StationerySelectionViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
-        _fontSelectionViewModel = .init(
-            wrappedValue: FontSelectionViewModel()
-        )
-        _contentWriteViewModel = .init(
-            wrappedValue: ContentWriteViewModel()
-        )
-        _envelopStampSelectionViewModel = .init(
-            wrappedValue: EnvelopeStampSelectionViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
-        _previewLetterViewModel = .init(
-            wrappedValue: PreviewLetterViewModel(
-                useCase: normalLetterUseCase
-            )
+        _customTabViewModel = .init(
+            wrappedValue: CustomTabViewModel()
         )
     }
     
@@ -123,12 +101,8 @@ struct KabinettApp: App {
             CustomTabView()
                 .environmentObject(profileViewModel)
                 .environmentObject(signUpViewModel)
-                .environmentObject(userSelectionViewModel)
-                .environmentObject(stationerySelectionViewModel)
-                .environmentObject(fontSelectionViewModel)
-                .environmentObject(contentWriteViewModel)
-                .environmentObject(envelopStampSelectionViewModel)
-                .environmentObject(previewLetterViewModel)
+                .environmentObject(imagePickerViewModel)
+                .environmentObject(customTabViewModel)
         }
     }
 }

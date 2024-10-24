@@ -12,7 +12,7 @@ import PhotosUI
 
 struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: ContentWriteViewModel
+    @StateObject var viewModel = ContentWriteViewModel()
     @EnvironmentObject var imageViewModel: ImagePickerViewModel
     @EnvironmentObject var customViewModel: CustomTabViewModel
     
@@ -108,8 +108,7 @@ struct ContentWriteView: View {
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: ContentWriteViewModel
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @ObservedObject var viewModel: ContentWriteViewModel
     @Binding var currentIndex: Int
     
     var body: some View {
