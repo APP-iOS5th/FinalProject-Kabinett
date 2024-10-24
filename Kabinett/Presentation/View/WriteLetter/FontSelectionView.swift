@@ -10,7 +10,7 @@ import SwiftUI
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel = FontSelectionViewModel()
-
+    
     var body: some View {
         ZStack {
             Color(.background).ignoresSafeArea()
