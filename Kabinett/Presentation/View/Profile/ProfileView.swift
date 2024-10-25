@@ -21,13 +21,13 @@ struct ProfileView: View {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)
                         if viewModel.profileUpdateError != nil {
-//                            VStack {
-//                                Text("프로필을 불러오는 데 문제가 발생했어요.")
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.alert)
-//                                    .font(.headline)
-//                                    .padding()
-//                            }
+                            //                            VStack {
+                            //                                Text("프로필을 불러오는 데 문제가 발생했어요.")
+                            //                                    .fontWeight(.regular)
+                            //                                    .foregroundColor(.alert)
+                            //                                    .font(.headline)
+                            //                                    .padding()
+                            //                            }
                         } else {
                             VStack {
                                 if let image = viewModel.currentWriter.imageUrlString {
@@ -85,13 +85,9 @@ struct ProfileView: View {
                 SettingsView()
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabDoubleTappedNotification)) { _ in
-                    viewModel.resetToInitialState()
-                }
-        .onChange(of: customTabViewModel.selectedTab) { oldValue, newValue in
-                    if oldValue == 2 && newValue != 2 {
-                        viewModel.resetToInitialState()
-                    }
-                }
+        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabTappedNotification)) { _ in
+            customTabViewModel.profileNavigationPath.removeLast(customTabViewModel.profileNavigationPath.count)
+            viewModel.resetToInitialState()
+        }
     }
 }
