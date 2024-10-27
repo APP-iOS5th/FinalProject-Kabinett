@@ -41,7 +41,7 @@ struct CustomTabView: View {
             }
         }
         .overlay(
-            ZStack {
+            Group {
                 if viewModel.showOptions {
                     OptionOverlay()
                 }
