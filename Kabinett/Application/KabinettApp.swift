@@ -23,9 +23,6 @@ struct KabinettApp: App {
     // MARK: - Profile Flow
     @StateObject private var profileViewModel: ProfileViewModel
     
-    // MARK: - SignUp Flow
-    @StateObject private var signUpViewModel: SignUpViewModel
-    
     // MARK: - Componets Flow
     @StateObject private var imagePickerViewModel: ImagePickerViewModel
     @StateObject private var customTabViewModel: CustomTabViewModel
@@ -117,13 +114,6 @@ struct KabinettApp: App {
             )
         )
         
-        // MARK: - SignUp ViewModel
-        _signUpViewModel = .init(
-            wrappedValue: SignUpViewModel(
-                signUpUseCase: signUpUseCase
-            )
-        )
-        
         // MARK: - Componets ViewModels
         _imagePickerViewModel = .init(
             wrappedValue: ImagePickerViewModel(
@@ -171,7 +161,6 @@ struct KabinettApp: App {
                 .environmentObject(letterBoxDetailViewModel)
                 .environmentObject(calendarViewModel)
                 .environmentObject(profileViewModel)
-                .environmentObject(signUpViewModel)
                 .environmentObject(imagePickerViewModel)
                 .environmentObject(customTabViewModel)
                 .environmentObject(userSelectionViewModel)
