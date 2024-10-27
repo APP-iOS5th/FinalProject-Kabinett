@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct LetterWritingView: View {
-    @EnvironmentObject var viewModel: ImagePickerViewModel
-    @EnvironmentObject var customViewModel: CustomTabViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var viewModel: ImagePickerViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var envelopeStampViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
     @Binding var showEnvelopeStamp: Bool

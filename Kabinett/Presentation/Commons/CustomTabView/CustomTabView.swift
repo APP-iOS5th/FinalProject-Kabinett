@@ -9,16 +9,24 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
-    @EnvironmentObject var viewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @StateObject private var customTabViewModel: CustomTabViewModel
+    @StateObject private var calendarViewModel: CalendarViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
     
     @State private var letterWriteViewModel = LetterWriteModel()
     
+    init() {
+        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
+        @Injected(ProfileUseCaseKey.self) var profileUseCase: ProfileUseCase
+        
+        self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel())
+        self._calendarViewModel = StateObject(wrappedValue: CalendarViewModel())
+        self._profileViewModel = StateObject(wrappedValue: ProfileViewModel(profileUseCase: profileUseCase))
+    }
+    
     var body: some View {
         ZStack(alignment: .bottom) {
-            TabView(selection: $viewModel.selectedTab) {
+            TabView(selection: $customTabViewModel.selectedTab) {
                 LetterBoxView()
                     .tag(0)
                 
@@ -28,23 +36,29 @@ struct CustomTabView: View {
                 ProfileView()
                     .tag(2)
             }
-            .overlay(CustomTabBar(viewModel: _viewModel), alignment: .bottom)
+            .overlay(
+                CustomTabBar(
+                    viewModel: customTabViewModel,
+                    profileViewModel: profileViewModel
+                ),
+                alignment: .bottom
+            )
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
-            viewModel.setupTabBarAppearance()
+            customTabViewModel.setupTabBarAppearance()
         }
-        .onChange(of: viewModel.selectedTab) { oldValue, newValue in
+        .onChange(of: customTabViewModel.selectedTab) { oldValue, newValue in
             if newValue == 1 {
                 withAnimation {
-                    viewModel.showOptions = true
+                    customTabViewModel.showOptions = true
                 }
-                viewModel.selectedTab = oldValue
+                customTabViewModel.selectedTab = oldValue
             }
         }
         .overlay(
             Group {
-                if viewModel.showOptions {
+                if customTabViewModel.showOptions {
                     OptionOverlay()
                 }
                 CalendarOverlayView()
@@ -52,13 +66,11 @@ struct CustomTabView: View {
         )
         .overlay(ImportDialog())
         .overlay(ImagePickerView())
-        .fullScreenCover(isPresented: $viewModel.showCamera) {
+        .fullScreenCover(isPresented: $customTabViewModel.showCamera) {
             CameraView()
         }
-        .sheet(isPresented: $viewModel.showWriteLetterView) {
+        .sheet(isPresented: $customTabViewModel.showWriteLetterView) {
             ContentWriteView(letterContent: $letterWriteViewModel)
         }
-        .environmentObject(viewModel)
-        .environmentObject(imagePickerViewModel)
     }
 }
