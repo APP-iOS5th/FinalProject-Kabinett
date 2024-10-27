@@ -9,8 +9,16 @@ import SwiftUI
 import AuthenticationServices
 
 struct SignUpView: View {
-    @EnvironmentObject private var viewModel: SignUpViewModel
+    @StateObject private var viewModel: SignUpViewModel
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
+    
+    init() {
+        @Injected(SignUpUseCaseKey.self)
+        var signUpUseCase: SignUpUseCase
+        
+        self._viewModel = StateObject(
+            wrappedValue: SignUpViewModel(signUpUseCase: signUpUseCase))
+    }
     
     var body: some View {
         ZStack {
@@ -55,7 +63,7 @@ struct SignUpView: View {
             viewModel.isLoading ? LoadingView() : nil
         )
         .navigationDestination(isPresented: $viewModel.showSignUpFlow) {
-            SignUpNameInputView()
+            SignUpNameInputView(viewModel: viewModel)
         }
         .alert(
             "오류",
