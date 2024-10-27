@@ -25,10 +25,6 @@ struct KabinettApp: App {
     // MARK: - SignUp Flow
     @StateObject private var signUpViewModel: SignUpViewModel
     
-    // MARK: - Componets Flow
-    @StateObject private var imagePickerViewModel: ImagePickerViewModel
-    @StateObject private var customTabViewModel: CustomTabViewModel
-    
     // MARK: - LetterWrite Flow
     @StateObject private var userSelectionViewModel: UserSelectionViewModel
     @StateObject private var stationerySelectionViewModel: StationerySelectionViewModel
@@ -127,16 +123,6 @@ struct KabinettApp: App {
             )
         )
         
-        // MARK: - Componets ViewModels
-        _imagePickerViewModel = .init(
-            wrappedValue: ImagePickerViewModel(
-                componentsUseCase: photoLetterUseCase
-            )
-        )
-        _customTabViewModel = .init(
-            wrappedValue: CustomTabViewModel()
-        )
-        
         // MARK: - LetterWrite ViewModels
         _userSelectionViewModel = .init(
             wrappedValue: UserSelectionViewModel(
@@ -175,8 +161,6 @@ struct KabinettApp: App {
                 .environmentObject(calendarViewModel)
                 .environmentObject(profileViewModel)
                 .environmentObject(signUpViewModel)
-                .environmentObject(imagePickerViewModel)
-                .environmentObject(customTabViewModel)
                 .environmentObject(userSelectionViewModel)
                 .environmentObject(stationerySelectionViewModel)
                 .environmentObject(fontSelectionViewModel)

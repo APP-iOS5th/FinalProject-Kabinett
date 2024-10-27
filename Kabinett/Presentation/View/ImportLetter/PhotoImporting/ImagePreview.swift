@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ImagePreview: View {
-    @EnvironmentObject var customViewModel: CustomTabViewModel
-    @EnvironmentObject var imageViewModel: ImagePickerViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @StateObject private var imageViewModel: ImagePickerViewModel
+    @StateObject private var customViewModel: CustomTabViewModel
+    @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
     @State private var navigateToEnvelopeStamp = false
     @State private var letterContent = LetterWriteModel()
+    
+    init() {
+        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        
+        self._imageViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))
+        self._customViewModel = StateObject(wrappedValue: CustomTabViewModel())
+        self._envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
+    }
     
     var body: some View {
         NavigationStack {
@@ -59,7 +68,13 @@ struct ImagePreview: View {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(letterContent: $letterContent, showEnvelopeStamp: $navigateToEnvelopeStamp)
+                LetterWritingView(
+                    viewModel: imageViewModel,
+                    customViewModel: customViewModel,
+                    envelopeStampViewModel: envelopeStampSelectionViewModel,
+                    letterContent: $letterContent,
+                    showEnvelopeStamp: $navigateToEnvelopeStamp
+                )
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
             .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
