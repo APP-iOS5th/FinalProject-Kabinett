@@ -259,7 +259,6 @@ final class FirestoreLetterManager {
         return updatedLetters
     }
     
-    
     func searchByKeyword(
         userId: String,
         keyword: String,
@@ -393,43 +392,53 @@ final class FirestoreLetterManager {
         }
     }
     
-    func getIsReadCount(userId: String) -> AsyncStream<[LetterType: Int]> {
-        AsyncStream { continuation in
-            let typeToCollectionName: [LetterType: String] = [
-                .toMe: "ToMe",
-                .received: "Received"
-            ]
-            var result: [LetterType: Int] = [:]
-            
-            let safeListeners = SafeListeners()
-            
-            for (type, collectionName) in typeToCollectionName {
-                let listener = db.collection("Writers")
-                    .document(userId)
-                    .collection(collectionName)
-                    .whereField("isRead", isEqualTo: false)
-                    .addSnapshotListener { querySnapshot, error in
-                        if let error = error {
-                            self.logger.error("Failed to get Count: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        result[type] = querySnapshot?.documents.count ?? 0
-                        result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
-                        
-                        continuation.yield(result)
-                    }
-                Task {
-                    await safeListeners.addListener(listener)
-                }
-            }
-            
-            continuation.onTermination = { @Sendable _ in
-                Task {
-                    await safeListeners.removeAllListeners()
-                }
-            }
+    func getIsReadCount(userId: String) -> AnyPublisher<[LetterType: Int], Never> {
+        let typeToCollectionName: [LetterType: String] = [
+            .toMe: "ToMe",
+            .received: "Received"
+        ]
+        
+        let publishers = typeToCollectionName.map { type, collectionName in
+            createUnreadCountPublisher(userId: userId, type: type, collectionName: collectionName)
         }
+        
+        return Publishers.MergeMany(publishers)
+            .scan([LetterType: Int]()) { accumulated, new in
+                var updated = accumulated
+                updated.merge(new) { _, new in new }
+                updated[.all] = (updated[.toMe] ?? 0) + (updated[.received] ?? 0)
+                return updated
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func createUnreadCountPublisher(
+        userId: String,
+        type: LetterType,
+        collectionName: String
+    ) -> AnyPublisher<[LetterType: Int], Never> {
+        let subject = PassthroughSubject<[LetterType: Int], Never>()
+        
+        let listener = db.collection("Writers")
+            .document(userId)
+            .collection(collectionName)
+            .whereField("isRead", isEqualTo: false)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    self.logger.error("Failed to get Count: \(error.localizedDescription)")
+                    subject.send([type: 0])
+                    return
+                }
+                
+                let count = querySnapshot?.documents.count ?? 0
+                subject.send([type: count])
+            }
+        
+        return subject
+            .handleEvents(receiveCancel: {
+                listener.remove()
+            })
+            .eraseToAnyPublisher()
     }
     
     func getWelcomeLetter(userId: String) async -> Result<Bool, any Error> {

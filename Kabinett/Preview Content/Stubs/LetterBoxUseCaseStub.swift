@@ -59,11 +59,9 @@ class LetterBoxUseCaseStub: LetterBoxUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getIsRead() -> AsyncStream<[LetterType : Int]> {
-        AsyncStream { continuation in
-            continuation.yield(LetterBoxUseCaseStub.sampleLetterIsRead)
-            continuation.finish()
-        }
+    func getIsRead() -> AnyPublisher<[LetterType : Int], Never> {
+        Just(LetterBoxUseCaseStub.sampleLetterIsRead)
+            .eraseToAnyPublisher()
     }
     
     func searchBy(findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {
