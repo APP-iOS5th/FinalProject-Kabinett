@@ -66,16 +66,13 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     }
     
     // 안읽은 letter 개수 로딩
-    func getIsRead() -> AsyncStream<[LetterType: Int]> {
-        return AsyncStream { continuation in
-            Task {
-                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
-                for try await result in self.letterManager.getIsReadCount(userId: userId) {
-                    continuation.yield(result)
-                }
-                continuation.finish()
+    func getIsRead() -> AnyPublisher<[LetterType: Int], Never> {
+        authManager.getCurrentUser()
+            .compactMap { $0?.uid }
+            .flatMap { userId in
+                self.letterManager.getIsReadCount(userId: userId)
             }
-        }
+            .eraseToAnyPublisher()
     }
     
     // keyword 기준 letter 검색

@@ -29,9 +29,6 @@ class LetterBoxDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     func fetchLetterBoxDetailLetters(letterType: LetterType) {
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
-
         letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in

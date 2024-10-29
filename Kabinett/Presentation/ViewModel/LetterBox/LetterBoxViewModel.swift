@@ -19,7 +19,6 @@ class LetterBoxViewModel: ObservableObject {
     @Published var showToast = false
     
     @Published var errorMessage: String?
-    private var isReadTask: Task<Void, Never>?
     
     init(letterBoxUseCase: LetterBoxUseCase) {
         self.logger = Logger(
@@ -32,9 +31,6 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     func fetchLetterBoxLetters() {
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
-        
         letterBoxUseCase.getLetterBoxLetters()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
@@ -53,13 +49,16 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     func fetchIsRead() {
-        isReadTask?.cancel()
-        isReadTask = Task { @MainActor in
-            for await letterCount in letterBoxUseCase.getIsRead() {
-                if Task.isCancelled { break }
-                self.isReadLetters = letterCount
-            }
-        }
+        letterBoxUseCase.getIsRead()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    self.logger.error("Error fetching letter counts: \(error.localizedDescription)")
+                }
+            }, receiveValue: { [weak self] letterCount in
+                self?.isReadLetters = letterCount
+            })
+            .store(in: &cancellables)
     }
     
     func getIsReadLetters(for type: LetterType) -> Int {
@@ -77,9 +76,5 @@ class LetterBoxViewModel: ObservableObject {
                 self.errorMessage = error.localizedDescription
             }
         }
-    }
-    
-    deinit {
-        isReadTask?.cancel()
     }
 }

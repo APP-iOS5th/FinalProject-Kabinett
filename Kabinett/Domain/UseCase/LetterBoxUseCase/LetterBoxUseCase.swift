@@ -15,7 +15,7 @@ protocol LetterBoxUseCase {
         letterType: LetterType
     ) -> AnyPublisher<[Letter], Never>
     
-    func getIsRead() -> AsyncStream<[LetterType: Int]>
+    func getIsRead() -> AnyPublisher<[LetterType: Int], Never>
     
     func searchBy(
         findKeyword: String,
