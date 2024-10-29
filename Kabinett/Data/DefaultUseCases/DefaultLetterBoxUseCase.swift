@@ -38,23 +38,29 @@ extension DefaultLetterBoxUseCase: LetterBoxUseCase {
             .eraseToAnyPublisher()
     }
     
-    func getLetterBoxLetters() -> AnyPublisher<[LetterType : [Letter]], Never> {
-        let types: [LetterType] = [.all, .sent, .received, .toMe]
+    func getLetterBoxLetters() -> AnyPublisher<[LetterType: [Letter]], Never> {
+        let types: [LetterType] = [.sent, .received, .toMe]
         
         let publishers = types.map { type in
             getLetterBoxDetailLetters(letterType: type)
                 .map { letters in
-                    [type: Array(letters.prefix(3))]
+                    let sortedLetters = letters.sorted { $0.date > $1.date }
+                    return [type: Array(sortedLetters.prefix(3))]
                 }
                 .eraseToAnyPublisher()
         }
         
         return Publishers.MergeMany(publishers)
-            .collect()
-            .map { results in
-                results.reduce(into: [LetterType: [Letter]]()) { combined, result in
-                    combined.merge(result) { _, new in new }
-                }
+            .scan([LetterType: [Letter]]()) { combined, new in
+                combined.merging(new) { _, new in new }
+            }
+            .map { combined in
+                let allLetters = combined.values.flatMap { $0 }
+                    .sorted { $0.date > $1.date }
+                
+                var result = combined
+                result[.all] = Array(allLetters.prefix(3))
+                return result
             }
             .eraseToAnyPublisher()
     }

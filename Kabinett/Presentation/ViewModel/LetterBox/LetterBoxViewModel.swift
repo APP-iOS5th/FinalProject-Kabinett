@@ -6,32 +6,46 @@
 //
 
 import SwiftUI
+import Combine
+import os
 
 class LetterBoxViewModel: ObservableObject {
+    private let logger: Logger
     private let letterBoxUseCase: LetterBoxUseCase
+    private var cancellables: Set<AnyCancellable> = []
     
     @Published var letterBoxLetters: [LetterType: [Letter]] = [:]
     @Published var isReadLetters: [LetterType: Int] = [:]
     @Published var showToast = false
     
     @Published var errorMessage: String?
-    private var letterTask: Task<Void, Never>?
     private var isReadTask: Task<Void, Never>?
     
     init(letterBoxUseCase: LetterBoxUseCase) {
+        self.logger = Logger(
+            subsystem: "co.kr.codegrove.Kabinett",
+            category: "LetterBoxViewModel"
+        )
         self.letterBoxUseCase = letterBoxUseCase
-        fetchLetterBoxLetters()
-        fetchIsRead()
+        self.fetchLetterBoxLetters()
+        self.fetchIsRead()
     }
     
     func fetchLetterBoxLetters() {
-        letterTask?.cancel()
-        letterTask = Task { @MainActor in
-            for await letters in letterBoxUseCase.getLetterBoxLetters() {
-                if Task.isCancelled { break }
-                self.letterBoxLetters.merge(letters) { _, new in new }
-            }
-        }
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+        
+        letterBoxUseCase.getLetterBoxLetters()
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    self.logger.error("Error fetching letters: \(error.localizedDescription)")
+                    self.errorMessage = "편지 가져오기 오류: \(error.localizedDescription)"
+                }
+            }, receiveValue: { [weak self] letters in
+                self?.letterBoxLetters.merge(letters) { _, new in new }
+            })
+            .store(in: &cancellables)
     }
     
     func getSomeLetters(for type: LetterType) -> [Letter] {
@@ -66,7 +80,6 @@ class LetterBoxViewModel: ObservableObject {
     }
     
     deinit {
-        letterTask?.cancel()
         isReadTask?.cancel()
     }
 }

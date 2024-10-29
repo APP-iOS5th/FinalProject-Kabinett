@@ -191,8 +191,8 @@ final class FirestoreLetterManager {
         }
         
         return Publishers.MergeMany(publishers)
-            .scan([Letter]()) { currentLetters, newLetters in
-                self.mergeLetters(existingLetters: currentLetters, newLetters: newLetters)
+            .scan([Letter]()) { accumulated, changes in
+                self.mergeLetterChanges(existingLetters: accumulated, changes: changes)
             }
             .map { $0.sorted { $0.date > $1.date } }
             .eraseToAnyPublisher()
@@ -201,8 +201,8 @@ final class FirestoreLetterManager {
     private func createLetterPublisher(
         userId: String,
         type: String
-    ) -> AnyPublisher<[Letter], Never> {
-        let subject = PassthroughSubject<[Letter], Never>()
+    ) -> AnyPublisher<[(Letter?, DocumentChangeType)], Never> {
+        let subject = PassthroughSubject<[(Letter?, DocumentChangeType)], Never>()
         
         let listener = db.collection("Writers")
             .document(userId)
@@ -220,15 +220,11 @@ final class FirestoreLetterManager {
                     return
                 }
                 
-                let letters = snapshot.documentChanges.compactMap { diff -> Letter? in
-                    switch diff.type {
-                    case .added, .modified:
-                        return try? diff.document.data(as: Letter.self)
-                    case .removed:
-                        return nil
-                    }
+                let changes = snapshot.documentChanges.map { change -> (Letter?, DocumentChangeType) in
+                    let letter = try? change.document.data(as: Letter.self)
+                    return (letter, change.type)
                 }
-                subject.send(letters)
+                subject.send(changes)
             }
         
         return subject
@@ -238,26 +234,31 @@ final class FirestoreLetterManager {
             .eraseToAnyPublisher()
     }
     
-    private func mergeLetters(
+    private func mergeLetterChanges(
         existingLetters: [Letter],
-        newLetters: [Letter]
+        changes: [(Letter?, DocumentChangeType)]
     ) -> [Letter] {
         var updatedLetters = existingLetters
         
-        for newLetter in newLetters {
-            if let index = updatedLetters.firstIndex(where: { $0.id == newLetter.id }) {
-                updatedLetters[index] = newLetter
-            } else {
-                updatedLetters.append(newLetter)
+        for (letter, changeType) in changes {
+            switch changeType {
+            case .removed:
+                if let letter = letter {
+                    updatedLetters.removeAll { $0.id == letter.id }
+                }
+            case .added, .modified:
+                if let letter = letter {
+                    if let index = updatedLetters.firstIndex(where: { $0.id == letter.id }) {
+                        updatedLetters[index] = letter
+                    } else {
+                        updatedLetters.append(letter)
+                    }
+                }
             }
         }
-        
-        // 기존 편지 중 현재 타입에 없는 편지 제거
-        let newIds = Set(newLetters.map { $0.id })
-        updatedLetters.removeAll { !newIds.contains($0.id) }
-        
         return updatedLetters
     }
+    
     
     func searchByKeyword(
         userId: String,
