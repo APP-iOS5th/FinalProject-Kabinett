@@ -45,6 +45,10 @@ struct LetterBoxView: View {
                         isFirstLaunch = false
                     }
                 }
+                
+                if calendarViewModel.startDateFiltering {
+                    calendarViewModel.resetDateFiltering()
+                }
             }
         }
         .tint(.black)

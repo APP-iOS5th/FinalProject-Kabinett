@@ -31,9 +31,6 @@ struct LetterView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                NavigationBarView(titleName: letterType.description, isColor: true) {}
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                
                 Spacer()
                 
                 ZStack(alignment: .trailing) {
@@ -78,8 +75,9 @@ struct LetterView: View {
                 Spacer()
             }
         }
-        .slideToDismiss()
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle(letterType.description)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
         .fullScreenCover(isPresented: $showDetailLetter) {
             LetterContentView(letter: letter)
         }

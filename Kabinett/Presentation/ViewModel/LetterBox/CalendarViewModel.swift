@@ -13,4 +13,10 @@ class CalendarViewModel: ObservableObject {
     @Published var startDate = Date()
     @Published var endDate = Date()
     @Published var currentLetterType: LetterType = .all
+    
+    func resetDateFiltering() {
+        startDateFiltering = false
+        startDate = Date()
+        endDate = Date()
+    }
 }

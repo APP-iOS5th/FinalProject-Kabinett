@@ -186,7 +186,6 @@ struct CalendarOverlayView: View {
                 
                 CalendarView()
                     .cornerRadius(20)
-                    .padding(.top, 32)
             }
         }
     }
@@ -204,7 +203,7 @@ struct CalendarBar: View {
                         .font(.system(size: UIScreen.main.bounds.width * 0.042))
                     
                     Text("\(formattedDate(date: calendarViewModel.startDate))부터 \(formattedDate(date: calendarViewModel.endDate))까지")
-                        .font(.system(size: UIScreen.main.bounds.width * 0.037))
+                        .font(.system(size: UIScreen.main.bounds.width * 0.036))
                         .foregroundStyle(.contentSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -219,9 +218,7 @@ struct CalendarBar: View {
                 
                 Button(action: {
                     withAnimation {
-                        calendarViewModel.startDateFiltering.toggle()
-                        calendarViewModel.startDate = Date()
-                        calendarViewModel.endDate = Date()
+                        calendarViewModel.resetDateFiltering()
                         letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
                 }) {

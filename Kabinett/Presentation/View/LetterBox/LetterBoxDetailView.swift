@@ -31,24 +31,6 @@ struct LetterBoxDetailView: View {
             VStack {
                 if showSearchBarView {
                     SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: calendarViewModel.currentLetterType)
-                } else {
-                    NavigationBarView(titleName: calendarViewModel.currentLetterType.description, isColor: false, toolbarContent: {
-                        toolbarItems()
-                    }, backAction: {
-                        if calendarViewModel.startDateFiltering {
-                            calendarViewModel.startDateFiltering.toggle()
-                        }
-                    })
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                    .background(
-                        GeometryReader { geo in
-                            Color.clear
-                                .onAppear {
-                                    let height = geo.frame(in: .local).height
-                                    self.navigationBarHeight = height
-                                }
-                        }
-                    )
                 }
                 
                 if calendarViewModel.startDateFiltering {
@@ -87,16 +69,10 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .slideToDismiss(action: {
-            if calendarViewModel.startDateFiltering {
-                calendarViewModel.startDateFiltering.toggle()
-            }
-            
-            if showSearchBarView {
-                showSearchBarView.toggle()
-            }
-        })
-        .navigationBarBackButtonHidden()
+        .navigationTitle(calendarViewModel.currentLetterType.description)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
+        .toolbar{ toolbarItems() }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
             if showSearchBarView {
@@ -166,13 +142,10 @@ struct LetterBoxDetailView: View {
             Button {
                 withAnimation {
                     if calendarViewModel.startDateFiltering {
-                        calendarViewModel.startDateFiltering = false
-                        calendarViewModel.startDate = Date()
-                        calendarViewModel.endDate = Date()
+                        calendarViewModel.resetDateFiltering()
                         viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
                     showSearchBarView.toggle()
-                    isTextFieldFocused = true
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
