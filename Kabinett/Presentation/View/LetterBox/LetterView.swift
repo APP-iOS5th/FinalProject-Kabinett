@@ -70,6 +70,12 @@ struct LetterView: View {
                             }
                     )
                     .animation(.spring(), value: offset)
+                    .onChange(of: showDetailLetter) { _, newValue in
+                        if newValue {
+                            offset = 0
+                            showDeleteButton = false
+                        }
+                    }
                 }
                 
                 Spacer()
