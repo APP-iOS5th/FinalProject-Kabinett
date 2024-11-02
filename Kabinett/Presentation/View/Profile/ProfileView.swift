@@ -9,16 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ProfileView: View {
-    @StateObject private var viewModel: ProfileViewModel
-    
-    init() {
-        @Injected(ProfileUseCaseKey.self)
-        var profileUseCase: ProfileUseCase
-        
-        self._viewModel = StateObject(
-            wrappedValue: ProfileViewModel(profileUseCase: profileUseCase)
-        )
-    }
+    @EnvironmentObject var viewModel: ProfileViewModel
     
     var body: some View {
         NavigationStack {
@@ -90,7 +81,7 @@ struct ProfileView: View {
                 }
             }
             .navigationDestination(isPresented: $viewModel.showSettingsView) {
-                SettingsView(viewModel: viewModel)
+                SettingsView()
             }
         }
     }
