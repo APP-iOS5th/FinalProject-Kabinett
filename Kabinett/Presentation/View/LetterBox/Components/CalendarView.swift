@@ -186,6 +186,7 @@ struct CalendarOverlayView: View {
                 
                 CalendarView()
                     .cornerRadius(20)
+                    .padding(.top, 35)
             }
         }
     }
