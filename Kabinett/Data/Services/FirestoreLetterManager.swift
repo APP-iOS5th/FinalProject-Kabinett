@@ -33,14 +33,12 @@ final class FirestoreLetterManager {
     private let logger: Logger
     
     private let db = Firestore.firestore()
-    private let storageManager: FirestorageLetterManager
     
-    init(storageManager: FirestorageLetterManager) {
+    init() {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
-        self.storageManager = storageManager
     }
     
     actor SafeListeners {
@@ -188,36 +186,37 @@ final class FirestoreLetterManager {
     ) -> AsyncStream<[Letter]> {
         AsyncStream { continuation in
             var combinedLetters: [Letter] = []
+            
             let listeners = letterType.map { type in
                 db.collection("Writers")
                     .document(userId)
                     .collection(type)
-                    .addSnapshotListener { snapshot, error in
+                    .addSnapshotListener { querySnapshot, error in
+                        guard let snapshot = querySnapshot else {
+                            self.logger.error("Error fetching snapshots: \(error?.localizedDescription ?? "")")
+                            return
+                        }
+                        
                         if let error = error {
                             self.logger.error("Get Letters Error: \(error.localizedDescription)")
-                            continuation.finish()
                             return
                         }
                         
-                        guard let snapshot = snapshot else {
-                            continuation.finish()
-                            return
-                        }
-                        
-                        snapshot.documentChanges.forEach { change in
-                            do {
-                                let letter = try change.document.data(as: Letter.self)
-                                
-                                switch change.type {
-                                case .added, .modified:
-                                    combinedLetters.removeAll { $0.id == letter.id }
-                                    combinedLetters.append(letter)
-                                    
-                                case .removed:
-                                    combinedLetters.removeAll { $0.id == letter.id }
+                        snapshot.documentChanges.forEach { diff in
+                            switch diff.type {
+                            case .added:
+                                if let newLetter = try? diff.document.data(as: Letter.self) {
+                                    combinedLetters.append(newLetter)
                                 }
-                            } catch {
-                                self.logger.error("Data Parsing Error: \(error.localizedDescription)")
+                            case .modified:
+                                if let modifiedLetter = try? diff.document.data(as: Letter.self),
+                                   let index = combinedLetters.firstIndex(where: { $0.id == modifiedLetter.id }) {
+                                    combinedLetters[index] = modifiedLetter
+                                }
+                            case .removed:
+                                if let removedLetter = try? diff.document.data(as: Letter.self) {
+                                    combinedLetters.removeAll { $0.id == removedLetter.id }
+                                }
                             }
                         }
                         
@@ -310,10 +309,6 @@ final class FirestoreLetterManager {
                 
                 if documentSnapshot.exists {
                     try await validateLetter(userId: userId, letterId: letterId, letterType: type)
-                    
-                    if let photoUrls = documentSnapshot.data()?["photoContents"] as? [String] {
-                        try await storageManager.deleteData(urls: photoUrls, path: "Users/photoContents")
-                    }
                     
                     try await documentRef.delete()
                     removeSucceeded = true
