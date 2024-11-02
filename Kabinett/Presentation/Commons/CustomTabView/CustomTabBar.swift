@@ -9,8 +9,8 @@ import SwiftUI
 import Kingfisher
 
 struct CustomTabBar: View {
-    @EnvironmentObject var viewModel: CustomTabViewModel
-    @EnvironmentObject var profileViewModel: ProfileViewModel
+    @ObservedObject var viewModel: CustomTabViewModel
+    @ObservedObject var profileViewModel: ProfileViewModel
     
     var body: some View {
         GeometryReader { geometry in

@@ -19,10 +19,6 @@ struct KabinettApp: App {
     // MARK: - SignUp Flow
     @StateObject private var signUpViewModel: SignUpViewModel
     
-    // MARK: - Componets Flow
-    @StateObject private var imagePickerViewModel: ImagePickerViewModel
-    @StateObject private var customTabViewModel: CustomTabViewModel
-    
     init() {
         // Init Firebase App
         FirebaseApp.configure()
@@ -88,16 +84,6 @@ struct KabinettApp: App {
                 signUpUseCase: signUpUseCase
             )
         )
-        
-        // MARK: - Componets ViewModels
-        _imagePickerViewModel = .init(
-            wrappedValue: ImagePickerViewModel(
-                componentsUseCase: photoLetterUseCase
-            )
-        )
-        _customTabViewModel = .init(
-            wrappedValue: CustomTabViewModel()
-        )
     }
     
     var body: some Scene {
@@ -105,8 +91,6 @@ struct KabinettApp: App {
             CustomTabView()
                 .environmentObject(profileViewModel)
                 .environmentObject(signUpViewModel)
-                .environmentObject(imagePickerViewModel)
-                .environmentObject(customTabViewModel)
         }
     }
     
