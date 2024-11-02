@@ -12,6 +12,7 @@ struct SearchBarView: View {
     
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
+    @Binding var startSearchFiltering: Bool
     
     @Binding var isTextFieldFocused: Bool
     @FocusState private var textFieldFocused: Bool
@@ -50,7 +51,9 @@ struct SearchBarView: View {
             
             Button(action: {
                 withAnimation {
+                    startSearchFiltering = false
                     showSearchBarView = false
+                    isTextFieldFocused = false
                     self.searchText = ""
                     viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                 }

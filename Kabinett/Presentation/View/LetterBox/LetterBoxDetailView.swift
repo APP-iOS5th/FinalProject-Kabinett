@@ -15,9 +15,10 @@ struct LetterBoxDetailView: View {
     @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
     
-    @State var showSearchBarView: Bool = false
-    @State var searchText: String = ""
-    @State var isTextFieldFocused: Bool = false
+    @Binding var startSearchFiltering: Bool
+    @Binding var showSearchBarView: Bool
+    @Binding var searchText: String
+    @Binding var isTextFieldFocused: Bool
     
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
@@ -29,10 +30,6 @@ struct LetterBoxDetailView: View {
                 .ignoresSafeArea()
             
             VStack {
-                if showSearchBarView {
-                    SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: calendarViewModel.currentLetterType)
-                }
-                
                 if calendarViewModel.startDateFiltering {
                     CalendarBar()
                         .background(
@@ -75,7 +72,8 @@ struct LetterBoxDetailView: View {
         .toolbar{ toolbarItems() }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
-            if showSearchBarView {
+            if startSearchFiltering {
+                showSearchBarView = true
                 isTextFieldFocused = false
                 viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: calendarViewModel.currentLetterType)
             } else if calendarViewModel.startDateFiltering {
@@ -84,6 +82,9 @@ struct LetterBoxDetailView: View {
                 viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
             }
         }
+        .onDisappear {
+            showSearchBarView = false
+        }
     }
     
     @ViewBuilder
@@ -91,7 +92,7 @@ struct LetterBoxDetailView: View {
         if viewModel.letterBoxDetailLetters.isEmpty {
             Spacer()
             
-            if !searchText.isEmpty || calendarViewModel.startDateFiltering {
+            if startSearchFiltering || calendarViewModel.startDateFiltering {
                 Text("검색 결과가 없습니다.")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
@@ -145,25 +146,32 @@ struct LetterBoxDetailView: View {
                         calendarViewModel.resetDateFiltering()
                         viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
+                    isTextFieldFocused = true
+                    startSearchFiltering.toggle()
                     showSearchBarView.toggle()
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
                     .fontWeight(.medium)
-                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
-            .padding(.trailing, 5)
+            .padding(.trailing, -4)
             
             Button {
                 withAnimation {
+                    if startSearchFiltering {
+                        searchText = ""
+                        startSearchFiltering = false
+                        showSearchBarView = false
+                        isTextFieldFocused = false
+                        
+                        viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                    }
                     calendarViewModel.showCalendarView = true
-                    calendarViewModel.currentLetterType = calendarViewModel.currentLetterType
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                     .fontWeight(.medium)
-                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
         }
