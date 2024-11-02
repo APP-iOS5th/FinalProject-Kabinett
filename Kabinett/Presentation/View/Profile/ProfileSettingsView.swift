@@ -10,7 +10,7 @@ import PhotosUI
 import Kingfisher
 
 struct ProfileSettingsView: View {
-    @ObservedObject var viewModel: ProfileViewModel
+    @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {

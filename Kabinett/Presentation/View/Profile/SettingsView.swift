@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var viewModel: ProfileViewModel
+    @EnvironmentObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
@@ -17,7 +17,7 @@ struct SettingsView: View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
             VStack(alignment: .leading) {
-                NavigationLink(destination: ProfileSettingsView(viewModel: viewModel)) {
+                NavigationLink(destination: ProfileSettingsView()) {
                     HStack{
                         Text("프로필 설정")
                             .fontWeight(.medium)
@@ -36,7 +36,7 @@ struct SettingsView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: AccountSettingsView(viewModel: viewModel)) {
+                NavigationLink(destination: AccountSettingsView()) {
                     HStack{
                         Text("계정 설정")
                             .fontWeight(.medium)
