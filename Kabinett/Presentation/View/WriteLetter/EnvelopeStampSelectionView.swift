@@ -10,9 +10,8 @@ import Kingfisher
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @StateObject var viewModel: EnvelopeStampSelectionViewModel
+    @StateObject var imageViewModel: ImagePickerViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
@@ -23,6 +22,11 @@ struct EnvelopeStampSelectionView: View {
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
         _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
+        
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        _viewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
+        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
+        _imageViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))
     }
     
     var body: some View {
@@ -82,7 +86,7 @@ struct EnvelopeStampSelectionView: View {
                                         Text("보내는 사람")
                                             .font(.system(size: 7))
                                         Text(letterContent.fromUserName)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                     }
                                     
                                     Spacer()
@@ -109,7 +113,7 @@ struct EnvelopeStampSelectionView: View {
                                 HStack(alignment: .top) {
                                     VStack {
                                         Text(text)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                             .frame(width: geo.size.width * 0.43, alignment: .leading)
                                     }
                                     
@@ -117,7 +121,7 @@ struct EnvelopeStampSelectionView: View {
                                         Text("받는 사람")
                                             .font(.system(size: 7))
                                         Text(letterContent.toUserName)
-                                            .font(fontViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                     }
                                     .padding(.top, -1)
                                     .padding(.leading, geo.size.width * 0.1)
@@ -149,29 +153,32 @@ struct EnvelopeStampSelectionView: View {
                     }
                     .padding(.bottom, 30)
                 }
-                SelectionTabView(letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
+                SelectionTabView(envelopeStampSelectionViewModel: viewModel, letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .slideToDismiss()
         .task {
+            await viewModel.loadStamps()
+            await viewModel.loadEnvelopes()
+            
             postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
-                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
-                envelopeImageUrl = imagePickerViewModel.envelopeURL ?? ""
-                stampImageUrl = imagePickerViewModel.stampURL ?? ""
+                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
+                envelopeImageUrl = imageViewModel.envelopeURL ?? ""
+                stampImageUrl = imageViewModel.stampURL ?? ""
             } else {
-                await imagePickerViewModel.loadAndUpdateEnvelopeAndStamp()
+                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeImageUrl = letterContent.envelopeImageUrlString
                 stampImageUrl = letterContent.stampImageUrlString
             }
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
-            imagePickerViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
+            imageViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
             letterContent.envelopeImageUrlString = newValue
         }
         .onChange(of: stampImageUrl) { _, newValue in
-            imagePickerViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
+            imageViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
             letterContent.stampImageUrlString = newValue
         }
         .navigationBarBackButtonHidden()
@@ -184,7 +191,7 @@ struct EnvelopeStampSelectionView: View {
 struct EnvelopeCell: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var envelopeImageUrl: String
-    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {
@@ -245,7 +252,7 @@ struct EnvelopeCell: View {
 struct StampCell: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var stampImageUrl: String
-    @EnvironmentObject var viewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var viewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         ZStack {

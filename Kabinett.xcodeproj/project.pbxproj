@@ -63,6 +63,7 @@
 		57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* PreviewLetterView.swift */; };
 		57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */; };
 		57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */; };
+		57C35C672CCA02130083A346 /* FontUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C35C662CCA02130083A346 /* FontUtility.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */; };
@@ -199,6 +200,7 @@
 		57966BA32C7FF738008D650B /* PreviewLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterView.swift; sourceTree = "<group>"; };
 		57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterViewModel.swift; sourceTree = "<group>"; };
 		57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.otf; sourceTree = "<group>"; };
+		57C35C662CCA02130083A346 /* FontUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FontUtility.swift; path = ../../../../FontUtility.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
 		57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LetterWriteModel.swift; path = Kabinett/Presentation/ViewModel/WriteLetter/LetterWriteModel.swift; sourceTree = SOURCE_ROOT; };
@@ -588,6 +590,7 @@
 		8366B6F82C65ED0F0021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
+				57C35C662CCA02130083A346 /* FontUtility.swift */,
 				57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
@@ -972,6 +975,7 @@
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
