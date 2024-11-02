@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: FontSelectionViewModel
+    @StateObject var viewModel = FontSelectionViewModel()
     
     var body: some View {
         ZStack {
@@ -36,7 +36,7 @@ struct FontSelectionView: View {
                         VStack {
                             HStack {
                                 Text("\(viewModel.dummyFonts[i].fontName)")
-                                    .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
+                                    .font(FontUtility.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 Spacer()
                             }
                             .padding(.top, 20)
@@ -48,7 +48,7 @@ struct FontSelectionView: View {
                                 )
                                 .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
                                 .padding(.leading, 6)
-                                .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
+                                .font(FontUtility.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))

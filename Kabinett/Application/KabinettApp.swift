@@ -13,25 +13,11 @@ import FirebaseFirestore
 
 @main
 struct KabinettApp: App {
-    // MARK: - LetterBox Flow
-    @StateObject private var letterViewModel: LetterViewModel
-    @StateObject private var letterBoxViewModel: LetterBoxViewModel
-    @StateObject private var letterBoxDetailViewModel: LetterBoxDetailViewModel
-    @StateObject private var calendarViewModel: CalendarViewModel
-    
     // MARK: - Profile Flow
     @StateObject private var profileViewModel: ProfileViewModel
     
     // MARK: - SignUp Flow
     @StateObject private var signUpViewModel: SignUpViewModel
-    
-    // MARK: - LetterWrite Flow
-    @StateObject private var userSelectionViewModel: UserSelectionViewModel
-    @StateObject private var stationerySelectionViewModel: StationerySelectionViewModel
-    @StateObject private var fontSelectionViewModel: FontSelectionViewModel
-    @StateObject private var contentWriteViewModel: ContentWriteViewModel
-    @StateObject private var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @StateObject private var previewLetterViewModel: PreviewLetterViewModel
     
     init() {
         // Init Firebase App
@@ -84,30 +70,6 @@ struct KabinettApp: App {
             letterManager: letterManager,
             letterStorageManager: letterStorageManager
         )
-        let letterboxUseCase = DefaultLetterBoxUseCase(
-            letterManager: letterManager,
-            authManager: authManager
-        )
-        
-        // MARK: - LetterBox ViewModels
-        _letterViewModel = .init(
-            wrappedValue: LetterViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _letterBoxViewModel = .init(
-            wrappedValue: LetterBoxViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _letterBoxDetailViewModel = .init(
-            wrappedValue: LetterBoxDetailViewModel(
-                letterBoxUseCase: letterboxUseCase
-            )
-        )
-        _calendarViewModel = .init(
-            wrappedValue: CalendarViewModel()
-        )
         
         // MARK: - Profile ViewModel
         _profileViewModel = .init(
@@ -122,51 +84,13 @@ struct KabinettApp: App {
                 signUpUseCase: signUpUseCase
             )
         )
-        
-        // MARK: - LetterWrite ViewModels
-        _userSelectionViewModel = .init(
-            wrappedValue: UserSelectionViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
-        _stationerySelectionViewModel = .init(
-            wrappedValue: StationerySelectionViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
-        _fontSelectionViewModel = .init(
-            wrappedValue: FontSelectionViewModel()
-        )
-        _contentWriteViewModel = .init(
-            wrappedValue: ContentWriteViewModel()
-        )
-        _envelopStampSelectionViewModel = .init(
-            wrappedValue: EnvelopeStampSelectionViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
-        _previewLetterViewModel = .init(
-            wrappedValue: PreviewLetterViewModel(
-                useCase: normalLetterUseCase
-            )
-        )
     }
     
     var body: some Scene {
         WindowGroup {
             CustomTabView()
-                .environmentObject(letterViewModel)
-                .environmentObject(letterBoxViewModel)
-                .environmentObject(letterBoxDetailViewModel)
-                .environmentObject(calendarViewModel)
                 .environmentObject(profileViewModel)
                 .environmentObject(signUpViewModel)
-                .environmentObject(userSelectionViewModel)
-                .environmentObject(stationerySelectionViewModel)
-                .environmentObject(fontSelectionViewModel)
-                .environmentObject(contentWriteViewModel)
-                .environmentObject(envelopStampSelectionViewModel)
-                .environmentObject(previewLetterViewModel)
         }
     }
     

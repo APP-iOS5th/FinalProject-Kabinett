@@ -12,7 +12,6 @@ struct CustomTabView: View {
     @StateObject private var customTabViewModel: CustomTabViewModel
     @StateObject private var calendarViewModel: CalendarViewModel
     @StateObject private var profileViewModel: ProfileViewModel
-    
     @State private var letterWriteViewModel = LetterWriteModel()
     
     init() {
@@ -61,7 +60,6 @@ struct CustomTabView: View {
                 if customTabViewModel.showOptions {
                     OptionOverlay()
                 }
-                CalendarOverlayView()
             }
         )
         .overlay(ImportDialog())
