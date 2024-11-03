@@ -42,7 +42,7 @@ struct ContentWriteView: View {
                     } label: {
                         Image(systemName: "plus.square")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
                     }
                     Button {
                         if viewModel.texts.count > 1 {
@@ -51,7 +51,7 @@ struct ContentWriteView: View {
                     } label: {
                         Image(systemName: "minus.square")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
                     }
                     .alert(isPresented: $viewModel.isDeleteAlertPresented) {
                         Alert(
@@ -71,12 +71,12 @@ struct ContentWriteView: View {
                     } label: {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
                     }
                 }
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.88, maxHeight: 40)
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
                 .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
-                .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
+                .background(Color(.primary100))
                 .clipShape(Capsule())
                 
                 ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
