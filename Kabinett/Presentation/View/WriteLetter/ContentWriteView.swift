@@ -38,18 +38,11 @@ struct ContentWriteView: View {
                 }
                 HStack(alignment: .center) {
                     Button {
-                        viewModel.createNewLetter(idx: viewModel.currentIndex)
-                    } label: {
-                        Image(systemName: "plus.square")
-                            .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
-                    }
-                    Button {
                         if viewModel.texts.count > 1 {
                             viewModel.isDeleteAlertPresented = true
                         }
                     } label: {
-                        Image(systemName: "minus.square")
+                        Image("PageMinus")
                             .font(.system(size: 15))
                             .frame(width: UIScreen.main.bounds.width * 0.35/3)
                     }
@@ -66,6 +59,13 @@ struct ContentWriteView: View {
                         )
                     }
                     Button {
+                        viewModel.createNewLetter(idx: viewModel.currentIndex)
+                    } label: {
+                        Image(systemName: "doc.badge.plus")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
+                    }
+                    Button {
                         customViewModel.showPhotoLibrary = true
                         customViewModel.isLetterWrite = true
                     } label: {
@@ -75,7 +75,7 @@ struct ContentWriteView: View {
                     }
                 }
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
-                .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
+                .foregroundStyle(Color("ToolBarIcon"))
                 .background(Color(.primary100))
                 .clipShape(Capsule())
                 
