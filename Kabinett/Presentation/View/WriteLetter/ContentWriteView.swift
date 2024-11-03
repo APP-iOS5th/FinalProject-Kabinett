@@ -22,20 +22,26 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            
-            VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
+            ZStack(alignment: .top) {
+                VStack {
+                    NavigationBarView(titleName: "", isColor: true) {
+                        NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
                     }
+                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
+                    
+                    ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
+                    
+                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
                 }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
+                
                 HStack(alignment: .center) {
                     Button {
                         if viewModel.texts.count > 1 {
@@ -78,10 +84,8 @@ struct ContentWriteView: View {
                 .foregroundStyle(Color("ToolBarIcon"))
                 .background(Color(.primary100))
                 .clipShape(Capsule())
-                
-                ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
-                
-                Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
+                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                .padding(.top, 35)
             }
         }
         .navigationBarBackButtonHidden()
@@ -166,7 +170,7 @@ struct ScrollableLetterView: View {
                                     .frame(width: UIScreen.main.bounds.width * 0.88)
                                     .id(i)
                                     Spacer()
-                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                                 }
                             }
                         }
