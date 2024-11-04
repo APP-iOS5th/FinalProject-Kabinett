@@ -43,19 +43,6 @@ final class FirestoreLetterManager {
         )
     }
     
-    actor SafeListeners {
-        var listeners: [ListenerRegistration] = []
-        
-        func addListener(_ listener: ListenerRegistration) {
-            listeners.append(listener)
-        }
-        
-        func removeAllListeners() {
-            listeners.forEach { $0.remove() }
-            listeners.removeAll()
-        }
-    }
-    
     func validateLetter(
         userId: String,
         letterId: String,
