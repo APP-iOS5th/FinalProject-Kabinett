@@ -77,7 +77,11 @@ struct ContentWriteView: View {
                     } label: {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.35/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.35/3, height: 30)
+                            .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
+                            .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                            .clipShape(Capsule())
+                            .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 5, x: 3, y: 3)
                     }
                 }
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
