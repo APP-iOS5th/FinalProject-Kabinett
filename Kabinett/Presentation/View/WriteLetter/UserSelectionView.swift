@@ -105,18 +105,18 @@ struct FormToUser: View {
         }
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
-            if viewModel.checkLogin {
-                letterContent.fromUserId = viewModel.fromUser?.id
-                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-                letterContent.toUserId = viewModel.toUser?.id
-                letterContent.toUserName = viewModel.toUser?.name ?? ""
-                letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-            } else {
-                letterContent.toUserName = "나"
-                letterContent.fromUserName = "나"
-            }
+            letterContent.fromUserId = viewModel.fromUser?.id
+            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+            letterContent.toUserId = viewModel.toUser?.id
+            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
             letterContent.date = Date()
+            if viewModel.checkLogin {
+                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
+                letterContent.toUserName = viewModel.toUser?.name ?? ""
+            } else {
+                letterContent.fromUserName = "나"
+                letterContent.toUserName = "나"
+            }
         }
         
         HStack {
