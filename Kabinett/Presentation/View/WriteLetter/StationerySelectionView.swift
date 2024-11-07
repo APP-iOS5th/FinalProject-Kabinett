@@ -12,11 +12,19 @@ struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel : StationerySelectionViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     
-    init(letterContent: Binding<LetterWriteModel>) {
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customViewModel: CustomTabViewModel,
+        imageViewModel: ImagePickerViewModel
+    ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
+        self.customViewModel = customViewModel
+        self.imageViewModel = imageViewModel
     }
     
     var body: some View {
@@ -26,7 +34,11 @@ struct StationerySelectionView: View {
                 
                 VStack {
                     NavigationBarView(titleName: "편지지 고르기", isColor: true) {
-                        NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
+                        NavigationLink(destination: FontSelectionView(
+                            letterContent: $letterContent,
+                            customViewModel: customViewModel,
+                            imageViewModel: imageViewModel
+                        )) {
                             Text("다음")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))

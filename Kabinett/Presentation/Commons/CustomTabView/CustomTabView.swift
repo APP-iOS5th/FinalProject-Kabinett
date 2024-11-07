@@ -9,18 +9,24 @@ import SwiftUI
 import PhotosUI
 
 struct CustomTabView: View {
-    @EnvironmentObject var viewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
-    
+    @StateObject private var customTabViewModel = CustomTabViewModel()
+    @StateObject private var calendarViewModel: CalendarViewModel
+    @StateObject private var profileViewModel: ProfileViewModel
+    @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @StateObject private var imagePickerViewModel: ImagePickerViewModel
     @State private var letterWriteViewModel = LetterWriteModel()
     
     init() {
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
         @Injected(ProfileUseCaseKey.self) var profileUseCase: ProfileUseCase
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
         
         self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel())
         self._calendarViewModel = StateObject(wrappedValue: CalendarViewModel())
         self._profileViewModel = StateObject(wrappedValue: ProfileViewModel(profileUseCase: profileUseCase))
+        self._envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
+        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))
     }
     
     var body: some View {
@@ -57,18 +63,36 @@ struct CustomTabView: View {
         }
         .overlay(
             Group {
-                if viewModel.showOptions {
-                    OptionOverlay()
+                if customTabViewModel.showOptions {
+                    OptionOverlay(
+                        customTabViewModel: customTabViewModel,
+                        imageViewModel: imagePickerViewModel
+                    )
                 }
             }
         )
-        .overlay(ImportDialog())
-        .overlay(ImagePickerView())
+        .overlay(
+            ImportDialog(
+                viewModel: customTabViewModel,
+                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
+            )
+        )
+        .overlay(
+            ImagePickerView(
+                imageViewModel: imagePickerViewModel,
+                customViewModel: customTabViewModel,
+                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
+            )
+        )
         .fullScreenCover(isPresented: $customTabViewModel.showCamera) {
-            CameraView()
+            CameraView(imagePickerViewModel: imagePickerViewModel)
         }
         .sheet(isPresented: $customTabViewModel.showWriteLetterView) {
-            ContentWriteView(letterContent: $letterWriteViewModel)
+            ContentWriteView(
+                letterContent: $letterWriteViewModel,
+                imageViewModel: imagePickerViewModel,
+                customTabViewModel: customTabViewModel
+            )
         }
     }
 }

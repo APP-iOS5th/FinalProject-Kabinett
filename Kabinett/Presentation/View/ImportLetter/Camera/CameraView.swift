@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CameraView: View {
     @StateObject private var viewModel = CameraViewModel()
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
