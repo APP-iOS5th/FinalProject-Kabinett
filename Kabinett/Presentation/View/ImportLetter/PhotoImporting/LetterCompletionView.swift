@@ -10,9 +10,9 @@ import Kingfisher
 
 struct LetterCompletionView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: ImagePickerViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var viewModel: ImagePickerViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
+    @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var envelopeURL: String = ""
     @State private var stampURL: String = ""

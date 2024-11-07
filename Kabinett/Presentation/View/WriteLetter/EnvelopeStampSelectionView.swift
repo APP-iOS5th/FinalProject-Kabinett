@@ -11,22 +11,28 @@ import Kingfisher
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel: EnvelopeStampSelectionViewModel
-    @StateObject var imageViewModel: ImagePickerViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var text: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
     @State private var postScriptText: String = ""
     
-    init(letterContent: Binding<LetterWriteModel>) {
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customTabViewModel: CustomTabViewModel,
+        imageViewModel: ImagePickerViewModel
+    ) {
         self._letterContent = letterContent
+        self.imageViewModel = imageViewModel
+        self.customTabViewModel = customTabViewModel
+        
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
         _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
         
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
-        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
-        _imageViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))
     }
     
     var body: some View {
@@ -39,7 +45,12 @@ struct EnvelopeStampSelectionView: View {
             VStack {
                 if letterContent.dataSource == .fromImagePicker {
                     NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: LetterCompletionView(letterContent: $letterContent)) {
+                        NavigationLink(destination: LetterCompletionView(
+                            letterContent: $letterContent,
+                            viewModel: imageViewModel, 
+                            customTabViewModel: customTabViewModel,
+                            envelopeStampSelectionViewModel: viewModel
+                        )) {
                             Text("다음")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))
@@ -49,7 +60,11 @@ struct EnvelopeStampSelectionView: View {
                     .padding(.bottom, 25)
                 } else {
                     NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: PreviewLetterView(letterContent: $letterContent)) {
+                        NavigationLink(destination: PreviewLetterView(
+                            letterContent: $letterContent,
+                            customTabViewModel: customTabViewModel,
+                            imagePickerViewModel: imageViewModel
+                        )) {
                             Text("다음")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))

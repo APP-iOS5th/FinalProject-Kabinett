@@ -12,13 +12,20 @@ import UIKit
 struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel: PreviewLetterViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
+    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     
-    init(letterContent: Binding<LetterWriteModel>) {
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customTabViewModel: CustomTabViewModel,
+        imagePickerViewModel: ImagePickerViewModel
+    ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+       
         _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
+        self.customTabViewModel = customTabViewModel
+        self.imagePickerViewModel = imagePickerViewModel
     }
     
     var body: some View {

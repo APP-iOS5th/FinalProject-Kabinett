@@ -10,6 +10,8 @@ import SwiftUI
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel = FontSelectionViewModel()
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         ZStack {
@@ -20,7 +22,11 @@ struct FontSelectionView: View {
             
             VStack(alignment: .leading) {
                 NavigationBarView(titleName: "서체 고르기", isColor: true) {
-                    NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
+                    NavigationLink(destination: ContentWriteView(
+                        letterContent: $letterContent,
+                        imageViewModel: imageViewModel,
+                        customTabViewModel: customViewModel
+                    )) {
                         Text("다음")
                             .fontWeight(.medium)
                             .font(.system(size: 19))

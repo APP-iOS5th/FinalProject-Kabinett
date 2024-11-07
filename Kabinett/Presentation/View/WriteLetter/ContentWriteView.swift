@@ -13,8 +13,19 @@ import PhotosUI
 struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel = ContentWriteViewModel()
-    @EnvironmentObject var imageViewModel: ImagePickerViewModel
-    @EnvironmentObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
+    
+    init(
+            letterContent: Binding<LetterWriteModel>,
+            imageViewModel: ImagePickerViewModel,
+            customTabViewModel: CustomTabViewModel
+        ) {
+            @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
+            self._letterContent = letterContent
+            self.imageViewModel = imageViewModel
+            self.customTabViewModel = customTabViewModel
+        }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -25,7 +36,12 @@ struct ContentWriteView: View {
             
             VStack {
                 NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EnvelopeStampSelectionView(letterContent: $letterContent)) {
+                    NavigationLink(destination: EnvelopeStampSelectionView(
+                        letterContent: $letterContent,
+                        customTabViewModel: customTabViewModel,
+                        imageViewModel: imageViewModel
+                    )
+                    ) {
                         Text("다음")
                             .fontWeight(.medium)
                             .font(.system(size: 19))
@@ -66,8 +82,8 @@ struct ContentWriteView: View {
                         )
                     }
                     Button {
-                        customViewModel.showPhotoLibrary = true
-                        customViewModel.isLetterWrite = true
+                        customTabViewModel.showPhotoLibrary = true
+                        customTabViewModel.isLetterWrite = true
                     } label: {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))

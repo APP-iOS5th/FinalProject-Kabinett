@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct OptionOverlay: View {
-    @EnvironmentObject var viewModel: CustomTabViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var letterContent = LetterWriteModel()
     @State private var isWritingLetter = false
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         NavigationStack {
@@ -19,7 +20,7 @@ struct OptionOverlay: View {
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
                         withAnimation {
-                            viewModel.hideOptions()
+                            customTabViewModel.hideOptions()
                         }
                     }
                 
@@ -27,8 +28,8 @@ struct OptionOverlay: View {
                     Spacer()
                     HStack(spacing: 2) {
                         Button(action: {
-                            viewModel.showImportDialogAndHideOptions()
-                            viewModel.hideOptions()
+                            customTabViewModel.showImportDialogAndHideOptions()
+                            customTabViewModel.hideOptions()
                         }) {
                             Text("편지 불러오기")
                                 .font(.system(size: 16))
@@ -40,7 +41,11 @@ struct OptionOverlay: View {
                                 .foregroundColor(.contentPrimary)
                         }
                         NavigationLink("편지 쓰기") {
-                            StationerySelectionView(letterContent: $letterContent)
+                            StationerySelectionView(
+                                letterContent: $letterContent,
+                                customViewModel: customTabViewModel,
+                                imageViewModel: imageViewModel
+                            )
                         }
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
@@ -52,7 +57,7 @@ struct OptionOverlay: View {
                     }
                     .cornerRadius(10)
                     .padding(.horizontal)
-                    .padding(.bottom, viewModel.calculateOptionOverlayBottomPadding())
+                    .padding(.bottom, customTabViewModel.calculateOptionOverlayBottomPadding())
                 }
                 .background(Color.clear)
             }
