@@ -13,12 +13,6 @@ import FirebaseFirestore
 
 @main
 struct KabinettApp: App {
-    // MARK: - Profile Flow
-    @StateObject private var profileViewModel: ProfileViewModel
-    
-    // MARK: - SignUp Flow
-    @StateObject private var signUpViewModel: SignUpViewModel
-    
     init() {
         // Init Firebase App
         FirebaseApp.configure()
@@ -40,57 +34,11 @@ struct KabinettApp: App {
         // MARK: Register Dependencies
         KabinettApp.registerServices()
         KabinettApp.registerUseCases()
-        
-        // MARK: - Service Dependencies
-        let writerManager = FirestoreWriterManager()
-        let writerStorageManager = FirestorageWriterManager()
-        let authManager = AuthManager(writerManager: writerManager)
-        let letterStorageManager = FirestorageLetterManager()
-        let letterManager = FirestoreLetterManager(storageManager: letterStorageManager)
-        
-        // MARK: - UseCase Dependencies
-        let profileUseCase = DefaultProfileUseCase(
-            authManager: authManager,
-            writerManager: writerManager,
-            writerStorageManager: writerStorageManager
-        )
-        let signUpUseCase = DefaultSignUpUseCase(
-            authManager: authManager,
-            writerManager: writerManager
-        )
-        let normalLetterUseCase = DefaultWriteLetterUseCase(
-            authManager: authManager,
-            writerManager: writerManager,
-            letterManager: letterManager,
-            letterStorageManager: letterStorageManager
-        )
-        let photoLetterUseCase = DefaultImportLetterUseCase(
-            authManager: authManager,
-            writerManager: writerManager,
-            letterManager: letterManager,
-            letterStorageManager: letterStorageManager
-        )
-        
-        // MARK: - Profile ViewModel
-        _profileViewModel = .init(
-            wrappedValue: ProfileViewModel(
-                profileUseCase: profileUseCase
-            )
-        )
-        
-        // MARK: - SignUp ViewModel
-        _signUpViewModel = .init(
-            wrappedValue: SignUpViewModel(
-                signUpUseCase: signUpUseCase
-            )
-        )
     }
     
     var body: some Scene {
         WindowGroup {
             CustomTabView()
-                .environmentObject(profileViewModel)
-                .environmentObject(signUpViewModel)
         }
     }
     
