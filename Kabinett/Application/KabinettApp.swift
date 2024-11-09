@@ -42,6 +42,7 @@ struct KabinettApp: App {
         }
     }
     
+    // MARK: - Dependency Injection Container Setup
     // MARK: Register Services
     private static func registerServices() {
         // MARK: Register Firestorage Services

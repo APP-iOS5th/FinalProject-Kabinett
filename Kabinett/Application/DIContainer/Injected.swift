@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `Injected`
 @propertyWrapper
 final class Injected<Value> {
     private var storage: Value

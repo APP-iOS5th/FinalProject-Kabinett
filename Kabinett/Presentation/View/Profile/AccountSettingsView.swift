@@ -7,7 +7,9 @@
 
 import SwiftUI
 
+// `AccountSettingsView`
 struct AccountSettingsView: View {
+    //
     @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showLogoutAlert = false

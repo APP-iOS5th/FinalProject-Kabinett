@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - The Keys of UseCases
+/// Same as `ServiceKey`
 struct SignUpUseCaseKey: InjectionKey {
     typealias Value = SignUpUseCase
 }

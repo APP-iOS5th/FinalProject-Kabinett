@@ -7,7 +7,9 @@
 
 import SwiftUI
 
+// `SettingsView`
 struct SettingsView: View {
+    //
     @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     

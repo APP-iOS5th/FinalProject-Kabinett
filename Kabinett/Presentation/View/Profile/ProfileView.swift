@@ -8,7 +8,9 @@
 import SwiftUI
 import Kingfisher
 
+// `ProfileView`
 struct ProfileView: View {
+    //
     @StateObject private var viewModel: ProfileViewModel
     
     init() {

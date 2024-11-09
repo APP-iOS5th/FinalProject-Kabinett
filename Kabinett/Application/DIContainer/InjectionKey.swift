@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `InjectionKey`
 protocol InjectionKey {
     associatedtype Value
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `Module`
 final class Module {
     let name: String
     let resolve: () -> Any

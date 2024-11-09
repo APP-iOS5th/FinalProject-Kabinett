@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// `DIContainer`
 final class DIContainer {
     static var shared = DIContainer()
     private var modules: [String: Module] = [:]
