@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+// `SettingsView`
 struct SettingsView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06

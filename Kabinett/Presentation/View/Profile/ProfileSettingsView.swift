@@ -9,8 +9,10 @@ import SwiftUI
 import PhotosUI
 import Kingfisher
 
+// `ProfileSettingsView`
 struct ProfileSettingsView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {

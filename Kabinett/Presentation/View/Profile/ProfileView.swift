@@ -8,9 +8,19 @@
 import SwiftUI
 import Kingfisher
 
+// `ProfileView`
 struct ProfileView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
+    //
+    @StateObject private var viewModel: ProfileViewModel
+    
+    init() {
+        @Injected(ProfileUseCaseKey.self)
+        var profileUseCase: ProfileUseCase
+        
+        self._viewModel = StateObject(
+            wrappedValue: ProfileViewModel(profileUseCase: profileUseCase)
+        )
+    }
     
     var body: some View {
         NavigationStack(path: $customTabViewModel.profileNavigationPath) {
