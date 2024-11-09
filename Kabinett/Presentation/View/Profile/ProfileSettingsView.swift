@@ -93,9 +93,16 @@ struct ProfileSettingsView: View {
                         .frame(width: 110, height: 110)
                         .clipShape(Circle())
                 }
-                Image(systemName: "photo")
-                    .font(.system(size: 36))
-                    .foregroundColor(.white)
+                ZStack {
+                    Circle()
+                        .foregroundStyle(.primary900)
+                        .frame(width: 35, height: 35)
+                    Image(systemName: "pencil")
+                        .font(.system(size: 20))
+                        .fontWeight(.heavy)
+                        .foregroundColor(.white)
+                }
+                .offset(x: 37, y: 35)
             }
         }
         .onChange(of: viewModel.selectedImageItem) { oldItem, newItem in
