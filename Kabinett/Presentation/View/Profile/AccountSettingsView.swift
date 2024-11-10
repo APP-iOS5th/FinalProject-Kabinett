@@ -85,21 +85,6 @@ struct AccountSettingsView: View {
                     Text("저장된 데이터가 모두 사라져요.")
                 }
             }
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.leading, 5)
-                        }
-                        .foregroundColor(.primary900)
-                    }
-                }
-            }
         }
         .overlay(
             viewModel.isLoading ? LoadingView() : nil
