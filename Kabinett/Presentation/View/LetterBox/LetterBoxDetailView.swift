@@ -67,6 +67,9 @@ struct LetterBoxDetailView: View {
         .toolbarRole(.editor)
         .toolbar{ toolbarItems() }
         .ignoresSafeArea(.keyboard, edges: .bottom)
+        .overlay(
+            CalendarOverlayView(letterBoxDetailViewModel: viewModel, calendarViewModel: calendarViewModel)
+        )
         .onAppear {
             if searchBarViewModel.startSearchFiltering {
                 searchBarViewModel.showSearchBarView = true
@@ -157,10 +160,9 @@ struct LetterBoxDetailView: View {
                 withAnimation {
                     if searchBarViewModel.startSearchFiltering {
                         searchBarViewModel.resetSearchFiltering()
-                        
                         viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
-                    calendarViewModel.showCalendarView = true
+                    calendarViewModel.showCalendarView.toggle()
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")

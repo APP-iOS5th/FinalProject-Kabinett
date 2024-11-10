@@ -188,7 +188,6 @@ struct CalendarOverlayView: View {
                 CalendarView(letterBoxDetailviewModel: letterBoxDetailViewModel, 
                              calendarViewModel: calendarViewModel)
                     .cornerRadius(20)
-                    .padding(.top, 35)
             }
         }
     }
