@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 class LetterBoxUseCaseStub: LetterBoxUseCase {
     static var sampleLetters: [Letter] {
@@ -46,29 +47,21 @@ class LetterBoxUseCaseStub: LetterBoxUseCase {
         ]
     }
     
-    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
-        AsyncStream { continuation in
-            let sampleData = LetterBoxUseCaseStub.sampleLetterDictionary
-            
-            continuation.yield(sampleData)
-            continuation.finish()
-        }
+    func getLetterBoxLetters() -> AnyPublisher<[LetterType: [Letter]], Never> {
+        let sampleData = LetterBoxUseCaseStub.sampleLetterDictionary
+        return Just(sampleData)
+            .eraseToAnyPublisher()
     }
     
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
-        AsyncStream { continuation in
-            if let sampleLetters = LetterBoxUseCaseStub.sampleLetterDictionary[letterType] {
-                continuation.yield(sampleLetters)
-            }
-            continuation.finish()
-        }
+    func getLetterBoxDetailLetters(letterType: LetterType) -> AnyPublisher<[Letter], Never> {
+        let sampleLetters = LetterBoxUseCaseStub.sampleLetterDictionary[letterType] ?? []
+        return Just(sampleLetters)
+            .eraseToAnyPublisher()
     }
     
-    func getIsRead() -> AsyncStream<[LetterType : Int]> {
-        AsyncStream { continuation in
-            continuation.yield(LetterBoxUseCaseStub.sampleLetterIsRead)
-            continuation.finish()
-        }
+    func getIsRead() -> AnyPublisher<[LetterType : Int], Never> {
+        Just(LetterBoxUseCaseStub.sampleLetterIsRead)
+            .eraseToAnyPublisher()
     }
     
     func searchBy(findKeyword: String, letterType: LetterType) async -> Result<[Letter]?, any Error> {

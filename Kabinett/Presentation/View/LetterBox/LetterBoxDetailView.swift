@@ -9,8 +9,8 @@ import SwiftUI
 import UIKit
 
 struct LetterBoxDetailView: View {
-    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @StateObject var viewModel: LetterBoxDetailViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
@@ -24,6 +24,13 @@ struct LetterBoxDetailView: View {
         return [-8, 10, 6, -2, 16]
     }
     
+    init(calendarViewModel: CalendarViewModel) {
+        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
+        _viewModel = StateObject(wrappedValue: LetterBoxDetailViewModel(letterBoxUseCase: letterBoxUseCase))
+        
+        self.calendarViewModel = calendarViewModel
+    }
+    
     var body: some View {
         ZStack {
             Color.background
@@ -31,7 +38,7 @@ struct LetterBoxDetailView: View {
             
             VStack {
                 if calendarViewModel.startDateFiltering {
-                    CalendarBar()
+                    CalendarBar(letterBoxDetailviewModel: viewModel, calendarViewModel: calendarViewModel)
                         .background(
                             GeometryReader { geo in
                                 Color.clear

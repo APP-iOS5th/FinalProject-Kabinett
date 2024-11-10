@@ -11,13 +11,21 @@ import Kingfisher
 struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
-    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    @StateObject var viewModel : StationerySelectionViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customViewModel: CustomTabViewModel,
+        imageViewModel: ImagePickerViewModel
+    ) {
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
+        self._letterContent = letterContent
+        self.customViewModel = customViewModel
+        self.imageViewModel = imageViewModel
+    }
     
     var body: some View {
         NavigationStack {
@@ -26,28 +34,31 @@ struct StationerySelectionView: View {
                 
                 VStack {
                     NavigationBarView(titleName: "편지지 고르기", isColor: true) {
-                        NavigationLink(destination: FontSelectionView(letterContent: $letterContent)) {
+                        NavigationLink(destination: FontSelectionView(
+                            letterContent: $letterContent,
+                            customViewModel: customViewModel,
+                            imageViewModel: imageViewModel
+                        )) {
                             Text("다음")
                                 .fontWeight(.medium)
                                 .font(.system(size: 19))
                                 .foregroundStyle(.contentPrimary)
                         }
                     } backAction: {
-                        resetViewModels()
                         dismiss()
                     }
                     
                     List {
-                        ForEach(0..<stationerySelectionViewModel.numberOfRows, id: \.self) { rowIndex in
+                        ForEach(0..<viewModel.numberOfRows, id: \.self) { rowIndex in
                             HStack {
                                 ForEach(0..<2, id: \.self) { columnIndex in
-                                    let index = stationerySelectionViewModel.index(row: rowIndex, column: columnIndex)
+                                    let index = viewModel.index(row: rowIndex, column: columnIndex)
                                     StationeryCell(
                                         index: index,
                                         rowIndex: rowIndex,
                                         columnIndex: columnIndex,
                                         letterContent: $letterContent,
-                                        stationerySelectionViewModel: stationerySelectionViewModel
+                                        stationerySelectionViewModel: viewModel
                                     )
                                 }
                             }
@@ -62,38 +73,19 @@ struct StationerySelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
             .navigationBarBackButtonHidden()
-            .sheet(isPresented: $stationerySelectionViewModel.showModal) {
+            .sheet(isPresented: $viewModel.showModal) {
                 UserSelectionView(letterContent: $letterContent)
-                    .presentationDetents(userSelectionViewModel.searchText.isEmpty ? [.height(300), .large] : [.large])
+                    .presentationDetents([.height(300), .large])
             }
             .onAppear {
-                stationerySelectionViewModel.showModal = true
+                viewModel.showModal = true
                 
                 Task {
-                    await stationerySelectionViewModel.loadStationeries()
-                    await envelopeStampSelectionViewModel.loadStamps()
-                    await envelopeStampSelectionViewModel.loadEnvelopes()
-                }
-                
-                if envelopeStampSelectionViewModel.envelopeSelectedIndex != (0,0) || envelopeStampSelectionViewModel.stampSelectedIndex != (0,0) {
-                    envelopeStampSelectionViewModel.reset()
+                    await viewModel.loadStationeries()
                 }
             }
         }
-        .slideToDismiss(action: {
-            resetViewModels()
-        })
-    }
-    
-    private func resetViewModels() {
-        letterContent.reset()
-        userSelectionViewModel.reset()
-        stationerySelectionViewModel.reset()
-        fontSelectionViewModel.reset()
-        contentWriteViewModel.reset()
-        envelopeStampSelectionViewModel.reset()
-        imagePickerViewModel.resetState()
-        customTabViewModel.hideOptions()
+        .slideToDismiss()
     }
 }
 

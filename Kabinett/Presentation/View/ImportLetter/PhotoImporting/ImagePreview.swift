@@ -8,14 +8,24 @@
 import SwiftUI
 
 struct ImagePreview: View {
-    @EnvironmentObject var customViewModel: CustomTabViewModel
-    @EnvironmentObject var imageViewModel: ImagePickerViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject private var imageViewModel: ImagePickerViewModel
+    @ObservedObject private var customViewModel: CustomTabViewModel
+    @ObservedObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
     @State private var navigateToEnvelopeStamp = false
     @State private var letterContent = LetterWriteModel()
+    
+    init(
+        imageViewModel: ImagePickerViewModel,
+        customViewModel: CustomTabViewModel,
+        envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    ) {
+        self.imageViewModel = imageViewModel
+        self.customViewModel = customViewModel
+        self.envelopeStampSelectionViewModel = envelopeStampSelectionViewModel
+    }
     
     var body: some View {
         NavigationStack {
@@ -59,11 +69,21 @@ struct ImagePreview: View {
                 ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
             }
             .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(letterContent: $letterContent, showEnvelopeStamp: $navigateToEnvelopeStamp)
+                LetterWritingView(
+                    viewModel: imageViewModel,
+                    customViewModel: customViewModel,
+                    envelopeStampViewModel: envelopeStampSelectionViewModel,
+                    letterContent: $letterContent,
+                    showEnvelopeStamp: $navigateToEnvelopeStamp
+                )
             }
             .background(Color.background.edgesIgnoringSafeArea(.all))
             .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
-                EnvelopeStampSelectionView(letterContent: $letterContent)
+                EnvelopeStampSelectionView(
+                    letterContent: $letterContent,
+                    customTabViewModel: customViewModel,
+                    imageViewModel: imageViewModel
+                )
             }
         }
         .slideToDismiss {

@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @EnvironmentObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     @State private var selectedStartDate = Date()
     @State private var selectedEndDate = Date()
@@ -171,7 +171,8 @@ struct CalendarView: View {
 }
 
 struct CalendarOverlayView: View {
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
 
     var body: some View {
         if calendarViewModel.showCalendarView {
@@ -184,7 +185,8 @@ struct CalendarOverlayView: View {
                         }
                     }
                 
-                CalendarView()
+                CalendarView(letterBoxDetailviewModel: letterBoxDetailViewModel, 
+                             calendarViewModel: calendarViewModel)
                     .cornerRadius(20)
                     .padding(.top, 35)
             }
@@ -193,8 +195,8 @@ struct CalendarOverlayView: View {
 }
 
 struct CalendarBar: View {
-    @EnvironmentObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var letterBoxDetailviewModel: LetterBoxDetailViewModel
+    @ObservedObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
         VStack {

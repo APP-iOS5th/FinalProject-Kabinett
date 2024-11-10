@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
-    @EnvironmentObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: SignUpViewModel
     @Environment(\.dismiss) var dismiss
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     

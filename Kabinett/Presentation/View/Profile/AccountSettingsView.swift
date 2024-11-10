@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+// `AccountSettingsView`
 struct AccountSettingsView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showLogoutAlert = false
     @State private var showAccountDeletionAlert = false
@@ -81,21 +83,6 @@ struct AccountSettingsView: View {
                     Button("취소", role: .cancel) {}
                 } message: {
                     Text("저장된 데이터가 모두 사라져요.")
-                }
-            }
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.leading, 5)
-                        }
-                        .foregroundColor(.primary900)
-                    }
                 }
             }
         }

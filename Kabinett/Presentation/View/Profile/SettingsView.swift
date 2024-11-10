@@ -7,8 +7,10 @@
 
 import SwiftUI
 
+// `SettingsView`
 struct SettingsView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
@@ -17,7 +19,7 @@ struct SettingsView: View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
             VStack(alignment: .leading) {
-                NavigationLink(destination: ProfileSettingsView()) {
+                NavigationLink(destination: ProfileSettingsView(viewModel: viewModel)) {
                     HStack{
                         Text("프로필 설정")
                             .fontWeight(.medium)
@@ -36,7 +38,7 @@ struct SettingsView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: AccountSettingsView()) {
+                NavigationLink(destination: AccountSettingsView(viewModel: viewModel)) {
                     HStack{
                         Text("계정 설정")
                             .fontWeight(.medium)
@@ -74,21 +76,6 @@ struct SettingsView: View {
             }
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.leading, 5)
-                        }
-                        .foregroundColor(.primary900)
-                    }
-                }
-            }
         }
     }
     
