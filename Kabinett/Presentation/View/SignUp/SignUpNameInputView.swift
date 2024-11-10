@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpNameInputView: View {
-    @EnvironmentObject var viewModel: SignUpViewModel
+    @ObservedObject var viewModel: SignUpViewModel
     @State private var shouldNavigate = false
     let horizontalPadding: CGFloat = UIScreen.main.bounds.width * 0.06
     
@@ -51,7 +51,7 @@ struct SignUpNameInputView: View {
                 .keyboardType(.alphabet)
                 .submitLabel(.done)
                 .navigationDestination(isPresented: $shouldNavigate) {
-                    SignUpKabinettNumberSelectView()
+                    SignUpKabinettNumberSelectView(viewModel: viewModel)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -76,7 +76,3 @@ struct SignUpOvalTextFieldStyle: TextFieldStyle {
             .frame(width: width, height: 54)
     }
 }
-
-//#Preview {
-//    SignUpNameInputView(signUpViewModel: SignUpViewModel(signUpUseCase: SignUpUseCaseStub()))
-//

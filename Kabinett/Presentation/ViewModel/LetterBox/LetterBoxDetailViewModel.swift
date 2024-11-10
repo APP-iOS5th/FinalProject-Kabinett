@@ -6,14 +6,22 @@
 //
 
 import SwiftUI
+import Combine
+import os
 
 class LetterBoxDetailViewModel: ObservableObject {
+    private let logger: Logger
+    
     private let letterBoxUseCase: LetterBoxUseCase
-    private var letterDetailTask: Task<Void, Never>?
+    private var cancellables: Set<AnyCancellable> = []
     
     init(
         letterBoxUseCase: LetterBoxUseCase
     ) {
+        self.logger = Logger(
+            subsystem: "co.kr.codegrove.Kabinett",
+            category: "LetterBoxDetailViewModel"
+        )
         self.letterBoxUseCase = letterBoxUseCase
     }
     
@@ -21,13 +29,16 @@ class LetterBoxDetailViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     func fetchLetterBoxDetailLetters(letterType: LetterType) {
-        letterDetailTask?.cancel()
-        letterDetailTask = Task { @MainActor in
-            for await letterArray in await letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType) {
-                if Task.isCancelled { break }
-                self.letterBoxDetailLetters = letterArray
-            }
-        }
+        letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { completion in
+                if case .failure(let error) = completion {
+                    self.logger.error("Receive letter Failed! \(error.localizedDescription)")
+                }
+            }, receiveValue: { [weak self] letters in
+                self?.letterBoxDetailLetters = letters
+            })
+            .store(in: &cancellables)
     }
     
     func fetchSearchByKeyword(findKeyword: String, letterType: LetterType) {
@@ -58,9 +69,5 @@ class LetterBoxDetailViewModel: ObservableObject {
                 self.errorMessage = error.localizedDescription
             }
         }
-    }
-    
-    deinit {
-        letterDetailTask?.cancel()
     }
 }

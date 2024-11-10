@@ -8,33 +8,36 @@
 import SwiftUI
 import Kingfisher
 
+// `ProfileView`
 struct ProfileView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @StateObject private var viewModel: ProfileViewModel
+    
+    init() {
+        @Injected(ProfileUseCaseKey.self)
+        var profileUseCase: ProfileUseCase
+        
+        self._viewModel = StateObject(
+            wrappedValue: ProfileViewModel(profileUseCase: profileUseCase)
+        )
+    }
     
     var body: some View {
         NavigationStack {
             Group {
                 if case .toLogin = viewModel.navigateState {
-                    LoginView()
+                    SignUpView()
                 } else {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)
                         if viewModel.profileUpdateError != nil {
-                            VStack {
-                                Text("프로필을 불러오는 데 문제가 발생했어요.")
-                                    .fontWeight(.regular)
-                                    .foregroundColor(.alert)
-                                    .font(.headline)
-                                    .padding()
-                                
-                                NavigationLink(destination: SignUpNameInputView()) {
-                                    Text("다시 시도하기")
-                                        .padding()
-                                        .background(Color.primary900)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(8)
-                                }
-                            }
+//                            VStack {
+//                                Text("프로필을 불러오는 데 문제가 발생했어요.")
+//                                    .fontWeight(.regular)
+//                                    .foregroundColor(.alert)
+//                                    .font(.headline)
+//                                    .padding()
+//                            }
                         } else {
                             VStack {
                                 if let image = viewModel.currentWriter.imageUrlString {
@@ -62,6 +65,15 @@ struct ProfileView: View {
                             }
                         }
                     }
+                    .alert(
+                        "오류",
+                        isPresented: $viewModel.showProfileAlert
+                    ) {
+                        Button("확인", role: .cancel) {
+                        }
+                    } message: {
+                        Text(viewModel.profileUpdateError ?? "프로필을 불러오는 데 문제가 발생했어요.")
+                    }
                     .navigationBarBackButtonHidden()
                     .toolbar {
                         ToolbarItem(placement: .navigationBarTrailing) {
@@ -80,7 +92,7 @@ struct ProfileView: View {
                 }
             }
             .navigationDestination(isPresented: $viewModel.showSettingsView) {
-                SettingsView()
+                SettingsView(viewModel: viewModel)
             }
         }
     }

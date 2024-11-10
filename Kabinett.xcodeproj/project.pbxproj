@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04D182792C881EBE0038DA57 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 04D182782C881EBE0038DA57 /* Settings.bundle */; };
-		04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0DC2C6A3AD600D289EA /* LoginView.swift */; };
+		04DEC0DD2C6A3AD600D289EA /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0DC2C6A3AD600D289EA /* SignUpView.swift */; };
 		04DEC0E12C6AFA7500D289EA /* SignUpNameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */; };
 		04DEC0E32C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */; };
 		04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DEC0E62C6C6C7300D289EA /* ProfileView.swift */; };
@@ -62,6 +62,8 @@
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* PreviewLetterView.swift */; };
 		57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */; };
+		57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */; };
+		57C35C672CCA02130083A346 /* FontUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C35C662CCA02130083A346 /* FontUtility.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
 		57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */; };
 		57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */; };
@@ -90,6 +92,12 @@
 		7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
+		8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684352CE0A43600120EC8 /* ServiceKeys.swift */; };
+		8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684362CE0A43600120EC8 /* UseCaseKeys.swift */; };
+		8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684382CE0A43600120EC8 /* DIContainer.swift */; };
+		835684402CE0A43600120EC8 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684392CE0A43600120EC8 /* Injected.swift */; };
+		835684412CE0A43600120EC8 /* InjectionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356843A2CE0A43600120EC8 /* InjectionKey.swift */; };
+		835684422CE0A43600120EC8 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356843B2CE0A43600120EC8 /* Module.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FD2C644BF0003635F3 /* Preview Assets.xcassets */; };
@@ -108,15 +116,16 @@
 		83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
-		AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */; };
+		AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */; };
 		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
-		AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */; };
-		AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */; };
+		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
+		AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
-		AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */; };
+		AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */; };
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
+		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,7 +147,7 @@
 
 /* Begin PBXFileReference section */
 		04D182782C881EBE0038DA57 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		04DEC0DC2C6A3AD600D289EA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		04DEC0DC2C6A3AD600D289EA /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNameInputView.swift; sourceTree = "<group>"; };
 		04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpKabinettNumberSelectView.swift; sourceTree = "<group>"; };
 		04DEC0E62C6C6C7300D289EA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -190,9 +199,11 @@
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* PreviewLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterView.swift; sourceTree = "<group>"; };
 		57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterViewModel.swift; sourceTree = "<group>"; };
+		57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.otf; sourceTree = "<group>"; };
+		57C35C662CCA02130083A346 /* FontUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FontUtility.swift; path = ../../../../FontUtility.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
 		57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationerySelectionView.swift; sourceTree = "<group>"; };
-		57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LetterWriteModel.swift; path = Kabinett/Presentation/ViewModel/LetterWrite/LetterWriteModel.swift; sourceTree = SOURCE_ROOT; };
+		57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LetterWriteModel.swift; path = Kabinett/Presentation/ViewModel/WriteLetter/LetterWriteModel.swift; sourceTree = SOURCE_ROOT; };
 		57ED9CD42C70E4A400A4312C /* FontSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionView.swift; sourceTree = "<group>"; };
 		57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionViewModel.swift; sourceTree = "<group>"; };
 		57ED9CD92C733D5300A4312C /* FontSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -219,6 +230,12 @@
 		7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritingView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
+		835684352CE0A43600120EC8 /* ServiceKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceKeys.swift; sourceTree = "<group>"; };
+		835684362CE0A43600120EC8 /* UseCaseKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseCaseKeys.swift; sourceTree = "<group>"; };
+		835684382CE0A43600120EC8 /* DIContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		835684392CE0A43600120EC8 /* Injected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		8356843A2CE0A43600120EC8 /* InjectionKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectionKey.swift; sourceTree = "<group>"; };
+		8356843B2CE0A43600120EC8 /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -237,15 +254,16 @@
 		83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
-		AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPhotoLetterUseCase.swift; sourceTree = "<group>"; };
+		AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImportLetterUseCase.swift; sourceTree = "<group>"; };
 		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
-		AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWriteUseCase.swift; sourceTree = "<group>"; };
-		AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentsUseCase.swift; sourceTree = "<group>"; };
+		AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterUseCase.swift; sourceTree = "<group>"; };
+		AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLetterUseCase.swift; sourceTree = "<group>"; };
 		AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterManager.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
-		AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNormalLetterUseCase.swift; sourceTree = "<group>"; };
+		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
+		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -320,19 +338,12 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		538150522C8AF02F007B1E5A /* Extensions */ = {
+		57635A6B2C88890E00727CC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				538150532C8AF04B007B1E5A /* Extension+LetterType.swift */,
 				53FC6B812C901F7700E7D9A8 /* Extension+Collection.swift */,
 				53FC6B872C9020C100E7D9A8 /* Extension+String.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		57635A6B2C88890E00727CC5 /* Extension */ = {
-			isa = PBXGroup;
-			children = (
 				577157002C75D73700E21162 /* Extension+UIApplication.swift */,
 				57966B992C7D8B45008D650B /* Extension+Date.swift */,
 				57966B9D2C7DB266008D650B /* Extension+TextField.swift */,
@@ -344,6 +355,7 @@
 		57ED9CE12C7375AC00A4312C /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */,
 				577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */,
 				57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */,
 				577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */,
@@ -387,12 +399,36 @@
 			path = PhotoImporting;
 			sourceTree = "<group>";
 		};
-		831401392C69C21300F601FB /* ComponentsUseCase */ = {
+		830CE3CD2CA2E35B00740627 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				AFA58F232C6A02BF00A7C569 /* ComponentsUseCase.swift */,
+				83F0D6842C705E42001B8733 /* AuthManager.swift */,
+				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
+				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
+				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
+				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
 			);
-			path = ComponentsUseCase;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		830CE3CE2CA2E37100740627 /* DefaultUseCases */ = {
+			isa = PBXGroup;
+			children = (
+				AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */,
+				AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */,
+				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
+				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
+				83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */,
+			);
+			path = DefaultUseCases;
+			sourceTree = "<group>";
+		};
+		831401392C69C21300F601FB /* ImportLetterUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */,
+			);
+			path = ImportLetterUseCase;
 			sourceTree = "<group>";
 		};
 		8314013A2C69C21D00F601FB /* LetterBoxUseCase */ = {
@@ -403,12 +439,12 @@
 			path = LetterBoxUseCase;
 			sourceTree = "<group>";
 		};
-		8314013B2C69C22B00F601FB /* LetterWriteUseCase */ = {
+		8314013B2C69C22B00F601FB /* WriteLetterUseCase */ = {
 			isa = PBXGroup;
 			children = (
-				AFA58F212C6A004C00A7C569 /* LetterWriteUseCase.swift */,
+				AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */,
 			);
-			path = LetterWriteUseCase;
+			path = WriteLetterUseCase;
 			sourceTree = "<group>";
 		};
 		8314013C2C69C23500F601FB /* ProfileUseCase */ = {
@@ -427,6 +463,27 @@
 			path = SignUpUseCase;
 			sourceTree = "<group>";
 		};
+		835684372CE0A43600120EC8 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				835684352CE0A43600120EC8 /* ServiceKeys.swift */,
+				835684362CE0A43600120EC8 /* UseCaseKeys.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
+		8356843C2CE0A43600120EC8 /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				835684372CE0A43600120EC8 /* Keys */,
+				835684382CE0A43600120EC8 /* DIContainer.swift */,
+				835684392CE0A43600120EC8 /* Injected.swift */,
+				8356843A2CE0A43600120EC8 /* InjectionKey.swift */,
+				8356843B2CE0A43600120EC8 /* Module.swift */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
 		8366B6EF2C65ECC50021FAE0 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -441,22 +498,21 @@
 			children = (
 				8314013D2C69C23C00F601FB /* SignUpUseCase */,
 				8314013C2C69C23500F601FB /* ProfileUseCase */,
-				8314013B2C69C22B00F601FB /* LetterWriteUseCase */,
+				8314013B2C69C22B00F601FB /* WriteLetterUseCase */,
 				8314013A2C69C21D00F601FB /* LetterBoxUseCase */,
-				831401392C69C21300F601FB /* ComponentsUseCase */,
+				831401392C69C21300F601FB /* ImportLetterUseCase */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
 		};
-		8366B6F12C65ECDB0021FAE0 /* Components */ = {
+		8366B6F12C65ECDB0021FAE0 /* ImportLetter */ = {
 			isa = PBXGroup;
 			children = (
 				7F397C512C7C386500388645 /* PhotoImporting */,
-				7F397C502C7C382A00388645 /* CustomTabView */,
 				7F397C4F2C7C381E00388645 /* Camera */,
 				7F7868552C7B14220083D204 /* HorizontalPadding.swift */,
 			);
-			path = Components;
+			path = ImportLetter;
 			sourceTree = "<group>";
 		};
 		8366B6F22C65ECE10021FAE0 /* LetterBox */ = {
@@ -472,7 +528,7 @@
 			path = LetterBox;
 			sourceTree = "<group>";
 		};
-		8366B6F32C65ECE60021FAE0 /* LetterWrite */ = {
+		8366B6F32C65ECE60021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
 				577156FC2C7584E000E21162 /* NavigationBarView.swift */,
@@ -484,7 +540,7 @@
 				57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */,
 				57966BA32C7FF738008D650B /* PreviewLetterView.swift */,
 			);
-			path = LetterWrite;
+			path = WriteLetter;
 			sourceTree = "<group>";
 		};
 		8366B6F42C65ECEC0021FAE0 /* Profile */ = {
@@ -496,6 +552,7 @@
 				04DEC0EA2C6C87B500D289EA /* AccountSettingsView.swift */,
 				04DEC0FB2C7D96BC00D289EA /* ImageCropper.swift */,
 				04DEC0F92C75863600D289EA /* CropBox.swift */,
+				E2E0DCD02CAED20800596DF7 /* LoadingView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -503,29 +560,25 @@
 		8366B6F52C65ECF70021FAE0 /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
-				04DEC0DC2C6A3AD600D289EA /* LoginView.swift */,
+				04DEC0DC2C6A3AD600D289EA /* SignUpView.swift */,
 				04DEC0E02C6AFA7500D289EA /* SignUpNameInputView.swift */,
 				04DEC0E22C6B2E1C00D289EA /* SignUpKabinettNumberSelectView.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
 		};
-		8366B6F62C65ECFF0021FAE0 /* Components */ = {
+		8366B6F62C65ECFF0021FAE0 /* ImportLetter */ = {
 			isa = PBXGroup;
 			children = (
 				7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */,
 				7F6CE9E12C6E25500074568E /* CameraViewModel.swift */,
-				7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */,
 			);
-			path = Components;
+			path = ImportLetter;
 			sourceTree = "<group>";
 		};
 		8366B6F72C65ED080021FAE0 /* LetterBox */ = {
 			isa = PBXGroup;
 			children = (
-				538150522C8AF02F007B1E5A /* Extensions */,
-				5381504E2C8AD4C9007B1E5A /* Stubs */,
-				5381504D2C8AD44A007B1E5A /* Helpers */,
 				530C76592C7638D9007E09C6 /* LetterBoxViewModel.swift */,
 				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
 				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
@@ -534,11 +587,10 @@
 			path = LetterBox;
 			sourceTree = "<group>";
 		};
-		8366B6F82C65ED0F0021FAE0 /* LetterWrite */ = {
+		8366B6F82C65ED0F0021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
-				57635A6B2C88890E00727CC5 /* Extension */,
-				57ED9CE12C7375AC00A4312C /* Font */,
+				57C35C662CCA02130083A346 /* FontUtility.swift */,
 				57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
 				57ED9CD62C72C8C900A4312C /* UserSelectionViewModel.swift */,
@@ -547,7 +599,7 @@
 				57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */,
 				57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */,
 			);
-			path = LetterWrite;
+			path = WriteLetter;
 			sourceTree = "<group>";
 		};
 		8366B6F92C65ED150021FAE0 /* Profile */ = {
@@ -567,22 +619,11 @@
 			path = SignUp;
 			sourceTree = "<group>";
 		};
-		8366B6FB2C65EF1B0021FAE0 /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				83CA92A92C8160BF00DFB68B /* Utils */,
-				83F0D6842C705E42001B8733 /* AuthManager.swift */,
-				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
-				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
-				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
-				83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		838697C42C64B7DB00E76230 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				83FDCA802CA2EA9200FAEF22 /* Commons */,
+				83FDCA7F2CA2E64A00FAEF22 /* Utils */,
 				838697C92C64B81000E76230 /* ViewModel */,
 				838697C82C64B80C00E76230 /* View */,
 				839CE0F82C644BEF003635F3 /* ContentView.swift */,
@@ -590,13 +631,14 @@
 			path = Presentation;
 			sourceTree = "<group>";
 		};
-		838697C52C64B7E600E76230 /* Service */ = {
+		838697C52C64B7E600E76230 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				8366B6FB2C65EF1B0021FAE0 /* Auth */,
-				838697CB2C64B84500E76230 /* Letter */,
+				83CA92A92C8160BF00DFB68B /* Utils */,
+				830CE3CE2CA2E37100740627 /* DefaultUseCases */,
+				830CE3CD2CA2E35B00740627 /* Services */,
 			);
-			path = Service;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		838697C62C64B7EC00E76230 /* Domain */ = {
@@ -611,6 +653,7 @@
 		838697C72C64B7FB00E76230 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				8356843C2CE0A43600120EC8 /* DIContainer */,
 				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
 			);
 			path = Application;
@@ -621,9 +664,9 @@
 			children = (
 				8366B6F52C65ECF70021FAE0 /* SignUp */,
 				8366B6F42C65ECEC0021FAE0 /* Profile */,
-				8366B6F32C65ECE60021FAE0 /* LetterWrite */,
+				8366B6F32C65ECE60021FAE0 /* WriteLetter */,
 				8366B6F22C65ECE10021FAE0 /* LetterBox */,
-				8366B6F12C65ECDB0021FAE0 /* Components */,
+				8366B6F12C65ECDB0021FAE0 /* ImportLetter */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -633,23 +676,11 @@
 			children = (
 				8366B6FA2C65ED1A0021FAE0 /* SignUp */,
 				8366B6F92C65ED150021FAE0 /* Profile */,
-				8366B6F82C65ED0F0021FAE0 /* LetterWrite */,
+				8366B6F82C65ED0F0021FAE0 /* WriteLetter */,
 				8366B6F72C65ED080021FAE0 /* LetterBox */,
-				8366B6F62C65ECFF0021FAE0 /* Components */,
+				8366B6F62C65ECFF0021FAE0 /* ImportLetter */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		838697CB2C64B84500E76230 /* Letter */ = {
-			isa = PBXGroup;
-			children = (
-				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
-				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
-				AFB88B582C89410600E79F90 /* DefaultNormalLetterUseCase.swift */,
-				AF9B18F72C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift */,
-				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
-			);
-			path = Letter;
 			sourceTree = "<group>";
 		};
 		839CE0EA2C644BEF003635F3 = {
@@ -679,8 +710,9 @@
 				04DEC0F02C6E136F00D289EA /* Info.plist */,
 				838697C72C64B7FB00E76230 /* Application */,
 				838697C62C64B7EC00E76230 /* Domain */,
-				838697C52C64B7E600E76230 /* Service */,
+				838697C52C64B7E600E76230 /* Data */,
 				838697C42C64B7DB00E76230 /* Presentation */,
+				83FDCA7E2CA2E5EE00FAEF22 /* Resource */,
 				839CE12C2C645F89003635F3 /* GoogleService-Info.plist */,
 				839CE1202C645274003635F3 /* Kabinett.entitlements */,
 				57ED9CDF2C73749800A4312C /* Assets.xcassets */,
@@ -692,6 +724,7 @@
 		839CE0FC2C644BF0003635F3 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				5381504E2C8AD4C9007B1E5A /* Stubs */,
 				839CE0FD2C644BF0003635F3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -720,6 +753,40 @@
 				83CA92AA2C8160CB00DFB68B /* Publisher+.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		83FDCA7E2CA2E5EE00FAEF22 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				57ED9CE12C7375AC00A4312C /* Font */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		83FDCA7F2CA2E64A00FAEF22 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				5381504D2C8AD44A007B1E5A /* Helpers */,
+				57635A6B2C88890E00727CC5 /* Extension */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		83FDCA802CA2EA9200FAEF22 /* Commons */ = {
+			isa = PBXGroup;
+			children = (
+				83FDCA812CA2EAAA00FAEF22 /* CustomTabViewModel */,
+				7F397C502C7C382A00388645 /* CustomTabView */,
+			);
+			path = Commons;
+			sourceTree = "<group>";
+		};
+		83FDCA812CA2EAAA00FAEF22 /* CustomTabViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */,
+			);
+			path = CustomTabViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -842,6 +909,7 @@
 				57ED9CE32C7375FD00A4312C /* Baskervville-Regular.otf in Resources */,
 				57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */,
 				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
+				57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */,
 				57ED9CE72C73780100A4312C /* Pecita.otf in Resources */,
 				839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */,
 				57ED9CE02C73749800A4312C /* Assets.xcassets in Resources */,
@@ -881,6 +949,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				835684412CE0A43600120EC8 /* InjectionKey.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */,
 				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
@@ -891,8 +960,9 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
-				AF9B18F82C894B5900F3E446 /* DefaultPhotoLetterUseCase.swift in Sources */,
+				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
@@ -902,13 +972,16 @@
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
+				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
+				8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
-				AFA58F242C6A02BF00A7C569 /* ComponentsUseCase.swift in Sources */,
+				AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
+				835684422CE0A43600120EC8 /* Module.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
 				57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */,
@@ -918,9 +991,11 @@
 				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
 				04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */,
 				53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */,
+				835684402CE0A43600120EC8 /* Injected.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
+				E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */,
@@ -929,7 +1004,7 @@
 				83CA92AE2C8181DB00DFB68B /* FirestorageWriterManager.swift in Sources */,
 				7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */,
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
-				AFA58F222C6A004C00A7C569 /* LetterWriteUseCase.swift in Sources */,
+				AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
 				57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
@@ -940,12 +1015,12 @@
 				57966B9E2C7DB267008D650B /* Extension+TextField.swift in Sources */,
 				7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */,
 				7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */,
-				AFB88B592C89410600E79F90 /* DefaultNormalLetterUseCase.swift in Sources */,
+				AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */,
 				53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */,
 				57ED94FA2C84AFAC00A6F187 /* LetterWriteModel.swift in Sources */,
 				839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */,
 				57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */,
-				04DEC0DD2C6A3AD600D289EA /* LoginView.swift in Sources */,
+				04DEC0DD2C6A3AD600D289EA /* SignUpView.swift in Sources */,
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
 				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
@@ -954,6 +1029,7 @@
 				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
+				8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,

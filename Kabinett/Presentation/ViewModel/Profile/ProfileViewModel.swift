@@ -8,7 +8,6 @@
 import SwiftUI
 import Combine
 import PhotosUI
-
 import os
 
 class ProfileViewModel: ObservableObject {
@@ -43,6 +42,7 @@ class ProfileViewModel: ObservableObject {
     @Published var showProfileAlert = false
     @Published var navigateState: NavigateState = .toLogin
     @Published var showSettingsView = false
+    @Published var isLoading: Bool = false
     
     var displayName: String {
         return newUserName.isEmpty ? currentWriter.name : newUserName
@@ -63,8 +63,8 @@ class ProfileViewModel: ObservableObject {
         )
         
         if !success {
-            profileUpdateError = "프로필 업데이트에 실패했어요. 다시 시도해주세요."
             showProfileAlert = true
+            self.profileUpdateError = "프로필 업데이트 오류 발생"
         }
     }
     
@@ -105,7 +105,9 @@ class ProfileViewModel: ObservableObject {
     
     @MainActor
     func signout() async {
+        startLoading()
         let success = await profileUseCase.signout()
+        stopLoading()
         if success {
             currentWriter = WriterViewModel(name: "", formattedNumber: "", imageUrlString: nil)
         } else {
@@ -122,7 +124,6 @@ class ProfileViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
-    // TODO: 프로필 이미지 없을 때 탭바 이미지도 설정하기
     private func loadCurrentWriter() {
         profileUseCase
             .getCurrentWriter()
@@ -157,7 +158,35 @@ class ProfileViewModel: ObservableObject {
     }
     
     @MainActor
+    private func startLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = true
+        }
+    }
+    
+    @MainActor
+    private func stopLoading() {
+        DispatchQueue.main.async {
+            self.isLoading = false
+        }
+    }
+    
+    @MainActor
     private func fetchAppleID() async {
         self.appleID = await profileUseCase.getAppleID()
+    }
+}
+
+extension ProfileViewModel {
+    func resetToInitialState() {
+        showSettingsView = false
+        profileUpdateError = nil
+        newUserName = ""
+        selectedImageItem = nil
+        selectedImage = nil
+        isShowingCropper = false
+        croppedImage = nil
+        showProfileAlert = false
+        loadCurrentWriter()
     }
 }

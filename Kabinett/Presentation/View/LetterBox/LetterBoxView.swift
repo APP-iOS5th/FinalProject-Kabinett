@@ -10,10 +10,13 @@ import SwiftUI
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     
-    @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
-    @EnvironmentObject var calendarViewModel: CalendarViewModel
+    @StateObject private var letterBoxViewModel: LetterBoxViewModel
+    @StateObject private var calendarViewModel = CalendarViewModel()
     
-    @State private var showToast: Bool = false
+    init() {
+        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
+        _letterBoxViewModel = StateObject(wrappedValue: LetterBoxViewModel(letterBoxUseCase: letterBoxUseCase))
+    }
     
     var body: some View {
         NavigationStack {
@@ -25,8 +28,8 @@ struct LetterBoxView: View {
                     ForEach(LetterType.allCases, id: \.self) { type in
                         let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                         
-                        NavigationLink(destination: LetterBoxDetailView()) {
-                            LetterBoxCell(type: type, unreadCount: unreadCount)
+                        NavigationLink(destination: LetterBoxDetailView(calendarViewModel: calendarViewModel)) {
+                            LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
                             calendarViewModel.currentLetterType = type
@@ -36,28 +39,14 @@ struct LetterBoxView: View {
                 .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
                 
                 VStack {
-                    if showToast {
-                        Spacer()
-                        ToastView(message: "카비넷 팀의 편지가 도착했어요.", horizontalPadding: 50)
-                            .transition(.move(edge: .bottom))
-                            .zIndex(1)
-                            .onAppear {
-                                letterBoxViewModel.fetchWelcomeLetter()
-                                
-                                Timer.scheduledTimer(withTimeInterval: 3.3, repeats: false) { _ in
-                                    withAnimation {
-                                        showToast = false
-                                    }
-                                }
-                            }
-                            .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.01, forOthers: 0.01))
-                    }
+                    Spacer()
+                    ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $letterBoxViewModel.showToast)
                 }
             }
             .onAppear() {
                 withAnimation {
                     if isFirstLaunch {
-                        showToast = true
+                        letterBoxViewModel.fetchWelcomeLetter()
                         isFirstLaunch = false
                     }
                 }
@@ -73,9 +62,3 @@ struct LetterBoxView: View {
         ]
     }
 }
-
-//#Preview {
-//    LetterBoxView()
-//        .environmentObject(LetterBoxViewModel())
-//        .environmentObject(CalendarViewModel())
-//}

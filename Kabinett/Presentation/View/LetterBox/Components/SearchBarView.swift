@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchBarView: View {
-    @EnvironmentObject var viewModel: LetterBoxDetailViewModel
+    @ObservedObject var viewModel: LetterBoxDetailViewModel
     
     @Binding var searchText: String
     @Binding var showSearchBarView: Bool
