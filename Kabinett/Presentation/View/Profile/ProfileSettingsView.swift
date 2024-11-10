@@ -24,21 +24,6 @@ struct ProfileSettingsView: View {
             }
             .navigationTitle("프로필 설정")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack {
-                            Image(systemName: "chevron.left")
-                                .font(.system(size: 18, weight: .semibold))
-                                .padding(.leading, 5)
-                        }
-                        .foregroundColor(.primary900)
-                    }
-                }
-            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
