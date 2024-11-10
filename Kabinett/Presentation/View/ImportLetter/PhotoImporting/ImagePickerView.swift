@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ImagePickerView: View {
-    @EnvironmentObject var imageViewModel: ImagePickerViewModel
-    @EnvironmentObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         EmptyView()
@@ -32,9 +33,11 @@ struct ImagePickerView: View {
                 }
             }
             .fullScreenCover(isPresented: $customViewModel.showImagePreview) {
-                ImagePreview()
-                    .environmentObject(imageViewModel)
-                    .environmentObject(customViewModel)
+                ImagePreview(
+                    imageViewModel: imageViewModel,
+                    customViewModel: customViewModel,
+                    envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
+                )
             }
     }
 }

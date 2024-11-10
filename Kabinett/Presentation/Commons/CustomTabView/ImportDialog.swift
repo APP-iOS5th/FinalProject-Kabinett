@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ImportDialog: View {
-    @EnvironmentObject var viewModel: CustomTabViewModel
-    @EnvironmentObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var viewModel: CustomTabViewModel
+    @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         EmptyView()

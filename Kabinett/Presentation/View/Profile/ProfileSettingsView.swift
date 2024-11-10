@@ -9,8 +9,10 @@ import SwiftUI
 import PhotosUI
 import Kingfisher
 
+// `ProfileSettingsView`
 struct ProfileSettingsView: View {
-    @EnvironmentObject var viewModel: ProfileViewModel
+    //
+    @ObservedObject var viewModel: ProfileViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -93,16 +95,9 @@ struct ProfileSettingsView: View {
                         .frame(width: 110, height: 110)
                         .clipShape(Circle())
                 }
-                ZStack {
-                    Circle()
-                        .foregroundStyle(.primary900)
-                        .frame(width: 35, height: 35)
-                    Image(systemName: "pencil")
-                        .font(.system(size: 20))
-                        .fontWeight(.heavy)
-                        .foregroundColor(.white)
-                }
-                .offset(x: 37, y: 35)
+                Image(systemName: "photo")
+                    .font(.system(size: 36))
+                    .foregroundColor(.white)
             }
         }
         .onChange(of: viewModel.selectedImageItem) { oldItem, newItem in

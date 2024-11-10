@@ -9,7 +9,9 @@ import SwiftUI
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: FontSelectionViewModel
+    @StateObject var viewModel = FontSelectionViewModel()
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         ZStack {
@@ -20,7 +22,11 @@ struct FontSelectionView: View {
             
             VStack(alignment: .leading) {
                 NavigationBarView(titleName: "서체 고르기", isColor: true) {
-                    NavigationLink(destination: ContentWriteView(letterContent: $letterContent)) {
+                    NavigationLink(destination: ContentWriteView(
+                        letterContent: $letterContent,
+                        imageViewModel: imageViewModel,
+                        customTabViewModel: customViewModel
+                    )) {
                         Text("다음")
                             .fontWeight(.medium)
                             .font(.system(size: 19))
@@ -36,7 +42,7 @@ struct FontSelectionView: View {
                         VStack {
                             HStack {
                                 Text("\(viewModel.dummyFonts[i].fontName)")
-                                    .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
+                                    .font(FontUtility.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 Spacer()
                             }
                             .padding(.top, 20)
@@ -48,7 +54,7 @@ struct FontSelectionView: View {
                                 )
                                 .baselineOffset(viewModel.dummyFonts[i].fontName == "Pecita" ? -1 : 0)
                                 .padding(.leading, 6)
-                                .font(viewModel.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
+                                .font(FontUtility.selectedFont(font: viewModel.dummyFonts[i].font, size: 13))
                                 .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                                 .background(Color.white)
                                 .clipShape(RoundedRectangle(cornerRadius: 5))

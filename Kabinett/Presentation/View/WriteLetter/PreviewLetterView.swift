@@ -11,15 +11,22 @@ import UIKit
 
 struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
-    @EnvironmentObject var viewModel: PreviewLetterViewModel
+    @StateObject var viewModel: PreviewLetterViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
+    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     
-    @EnvironmentObject var userSelectionViewModel: UserSelectionViewModel
-    @EnvironmentObject var stationerySelectionViewModel: StationerySelectionViewModel
-    @EnvironmentObject var fontSelectionViewModel: FontSelectionViewModel
-    @EnvironmentObject var contentWriteViewModel: ContentWriteViewModel
-    @EnvironmentObject var envelopStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @EnvironmentObject var customTabViewModel: CustomTabViewModel
-    @EnvironmentObject var imagePickerViewModel: ImagePickerViewModel
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customTabViewModel: CustomTabViewModel,
+        imagePickerViewModel: ImagePickerViewModel
+    ) {
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+       
+        _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
+        self._letterContent = letterContent
+        self.customTabViewModel = customTabViewModel
+        self.imagePickerViewModel = imagePickerViewModel
+    }
     
     var body: some View {
         ZStack {
@@ -46,7 +53,7 @@ struct PreviewLetterView: View {
                                     Text("보내는 사람")
                                         .font(.system(size: 7))
                                     Text(letterContent.fromUserName)
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 
                                 Spacer()
@@ -65,7 +72,7 @@ struct PreviewLetterView: View {
                             HStack(alignment: .top) {
                                 VStack {
                                     Text(letterContent.postScript ?? "")
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 10))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
                                         .frame(width: geo.size.width * 0.43, alignment: .leading)
                                 }
                                 
@@ -73,7 +80,7 @@ struct PreviewLetterView: View {
                                     Text("받는 사람")
                                         .font(.system(size: 7))
                                     Text(letterContent.toUserName)
-                                        .font(fontSelectionViewModel.selectedFont(font: letterContent.fontString ?? "", size: 14))
+                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                                 }
                                 .padding(.top, -1)
                                 .padding(.leading, geo.size.width * 0.1)
@@ -121,13 +128,8 @@ struct PreviewLetterView: View {
                                          isRead: false)
                     
                     letterContent.reset()
-                    userSelectionViewModel.reset()
-                    stationerySelectionViewModel.reset()
-                    fontSelectionViewModel.reset()
-                    contentWriteViewModel.reset()
-                    envelopStampSelectionViewModel.reset()
-                    imagePickerViewModel.resetState()
                     customTabViewModel.hideOptions()
+                    imagePickerViewModel.resetSelections()
                 } label: {
                     Text("편지 보내기")
                         .font(.system(size: 16))

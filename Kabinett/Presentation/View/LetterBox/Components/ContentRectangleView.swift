@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct ContentRectangleView: View {
-    @EnvironmentObject var fontViewModel: FontSelectionViewModel
+    @StateObject var fontViewModel = FontSelectionViewModel()
     
     var stationeryImageUrlString: String?
     var fromUserName: String
@@ -38,7 +38,7 @@ struct ContentRectangleView: View {
                 
                 VStack {
                     Text(toUserName)
-                        .font(fontViewModel.selectedFont(font: fontString, size: 14))
+                        .font(FontUtility.selectedFont(font: fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, geometry.size.height * 0.2)
@@ -46,7 +46,7 @@ struct ContentRectangleView: View {
                         .opacity(currentPageIndex == 0 ? 1 : 0)
                     
                     Text(letterContent.forceCharWrapping)
-                        .font(fontViewModel.selectedFont(font: fontString, size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.015)))
+                        .font(FontUtility.selectedFont(font: fontString, size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.015)))
                         .foregroundStyle(.contentPrimary)
                         .lineSpacing(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -56,14 +56,14 @@ struct ContentRectangleView: View {
                     Spacer()
                     
                     Text(formattedDate(date: date))
-                        .font(fontViewModel.selectedFont(font: fontString, size: 14))
+                        .font(FontUtility.selectedFont(font: fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, 0.1)
                         .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
                     
                     Text(fromUserName)
-                        .font(fontViewModel.selectedFont(font: fontString, size: 14))
+                        .font(FontUtility.selectedFont(font: fontString, size: 14))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, geometry.size.height * 0.2)
