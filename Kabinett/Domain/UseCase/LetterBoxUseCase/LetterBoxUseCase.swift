@@ -6,15 +6,16 @@
 //
 
 import Foundation
+import Combine
 
 protocol LetterBoxUseCase {
-    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]>
+    func getLetterBoxLetters() -> AnyPublisher<[LetterType: [Letter]], Never>
     
     func getLetterBoxDetailLetters(
         letterType: LetterType
-    ) async -> AsyncStream<[Letter]>
+    ) -> AnyPublisher<[Letter], Never>
     
-    func getIsRead() -> AsyncStream<[LetterType: Int]>
+    func getIsRead() -> AnyPublisher<[LetterType: Int], Never>
     
     func searchBy(
         findKeyword: String,

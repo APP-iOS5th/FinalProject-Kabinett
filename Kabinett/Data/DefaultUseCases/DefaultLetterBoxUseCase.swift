@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 import os
 
 final class DefaultLetterBoxUseCase {
@@ -28,51 +29,50 @@ final class DefaultLetterBoxUseCase {
 
 extension DefaultLetterBoxUseCase: LetterBoxUseCase {
     
-    // letter 타입별 로딩
-    func getLetterBoxDetailLetters(letterType: LetterType) async -> AsyncStream<[Letter]> {
-        AsyncStream { continuation in
-            Task {
-                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
-                for await letters in self.letterManager.getLetters(userId: userId, letterType: letterType.types) {
-                    continuation.yield(letters)
-                }
-                continuation.finish()
+    func getLetterBoxDetailLetters(letterType: LetterType) -> AnyPublisher<[Letter], Never> {
+        authManager.getCurrentUser()
+            .compactMap { $0?.uid }
+            .flatMap { userId in
+                self.letterManager.getLetters(userId: userId, letterType: letterType.types)
             }
-        }
+            .eraseToAnyPublisher()
     }
     
-    // main 편지함 letter 3개 로딩
-    func getLetterBoxLetters() -> AsyncStream<[LetterType: [Letter]]> {
-        AsyncStream { continuation in
-            Task {
-                let types: [LetterType] = [.all, .sent, .received, .toMe]
-                
-                await withTaskGroup(of: Void.self) { group in
-                    for type in types {
-                        group.addTask {
-                            for await letters in await self.getLetterBoxDetailLetters(letterType: type) {
-                                let newResult = [type: Array(letters.prefix(3))]
-                                continuation.yield(newResult)
-                            }
-                        }
-                    }
+    func getLetterBoxLetters() -> AnyPublisher<[LetterType: [Letter]], Never> {
+        let types: [LetterType] = [.sent, .received, .toMe]
+        
+        let publishers = types.map { type in
+            getLetterBoxDetailLetters(letterType: type)
+                .map { letters in
+                    let sortedLetters = letters.sorted { $0.date > $1.date }
+                    return [type: Array(sortedLetters.prefix(3))]
                 }
-                continuation.finish()
-            }
+                .eraseToAnyPublisher()
         }
+        
+        return Publishers.MergeMany(publishers)
+            .scan([LetterType: [Letter]]()) { combined, new in
+                combined.merging(new) { _, new in new }
+            }
+            .map { combined in
+                let allLetters = combined.values.flatMap { $0 }
+                    .sorted { $0.date > $1.date }
+                
+                var result = combined
+                result[.all] = Array(allLetters.prefix(3))
+                return result
+            }
+            .eraseToAnyPublisher()
     }
     
     // 안읽은 letter 개수 로딩
-    func getIsRead() -> AsyncStream<[LetterType: Int]> {
-        return AsyncStream { continuation in
-            Task {
-                let userId = await self.authManager.getCurrentUser()?.uid ?? ""
-                for try await result in self.letterManager.getIsReadCount(userId: userId) {
-                    continuation.yield(result)
-                }
-                continuation.finish()
+    func getIsRead() -> AnyPublisher<[LetterType: Int], Never> {
+        authManager.getCurrentUser()
+            .compactMap { $0?.uid }
+            .flatMap { userId in
+                self.letterManager.getIsReadCount(userId: userId)
             }
-        }
+            .eraseToAnyPublisher()
     }
     
     // keyword 기준 letter 검색

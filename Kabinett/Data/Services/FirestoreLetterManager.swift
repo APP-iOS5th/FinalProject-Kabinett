@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFirestore
+import Combine
 import os
 
 enum LetterError: Error {
@@ -31,27 +32,15 @@ struct Query {
 
 final class FirestoreLetterManager {
     private let logger: Logger
-    
     private let db = Firestore.firestore()
+    
+    private var cancellables = Set<AnyCancellable>()
     
     init() {
         self.logger = Logger(
             subsystem: "co.kr.codegrove.Kabinett",
             category: "FirebaseFirestoreManager"
         )
-    }
-    
-    actor SafeListeners {
-        var listeners: [ListenerRegistration] = []
-        
-        func addListener(_ listener: ListenerRegistration) {
-            listeners.append(listener)
-        }
-        
-        func removeAllListeners() {
-            listeners.forEach { $0.remove() }
-            listeners.removeAll()
-        }
     }
     
     func validateLetter(
@@ -183,51 +172,78 @@ final class FirestoreLetterManager {
     func getLetters(
         userId: String,
         letterType: [String]
-    ) -> AsyncStream<[Letter]> {
-        AsyncStream { continuation in
-            var combinedLetters: [Letter] = []
-            
-            let listeners = letterType.map { type in
-                db.collection("Writers")
-                    .document(userId)
-                    .collection(type)
-                    .addSnapshotListener { querySnapshot, error in
-                        guard let snapshot = querySnapshot else {
-                            self.logger.error("Error fetching snapshots: \(error?.localizedDescription ?? "")")
-                            return
-                        }
-                        
-                        if let error = error {
-                            self.logger.error("Get Letters Error: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        snapshot.documentChanges.forEach { diff in
-                            switch diff.type {
-                            case .added:
-                                if let newLetter = try? diff.document.data(as: Letter.self) {
-                                    combinedLetters.append(newLetter)
-                                }
-                            case .modified:
-                                if let modifiedLetter = try? diff.document.data(as: Letter.self),
-                                   let index = combinedLetters.firstIndex(where: { $0.id == modifiedLetter.id }) {
-                                    combinedLetters[index] = modifiedLetter
-                                }
-                            case .removed:
-                                if let removedLetter = try? diff.document.data(as: Letter.self) {
-                                    combinedLetters.removeAll { $0.id == removedLetter.id }
-                                }
-                            }
-                        }
-                        
-                        let sortedLetters = combinedLetters.sorted { $0.date > $1.date }
-                        continuation.yield(sortedLetters)
-                    }
+    ) -> AnyPublisher<[Letter], Never> {
+        let publishers = letterType.map { type in
+            createLetterPublisher(userId: userId, type: type)
+        }
+        
+        return Publishers.MergeMany(publishers)
+            .scan([Letter]()) { accumulated, changes in
+                self.mergeLetterChanges(existingLetters: accumulated, changes: changes)
             }
-            continuation.onTermination = { @Sendable _ in
-                listeners.forEach { $0.remove() }
+            .map { $0.sorted { $0.date > $1.date } }
+            .eraseToAnyPublisher()
+    }
+    
+    private func createLetterPublisher(
+        userId: String,
+        type: String
+    ) -> AnyPublisher<[(Letter?, DocumentChangeType)], Never> {
+        let subject = PassthroughSubject<[(Letter?, DocumentChangeType)], Never>()
+        
+        let listener = db.collection("Writers")
+            .document(userId)
+            .collection(type)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    self.logger.error("Error fetching snapshots: \(error.localizedDescription)")
+                    subject.send([])
+                    return
+                }
+                
+                guard let snapshot = querySnapshot else {
+                    self.logger.error("Snapshot is nil")
+                    subject.send([])
+                    return
+                }
+                
+                let changes = snapshot.documentChanges.map { change -> (Letter?, DocumentChangeType) in
+                    let letter = try? change.document.data(as: Letter.self)
+                    return (letter, change.type)
+                }
+                subject.send(changes)
+            }
+        
+        return subject
+            .handleEvents(receiveCancel: {
+                listener.remove()
+            })
+            .eraseToAnyPublisher()
+    }
+    
+    private func mergeLetterChanges(
+        existingLetters: [Letter],
+        changes: [(Letter?, DocumentChangeType)]
+    ) -> [Letter] {
+        var updatedLetters = existingLetters
+        
+        for (letter, changeType) in changes {
+            switch changeType {
+            case .removed:
+                if let letter = letter {
+                    updatedLetters.removeAll { $0.id == letter.id }
+                }
+            case .added, .modified:
+                if let letter = letter {
+                    if let index = updatedLetters.firstIndex(where: { $0.id == letter.id }) {
+                        updatedLetters[index] = letter
+                    } else {
+                        updatedLetters.append(letter)
+                    }
+                }
             }
         }
+        return updatedLetters
     }
     
     func searchByKeyword(
@@ -363,43 +379,53 @@ final class FirestoreLetterManager {
         }
     }
     
-    func getIsReadCount(userId: String) -> AsyncStream<[LetterType: Int]> {
-        AsyncStream { continuation in
-            let typeToCollectionName: [LetterType: String] = [
-                .toMe: "ToMe",
-                .received: "Received"
-            ]
-            var result: [LetterType: Int] = [:]
-            
-            let safeListeners = SafeListeners()
-            
-            for (type, collectionName) in typeToCollectionName {
-                let listener = db.collection("Writers")
-                    .document(userId)
-                    .collection(collectionName)
-                    .whereField("isRead", isEqualTo: false)
-                    .addSnapshotListener { querySnapshot, error in
-                        if let error = error {
-                            self.logger.error("Failed to get Count: \(error.localizedDescription)")
-                            return
-                        }
-                        
-                        result[type] = querySnapshot?.documents.count ?? 0
-                        result[.all] = (result[.toMe] ?? 0) + (result[.received] ?? 0)
-                        
-                        continuation.yield(result)
-                    }
-                Task {
-                    await safeListeners.addListener(listener)
-                }
-            }
-            
-            continuation.onTermination = { @Sendable _ in
-                Task {
-                    await safeListeners.removeAllListeners()
-                }
-            }
+    func getIsReadCount(userId: String) -> AnyPublisher<[LetterType: Int], Never> {
+        let typeToCollectionName: [LetterType: String] = [
+            .toMe: "ToMe",
+            .received: "Received"
+        ]
+        
+        let publishers = typeToCollectionName.map { type, collectionName in
+            createUnreadCountPublisher(userId: userId, type: type, collectionName: collectionName)
         }
+        
+        return Publishers.MergeMany(publishers)
+            .scan([LetterType: Int]()) { accumulated, new in
+                var updated = accumulated
+                updated.merge(new) { _, new in new }
+                updated[.all] = (updated[.toMe] ?? 0) + (updated[.received] ?? 0)
+                return updated
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private func createUnreadCountPublisher(
+        userId: String,
+        type: LetterType,
+        collectionName: String
+    ) -> AnyPublisher<[LetterType: Int], Never> {
+        let subject = PassthroughSubject<[LetterType: Int], Never>()
+        
+        let listener = db.collection("Writers")
+            .document(userId)
+            .collection(collectionName)
+            .whereField("isRead", isEqualTo: false)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    self.logger.error("Failed to get Count: \(error.localizedDescription)")
+                    subject.send([type: 0])
+                    return
+                }
+                
+                let count = querySnapshot?.documents.count ?? 0
+                subject.send([type: count])
+            }
+        
+        return subject
+            .handleEvents(receiveCancel: {
+                listener.remove()
+            })
+            .eraseToAnyPublisher()
     }
     
     func getWelcomeLetter(userId: String) async -> Result<Bool, any Error> {
