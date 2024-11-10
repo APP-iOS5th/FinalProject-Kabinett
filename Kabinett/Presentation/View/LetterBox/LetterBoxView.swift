@@ -9,12 +9,12 @@ import SwiftUI
 
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
-    
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
     @EnvironmentObject var letterBoxViewModel: LetterBoxViewModel
     @EnvironmentObject var calendarViewModel: CalendarViewModel
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $customTabViewModel.letterBoxNavigationPath) {
             ZStack {
                 Color.background
                     .ignoresSafeArea()
@@ -23,7 +23,7 @@ struct LetterBoxView: View {
                     ForEach(LetterType.allCases, id: \.self) { type in
                         let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                         
-                        NavigationLink(destination: LetterBoxDetailView()) {
+                        NavigationLink(value: type) {
                             LetterBoxCell(type: type, unreadCount: unreadCount)
                         }
                         .simultaneousGesture(TapGesture().onEnded {
@@ -37,6 +37,9 @@ struct LetterBoxView: View {
                     Spacer()
                     ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $letterBoxViewModel.showToast)
                 }
+            }
+            .navigationDestination(for: LetterType.self) { type in
+                LetterBoxDetailView()
             }
             .onAppear() {
                 withAnimation {

@@ -10,9 +10,10 @@ import Kingfisher
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: ProfileViewModel
+    @EnvironmentObject var customTabViewModel: CustomTabViewModel
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $customTabViewModel.profileNavigationPath) {
             Group {
                 if case .toLogin = viewModel.navigateState {
                     SignUpView()
@@ -20,13 +21,13 @@ struct ProfileView: View {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)
                         if viewModel.profileUpdateError != nil {
-//                            VStack {
-//                                Text("프로필을 불러오는 데 문제가 발생했어요.")
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.alert)
-//                                    .font(.headline)
-//                                    .padding()
-//                            }
+                            //                            VStack {
+                            //                                Text("프로필을 불러오는 데 문제가 발생했어요.")
+                            //                                    .fontWeight(.regular)
+                            //                                    .foregroundColor(.alert)
+                            //                                    .font(.headline)
+                            //                                    .padding()
+                            //                            }
                         } else {
                             VStack {
                                 if let image = viewModel.currentWriter.imageUrlString {
@@ -83,6 +84,10 @@ struct ProfileView: View {
             .navigationDestination(isPresented: $viewModel.showSettingsView) {
                 SettingsView()
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabTappedNotification)) { _ in
+            customTabViewModel.profileNavigationPath.removeLast(customTabViewModel.profileNavigationPath.count)
+            viewModel.resetToInitialState()
         }
     }
 }
