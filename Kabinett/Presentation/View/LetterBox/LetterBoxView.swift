@@ -11,17 +11,17 @@ struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
     
     @StateObject private var letterBoxViewModel: LetterBoxViewModel
+    @StateObject private var letterBoxDetailViewModel: LetterBoxDetailViewModel
+    
     @StateObject private var calendarViewModel = CalendarViewModel()
+    @StateObject private var searchBarViewModel = SearchBarViewModel()
     
     init() {
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
         _letterBoxViewModel = StateObject(wrappedValue: LetterBoxViewModel(letterBoxUseCase: letterBoxUseCase))
+        
+        _letterBoxDetailViewModel = StateObject(wrappedValue: LetterBoxDetailViewModel(letterBoxUseCase: letterBoxUseCase))
     }
-    
-    @State var startSearchFiltering: Bool = false
-    @State var showSearchBarView: Bool = false
-    @State var searchText: String = ""
-    @State var isTextFieldFocused: Bool = false
     
     var body: some View {
         ZStack {
@@ -34,8 +34,8 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(startSearchFiltering: $startSearchFiltering, showSearchBarView: $showSearchBarView, searchText: $searchText, isTextFieldFocused: $isTextFieldFocused)) {
-                                LetterBoxCell(type: type, unreadCount: unreadCount)
+                            NavigationLink(destination: LetterBoxDetailView(viewModel: letterBoxDetailViewModel, calendarViewModel: calendarViewModel, searchBarViewModel: searchBarViewModel)) {
+                                LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
                                 calendarViewModel.currentLetterType = type
@@ -61,24 +61,21 @@ struct LetterBoxView: View {
                         calendarViewModel.resetDateFiltering()
                     }
                     
-                    if startSearchFiltering {
-                        startSearchFiltering = false
-                        showSearchBarView = false
-                        searchText = ""
-                        isTextFieldFocused = false
+                    if searchBarViewModel.startSearchFiltering {
+                        searchBarViewModel.resetSearchFiltering()
                     }
                 }
             }
             .tint(.contentPrimary)
             
-            if showSearchBarView {
+            if searchBarViewModel.showSearchBarView {
                 VStack {
                     ZStack {
                         Color.clear
                             .background(Material.ultraThinMaterial)
                             .blur(radius: 1.5)
                         
-                        SearchBarView(searchText: $searchText, showSearchBarView: $showSearchBarView, startSearchFiltering: $startSearchFiltering, isTextFieldFocused: $isTextFieldFocused, letterType: calendarViewModel.currentLetterType)
+                        SearchBarView(viewModel: letterBoxDetailViewModel, searchBarViewModel: searchBarViewModel, letterType: calendarViewModel.currentLetterType)
                             .padding(.top, 30)
                             .zIndex(1)
                     }
@@ -88,8 +85,7 @@ struct LetterBoxView: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    // TODO: VM로 데이터 관리하면 키보드 내려가도록 재설정
-                    isTextFieldFocused = false
+                    searchBarViewModel.isTextFieldFocused = false
                 }
             }
         }

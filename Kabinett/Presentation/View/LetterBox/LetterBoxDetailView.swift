@@ -9,26 +9,15 @@ import SwiftUI
 import UIKit
 
 struct LetterBoxDetailView: View {
-    @StateObject var viewModel: LetterBoxDetailViewModel
+    @ObservedObject var viewModel: LetterBoxDetailViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var searchBarViewModel: SearchBarViewModel
     
     @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
     
-    @Binding var startSearchFiltering: Bool
-    @Binding var showSearchBarView: Bool
-    @Binding var searchText: String
-    @Binding var isTextFieldFocused: Bool
-    
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
-    }
-    
-    init(calendarViewModel: CalendarViewModel) {
-        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
-        _viewModel = StateObject(wrappedValue: LetterBoxDetailViewModel(letterBoxUseCase: letterBoxUseCase))
-        
-        self.calendarViewModel = calendarViewModel
     }
     
     var body: some View {
@@ -79,10 +68,10 @@ struct LetterBoxDetailView: View {
         .toolbar{ toolbarItems() }
         .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
-            if startSearchFiltering {
-                showSearchBarView = true
-                isTextFieldFocused = false
-                viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: calendarViewModel.currentLetterType)
+            if searchBarViewModel.startSearchFiltering {
+                searchBarViewModel.showSearchBarView = true
+                searchBarViewModel.isTextFieldFocused = false
+                viewModel.fetchSearchByKeyword(findKeyword: searchBarViewModel.searchText, letterType: calendarViewModel.currentLetterType)
             } else if calendarViewModel.startDateFiltering {
                 viewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
             } else {
@@ -90,7 +79,7 @@ struct LetterBoxDetailView: View {
             }
         }
         .onDisappear {
-            showSearchBarView = false
+            searchBarViewModel.showSearchBarView = false
         }
     }
     
@@ -99,7 +88,7 @@ struct LetterBoxDetailView: View {
         if viewModel.letterBoxDetailLetters.isEmpty {
             Spacer()
             
-            if startSearchFiltering || calendarViewModel.startDateFiltering {
+            if searchBarViewModel.startSearchFiltering || calendarViewModel.startDateFiltering {
                 Text("검색 결과가 없습니다.")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
@@ -153,9 +142,9 @@ struct LetterBoxDetailView: View {
                         calendarViewModel.resetDateFiltering()
                         viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }
-                    isTextFieldFocused = true
-                    startSearchFiltering.toggle()
-                    showSearchBarView.toggle()
+                    searchBarViewModel.isTextFieldFocused = true
+                    searchBarViewModel.startSearchFiltering.toggle()
+                    searchBarViewModel.showSearchBarView.toggle()
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
@@ -166,11 +155,8 @@ struct LetterBoxDetailView: View {
             
             Button {
                 withAnimation {
-                    if startSearchFiltering {
-                        searchText = ""
-                        startSearchFiltering = false
-                        showSearchBarView = false
-                        isTextFieldFocused = false
+                    if searchBarViewModel.startSearchFiltering {
+                        searchBarViewModel.resetSearchFiltering()
                         
                         viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
                     }

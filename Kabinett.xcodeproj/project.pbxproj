@@ -27,6 +27,7 @@
 		5329713E2C782D7A00E965B6 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5329713D2C782D7A00E965B6 /* Kingfisher */; };
 		534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterContentView.swift */; };
 		53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53573A472C8BF18A00BD69AF /* DragHelper.swift */; };
+		5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E0722CE16E630089C59F /* SearchBarViewModel.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
 		538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538150502C8AD5FB007B1E5A /* LayoutHelper.swift */; };
@@ -166,6 +167,7 @@
 		530C765B2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCaseStub.swift; sourceTree = "<group>"; };
 		534C67B62C7FF85700F0C175 /* LetterContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterContentView.swift; sourceTree = "<group>"; };
 		53573A472C8BF18A00BD69AF /* DragHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragHelper.swift; sourceTree = "<group>"; };
+		5358E0722CE16E630089C59F /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		538150502C8AD5FB007B1E5A /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
@@ -583,6 +585,7 @@
 				53972B9F2C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift */,
 				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
 				53A99EA82C81914B00896AAC /* CalendarViewModel.swift */,
+				5358E0722CE16E630089C59F /* SearchBarViewModel.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -963,6 +966,7 @@
 				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
 				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
+				5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
