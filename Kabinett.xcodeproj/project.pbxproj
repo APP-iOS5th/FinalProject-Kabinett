@@ -29,6 +29,7 @@
 		53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53573A472C8BF18A00BD69AF /* DragHelper.swift */; };
 		5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E0722CE16E630089C59F /* SearchBarViewModel.swift */; };
 		5358E0792CE1EC7E0089C59F /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E0782CE1EC7E0089C59F /* PhotoDetailView.swift */; };
+		5358E07B2CE1F0200089C59F /* ZoomableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E07A2CE1F0200089C59F /* ZoomableScrollView.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
 		538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538150502C8AD5FB007B1E5A /* LayoutHelper.swift */; };
@@ -170,6 +171,7 @@
 		53573A472C8BF18A00BD69AF /* DragHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragHelper.swift; sourceTree = "<group>"; };
 		5358E0722CE16E630089C59F /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
 		5358E0782CE1EC7E0089C59F /* PhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
+		5358E07A2CE1F0200089C59F /* ZoomableScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableScrollView.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		538150502C8AD5FB007B1E5A /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				53BB36412C8E943600E74A4D /* CustomStrokePathView.swift */,
 				53FC6B832C90204D00E7D9A8 /* CloseButtonView.swift */,
 				53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */,
+				5358E07A2CE1F0200089C59F /* ZoomableScrollView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -989,6 +992,7 @@
 				AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
+				5358E07B2CE1F0200089C59F /* ZoomableScrollView.swift in Sources */,
 				835684422CE0A43600120EC8 /* Module.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,

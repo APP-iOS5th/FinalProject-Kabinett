@@ -17,9 +17,11 @@ struct PhotoDetailView: View {
             Color.black
                 .edgesIgnoringSafeArea(.all)
             
-            KFImage(URL(string: photoUrl))
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            ZoomableScrollView {
+                KFImage(URL(string: photoUrl))
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
             
             VStack {
                 Spacer()
