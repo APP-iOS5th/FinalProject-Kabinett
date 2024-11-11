@@ -21,7 +21,7 @@ struct PreviewLetterView: View {
         imagePickerViewModel: ImagePickerViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
-       
+        
         _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
         self.customTabViewModel = customTabViewModel
@@ -35,7 +35,7 @@ struct PreviewLetterView: View {
             VStack {
                 Spacer()
                 WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: letterContent.postScript, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
-                .padding(.bottom,30)
+                    .padding(.bottom,30)
                 
                 VStack {
                     Text("편지가 완성되었어요.")

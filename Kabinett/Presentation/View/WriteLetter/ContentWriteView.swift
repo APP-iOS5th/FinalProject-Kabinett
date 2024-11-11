@@ -17,15 +17,15 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
-            letterContent: Binding<LetterWriteModel>,
-            imageViewModel: ImagePickerViewModel,
-            customTabViewModel: CustomTabViewModel
-        ) {
-            @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
-            self._letterContent = letterContent
-            self.imageViewModel = imageViewModel
-            self.customTabViewModel = customTabViewModel
-        }
+        letterContent: Binding<LetterWriteModel>,
+        imageViewModel: ImagePickerViewModel,
+        customTabViewModel: CustomTabViewModel
+    ) {
+        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
+        self._letterContent = letterContent
+        self.imageViewModel = imageViewModel
+        self.customTabViewModel = customTabViewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top) {
