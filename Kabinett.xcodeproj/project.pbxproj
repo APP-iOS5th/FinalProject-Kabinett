@@ -28,7 +28,6 @@
 		534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534C67B62C7FF85700F0C175 /* LetterContentView.swift */; };
 		53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53573A472C8BF18A00BD69AF /* DragHelper.swift */; };
 		5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E0722CE16E630089C59F /* SearchBarViewModel.swift */; };
-		5358E0752CE1AF100089C59F /* PhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5358E0742CE1AF100089C59F /* PhotoDetailView.swift */; };
 		5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5359618C2C7488DD0031E181 /* TransparentBlurView.swift */; };
 		535961912C74F5870031E181 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535961902C74F5870031E181 /* CalendarView.swift */; };
 		538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538150502C8AD5FB007B1E5A /* LayoutHelper.swift */; };
@@ -169,7 +168,6 @@
 		534C67B62C7FF85700F0C175 /* LetterContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterContentView.swift; sourceTree = "<group>"; };
 		53573A472C8BF18A00BD69AF /* DragHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragHelper.swift; sourceTree = "<group>"; };
 		5358E0722CE16E630089C59F /* SearchBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarViewModel.swift; sourceTree = "<group>"; };
-		5358E0742CE1AF100089C59F /* PhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailView.swift; sourceTree = "<group>"; };
 		5359618C2C7488DD0031E181 /* TransparentBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentBlurView.swift; sourceTree = "<group>"; };
 		535961902C74F5870031E181 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		538150502C8AD5FB007B1E5A /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
@@ -528,7 +526,6 @@
 				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
 				5300DA4D2C7EC2F9005F22EB /* LetterView.swift */,
 				534C67B62C7FF85700F0C175 /* LetterContentView.swift */,
-				5358E0742CE1AF100089C59F /* PhotoDetailView.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -976,7 +973,6 @@
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
-				5358E0752CE1AF100089C59F /* PhotoDetailView.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,

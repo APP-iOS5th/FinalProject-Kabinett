@@ -10,9 +10,6 @@ import Kingfisher
 
 struct LetterContentView: View {
     @State private var selectedIndex: Int = 0
-    @State private var isPhotoDetailPresented: Bool = false
-    @State private var selectedPhotoUrl: String?
-    
     var letter: Letter
     
     private var totalPageCount: Int {
@@ -22,41 +19,34 @@ struct LetterContentView: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.background
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        
-                        CloseButtonView { dismiss() }
-                    }
+        ZStack {
+            Color.background
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                HStack {
+                    Spacer()
                     
-                    GeometryReader { geometry in
-                        ZStack {
-                            ForEach(0..<max(totalPageCount, 1), id: \.self) { index in
-                                if index == selectedIndex || index == selectedIndex + 1 {
-                                    createPageView(index: index, geometry: geometry)
-                                        .offset(x: CGFloat(index - selectedIndex) * 10, y: CGFloat(index - selectedIndex) * 10)
-                                        .zIndex(index == selectedIndex ? 1 : 0)
-                                        .animation(.spring(), value: selectedIndex)
-                                }
+                    CloseButtonView { dismiss() }
+                }
+                
+                GeometryReader { geometry in
+                    ZStack {
+                        ForEach(0..<max(totalPageCount, 1), id: \.self) { index in
+                            if index == selectedIndex || index == selectedIndex + 1 {
+                                createPageView(index: index, geometry: geometry)
+                                    .offset(x: CGFloat(index - selectedIndex) * 10, y: CGFloat(index - selectedIndex) * 10)
+                                    .zIndex(index == selectedIndex ? 1 : 0)
+                                    .animation(.spring(), value: selectedIndex)
                             }
                         }
-                        .gesture(
-                            DragGesture()
-                                .onEnded { value in
-                                    DragHelper.handlePageChangeGesture(value: value, selectedIndex: &selectedIndex, totalPageCount: totalPageCount)
-                                }
-                        )
                     }
-                }
-            }
-            .navigationDestination(isPresented: $isPhotoDetailPresented) {
-                if let selectedPhotoUrl = selectedPhotoUrl {
-                    PhotoDetailView(photoUrl: selectedPhotoUrl)
+                    .gesture(
+                        DragGesture()
+                            .onEnded { value in
+                                DragHelper.handlePageChangeGesture(value: value, selectedIndex: &selectedIndex, totalPageCount: totalPageCount)
+                            }
+                    )
                 }
             }
         }
@@ -103,9 +93,5 @@ struct LetterContentView: View {
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
             .padding(.bottom, 30)
-            .onTapGesture {
-                selectedPhotoUrl = letter.photoContents[index]
-                isPhotoDetailPresented = true
-            }
     }
 }
