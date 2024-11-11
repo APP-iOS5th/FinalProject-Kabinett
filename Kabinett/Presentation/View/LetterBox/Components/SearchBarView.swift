@@ -9,11 +9,8 @@ import SwiftUI
 
 struct SearchBarView: View {
     @ObservedObject var viewModel: LetterBoxDetailViewModel
+    @ObservedObject var searchBarViewModel: SearchBarViewModel
     
-    @Binding var searchText: String
-    @Binding var showSearchBarView: Bool
-    
-    @Binding var isTextFieldFocused: Bool
     @FocusState private var textFieldFocused: Bool
     
     var letterType: LetterType
@@ -23,20 +20,20 @@ struct SearchBarView: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                     .tint(.black)
-                TextField("Search", text: $searchText)
+                TextField("Search", text: $searchBarViewModel.searchText)
                     .focused($textFieldFocused)
                     .textInputAutocapitalization(.never)
                     .onAppear {
-                        textFieldFocused = isTextFieldFocused
+                        textFieldFocused = searchBarViewModel.isTextFieldFocused
                     }
                     .onChange(of: textFieldFocused) { _, newValue in
-                        isTextFieldFocused = newValue
+                        searchBarViewModel.isTextFieldFocused = newValue
                     }
-                    .onChange(of: searchText) { _, newValue in
+                    .onChange(of: searchBarViewModel.searchText) { _, newValue in
                         if newValue.isEmpty {
                             viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                         } else {
-                            viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: letterType)
+                            viewModel.fetchSearchByKeyword(findKeyword: searchBarViewModel.searchText, letterType: letterType)
                         }
                     }
                     .foregroundStyle(.primary)
@@ -50,8 +47,7 @@ struct SearchBarView: View {
             
             Button(action: {
                 withAnimation {
-                    showSearchBarView = false
-                    self.searchText = ""
+                    searchBarViewModel.resetSearchFiltering()
                     viewModel.fetchLetterBoxDetailLetters(letterType: letterType)
                 }
             }) {

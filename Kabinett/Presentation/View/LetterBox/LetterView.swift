@@ -34,9 +34,6 @@ struct LetterView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                NavigationBarView(titleName: letterType.description, isColor: true) {}
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                
                 Spacer()
                 
                 ZStack(alignment: .trailing) {
@@ -76,13 +73,20 @@ struct LetterView: View {
                             }
                     )
                     .animation(.spring(), value: offset)
+                    .onChange(of: showDetailLetter) { _, newValue in
+                        if newValue {
+                            offset = 0
+                            showDeleteButton = false
+                        }
+                    }
                 }
                 
                 Spacer()
             }
         }
-        .slideToDismiss()
-        .navigationBarBackButtonHidden(true)
+        .navigationTitle(letterType.description)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
         .fullScreenCover(isPresented: $showDetailLetter) {
             LetterContentView(letter: letter)
         }

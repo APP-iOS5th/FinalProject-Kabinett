@@ -9,8 +9,6 @@ import SwiftUI
 import Kingfisher
 
 struct ContentRectangleView: View {
-    @StateObject var fontViewModel = FontSelectionViewModel()
-    
     var stationeryImageUrlString: String?
     var fromUserName: String
     var toUserName: String
@@ -46,11 +44,12 @@ struct ContentRectangleView: View {
                         .opacity(currentPageIndex == 0 ? 1 : 0)
                     
                     Text(letterContent.forceCharWrapping)
-                        .font(FontUtility.selectedFont(font: fontString, size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.015)))
+                        .font(FontUtility.selectedFont(font: fontString, size: FontUtility.fontSize(font: fontString)))
+                        .lineSpacing(FontUtility.lineSpacing(font: fontString))
+                        .kerning(FontUtility.kerning(font: fontString))
                         .foregroundStyle(.contentPrimary)
-                        .lineSpacing(8)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.top, 15)
+                        .padding(.top, 3)
                         .padding(.leading, 10)
                     
                     Spacer()

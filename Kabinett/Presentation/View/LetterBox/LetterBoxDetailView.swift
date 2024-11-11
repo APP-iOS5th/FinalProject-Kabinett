@@ -9,25 +9,15 @@ import SwiftUI
 import UIKit
 
 struct LetterBoxDetailView: View {
-    @StateObject var viewModel: LetterBoxDetailViewModel
+    @ObservedObject var viewModel: LetterBoxDetailViewModel
     @ObservedObject var calendarViewModel: CalendarViewModel
+    @ObservedObject var searchBarViewModel: SearchBarViewModel
     
     @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
     
-    @State var showSearchBarView: Bool = false
-    @State var searchText: String = ""
-    @State var isTextFieldFocused: Bool = false
-    
     private var xOffsets: [CGFloat] {
         return [-8, 10, 6, -2, 16]
-    }
-    
-    init(calendarViewModel: CalendarViewModel) {
-        @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
-        _viewModel = StateObject(wrappedValue: LetterBoxDetailViewModel(letterBoxUseCase: letterBoxUseCase))
-        
-        self.calendarViewModel = calendarViewModel
     }
     
     var body: some View {
@@ -36,28 +26,6 @@ struct LetterBoxDetailView: View {
                 .ignoresSafeArea()
             
             VStack {
-                if showSearchBarView {
-                    SearchBarView(viewModel: viewModel, searchText: $searchText, showSearchBarView: $showSearchBarView, isTextFieldFocused: $isTextFieldFocused, letterType: calendarViewModel.currentLetterType)
-                } else {
-                    NavigationBarView(titleName: calendarViewModel.currentLetterType.description, isColor: false, toolbarContent: {
-                        toolbarItems()
-                    }, backAction: {
-                        if calendarViewModel.startDateFiltering {
-                            calendarViewModel.startDateFiltering.toggle()
-                        }
-                    })
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                    .background(
-                        GeometryReader { geo in
-                            Color.clear
-                                .onAppear {
-                                    let height = geo.frame(in: .local).height
-                                    self.navigationBarHeight = height
-                                }
-                        }
-                    )
-                }
-                
                 if calendarViewModel.startDateFiltering {
                     CalendarBar(letterBoxDetailviewModel: viewModel, calendarViewModel: calendarViewModel)
                         .background(
@@ -94,29 +62,27 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .slideToDismiss(action: {
-            if calendarViewModel.startDateFiltering {
-                calendarViewModel.startDateFiltering.toggle()
-            }
-            
-            if showSearchBarView {
-                showSearchBarView.toggle()
-            }
-        })
+        .navigationTitle(viewModel.currentLetterType.description)
+        .toolbarTitleDisplayMode(.inline)
+        .toolbarRole(.editor)
+        .toolbar{ toolbarItems() }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .overlay(
             CalendarOverlayView(letterBoxDetailViewModel: viewModel, calendarViewModel: calendarViewModel)
         )
-        .navigationBarBackButtonHidden()
-        .ignoresSafeArea(.keyboard, edges: .bottom)
         .onAppear {
-            if showSearchBarView {
-                isTextFieldFocused = false
-                viewModel.fetchSearchByKeyword(findKeyword: searchText, letterType: calendarViewModel.currentLetterType)
+            if searchBarViewModel.startSearchFiltering {
+                searchBarViewModel.showSearchBarView = true
+                searchBarViewModel.isTextFieldFocused = false
+                viewModel.fetchSearchByKeyword(findKeyword: searchBarViewModel.searchText, letterType: viewModel.currentLetterType)
             } else if calendarViewModel.startDateFiltering {
-                viewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                viewModel.fetchSearchByDate(letterType: viewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
             } else {
-                viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
             }
+        }
+        .onDisappear {
+            searchBarViewModel.showSearchBarView = false
         }
     }
     
@@ -125,12 +91,12 @@ struct LetterBoxDetailView: View {
         if viewModel.letterBoxDetailLetters.isEmpty {
             Spacer()
             
-            if !searchText.isEmpty || calendarViewModel.startDateFiltering {
+            if searchBarViewModel.startSearchFiltering || calendarViewModel.startDateFiltering {
                 Text("검색 결과가 없습니다.")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             } else {
-                Text(calendarViewModel.currentLetterType.setEmptyMessage())
+                Text(viewModel.currentLetterType.setEmptyMessage())
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             }
@@ -142,7 +108,7 @@ struct LetterBoxDetailView: View {
             
             VStack(spacing: 25) {
                 ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
-                    NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                    NavigationLink(destination: LetterView(letterType: viewModel.currentLetterType, letter: letter)) {
                         LargeEnvelopeCell(letter: letter)
                     }
                 }
@@ -153,7 +119,7 @@ struct LetterBoxDetailView: View {
             ScrollView {
                 LazyVStack(spacing: -75) {
                     ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
-                        NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                        NavigationLink(destination: LetterView(letterType: viewModel.currentLetterType, letter: letter)) {
                             if idx < 2 {
                                 LargeEnvelopeCell(letter: letter)
                                     .padding(.bottom, idx == 0 ? 82 : 37)
@@ -176,31 +142,31 @@ struct LetterBoxDetailView: View {
             Button {
                 withAnimation {
                     if calendarViewModel.startDateFiltering {
-                        calendarViewModel.startDateFiltering = false
-                        calendarViewModel.startDate = Date()
-                        calendarViewModel.endDate = Date()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                        calendarViewModel.resetDateFiltering()
+                        viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
                     }
-                    showSearchBarView.toggle()
-                    isTextFieldFocused = true
+                    searchBarViewModel.isTextFieldFocused = true
+                    searchBarViewModel.startSearchFiltering.toggle()
+                    searchBarViewModel.showSearchBarView.toggle()
                 }
             } label: {
                 Image(systemName: "magnifyingglass")
                     .fontWeight(.medium)
-                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
-            .padding(.trailing, 5)
+            .padding(.trailing, -4)
             
             Button {
                 withAnimation {
-                    calendarViewModel.showCalendarView = true
-                    calendarViewModel.currentLetterType = calendarViewModel.currentLetterType
+                    if searchBarViewModel.startSearchFiltering {
+                        searchBarViewModel.resetSearchFiltering()
+                        viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
+                    }
+                    calendarViewModel.showCalendarView.toggle()
                 }
             } label: {
                 Image(systemName: "line.3.horizontal.decrease.circle")
                     .fontWeight(.medium)
-                    .font(.system(size: 19))
                     .foregroundStyle(.contentPrimary)
             }
         }
