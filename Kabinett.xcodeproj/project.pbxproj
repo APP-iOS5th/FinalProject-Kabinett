@@ -55,6 +55,12 @@
 		577157052C75DD9900E21162 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* ContentWriteViewModel.swift */; };
 		577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577C86722C8B8D5700EAB1BE /* Extension+View.swift */; };
+		578A35E02CE19F2000386A5C /* ServiceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35D82CE19F2000386A5C /* ServiceKeys.swift */; };
+		578A35E12CE19F2000386A5C /* UseCaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35D92CE19F2000386A5C /* UseCaseKeys.swift */; };
+		578A35E22CE19F2000386A5C /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DB2CE19F2000386A5C /* DIContainer.swift */; };
+		578A35E32CE19F2000386A5C /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DC2CE19F2000386A5C /* Injected.swift */; };
+		578A35E42CE19F2000386A5C /* InjectionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DD2CE19F2000386A5C /* InjectionKey.swift */; };
+		578A35E52CE19F2000386A5C /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DE2CE19F2000386A5C /* Module.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
 		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
 		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */; };
@@ -186,6 +192,12 @@
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		5771570A2C77071300E21162 /* ContentWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteViewModel.swift; sourceTree = "<group>"; };
 		577C86722C8B8D5700EAB1BE /* Extension+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+View.swift"; sourceTree = "<group>"; };
+		578A35D82CE19F2000386A5C /* ServiceKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceKeys.swift; sourceTree = "<group>"; };
+		578A35D92CE19F2000386A5C /* UseCaseKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseCaseKeys.swift; sourceTree = "<group>"; };
+		578A35DB2CE19F2000386A5C /* DIContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		578A35DC2CE19F2000386A5C /* Injected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		578A35DD2CE19F2000386A5C /* InjectionKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectionKey.swift; sourceTree = "<group>"; };
+		578A35DE2CE19F2000386A5C /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
 		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -338,6 +350,27 @@
 				577C86722C8B8D5700EAB1BE /* Extension+View.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		578A35DA2CE19F2000386A5C /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				578A35D82CE19F2000386A5C /* ServiceKeys.swift */,
+				578A35D92CE19F2000386A5C /* UseCaseKeys.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
+		578A35DF2CE19F2000386A5C /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				578A35DA2CE19F2000386A5C /* Keys */,
+				578A35DB2CE19F2000386A5C /* DIContainer.swift */,
+				578A35DC2CE19F2000386A5C /* Injected.swift */,
+				578A35DD2CE19F2000386A5C /* InjectionKey.swift */,
+				578A35DE2CE19F2000386A5C /* Module.swift */,
+			);
+			path = DIContainer;
 			sourceTree = "<group>";
 		};
 		57ED9CE12C7375AC00A4312C /* Font */ = {
@@ -620,6 +653,7 @@
 		838697C72C64B7FB00E76230 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				578A35DF2CE19F2000386A5C /* DIContainer */,
 				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
 			);
 			path = Application;
@@ -915,6 +949,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
+				578A35E42CE19F2000386A5C /* InjectionKey.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */,
 				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
@@ -925,6 +960,7 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
+				578A35E22CE19F2000386A5C /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
 				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
@@ -937,6 +973,7 @@
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
 				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
+				578A35E12CE19F2000386A5C /* UseCaseKeys.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
@@ -944,6 +981,7 @@
 				AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
+				578A35E52CE19F2000386A5C /* Module.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
 				57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */,
@@ -953,6 +991,7 @@
 				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
 				04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */,
 				53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */,
+				578A35E32CE19F2000386A5C /* Injected.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
@@ -990,6 +1029,7 @@
 				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
+				578A35E02CE19F2000386A5C /* ServiceKeys.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,

@@ -19,7 +19,7 @@ struct SettingsView: View {
         ZStack {
             Color.background.ignoresSafeArea(.all)
             VStack(alignment: .leading) {
-                NavigationLink(destination: ProfileSettingsView()) {
+                NavigationLink(destination: ProfileSettingsView(viewModel: viewModel)) {
                     HStack{
                         Text("프로필 설정")
                             .fontWeight(.medium)
@@ -38,7 +38,7 @@ struct SettingsView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: AccountSettingsView()) {
+                NavigationLink(destination: AccountSettingsView(viewModel: viewModel)) {
                     HStack{
                         Text("계정 설정")
                             .fontWeight(.medium)

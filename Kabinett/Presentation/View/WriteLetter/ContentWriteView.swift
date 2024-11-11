@@ -17,15 +17,15 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
-            letterContent: Binding<LetterWriteModel>,
-            imageViewModel: ImagePickerViewModel,
-            customTabViewModel: CustomTabViewModel
-        ) {
-            @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
-            self._letterContent = letterContent
-            self.imageViewModel = imageViewModel
-            self.customTabViewModel = customTabViewModel
-        }
+        letterContent: Binding<LetterWriteModel>,
+        imageViewModel: ImagePickerViewModel,
+        customTabViewModel: CustomTabViewModel
+    ) {
+        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
+        self._letterContent = letterContent
+        self.imageViewModel = imageViewModel
+        self.customTabViewModel = customTabViewModel
+    }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -33,26 +33,26 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            
-            VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EnvelopeStampSelectionView(
-                        letterContent: $letterContent,
-                        customTabViewModel: customTabViewModel,
-                        imageViewModel: imageViewModel
-                    )
-                    ) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
+            ZStack(alignment: .top) {
+                VStack {
+                    NavigationBarView(titleName: "", isColor: true) {
+                        NavigationLink(destination: EnvelopeStampSelectionView(
+                                                letterContent: $letterContent,
+                                                customTabViewModel: customTabViewModel,
+                                                imageViewModel: imageViewModel
+                                            )) {
+                            Text("다음")
+                                .fontWeight(.medium)
+                                .font(.system(size: 19))
+                                .foregroundStyle(.contentPrimary)
+                        }
                     }
                     .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     .onTapGesture {
                         UIApplication.shared.endEditing()
                     }
                     
-                    ScrollableLetterView(letterContent: $letterContent, currentIndex: $viewModel.currentIndex)
+                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
                     
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
                 }
@@ -87,8 +87,8 @@ struct ContentWriteView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.3/3)
                     }
                     Button {
-                        customViewModel.showPhotoLibrary = true
-                        customViewModel.isLetterWrite = true
+                        customTabViewModel.showPhotoLibrary = true
+                        customTabViewModel.isLetterWrite = true
                     } label: {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))
