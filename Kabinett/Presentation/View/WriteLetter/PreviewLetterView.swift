@@ -33,11 +33,7 @@ struct PreviewLetterView: View {
             Color(.background).ignoresSafeArea()
             
             VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EmptyView()) {}
-                }
-                .padding(.bottom, UIScreen.main.bounds.height * 0.3)
-                
+                Spacer()
                 GeometryReader { geo in
                     ZStack(alignment: .topLeading) {
                         KFImage(URL(string: letterContent.envelopeImageUrlString))
@@ -142,8 +138,6 @@ struct PreviewLetterView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .slideToDismiss()
-        .navigationBarBackButtonHidden()
         .ignoresSafeArea(.keyboard)
     }
 }

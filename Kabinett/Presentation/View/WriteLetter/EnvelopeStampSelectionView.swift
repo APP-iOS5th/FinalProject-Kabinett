@@ -43,40 +43,6 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                if letterContent.dataSource == .fromImagePicker {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: LetterCompletionView(
-                            letterContent: $letterContent,
-                            viewModel: imageViewModel, 
-                            customTabViewModel: customTabViewModel,
-                            envelopeStampSelectionViewModel: viewModel
-                        )) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .padding(.bottom, 25)
-                } else {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: PreviewLetterView(
-                            letterContent: $letterContent,
-                            customTabViewModel: customTabViewModel,
-                            imagePickerViewModel: imageViewModel
-                        )) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    .padding(.bottom, 25)
-                }
-                
                 VStack {
                     GeometryReader { geo in
                         ZStack(alignment: .topLeading) {
@@ -172,7 +138,6 @@ struct EnvelopeStampSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .slideToDismiss()
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
@@ -196,7 +161,36 @@ struct EnvelopeStampSelectionView: View {
             imageViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
             letterContent.stampImageUrlString = newValue
         }
-        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("봉투와 우표 고르기")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if letterContent.dataSource == .fromImagePicker {
+                    NavigationLink(destination: LetterCompletionView(
+                        letterContent: $letterContent,
+                        viewModel: imageViewModel,
+                        customTabViewModel: customTabViewModel,
+                        envelopeStampSelectionViewModel: viewModel
+                    )) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                } else {
+                    NavigationLink(destination: PreviewLetterView(
+                        letterContent: $letterContent,
+                        customTabViewModel: customTabViewModel,
+                        imagePickerViewModel: imageViewModel
+                    )) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
+            }
+        }
         .ignoresSafeArea(.keyboard)
     }
 }

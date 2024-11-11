@@ -35,23 +35,6 @@ struct ContentWriteView: View {
                 }
             
             VStack {
-                NavigationBarView(titleName: "", isColor: true) {
-                    NavigationLink(destination: EnvelopeStampSelectionView(
-                        letterContent: $letterContent,
-                        customTabViewModel: customTabViewModel,
-                        imageViewModel: imageViewModel
-                    )
-                    ) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
-                }
-                .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
                 HStack(alignment: .center) {
                     Button {
                         viewModel.createNewLetter(idx: viewModel.currentIndex)
@@ -100,7 +83,20 @@ struct ContentWriteView: View {
                 Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
             }
         }
-        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: EnvelopeStampSelectionView(
+                    letterContent: $letterContent,
+                    customTabViewModel: customTabViewModel,
+                    imageViewModel: imageViewModel
+                )) {
+                    Text("다음")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundStyle(.contentPrimary)
+                }
+            }
+        }
         .ignoresSafeArea(.keyboard)
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
