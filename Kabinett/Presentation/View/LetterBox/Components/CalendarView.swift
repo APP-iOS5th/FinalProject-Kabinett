@@ -39,7 +39,7 @@ struct CalendarView: View {
                             calendarViewModel.endDate = selectedEndDate
                             calendarViewModel.showCalendarView.toggle()
                             
-                            letterBoxDetailviewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                            letterBoxDetailviewModel.fetchSearchByDate(letterType: letterBoxDetailviewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
                             
                             if !calendarViewModel.startDateFiltering {
                                 calendarViewModel.startDateFiltering.toggle()
@@ -221,7 +221,7 @@ struct CalendarBar: View {
                 Button(action: {
                     withAnimation {
                         calendarViewModel.resetDateFiltering()
-                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: letterBoxDetailviewModel.currentLetterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")

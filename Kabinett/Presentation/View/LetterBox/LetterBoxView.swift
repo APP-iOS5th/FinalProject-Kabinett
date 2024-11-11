@@ -38,7 +38,7 @@ struct LetterBoxView: View {
                                 LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
-                                calendarViewModel.currentLetterType = type
+                                letterBoxDetailViewModel.currentLetterType = type
                             })
                         }
                     }
@@ -75,7 +75,7 @@ struct LetterBoxView: View {
                             .background(Material.ultraThinMaterial)
                             .blur(radius: 1.5)
                         
-                        SearchBarView(viewModel: letterBoxDetailViewModel, searchBarViewModel: searchBarViewModel, letterType: calendarViewModel.currentLetterType)
+                        SearchBarView(viewModel: letterBoxDetailViewModel, searchBarViewModel: searchBarViewModel, letterType: letterBoxDetailViewModel.currentLetterType)
                             .padding(.top, 30)
                             .zIndex(1)
                     }

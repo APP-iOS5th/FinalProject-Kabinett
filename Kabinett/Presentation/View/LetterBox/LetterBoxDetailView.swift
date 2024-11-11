@@ -62,7 +62,7 @@ struct LetterBoxDetailView: View {
                 .padding(.bottom, 20)
             }
         }
-        .navigationTitle(calendarViewModel.currentLetterType.description)
+        .navigationTitle(viewModel.currentLetterType.description)
         .toolbarTitleDisplayMode(.inline)
         .toolbarRole(.editor)
         .toolbar{ toolbarItems() }
@@ -74,11 +74,11 @@ struct LetterBoxDetailView: View {
             if searchBarViewModel.startSearchFiltering {
                 searchBarViewModel.showSearchBarView = true
                 searchBarViewModel.isTextFieldFocused = false
-                viewModel.fetchSearchByKeyword(findKeyword: searchBarViewModel.searchText, letterType: calendarViewModel.currentLetterType)
+                viewModel.fetchSearchByKeyword(findKeyword: searchBarViewModel.searchText, letterType: viewModel.currentLetterType)
             } else if calendarViewModel.startDateFiltering {
-                viewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                viewModel.fetchSearchByDate(letterType: viewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
             } else {
-                viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
             }
         }
         .onDisappear {
@@ -96,7 +96,7 @@ struct LetterBoxDetailView: View {
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             } else {
-                Text(calendarViewModel.currentLetterType.setEmptyMessage())
+                Text(viewModel.currentLetterType.setEmptyMessage())
                     .font(.system(size: 16, weight: .bold))
                     .foregroundStyle(.contentPrimary)
             }
@@ -108,7 +108,7 @@ struct LetterBoxDetailView: View {
             
             VStack(spacing: 25) {
                 ForEach(viewModel.letterBoxDetailLetters, id: \.id) { letter in
-                    NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                    NavigationLink(destination: LetterView(letterType: viewModel.currentLetterType, letter: letter)) {
                         LargeEnvelopeCell(letter: letter)
                     }
                 }
@@ -119,7 +119,7 @@ struct LetterBoxDetailView: View {
             ScrollView {
                 LazyVStack(spacing: -75) {
                     ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
-                        NavigationLink(destination: LetterView(letterType: calendarViewModel.currentLetterType, letter: letter)) {
+                        NavigationLink(destination: LetterView(letterType: viewModel.currentLetterType, letter: letter)) {
                             if idx < 2 {
                                 LargeEnvelopeCell(letter: letter)
                                     .padding(.bottom, idx == 0 ? 82 : 37)
@@ -143,7 +143,7 @@ struct LetterBoxDetailView: View {
                 withAnimation {
                     if calendarViewModel.startDateFiltering {
                         calendarViewModel.resetDateFiltering()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                        viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
                     }
                     searchBarViewModel.isTextFieldFocused = true
                     searchBarViewModel.startSearchFiltering.toggle()
@@ -160,7 +160,7 @@ struct LetterBoxDetailView: View {
                 withAnimation {
                     if searchBarViewModel.startSearchFiltering {
                         searchBarViewModel.resetSearchFiltering()
-                        viewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                        viewModel.fetchLetterBoxDetailLetters(letterType: viewModel.currentLetterType)
                     }
                     calendarViewModel.showCalendarView.toggle()
                 }
