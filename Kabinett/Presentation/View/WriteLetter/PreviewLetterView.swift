@@ -34,61 +34,7 @@ struct PreviewLetterView: View {
             
             VStack {
                 Spacer()
-                GeometryReader { geo in
-                    ZStack(alignment: .topLeading) {
-                        KFImage(URL(string: letterContent.envelopeImageUrlString))
-                            .placeholder {
-                                ProgressView()
-                            }
-                            .resizable()
-                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                        
-                        VStack {
-                            HStack(alignment: .top) {
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("보내는 사람")
-                                        .font(.system(size: 7))
-                                    Text(letterContent.fromUserName)
-                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
-                                }
-                                
-                                Spacer()
-                                
-                                KFImage(URL(string: letterContent.stampImageUrlString))
-                                    .placeholder {
-                                        ProgressView()
-                                    }
-                                    .resizable()
-                                    .aspectRatio(9/9.7, contentMode: .fit)
-                                    .frame(width: geo.size.width * 0.12)
-                            }
-                            
-                            Spacer()
-                            
-                            HStack(alignment: .top) {
-                                VStack {
-                                    Text(letterContent.postScript ?? "")
-                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
-                                        .frame(width: geo.size.width * 0.43, alignment: .leading)
-                                }
-                                
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("받는 사람")
-                                        .font(.system(size: 7))
-                                    Text(letterContent.toUserName)
-                                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
-                                }
-                                .padding(.top, -1)
-                                .padding(.leading, geo.size.width * 0.1)
-                                
-                                Spacer()
-                            }
-                            .padding(.top, -1)
-                        }
-                        .padding(geo.size.height * 0.16)
-                    }
-                }
-                .aspectRatio(9/4, contentMode: .fit)
+                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: letterContent.postScript, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
                 .padding(.bottom,30)
                 
                 VStack {
