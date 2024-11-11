@@ -105,6 +105,7 @@ struct ContentWriteView: View {
                 .clipShape(Capsule())
                 .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                 .padding(.top, 35)
+
             }
         }
         .navigationBarBackButtonHidden()

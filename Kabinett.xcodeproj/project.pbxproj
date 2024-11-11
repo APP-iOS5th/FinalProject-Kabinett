@@ -98,6 +98,12 @@
 		7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
 		832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */; };
+		8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684352CE0A43600120EC8 /* ServiceKeys.swift */; };
+		8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684362CE0A43600120EC8 /* UseCaseKeys.swift */; };
+		8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684382CE0A43600120EC8 /* DIContainer.swift */; };
+		835684402CE0A43600120EC8 /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 835684392CE0A43600120EC8 /* Injected.swift */; };
+		835684412CE0A43600120EC8 /* InjectionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356843A2CE0A43600120EC8 /* InjectionKey.swift */; };
+		835684422CE0A43600120EC8 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8356843B2CE0A43600120EC8 /* Module.swift */; };
 		839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F62C644BEF003635F3 /* KabinettApp.swift */; };
 		839CE0F92C644BEF003635F3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839CE0F82C644BEF003635F3 /* ContentView.swift */; };
 		839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 839CE0FD2C644BF0003635F3 /* Preview Assets.xcassets */; };
@@ -236,6 +242,12 @@
 		7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterWritingView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
 		832C72662C71CF7B0071E8D0 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
+		835684352CE0A43600120EC8 /* ServiceKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceKeys.swift; sourceTree = "<group>"; };
+		835684362CE0A43600120EC8 /* UseCaseKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseCaseKeys.swift; sourceTree = "<group>"; };
+		835684382CE0A43600120EC8 /* DIContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		835684392CE0A43600120EC8 /* Injected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
+		8356843A2CE0A43600120EC8 /* InjectionKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectionKey.swift; sourceTree = "<group>"; };
+		8356843B2CE0A43600120EC8 /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProfileUseCase.swift; sourceTree = "<group>"; };
 		839CE0F32C644BEF003635F3 /* Kabinett.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Kabinett.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		839CE0F62C644BEF003635F3 /* KabinettApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettApp.swift; sourceTree = "<group>"; };
@@ -484,6 +496,27 @@
 			path = SignUpUseCase;
 			sourceTree = "<group>";
 		};
+		835684372CE0A43600120EC8 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				835684352CE0A43600120EC8 /* ServiceKeys.swift */,
+				835684362CE0A43600120EC8 /* UseCaseKeys.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
+		8356843C2CE0A43600120EC8 /* DIContainer */ = {
+			isa = PBXGroup;
+			children = (
+				835684372CE0A43600120EC8 /* Keys */,
+				835684382CE0A43600120EC8 /* DIContainer.swift */,
+				835684392CE0A43600120EC8 /* Injected.swift */,
+				8356843A2CE0A43600120EC8 /* InjectionKey.swift */,
+				8356843B2CE0A43600120EC8 /* Module.swift */,
+			);
+			path = DIContainer;
+			sourceTree = "<group>";
+		};
 		8366B6EF2C65ECC50021FAE0 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -653,7 +686,7 @@
 		838697C72C64B7FB00E76230 /* Application */ = {
 			isa = PBXGroup;
 			children = (
-				578A35DF2CE19F2000386A5C /* DIContainer */,
+				8356843C2CE0A43600120EC8 /* DIContainer */,
 				839CE0F62C644BEF003635F3 /* KabinettApp.swift */,
 			);
 			path = Application;
@@ -949,7 +982,7 @@
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				577156FD2C7584E000E21162 /* NavigationBarView.swift in Sources */,
-				578A35E42CE19F2000386A5C /* InjectionKey.swift in Sources */,
+				835684412CE0A43600120EC8 /* InjectionKey.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */,
 				53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */,
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
@@ -960,7 +993,7 @@
 				57ED9CD52C70E4A400A4312C /* FontSelectionView.swift in Sources */,
 				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
-				578A35E22CE19F2000386A5C /* DIContainer.swift in Sources */,
+				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
 				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
@@ -973,7 +1006,7 @@
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
 				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
-				578A35E12CE19F2000386A5C /* UseCaseKeys.swift in Sources */,
+				8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
@@ -981,7 +1014,7 @@
 				AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
-				578A35E52CE19F2000386A5C /* Module.swift in Sources */,
+				835684422CE0A43600120EC8 /* Module.swift in Sources */,
 				83A826CD2C6F2D23006FB09B /* ProfileUseCase.swift in Sources */,
 				7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */,
 				57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */,
@@ -991,7 +1024,7 @@
 				04DEC0FA2C75863700D289EA /* CropBox.swift in Sources */,
 				04DEC0F22C6E18EE00D289EA /* ProfileViewModel.swift in Sources */,
 				53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */,
-				578A35E32CE19F2000386A5C /* Injected.swift in Sources */,
+				835684402CE0A43600120EC8 /* Injected.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
@@ -1029,7 +1062,7 @@
 				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
-				578A35E02CE19F2000386A5C /* ServiceKeys.swift in Sources */,
+				8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,
