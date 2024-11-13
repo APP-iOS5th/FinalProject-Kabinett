@@ -26,7 +26,9 @@ struct PhotoDetailView: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    savePhotoToAlbum()
+                    Task {
+                        await savePhotoToAlbum()
+                    }
                 }) {
                     Image(systemName: "square.and.arrow.down")
                         .font(.system(size: 20, weight: .medium))
@@ -54,16 +56,18 @@ struct PhotoDetailView: View {
         .navigationBarBackButtonHidden()
     }
     
-    func savePhotoToAlbum() {
+    func savePhotoToAlbum() async {
         guard let url = URL(string: photoUrl) else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-                }
+        
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            if let image = UIImage(data: data) {
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
             } else {
-                print("사진을 불러오지 못했습니다.", error?.localizedDescription ?? "알 수 없는 오류")
+                print("이미지 변환에 실패했습니다.")
             }
-        }.resume()
+        } catch {
+            print("사진을 불러오지 못했습니다.", error.localizedDescription)
+        }
     }
 }
