@@ -33,57 +33,61 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            
-            VStack {
-                HStack(alignment: .center) {
-                    Button {
-                        if viewModel.texts.count > 1 {
-                            viewModel.isDeleteAlertPresented = true
-                        }
-                    } label: {
-                        Image("PageMinus")
-                            .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.3/3)
-                    }
-                    .alert(isPresented: $viewModel.isDeleteAlertPresented) {
-                        Alert(
-                            title: Text("Delete Page"),
-                            message: Text("현재 페이지를 삭제하시겠습니까?"),
-                            primaryButton: .destructive(Text("삭제")) {
-                                viewModel.deleteLetter(idx: viewModel.currentIndex)
-                            },
-                            secondaryButton: .cancel(Text("취소")) {
-                                viewModel.isDeleteAlertPresented = false
-                            }
-                        )
-                    }
-                    Button {
-                        viewModel.createNewLetter(idx: viewModel.currentIndex)
-                    } label: {
-                        Image(systemName: "doc.badge.plus")
-                            .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.3/3)
-                    }
-                    Button {
-                        customTabViewModel.showPhotoLibrary = true
-                        customTabViewModel.isLetterWrite = true
-                    } label: {
-                        Image(systemName: "photo.on.rectangle.angled")
-                            .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.3/3, height: 30)
-                            .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
-                            .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
-                            .clipShape(Capsule())
-                            .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 5, x: 3, y: 3)
-                    }
+            ZStack(alignment: .top) {
+                VStack {
+                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
+                    
+                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
                 }
+                    HStack(alignment: .center) {
+                        Button {
+                            if viewModel.texts.count > 1 {
+                                viewModel.isDeleteAlertPresented = true
+                            }
+                        } label: {
+                            Image("PageMinus")
+                                .font(.system(size: 15))
+                                .frame(width: UIScreen.main.bounds.width * 0.3/3)
+                        }
+                        .alert(isPresented: $viewModel.isDeleteAlertPresented) {
+                            Alert(
+                                title: Text("Delete Page"),
+                                message: Text("현재 페이지를 삭제하시겠습니까?"),
+                                primaryButton: .destructive(Text("삭제")) {
+                                    viewModel.deleteLetter(idx: viewModel.currentIndex)
+                                },
+                                secondaryButton: .cancel(Text("취소")) {
+                                    viewModel.isDeleteAlertPresented = false
+                                }
+                            )
+                        }
+                        Button {
+                            viewModel.createNewLetter(idx: viewModel.currentIndex)
+                        } label: {
+                            Image(systemName: "doc.badge.plus")
+                                .font(.system(size: 15))
+                                .frame(width: UIScreen.main.bounds.width * 0.3/3)
+                        }
+                        Button {
+                            customTabViewModel.showPhotoLibrary = true
+                            customTabViewModel.isLetterWrite = true
+                        } label: {
+                            Image(systemName: "photo.on.rectangle.angled")
+                                .font(.system(size: 15))
+                                .frame(width: UIScreen.main.bounds.width * 0.3/3, height: 30)
+                                .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
+                                .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                                .clipShape(Capsule())
+                                .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
+                        }
+                    }
                 .frame(maxWidth: UIScreen.main.bounds.width * 0.45, maxHeight: 40)
                 .foregroundStyle(Color("ToolBarIcon"))
                 .background(Color(.primary100))
                 .clipShape(Capsule())
                 .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                .padding(.top, 35)
-
+                .padding(.top, -10)
+                
             }
         }
         .toolbar {
