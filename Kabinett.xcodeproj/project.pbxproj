@@ -49,6 +49,7 @@
 		53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B872C9020C100E7D9A8 /* Extension+String.swift */; };
 		53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B892C90221600E7D9A8 /* LetterHelper.swift */; };
 		57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* ContentWriteView.swift */; };
+		5753E0A02CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */; };
 		577156F32C74624C00E21162 /* SourceHanSerifK-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */; };
 		577156F52C7462E300E21162 /* MaruBuriot-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */; };
 		577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */; };
@@ -197,6 +198,7 @@
 		53FC6B872C9020C100E7D9A8 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		53FC6B892C90221600E7D9A8 /* LetterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterHelper.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* ContentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteView.swift; sourceTree = "<group>"; };
+		5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterEnvelopeCell.swift; sourceTree = "<group>"; };
 		577156F22C74624C00E21162 /* SourceHanSerifK-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Bold.otf"; sourceTree = "<group>"; };
 		577156F42C7462E300E21162 /* MaruBuriot-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Bold.otf"; sourceTree = "<group>"; };
 		577156F62C746A7C00E21162 /* MaruBuriot-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MaruBuriot-Regular.otf"; sourceTree = "<group>"; };
@@ -572,6 +574,7 @@
 		8366B6F32C65ECE60021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
+				5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */,
 				577156FC2C7584E000E21162 /* NavigationBarView.swift */,
 				57966B9F2C7EC452008D650B /* SelectionTabView.swift */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */,
@@ -1076,6 +1079,7 @@
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
 				8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
+				5753E0A02CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift in Sources */,
 				839CE0F72C644BEF003635F3 /* KabinettApp.swift in Sources */,
 				53573A482C8BF18A00BD69AF /* DragHelper.swift in Sources */,
 				04DEC0FC2C7D96BC00D289EA /* ImageCropper.swift in Sources */,

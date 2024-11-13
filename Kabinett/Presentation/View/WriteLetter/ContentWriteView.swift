@@ -33,30 +33,8 @@ struct ContentWriteView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
-            ZStack(alignment: .top) {
-                VStack {
-                    NavigationBarView(titleName: "", isColor: true) {
-                        NavigationLink(destination: EnvelopeStampSelectionView(
-                                                letterContent: $letterContent,
-                                                customTabViewModel: customTabViewModel,
-                                                imageViewModel: imageViewModel
-                                            )) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    
-                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
-                    
-                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
-                }
-                
+            
+            VStack {
                 HStack(alignment: .center) {
                     Button {
                         if viewModel.texts.count > 1 {
@@ -108,7 +86,20 @@ struct ContentWriteView: View {
 
             }
         }
-        .navigationBarBackButtonHidden()
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: EnvelopeStampSelectionView(
+                    letterContent: $letterContent,
+                    customTabViewModel: customTabViewModel,
+                    imageViewModel: imageViewModel
+                )) {
+                    Text("다음")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundStyle(.contentPrimary)
+                }
+            }
+        }
         .ignoresSafeArea(.keyboard)
         .onChange(of: imageViewModel.selectedItems) { _, newValue in
             Task { @MainActor in
