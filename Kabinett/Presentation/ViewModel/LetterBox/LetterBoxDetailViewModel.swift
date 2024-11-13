@@ -28,6 +28,8 @@ class LetterBoxDetailViewModel: ObservableObject {
     @Published var letterBoxDetailLetters: [Letter] = []
     @Published var errorMessage: String?
     
+    @Published var currentLetterType: LetterType = .all
+    
     func fetchLetterBoxDetailLetters(letterType: LetterType) {
         letterBoxUseCase.getLetterBoxDetailLetters(letterType: letterType)
             .receive(on: DispatchQueue.main)

@@ -55,7 +55,7 @@ struct KabinettApp: App {
                             renderingMode: .alwaysOriginal
                         )
                         .withAlignmentRectInsets(
-                            UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
+                            UIEdgeInsets(top: 0, left: -13, bottom: 0, right: 0)
                         )
                     appearance.setBackIndicatorImage(image, transitionMaskImage: image)
 

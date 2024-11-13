@@ -21,22 +21,6 @@ struct FontSelectionView: View {
                 }
             
             VStack(alignment: .leading) {
-                NavigationBarView(titleName: "서체 고르기", isColor: true) {
-                    NavigationLink(destination: ContentWriteView(
-                        letterContent: $letterContent,
-                        imageViewModel: imageViewModel,
-                        customTabViewModel: customViewModel
-                    )) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
-                }
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
-                
                 List {
                     ForEach(0..<viewModel.dummyFonts.count, id: \.self) { i in
                         VStack {
@@ -109,8 +93,22 @@ struct FontSelectionView: View {
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .navigationBarBackButtonHidden()
-        .slideToDismiss()
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("서체 고르기")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink(destination: ContentWriteView(
+                    letterContent: $letterContent,
+                    imageViewModel: imageViewModel,
+                    customTabViewModel: customViewModel
+                )) {
+                    Text("다음")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundStyle(.contentPrimary)
+                }
+            }
+        }
     }
 }
 

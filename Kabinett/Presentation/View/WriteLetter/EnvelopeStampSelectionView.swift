@@ -43,136 +43,41 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                if letterContent.dataSource == .fromImagePicker {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: LetterCompletionView(
-                            letterContent: $letterContent,
-                            viewModel: imageViewModel, 
-                            customTabViewModel: customTabViewModel,
-                            envelopeStampSelectionViewModel: viewModel
-                        )) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .padding(.bottom, 25)
-                } else {
-                    NavigationBarView(titleName: "봉투와 우표 고르기", isColor: true) {
-                        NavigationLink(destination: PreviewLetterView(
-                            letterContent: $letterContent,
-                            customTabViewModel: customTabViewModel,
-                            imagePickerViewModel: imageViewModel
-                        )) {
-                            Text("다음")
-                                .fontWeight(.medium)
-                                .font(.system(size: 19))
-                                .foregroundStyle(.contentPrimary)
-                        }
-                    }
-                    .onTapGesture {
-                        UIApplication.shared.endEditing()
-                    }
-                    .padding(.bottom, 25)
-                }
-                
-                VStack {
-                    GeometryReader { geo in
-                        ZStack(alignment: .topLeading) {
-                            if let firstEnvelope = viewModel.envelopes.first {
-                                KFImage(URL(string: envelopeImageUrl))
-                                    .placeholder {
-                                        ProgressView()
-                                    }
-                                    .resizable()
-                                    .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                    .onAppear {
-                                        if letterContent.envelopeImageUrlString.isEmpty {
-                                            envelopeImageUrl = firstEnvelope
-                                        }
-                                        letterContent.envelopeImageUrlString = envelopeImageUrl
-                                    }
-                            }
-                            
-                            VStack {
-                                HStack(alignment: .top) {
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("보내는 사람")
-                                            .font(.system(size: 7))
-                                        Text(letterContent.fromUserName)
-                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
-                                    }
-                                    
-                                    Spacer()
-                                    
-                                    if let firstStamp = viewModel.stamps.first {
-                                        KFImage(URL(string: stampImageUrl))
-                                            .placeholder {
-                                                ProgressView()
-                                            }
-                                            .resizable()
-                                            .aspectRatio(9/9.7, contentMode: .fit)
-                                            .frame(width: geo.size.width * 0.12)
-                                            .onAppear {
-                                                if letterContent.stampImageUrlString.isEmpty {
-                                                    stampImageUrl = firstStamp
-                                                }
-                                                letterContent.stampImageUrlString = stampImageUrl
-                                            }
-                                    }
-                                }
-                                
-                                Spacer()
-                                
-                                HStack(alignment: .top) {
-                                    VStack {
-                                        Text(text)
-                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 10))
-                                            .frame(width: geo.size.width * 0.43, alignment: .leading)
-                                    }
-                                    
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text("받는 사람")
-                                            .font(.system(size: 7))
-                                        Text(letterContent.toUserName)
-                                            .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
-                                    }
-                                    .padding(.top, -1)
-                                    .padding(.leading, geo.size.width * 0.1)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.top, -1)
-                            }
-                            .padding((geo.size.height * 0.16))
-                        }
-                    }
-                    .aspectRatio(9/4, contentMode: .fit)
+                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: letterContent.postScript, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
+                    .padding(.top, 10)
                     .padding(.bottom, 50)
-                    
-                    VStack(alignment: .leading) {
-                        Text("봉투에 적을 내용")
-                            .font(.system(size: 13))
-                            .padding(.bottom, 1)
-                        TextField("최대 15글자를 적을 수 있어요.", text: $text)
-                            .maxLength(text: $text, 15)
-                            .padding(.leading, 6)
-                            .font(.system(size: 14))
-                            .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
-                            .background(Color.white)
-                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                            .onChange(of: text) {
-                                letterContent.postScript = text
-                            }
+                    .onChange(of: viewModel.envelopes) {
+                        if letterContent.envelopeImageUrlString.isEmpty {
+                            envelopeImageUrl = viewModel.envelopes[0]
+                        }
                     }
-                    .padding(.bottom, 30)
+                    .onChange(of: viewModel.stamps) {
+                        if letterContent.stampImageUrlString.isEmpty {
+                            stampImageUrl = viewModel.stamps[0]
+                        }
+                    }
+                
+                VStack(alignment: .leading) {
+                    Text("봉투에 적을 내용")
+                        .font(.system(size: 13))
+                        .padding(.bottom, 1)
+                    TextField("최대 15글자를 적을 수 있어요.", text: $text)
+                        .maxLength(text: $text, 15)
+                        .padding(.leading, 6)
+                        .font(.system(size: 14))
+                        .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
+                        .background(Color.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 5))
+                        .onChange(of: text) {
+                            letterContent.postScript = text
+                        }
                 }
+                .padding(.bottom, 30)
+                
                 SelectionTabView(envelopeStampSelectionViewModel: viewModel, letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
-        .slideToDismiss()
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
@@ -196,7 +101,36 @@ struct EnvelopeStampSelectionView: View {
             imageViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
             letterContent.stampImageUrlString = newValue
         }
-        .navigationBarBackButtonHidden()
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("봉투와 우표 고르기")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                if letterContent.dataSource == .fromImagePicker {
+                    NavigationLink(destination: LetterCompletionView(
+                        letterContent: $letterContent,
+                        viewModel: imageViewModel,
+                        customTabViewModel: customTabViewModel,
+                        envelopeStampSelectionViewModel: viewModel
+                    )) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                } else {
+                    NavigationLink(destination: PreviewLetterView(
+                        letterContent: $letterContent,
+                        customTabViewModel: customTabViewModel,
+                        imagePickerViewModel: imageViewModel
+                    )) {
+                        Text("다음")
+                            .fontWeight(.medium)
+                            .font(.system(size: 19))
+                            .foregroundStyle(.contentPrimary)
+                    }
+                }
+            }
+        }
         .ignoresSafeArea(.keyboard)
     }
 }
