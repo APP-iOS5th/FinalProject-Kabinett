@@ -37,20 +37,13 @@ struct ContentWriteView: View {
             VStack {
                 HStack(alignment: .center) {
                     Button {
-                        viewModel.createNewLetter(idx: viewModel.currentIndex)
-                    } label: {
-                        Image(systemName: "plus.square")
-                            .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
-                    }
-                    Button {
                         if viewModel.texts.count > 1 {
                             viewModel.isDeleteAlertPresented = true
                         }
                     } label: {
-                        Image(systemName: "minus.square")
+                        Image("PageMinus")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.3/3)
                     }
                     .alert(isPresented: $viewModel.isDeleteAlertPresented) {
                         Alert(
@@ -65,22 +58,32 @@ struct ContentWriteView: View {
                         )
                     }
                     Button {
+                        viewModel.createNewLetter(idx: viewModel.currentIndex)
+                    } label: {
+                        Image(systemName: "doc.badge.plus")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width * 0.3/3)
+                    }
+                    Button {
                         customTabViewModel.showPhotoLibrary = true
                         customTabViewModel.isLetterWrite = true
                     } label: {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width/3)
+                            .frame(width: UIScreen.main.bounds.width * 0.3/3, height: 30)
+                            .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
+                            .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                            .clipShape(Capsule())
+                            .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 5, x: 3, y: 3)
                     }
                 }
-                .frame(maxWidth: UIScreen.main.bounds.width * 0.88, maxHeight: 40)
-                .foregroundStyle(letterContent.photoContents.isEmpty ? Color(.primary900) : Color.white)
-                .background(letterContent.photoContents.isEmpty ? Color(.primary300) : Color(.primary900))
+                .frame(maxWidth: UIScreen.main.bounds.width * 0.45, maxHeight: 40)
+                .foregroundStyle(Color("ToolBarIcon"))
+                .background(Color(.primary100))
                 .clipShape(Capsule())
-                
-                ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
-                
-                Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
+                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                .padding(.top, 35)
+
             }
         }
         .toolbar {

@@ -10,7 +10,6 @@ import PhotosUI
 
 struct CustomTabView: View {
     @StateObject private var customTabViewModel = CustomTabViewModel()
-    @StateObject private var calendarViewModel: CalendarViewModel
     @StateObject private var profileViewModel: ProfileViewModel
     @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @StateObject private var imagePickerViewModel: ImagePickerViewModel
@@ -23,7 +22,6 @@ struct CustomTabView: View {
         @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
         
         self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel())
-        self._calendarViewModel = StateObject(wrappedValue: CalendarViewModel())
         self._profileViewModel = StateObject(wrappedValue: ProfileViewModel(profileUseCase: profileUseCase))
         self._envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
         self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))

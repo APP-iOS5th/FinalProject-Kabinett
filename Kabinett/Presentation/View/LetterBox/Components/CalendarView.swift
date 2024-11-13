@@ -39,7 +39,7 @@ struct CalendarView: View {
                             calendarViewModel.endDate = selectedEndDate
                             calendarViewModel.showCalendarView.toggle()
                             
-                            letterBoxDetailviewModel.fetchSearchByDate(letterType: calendarViewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
+                            letterBoxDetailviewModel.fetchSearchByDate(letterType: letterBoxDetailviewModel.currentLetterType, startDate: calendarViewModel.startDate, endDate: calendarViewModel.endDate)
                             
                             if !calendarViewModel.startDateFiltering {
                                 calendarViewModel.startDateFiltering.toggle()
@@ -188,7 +188,6 @@ struct CalendarOverlayView: View {
                 CalendarView(letterBoxDetailviewModel: letterBoxDetailViewModel, 
                              calendarViewModel: calendarViewModel)
                     .cornerRadius(20)
-                    .padding(.top, 32)
             }
         }
     }
@@ -206,7 +205,7 @@ struct CalendarBar: View {
                         .font(.system(size: UIScreen.main.bounds.width * 0.042))
                     
                     Text("\(formattedDate(date: calendarViewModel.startDate))부터 \(formattedDate(date: calendarViewModel.endDate))까지")
-                        .font(.system(size: UIScreen.main.bounds.width * 0.037))
+                        .font(.system(size: UIScreen.main.bounds.width * 0.036))
                         .foregroundStyle(.contentSecondary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     
@@ -221,10 +220,8 @@ struct CalendarBar: View {
                 
                 Button(action: {
                     withAnimation {
-                        calendarViewModel.startDateFiltering.toggle()
-                        calendarViewModel.startDate = Date()
-                        calendarViewModel.endDate = Date()
-                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: calendarViewModel.currentLetterType)
+                        calendarViewModel.resetDateFiltering()
+                        letterBoxDetailviewModel.fetchLetterBoxDetailLetters(letterType: letterBoxDetailviewModel.currentLetterType)
                     }
                 }) {
                     Image(systemName: "xmark.circle.fill")
