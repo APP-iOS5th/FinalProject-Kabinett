@@ -59,12 +59,6 @@
 		577157052C75DD9900E21162 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F172C69DB1300A7C569 /* Writer.swift */; };
 		5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5771570A2C77071300E21162 /* ContentWriteViewModel.swift */; };
 		577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577C86722C8B8D5700EAB1BE /* Extension+View.swift */; };
-		578A35E02CE19F2000386A5C /* ServiceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35D82CE19F2000386A5C /* ServiceKeys.swift */; };
-		578A35E12CE19F2000386A5C /* UseCaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35D92CE19F2000386A5C /* UseCaseKeys.swift */; };
-		578A35E22CE19F2000386A5C /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DB2CE19F2000386A5C /* DIContainer.swift */; };
-		578A35E32CE19F2000386A5C /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DC2CE19F2000386A5C /* Injected.swift */; };
-		578A35E42CE19F2000386A5C /* InjectionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DD2CE19F2000386A5C /* InjectionKey.swift */; };
-		578A35E52CE19F2000386A5C /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578A35DE2CE19F2000386A5C /* Module.swift */; };
 		57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */; };
 		57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B992C7D8B45008D650B /* Extension+Date.swift */; };
 		57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */; };
@@ -206,12 +200,6 @@
 		577157002C75D73700E21162 /* Extension+UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+UIApplication.swift"; sourceTree = "<group>"; };
 		5771570A2C77071300E21162 /* ContentWriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteViewModel.swift; sourceTree = "<group>"; };
 		577C86722C8B8D5700EAB1BE /* Extension+View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+View.swift"; sourceTree = "<group>"; };
-		578A35D82CE19F2000386A5C /* ServiceKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceKeys.swift; sourceTree = "<group>"; };
-		578A35D92CE19F2000386A5C /* UseCaseKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UseCaseKeys.swift; sourceTree = "<group>"; };
-		578A35DB2CE19F2000386A5C /* DIContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
-		578A35DC2CE19F2000386A5C /* Injected.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Injected.swift; sourceTree = "<group>"; };
-		578A35DD2CE19F2000386A5C /* InjectionKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectionKey.swift; sourceTree = "<group>"; };
-		578A35DE2CE19F2000386A5C /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionView.swift; sourceTree = "<group>"; };
 		57966B992C7D8B45008D650B /* Extension+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Date.swift"; sourceTree = "<group>"; };
 		57966B9B2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeStampSelectionViewModel.swift; sourceTree = "<group>"; };
@@ -371,27 +359,6 @@
 				577C86722C8B8D5700EAB1BE /* Extension+View.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		578A35DA2CE19F2000386A5C /* Keys */ = {
-			isa = PBXGroup;
-			children = (
-				578A35D82CE19F2000386A5C /* ServiceKeys.swift */,
-				578A35D92CE19F2000386A5C /* UseCaseKeys.swift */,
-			);
-			path = Keys;
-			sourceTree = "<group>";
-		};
-		578A35DF2CE19F2000386A5C /* DIContainer */ = {
-			isa = PBXGroup;
-			children = (
-				578A35DA2CE19F2000386A5C /* Keys */,
-				578A35DB2CE19F2000386A5C /* DIContainer.swift */,
-				578A35DC2CE19F2000386A5C /* Injected.swift */,
-				578A35DD2CE19F2000386A5C /* InjectionKey.swift */,
-				578A35DE2CE19F2000386A5C /* Module.swift */,
-			);
-			path = DIContainer;
 			sourceTree = "<group>";
 		};
 		57ED9CE12C7375AC00A4312C /* Font */ = {
@@ -1252,7 +1219,7 @@
 				CODE_SIGN_ENTITLEMENTS = Kabinett/Kabinett.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Kabinett/Preview Content\"";
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
@@ -1293,7 +1260,7 @@
 				CODE_SIGN_ENTITLEMENTS = Kabinett/Kabinett.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"Kabinett/Preview Content\"";
 				DEVELOPMENT_TEAM = 59FP2PXRXK;
 				ENABLE_PREVIEWS = YES;
