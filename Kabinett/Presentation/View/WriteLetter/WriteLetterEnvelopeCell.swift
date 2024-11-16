@@ -16,14 +16,14 @@ struct WriteLetterEnvelopeCell: View {
             ZStack {
                 VStack {
                     HStack(alignment: .top) {
-                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002, forOthers: 0.002)) {
+                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002 * 1.1, forOthers: 0.002 * 1.1)) {
                             Text("보내는 사람")
-                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.009, forOthers: 0.008)))
+                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.009 * 1.1, forOthers: 0.008 * 1.1)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.fromUserName)
-                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.018, forOthers: 0.017)))
+                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.018 * 1.1, forOthers: 0.017 * 1.1)))
                                 .foregroundStyle(.contentPrimary)
-                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.62, forOthers: 0.62), alignment: .leading)
+                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.57 * 1.1, forOthers: 0.57 * 1.1), alignment: .leading)
                         }
                         
                         KFImage(URL(string: letter.stampImageUrlString))
@@ -31,30 +31,36 @@ struct WriteLetterEnvelopeCell: View {
                                 Color.clear
                             }
                             .resizable()
-                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.1, forOthers: 0.1), height: LayoutHelper.shared.getSize(forSE: 0.06, forOthers: 0.052))
+                            .frame(
+                                width: LayoutHelper.shared.getWidth(forSE: 0.09 * 1.1, forOthers: 0.09 * 1.1),
+                                height: LayoutHelper.shared.getSize(forSE: 0.053 * 1.1, forOthers: 0.046 * 1.1)
+                            )
                             .aspectRatio(contentMode: .fit)
                     }
-                    .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.03))
+                    .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.035 * 1.1, forOthers: 0.03 * 1.1))
                     
                     HStack(alignment: .top) {
                         Text(letter.postScript ?? "")
-                            .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012, forOthers: 0.012)))
+                            .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012 * 1.1, forOthers: 0.012 * 1.1)))
                             .foregroundStyle(.contentPrimary)
-                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.44, forOthers: 0.44), alignment: .leading)
+                            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.4 * 1.1, forOthers: 0.4 * 1.1), alignment: .leading)
                         
-                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002, forOthers: 0.002)) {
+                        VStack(alignment: .leading, spacing: LayoutHelper.shared.getSize(forSE: 0.002 * 1.1, forOthers: 0.002 * 1.1)) {
                             Text("받는 사람")
-                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.008, forOthers: 0.008)))
+                                .font(.custom("SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.008 * 1.1, forOthers: 0.008 * 1.1)))
                                 .foregroundStyle(.contentPrimary)
                             Text(letter.toUserName)
-                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.017, forOthers: 0.017)))
+                                .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.017 * 1.1, forOthers: 0.017 * 1.1)))
                                 .foregroundStyle(.contentPrimary)
-                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.29, forOthers: 0.29), alignment: .leading)
+                                .frame(maxWidth: LayoutHelper.shared.getWidth(forSE: 0.26 * 1.1, forOthers: 0.26 * 1.1), alignment: .leading)
                         }
                     }
                 }
             }
-            .frame(width: LayoutHelper.shared.getWidth(forSE: 0.88, forOthers: 0.88), height: LayoutHelper.shared.getSize(forSE: 0.22, forOthers: 0.19))
+            .frame(
+                width: LayoutHelper.shared.getWidth(forSE: 0.8 * 1.1, forOthers: 0.8 * 1.1),
+                height: LayoutHelper.shared.getSize(forSE: 0.2 * 1.1, forOthers: 0.17 * 1.1)
+            )
             .background(
                 RoundedRectangle(cornerRadius: 2)
                     .fill(Color.clear)
@@ -66,4 +72,5 @@ struct WriteLetterEnvelopeCell: View {
             )
         }
     }
+
 }
