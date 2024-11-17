@@ -33,14 +33,6 @@ struct LetterWritingView: View {
                 UIApplication.shared.endEditing()
             }
             .navigationBarItems(
-                leading: Button(action: {
-                    letterContent.reset()
-                    viewModel.resetSelections()
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.contentPrimary)
-                },
                 trailing: Button(action: {
                     updateLetterWrite()
                     dismiss()
@@ -52,10 +44,6 @@ struct LetterWritingView: View {
                         .foregroundColor(.contentPrimary)
                 }
             )
-        }
-        .slideToDismiss {
-            viewModel.resetSelections()
-            dismiss()
         }
         .task {
             await viewModel.fetchCurrentWriter()
