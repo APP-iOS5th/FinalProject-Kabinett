@@ -12,8 +12,11 @@ import Kingfisher
 struct ProfileView: View {
     //
     @StateObject private var viewModel: ProfileViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     
-    init() {
+    init(customTabViewModel: CustomTabViewModel) {
+        self.customTabViewModel = customTabViewModel
+        
         @Injected(ProfileUseCaseKey.self)
         var profileUseCase: ProfileUseCase
         
@@ -23,7 +26,7 @@ struct ProfileView: View {
     }
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $customTabViewModel.profileNavigationPath) {
             Group {
                 if case .toLogin = viewModel.navigateState {
                     SignUpView()
@@ -31,13 +34,13 @@ struct ProfileView: View {
                     ZStack {
                         Color.background.ignoresSafeArea(.all)
                         if viewModel.profileUpdateError != nil {
-//                            VStack {
-//                                Text("프로필을 불러오는 데 문제가 발생했어요.")
-//                                    .fontWeight(.regular)
-//                                    .foregroundColor(.alert)
-//                                    .font(.headline)
-//                                    .padding()
-//                            }
+                            //                            VStack {
+                            //                                Text("프로필을 불러오는 데 문제가 발생했어요.")
+                            //                                    .fontWeight(.regular)
+                            //                                    .foregroundColor(.alert)
+                            //                                    .font(.headline)
+                            //                                    .padding()
+                            //                            }
                         } else {
                             VStack {
                                 if let image = viewModel.currentWriter.imageUrlString {
@@ -94,6 +97,9 @@ struct ProfileView: View {
             .navigationDestination(isPresented: $viewModel.showSettingsView) {
                 SettingsView(viewModel: viewModel)
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.resetProfileNavigationNotification)) { _ in
+            viewModel.showSettingsView = false
         }
     }
 }
