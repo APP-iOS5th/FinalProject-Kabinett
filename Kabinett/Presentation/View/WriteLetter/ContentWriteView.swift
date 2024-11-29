@@ -52,7 +52,7 @@ struct ContentWriteView: View {
                     .alert(isPresented: $viewModel.isDeleteAlertPresented) {
                         Alert(
                             title: Text("Delete Page"),
-                            message: Text("현재 페이지를 삭제하시겠습니까?"),
+                            message: Text("현재 페이지를 지우시겠어요?"),
                             primaryButton: .destructive(Text("삭제")) {
                                 viewModel.deleteLetter(idx: viewModel.currentIndex)
                             },
