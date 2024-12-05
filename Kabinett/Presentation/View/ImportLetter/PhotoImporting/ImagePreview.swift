@@ -52,21 +52,26 @@ struct ImagePreview: View {
                     .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 }
             }
-            .navigationBarItems(leading: Button(action: {
-                imageViewModel.resetSelections()
-                dismiss()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    if customViewModel.isLetterWrite == false {
-                        customViewModel.showImportDialog = true
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    imageViewModel.resetSelections()
+                    customViewModel.showImagePreview = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        customViewModel.showPhotoLibrary = true
                     }
+                }) {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.contentPrimary)
                 }
-            }) {
-                Image(systemName: "chevron.left")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundColor(.primary900)
-            })
-            .fullScreenCover(isPresented: $showDetailView) {
-                ImageDetailView(images: imageViewModel.photoContents, showDetailView: $showDetailView)
+            )
+            .background(Color.background.edgesIgnoringSafeArea(.all))
+            .navigationDestination(isPresented: $showDetailView) {
+                ImageDetailView(
+                    images: imageViewModel.photoContents,
+                    showDetailView: $showDetailView
+                )
             }
             .sheet(isPresented: $showLetterWritingView) {
                 LetterWritingView(
@@ -77,7 +82,6 @@ struct ImagePreview: View {
                     showEnvelopeStamp: $navigateToEnvelopeStamp
                 )
             }
-            .background(Color.background.edgesIgnoringSafeArea(.all))
             .navigationDestination(isPresented: $navigateToEnvelopeStamp) {
                 EnvelopeStampSelectionView(
                     letterContent: $letterContent,
@@ -86,11 +90,10 @@ struct ImagePreview: View {
                 )
             }
         }
-        .slideToDismiss {
+        .onDisappear {
             imageViewModel.resetSelections()
-            dismiss()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if customViewModel.isLetterWrite == false {
+            if !customViewModel.isLetterWrite && !customViewModel.letterBoxNavigationPath.isEmpty {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     customViewModel.showImportDialog = true
                 }
             }

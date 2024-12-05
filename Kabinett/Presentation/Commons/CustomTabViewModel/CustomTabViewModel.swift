@@ -52,7 +52,7 @@ final class CustomTabViewModel: ObservableObject {
     func handleTabSelection(_ tab: Int) {
         if tab == selectedTab {
             if tab == 2 {
-                NotificationCenter.default.post(name: CustomTabViewModel.resetProfileNavigationNotification, object: nil)
+                NotificationCenter.default.post(name: CustomTabViewModel.profileTabTappedNotification, object: nil)
             }
             if tab == 0 {
                 letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
@@ -63,11 +63,17 @@ final class CustomTabViewModel: ObservableObject {
             }
         } else {
             selectedTab = tab
-            if tab == 0 {
-                letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
-            } else if tab == 2 {
-                profileNavigationPath.removeLast(profileNavigationPath.count)
-            }
+        }
+    }
+    
+    private func resetNavigationForTab(_ tab: Int) {
+        switch tab {
+        case 0:
+            letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
+        case 2:
+            profileNavigationPath.removeLast(profileNavigationPath.count)
+        default:
+            break
         }
     }
     

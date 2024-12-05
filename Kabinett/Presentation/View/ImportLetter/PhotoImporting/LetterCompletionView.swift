@@ -31,27 +31,12 @@ struct LetterCompletionView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton)
         .onAppear {
             Task {
                 await viewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeURL = viewModel.envelopeURL ?? letterContent.envelopeImageUrlString
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
             }
-        }
-        .slideToDismiss {
-            dismiss()
-        }
-    }
-    
-    private var backButton: some View {
-        Button(action: {
-            dismiss()
-        }) {
-            Image(systemName: "chevron.left")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.primary900)
         }
     }
     
