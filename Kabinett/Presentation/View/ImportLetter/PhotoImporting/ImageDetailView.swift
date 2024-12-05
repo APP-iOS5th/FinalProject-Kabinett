@@ -44,14 +44,9 @@ struct ImageDetailView: View {
                 }
                 .padding()
             }
-            .navigationBarItems(leading: Button(action: { showDetailView = false }) {
-                Image(systemName: "chevron.left")
-                    .foregroundStyle(Color.contentPrimary)
-            })
             .background(Color.background.edgesIgnoringSafeArea(.all))
-        }
-        .slideToDismiss {
-            showDetailView = false
+            .navigationTitle("")
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
