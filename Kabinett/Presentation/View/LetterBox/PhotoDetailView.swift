@@ -10,6 +10,9 @@ import Kingfisher
 
 struct PhotoDetailView: View {
     let photoUrl: String
+    let savedColor = Color(UIColor(red: 95/255, green: 239/255, blue: 155/255, alpha: 1))
+    
+    @State private var isPhotoSaved: Bool = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
@@ -26,15 +29,24 @@ struct PhotoDetailView: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    Task {
-                        await savePhotoToAlbum()
+                    if !isPhotoSaved {
+                        Task {
+                            await savePhotoToAlbum()
+                        }
                     }
                 }) {
-                    Image(systemName: "square.and.arrow.down")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundStyle(.white)
+                    ZStack {
+                        Circle()
+                            .fill(isPhotoSaved ? savedColor : .contentPrimary)
+                            .frame(width: isPhotoSaved ? 35 : 37)
+                        
+                        Image(systemName: isPhotoSaved ? "checkmark" : "square.and.arrow.down")
+                            .font(.system(size: 20, weight: .medium))
+                            .foregroundStyle(isPhotoSaved ? .black : .white)
+                            .padding(.bottom, isPhotoSaved ? 0 : 5)
+                    }
                 }
-                .padding(.bottom, 30)
+                .padding(.bottom, 10)
             }
             
             VStack {
@@ -43,10 +55,16 @@ struct PhotoDetailView: View {
                     Button(action: {
                         dismiss()
                     }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 22, weight: .medium))
-                            .foregroundStyle(.white)
-                            .padding(.trailing, 4)
+                        ZStack {
+                            Circle()
+                                .fill(.contentPrimary)
+                                .frame(width: 31, height: 31)
+                            
+                            Image(systemName: "xmark")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(.white)
+                        }
+                        .padding(.trailing, 4)
                     }
                     .padding()
                 }
@@ -63,6 +81,7 @@ struct PhotoDetailView: View {
             let (data, _) = try await URLSession.shared.data(from: url)
             if let image = UIImage(data: data) {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+                isPhotoSaved = true
             } else {
                 print("이미지 변환에 실패했습니다.")
             }
