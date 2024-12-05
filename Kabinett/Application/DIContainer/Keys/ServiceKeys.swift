@@ -23,8 +23,12 @@ struct FirestoreWriterManagerKey: InjectionKey {
     typealias Value = FirestoreWriterManager
 }
 
-struct FirestoreLetterManagerKey: InjectionKey {
-    typealias Value = FirestoreLetterManager
+struct FirestoreLetterWriteManagerKey: InjectionKey {
+    typealias Value = FirestoreLetterWriteManager
+}
+
+struct FirestoreLetterBoxManagerKey: InjectionKey {
+    typealias Value = FirestoreLetterBoxManager
 }
 
 struct FirestorageWriterManagerKey: InjectionKey {

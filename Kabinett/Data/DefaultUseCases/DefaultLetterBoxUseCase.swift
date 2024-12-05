@@ -11,11 +11,11 @@ import os
 
 final class DefaultLetterBoxUseCase {
     private let logger: Logger
-    private let letterManager: FirestoreLetterManager
+    private let letterManager: FirestoreLetterBoxManager
     private let authManager: AuthManager
     
     init(
-        letterManager: FirestoreLetterManager,
+        letterManager: FirestoreLetterBoxManager,
         authManager: AuthManager
     ) {
         self.logger = Logger(
