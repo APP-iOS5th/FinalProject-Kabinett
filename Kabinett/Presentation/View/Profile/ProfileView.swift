@@ -98,7 +98,7 @@ struct ProfileView: View {
                 SettingsView(viewModel: viewModel)
             }
         }
-        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.resetProfileNavigationNotification)) { _ in
+        .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabTappedNotification)) { _ in
             viewModel.showSettingsView = false
         }
     }

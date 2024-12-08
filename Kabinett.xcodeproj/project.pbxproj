@@ -126,9 +126,10 @@
 		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
+		AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */; };
 		AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */; };
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
-		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */; };
+		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
 		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
@@ -269,8 +270,9 @@
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLetterUseCase.swift; sourceTree = "<group>"; };
-		AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterManager.swift; sourceTree = "<group>"; };
+		AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterBoxManager.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
+		AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterWriteManager.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
@@ -416,7 +418,8 @@
 			children = (
 				83F0D6842C705E42001B8733 /* AuthManager.swift */,
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
-				AFA58F252C6AE33D00A7C569 /* FirestoreLetterManager.swift */,
+				AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */,
+				AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */,
 				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
 				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
 			);
@@ -958,7 +961,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */,
-				AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterManager.swift in Sources */,
+				AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */,
+				AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,

@@ -20,7 +20,7 @@ final class CustomTabViewModel: ObservableObject {
     @Published var isLetterWrite: Bool = false
     @Published var previousTab: Int?
     
-    static let resetProfileNavigationNotification = Notification.Name("resetProfileNavigation")
+    static let profileTabTappedNotification = Notification.Name("profileTabTappedNotification")
     
     private var lastTabSelectionTime: Date?
     private let doubleTapInterval: TimeInterval = 0.2

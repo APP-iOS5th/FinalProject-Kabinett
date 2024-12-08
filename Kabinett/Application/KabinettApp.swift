@@ -58,7 +58,7 @@ struct KabinettApp: App {
                             UIEdgeInsets(top: 0, left: -13, bottom: 0, right: 0)
                         )
                     appearance.setBackIndicatorImage(image, transitionMaskImage: image)
-
+                    
                     UINavigationBar.appearance().standardAppearance = appearance
                     UINavigationBar.appearance().scrollEdgeAppearance = appearance
                     UINavigationBar.appearance().compactAppearance = appearance
@@ -86,8 +86,11 @@ struct KabinettApp: App {
             Module(FirestoreWriterManagerKey.self) {
                 FirestoreWriterManager()
             }
-            Module(FirestoreLetterManagerKey.self) {
-                FirestoreLetterManager()
+            Module(FirestoreLetterWriteManagerKey.self) {
+                FirestoreLetterWriteManager()
+            }
+            Module(FirestoreLetterBoxManagerKey.self) {
+                FirestoreLetterBoxManager()
             }
         }
         
@@ -109,8 +112,11 @@ struct KabinettApp: App {
         @Injected(FirestoreWriterManagerKey.self)
         var firestoreWriterManager: FirestoreWriterManager
         
-        @Injected(FirestoreLetterManagerKey.self)
-        var firestoreLetterManager: FirestoreLetterManager
+        @Injected(FirestoreLetterWriteManagerKey.self)
+        var firestoreLetterWriteManager: FirestoreLetterWriteManager
+        
+        @Injected(FirestoreLetterBoxManagerKey.self)
+        var firestoreLetterBoxManager: FirestoreLetterBoxManager
         
         @Injected(FirestorageWriterManagerKey.self)
         var firestorageWriterManager: FirestorageWriterManager
@@ -136,13 +142,13 @@ struct KabinettApp: App {
                 DefaultWriteLetterUseCase(
                     authManager: authManager,
                     writerManager: firestoreWriterManager,
-                    letterManager: firestoreLetterManager,
+                    letterManager: firestoreLetterWriteManager,
                     letterStorageManager: firestorageLetterManager
                 )
             }
             Module(LetterBoxUseCaseKey.self) {
                 DefaultLetterBoxUseCase(
-                    letterManager: firestoreLetterManager,
+                    letterManager: firestoreLetterBoxManager,
                     authManager: authManager
                 )
             }
@@ -150,7 +156,7 @@ struct KabinettApp: App {
                 DefaultImportLetterUseCase(
                     authManager: authManager,
                     writerManager: firestoreWriterManager,
-                    letterManager: firestoreLetterManager,
+                    letterManager: firestoreLetterWriteManager,
                     letterStorageManager: firestorageLetterManager
                 )
             }
