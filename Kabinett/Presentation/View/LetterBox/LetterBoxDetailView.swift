@@ -17,7 +17,7 @@ struct LetterBoxDetailView: View {
     @State private var calendarBarHeight: CGFloat = 0
     
     private var xOffsets: [CGFloat] {
-        return [-8, 10, 6, -2, 16]
+        return [-8, 0, 7, -10, 16]
     }
     
     var body: some View {
@@ -127,7 +127,8 @@ struct LetterBoxDetailView: View {
                                 LargeEnvelopeCell(letter: letter)
                                     .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                     .zIndex(Double(idx))
-                                    .padding(.bottom, idx % 3 == 1 ? 37 : 0)
+                                    .padding(.bottom, 48)
+                                    .padding(.bottom, idx == viewModel.letterBoxDetailLetters.count - 1 ? 75 : 0)
                             }
                         }
                     }
