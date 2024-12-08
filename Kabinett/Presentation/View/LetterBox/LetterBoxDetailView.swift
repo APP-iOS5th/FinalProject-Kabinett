@@ -128,7 +128,6 @@ struct LetterBoxDetailView: View {
                                     .offset(x: xOffsets[idx % xOffsets.count], y: CGFloat(idx * 5))
                                     .zIndex(Double(idx))
                                     .padding(.bottom, 48)
-                                    .padding(.bottom, idx == viewModel.letterBoxDetailLetters.count - 1 ? 35 : 0)
                             }
                         }
                     }
