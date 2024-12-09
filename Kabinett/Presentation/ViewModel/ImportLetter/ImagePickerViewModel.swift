@@ -68,12 +68,12 @@ final class ImagePickerViewModel: ObservableObject {
             
             if isAnonymous {
                 toUserName = "나"
-                toUserId = nil
+                toUserId = fromUserId
                 toUserKabinettNumber = nil
             } else {
-                toUserName = fromUser.name
-                toUserId = fromUser.id
-                toUserKabinettNumber = fromUser.kabinettNumber
+                toUserName = toUserName
+                toUserId = toUserId
+                toUserKabinettNumber = toUserKabinettNumber
             }
         }
     }
@@ -258,7 +258,6 @@ final class ImagePickerViewModel: ObservableObject {
         if fromUserId == nil || fromUserKabinettNumber == nil {
             await fetchCurrentWriter()
         }
-        print("Saving postScript in ViewModel: \(postScript ?? "nil")")
         
         let result = await componentsUseCase.saveLetter(
             postScript: postScript,
