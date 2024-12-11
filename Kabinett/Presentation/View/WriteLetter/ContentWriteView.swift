@@ -234,7 +234,7 @@ struct CustomTextEditor: UIViewRepresentable {
     var lineSpacing: CGFloat
     var kerning: CGFloat
     
-    let maxCharacterLimit: Int = 427
+    let maxCharacterLimit: Int = 397
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
