@@ -44,12 +44,12 @@ struct ContentRectangleView: View {
                         .opacity(currentPageIndex == 0 ? 1 : 0)
                     
                     Text(letterContent.forceCharWrapping)
-                        .font(FontUtility.selectedFont(font: fontString, size: FontUtility.fontSize(font: fontString)))
                         .lineSpacing(FontUtility.lineSpacing(font: fontString))
                         .kerning(FontUtility.kerning(font: fontString))
                         .foregroundStyle(.contentPrimary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, screenHeight * 0.01)
+                        .font(Font(FontUtility.selectedUIFont(font: fontString, size: FontUtility.fontSize(font: fontString))))
                     
                     Spacer()
                     
@@ -59,8 +59,6 @@ struct ContentRectangleView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .padding(.bottom, screenHeight * 0.00001)
                         .opacity(currentPageIndex == max(totalPages - 1, 0) ? 1 : 0)
-                    
-                    let _ = print("날짜와 이름 간격 : \(screenHeight * 0.00001)")
                     
                     Text(fromUserName)
                         .font(FontUtility.selectedFont(font: fontString, size: 14))
