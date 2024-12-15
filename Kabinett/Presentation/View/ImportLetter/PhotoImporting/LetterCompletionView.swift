@@ -5,6 +5,7 @@
 //  Created by 김정우 on 8/20/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 import Kingfisher
 
@@ -38,6 +39,13 @@ struct LetterCompletionView: View {
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     private var letterPreviewView: some View {
