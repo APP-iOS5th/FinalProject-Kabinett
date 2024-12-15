@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
@@ -92,6 +93,13 @@ struct UserSelectionView: View {
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             .padding(.top, 24)
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

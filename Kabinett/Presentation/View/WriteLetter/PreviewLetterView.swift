@@ -8,6 +8,7 @@
 import SwiftUI
 import Kingfisher
 import UIKit
+import FirebaseAnalytics
 
 struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
@@ -85,5 +86,12 @@ struct PreviewLetterView: View {
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .ignoresSafeArea(.keyboard)
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
