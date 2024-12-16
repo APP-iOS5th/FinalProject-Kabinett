@@ -90,13 +90,5 @@ struct ImagePreview: View {
                 )
             }
         }
-        .onDisappear {
-            imageViewModel.resetSelections()
-            if !customViewModel.isLetterWrite && !customViewModel.letterBoxNavigationPath.isEmpty {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    customViewModel.showImportDialog = true
-                }
-            }
-        }
     }
 }
