@@ -145,9 +145,6 @@ struct ScrollableLetterView: View {
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                                 .padding(.top, screenHeight * 0.05)
                                                 .padding(.bottom, screenHeight * 0.01)
-                                                .onAppear {
-                                                    print(screenHeight)
-                                                }
                                                 .onTapGesture {
                                                     UIApplication.shared.endEditing()
                                                 }
