@@ -87,7 +87,6 @@ struct ContentWriteView: View {
                 .clipShape(Capsule())
                 .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                 .padding(.top, -10)
-                
             }
         }
         .toolbar {
@@ -118,6 +117,9 @@ struct ContentWriteView: View {
 
 // MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
+    let screenWidth = UIScreen.main.bounds.width
+    let screenHeight = UIScreen.main.bounds.height
+    
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @Binding var currentIndex: Int
@@ -137,20 +139,18 @@ struct ScrollableLetterView: View {
                                             }
                                             .resizable()
                                             .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                            .padding(.top, 10)
                                         
                                         VStack {
-                                            HStack {
-                                                Text(i == 0 ? letterContent.toUserName : "")
-                                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                                    .onTapGesture {
-                                                        UIApplication.shared.endEditing()
-                                                    }
-                                                Spacer()
-                                            }
-                                            .padding(.top, 45)
-                                            .padding(.leading, 2)
-                                            .padding(.bottom, 3)
+                                            Text(i == 0 ? letterContent.toUserName : "")
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.top, screenHeight * 0.05)
+                                                .padding(.bottom, screenHeight * 0.01)
+                                                .onAppear {
+                                                    print(screenHeight)
+                                                }
+                                                .onTapGesture {
+                                                    UIApplication.shared.endEditing()
+                                                }
                                             
                                             GeometryReader { geo in
                                                 CustomTextEditor(
@@ -170,16 +170,16 @@ struct ScrollableLetterView: View {
                                             }
                                             
                                             Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                                .padding(.trailing, 2)
+                                                .padding(.bottom, screenHeight * 0.00001)
                                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                             
                                             Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                                .padding(.bottom, 30)
-                                                .padding(.trailing, 2)
+                                                .padding(.bottom, screenHeight * 0.05)
                                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                         }
-                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
+                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
                                     }
+                                    .padding(.top, 10)
                                     .aspectRatio(9/13, contentMode: .fit)
                                     .frame(width: UIScreen.main.bounds.width * 0.88)
                                     .id(i)
@@ -193,7 +193,7 @@ struct ScrollableLetterView: View {
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
-                .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 15))
+                .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                 .onChange(of: viewModel.texts.count) {
                     withAnimation {
                         scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
@@ -234,7 +234,7 @@ struct CustomTextEditor: UIViewRepresentable {
     var lineSpacing: CGFloat
     var kerning: CGFloat
     
-    let maxCharacterLimit: Int = 427
+    let maxCharacterLimit: Int = 397
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
