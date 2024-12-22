@@ -13,7 +13,6 @@ struct LetterBoxDetailView: View {
     @ObservedObject var calendarViewModel: CalendarViewModel
     @ObservedObject var searchBarViewModel: SearchBarViewModel
     
-    @State private var navigationBarHeight: CGFloat = 0
     @State private var calendarBarHeight: CGFloat = 0
     
     private var xOffsets: [CGFloat] {
@@ -117,7 +116,7 @@ struct LetterBoxDetailView: View {
             Spacer()
         } else {
             ScrollView {
-                LazyVStack(spacing: -75) {
+                VStack(spacing: -75) {
                     ForEach(Array(zip(viewModel.letterBoxDetailLetters.indices, viewModel.letterBoxDetailLetters)), id: \.0) { idx, letter in
                         NavigationLink(destination: LetterView(letterType: viewModel.currentLetterType, letter: letter)) {
                             if idx < 2 {
@@ -131,9 +130,14 @@ struct LetterBoxDetailView: View {
                             }
                         }
                     }
+                    Spacer()
+                        .frame(height: 100)
                 }
-                .padding(.top, navigationBarHeight + (calendarViewModel.startDateFiltering ? calendarBarHeight : 0) + 20)
+                .frame(maxWidth: .infinity)
+                .padding(.top, (calendarViewModel.startDateFiltering ? calendarBarHeight : 0) + 20)
+                .padding(.bottom, 50)
             }
+            .scrollIndicators(.hidden)
         }
     }
     
