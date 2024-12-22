@@ -14,6 +14,7 @@ struct LetterView: View {
     
     @State private var offset: CGFloat = 0
     @State private var showDeleteButton = false
+    @State private var isShowingDeleteAlert = false
     
     @State private var letter: Letter
     var letterType: LetterType
@@ -39,15 +40,27 @@ struct LetterView: View {
                 ZStack(alignment: .trailing) {
                     if showDeleteButton {
                         Button(action: {
-                            guard let letterId = letter.id else { return }
-                            viewModel.deleteLetter(letterId: letterId, letterType: letterType)
-                            dismiss()
+                            isShowingDeleteAlert = true
                         }) {
                             Text("삭제하기")
                                 .font(.system(size: 16))
                                 .foregroundColor(.alert)
                         }
                         .padding(.trailing, letter.isRead ? -20 : -5)
+                        .alert(isPresented: $isShowingDeleteAlert) {
+                            Alert(
+                                title: Text("편지 삭제"),
+                                message: Text("이 편지를 삭제하시겠어요?"),
+                                primaryButton: .destructive(Text("삭제")) {
+                                    guard let letterId = letter.id else { return }
+                                    viewModel.deleteLetter(letterId: letterId, letterType: letterType)
+                                    dismiss()
+                                }, secondaryButton: .cancel(Text("취소")) {
+                                    offset = 0
+                                    showDeleteButton = false
+                                }
+                            )
+                        }
                     }
                     
                     HStack {
