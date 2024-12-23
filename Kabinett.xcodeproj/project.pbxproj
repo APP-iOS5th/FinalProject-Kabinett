@@ -131,6 +131,7 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
+		AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE1979F2D118277003597B9 /* OptionGuideView.swift */; };
 		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -275,6 +276,7 @@
 		AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterWriteManager.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
+		AFE1979F2D118277003597B9 /* OptionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGuideView.swift; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -393,9 +395,10 @@
 			children = (
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
 				7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */,
-				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
 				7F397C542C7DF20C00388645 /* ImportDialog.swift */,
+				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
 				7F8B509F2CE612780048A07D /* OptionOverlayGuide.swift */,
+				AFE1979F2D118277003597B9 /* OptionGuideView.swift */,
 			);
 			path = CustomTabView;
 			sourceTree = "<group>";
@@ -981,6 +984,7 @@
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
 				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
+				AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */,
 				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,

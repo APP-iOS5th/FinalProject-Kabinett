@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct OptionOverlay: View {
+    @AppStorage("isFirstWrite") private var isFirstWrite: Bool = true
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var letterContent = LetterWriteModel()
     @State private var isWritingLetter = false
@@ -26,31 +27,17 @@ struct OptionOverlay: View {
                 
                 VStack {
                     Spacer()
-                    HStack(spacing: 0) {
-                        OptionOverlayGuide(
-                            text: "간직하고 있던 편지를 촬영해 보관해요.",
-                            boldText: "촬영",
-                            position: .left,
-                            isVisible: true
-                        )
-                        .frame(width: UIScreen.main.bounds.width/2)
-                        
-                        OptionOverlayGuide(
-                            text: "카비넷 사용자라면 \n이름이나 번호를 검색해 \n편지를 보낼 수 있어요.",
-                            boldText: "이름이나 번호",
-                            position: .right,
-                            isVisible: true
-                        )
-                        .frame(width: UIScreen.main.bounds.width/2)
+                    
+                    if isFirstWrite {
+                        OptionGuideView()
                     }
-                    .padding(.bottom, 16)
                     
                     HStack(spacing: 2) {
                         Button(action: {
                             customTabViewModel.showImportDialogAndHideOptions()
                             customTabViewModel.hideOptions()
                         }) {
-                            Text("편지 불러오기")
+                            Text("편지 보관하기")
                                 .font(.system(size: 16))
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity)
@@ -82,6 +69,11 @@ struct OptionOverlay: View {
                 .background(Color.clear)
             }
             .background(ClearBackground())
+            .onDisappear {
+                if isFirstWrite {
+                    isFirstWrite = false
+                }
+            }
         }
     }
 }

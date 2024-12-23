@@ -13,7 +13,7 @@ struct ImportDialog: View {
     
     var body: some View {
         EmptyView()
-            .confirmationDialog("편지를 불러올 방법을 선택하세요.", isPresented: $viewModel.showImportDialog, titleVisibility: .visible) {
+            .confirmationDialog("편지를 보관할 방법을 선택하세요.", isPresented: $viewModel.showImportDialog, titleVisibility: .visible) {
                 Button("촬영하기") {
                     viewModel.hideOptions()
                     viewModel.showCamera = true
