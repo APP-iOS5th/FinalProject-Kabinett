@@ -323,10 +323,6 @@ struct CustomTextEditor: UIViewRepresentable {
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
-//    var lineSpacing: CGFloat
-//    var kerning: CGFloat
-    
-    let maxCharacterLimit: Int = 397
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
@@ -337,7 +333,7 @@ struct CustomTextEditor: UIViewRepresentable {
         
         func textViewDidChange(_ textView: UITextView) {
             let size = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
-
+            
             if size.height > parent.maxHeight {
                 textView.text = parent.text
             } else {
@@ -361,35 +357,26 @@ struct CustomTextEditor: UIViewRepresentable {
         textView.autocorrectionType = .no
         textView.spellCheckingType = .no
         textView.smartInsertDeleteType = .no
+        textView.font = font
         
-        let maxWidthConstraint = NSLayoutConstraint(item: textView,
-                                                    attribute: .width,
-                                                    relatedBy: .lessThanOrEqual,
-                                                    toItem: nil,
-                                                    attribute: .notAnAttribute,
-                                                    multiplier: 1.0,
-                                                    constant: maxWidth)
+        let maxWidthConstraint = NSLayoutConstraint(
+            item: textView,
+            attribute: .width,
+            relatedBy: .lessThanOrEqual,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1.0,
+            constant: maxWidth
+        )
         textView.addConstraint(maxWidthConstraint)
         
         return textView
     }
     
     func updateUIView(_ uiView: UITextView, context: Context) {
-        if uiView.text == text && uiView.font == font {
-            return
+        if uiView.text != text {
+            uiView.text = text
         }
-        
-        uiView.attributedText = createAttributedString(text: text, font: font)
-    }
-    
-    private func createAttributedString(text: String, font: UIFont) -> NSAttributedString {
-        let paragraphStyle = NSMutableParagraphStyle()
-        
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: font,
-            .paragraphStyle: paragraphStyle
-        ]
-        
-        return NSAttributedString(string: text, attributes: attributes)
+        uiView.font = font
     }
 }
