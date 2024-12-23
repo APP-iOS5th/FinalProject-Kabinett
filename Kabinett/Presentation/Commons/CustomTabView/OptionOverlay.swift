@@ -25,7 +25,7 @@ struct OptionOverlay: View {
                         }
                     }
                 
-                VStack {
+                VStack(spacing: 0) {
                     Spacer()
                     
                     if isFirstWrite {

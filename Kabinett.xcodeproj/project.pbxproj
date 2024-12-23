@@ -89,7 +89,6 @@
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
 		7F78684C2C78B41A0083D204 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F78684B2C78B41A0083D204 /* ImagePickerView.swift */; };
 		7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F7868552C7B14220083D204 /* HorizontalPadding.swift */; };
-		7F8B50A02CE612780048A07D /* OptionOverlayGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F8B509F2CE612780048A07D /* OptionOverlayGuide.swift */; };
 		7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */; };
 		7FCAE2B12C73080000228FA7 /* ImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B02C73080000228FA7 /* ImagePreview.swift */; };
 		7FCAE2B82C730E1700228FA7 /* OverlappingImagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */; };
@@ -234,7 +233,6 @@
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		7F78684B2C78B41A0083D204 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		7F7868552C7B14220083D204 /* HorizontalPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPadding.swift; sourceTree = "<group>"; };
-		7F8B509F2CE612780048A07D /* OptionOverlayGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlayGuide.swift; sourceTree = "<group>"; };
 		7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		7FCAE2B02C73080000228FA7 /* ImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreview.swift; sourceTree = "<group>"; };
 		7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlappingImagesView.swift; sourceTree = "<group>"; };
@@ -397,7 +395,6 @@
 				7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */,
 				7F397C542C7DF20C00388645 /* ImportDialog.swift */,
 				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
-				7F8B509F2CE612780048A07D /* OptionOverlayGuide.swift */,
 				AFE1979F2D118277003597B9 /* OptionGuideView.swift */,
 			);
 			path = CustomTabView;
@@ -1064,7 +1061,6 @@
 				577C86732C8B8D5700EAB1BE /* Extension+View.swift in Sources */,
 				53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
-				7F8B50A02CE612780048A07D /* OptionOverlayGuide.swift in Sources */,
 				83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,

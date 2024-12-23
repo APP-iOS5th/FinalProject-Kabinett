@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "LetterImportGuide.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
