@@ -19,8 +19,26 @@ enum LetterSaveError: Error {
 }
 
 struct Query {
-    let key: String
+    enum Key: String {
+        case kabinettNumber
+        case name
+    }
+    
+    let key: Key
     let value: String
+    
+    var resultValue: Any {
+        switch key {
+        case .kabinettNumber:
+            if let number = Int(value) {
+                return number
+            } else {
+                return value
+            }
+        case .name:
+            return value
+        }
+    }
 }
 
 final class FirestoreLetterWriteManager {
@@ -151,7 +169,7 @@ final class FirestoreLetterWriteManager {
         as type: T.Type
     ) async throws -> [T] {
         return try await db.collection("Writers")
-            .whereField(query.key, isEqualTo: query.value)
+            .whereField(query.key.rawValue, isEqualTo: query.resultValue)
             .getDocuments()
             .documents
             .map { try $0.data(as: type) }

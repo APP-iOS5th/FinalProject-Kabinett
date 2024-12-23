@@ -89,11 +89,11 @@ extension DefaultWriteLetterUseCase: WriteLetterUseCase {
     func findWriter(by query: String) async -> [Writer] {
         do {
             async let resultByName = letterManager.findDocuments(
-                by: Query(key: "name", value: query),
+                by: Query(key: .name, value: query),
                 as: Writer.self
             )
             async let resultByNumber = letterManager.findDocuments(
-                by: Query(key: "kabinettNumber", value: query),
+                by: Query(key: .kabinettNumber, value: query),
                 as: Writer.self
             )
             
