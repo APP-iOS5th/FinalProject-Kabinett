@@ -186,9 +186,9 @@ struct ScrollableLetterView: View {
                                                     text: $viewModel.texts[i],
                                                     maxWidth: geo.size.width,
                                                     maxHeight: geo.size.height,
-                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? "")),
-                                                    lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
-                                                    kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
+                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
+//                                                    lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
+//                                                    kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
                                                 )
                                             }
                                             .onChange(of: viewModel.texts[i]) {
@@ -260,8 +260,8 @@ struct CustomTextEditor: UIViewRepresentable {
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
-    var lineSpacing: CGFloat
-    var kerning: CGFloat
+//    var lineSpacing: CGFloat
+//    var kerning: CGFloat
     
     let maxCharacterLimit: Int = 397
     
@@ -314,16 +314,14 @@ struct CustomTextEditor: UIViewRepresentable {
             return
         }
         
-        uiView.attributedText = createAttributedString(text: text, font: font, lineSpacing: lineSpacing, kerning: kerning)
+        uiView.attributedText = createAttributedString(text: text, font: font)
     }
     
-    private func createAttributedString(text: String, font: UIFont, lineSpacing: CGFloat, kerning: CGFloat) -> NSAttributedString {
+    private func createAttributedString(text: String, font: UIFont) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = lineSpacing
         
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .kern: kerning,
             .paragraphStyle: paragraphStyle
         ]
         
