@@ -17,6 +17,8 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
+    @State var isPopup: Bool = false
+    
     init(
         letterContent: Binding<LetterWriteModel>,
         imageViewModel: ImagePickerViewModel,
@@ -38,10 +40,15 @@ struct ContentWriteView: View {
                 VStack {
                     ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
                         .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
-
+                    
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
                 }
-                MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, fontViewModel: fontViewModel)
+                MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, isPopup: $isPopup)
+            }
+        }
+        .overlay {
+            if isPopup {
+                CustomFontMenu(letterContent: $letterContent, isPopup: $isPopup, fontViewModel: fontViewModel)
             }
         }
         .toolbar {
@@ -69,31 +76,66 @@ struct ContentWriteView: View {
     }
 }
 
+struct CustomFontMenu: View {
+    @Binding var letterContent: LetterWriteModel
+    @Binding var isPopup: Bool
+    @ObservedObject var fontViewModel: FontSelectionViewModel
+    
+    var body: some View {
+        ZStack {
+            Color.black.opacity(0.0)
+                .edgesIgnoringSafeArea(.all)
+                .onTapGesture {
+                    isPopup = false
+                }
+            
+            VStack(spacing: 0) {
+                ForEach(0..<fontViewModel.dummyFonts.count, id: \.self) { i in
+                    Button(action: {
+                        fontViewModel.selectedIndex = i
+                        letterContent.fontString = fontViewModel.dummyFonts[i].font
+                        isPopup = false
+                    }) {
+                        HStack {
+                            Text(fontViewModel.dummyFonts[i].fontName)
+                                .font(FontUtility.selectedFont(font: fontViewModel.dummyFonts[i].font, size: 15))
+                            
+                            Spacer()
+                            
+                            if fontViewModel.selectedIndex == i {
+                                Image("checked")
+                                    .resizable()
+                                    .frame(width: 25, height: 25)
+                            }
+                        }
+                        .padding(13)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(7)
+            .frame(width: 250)
+            .background(Color.white)
+            .cornerRadius(10)
+            .padding(.top, -(UIScreen.main.bounds.height/2.7))
+            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+        }
+    }
+}
+
+
 // MARK: - MiniTabBar
 struct MiniTabBar: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @ObservedObject var fontViewModel: FontSelectionViewModel
+    
+    @Binding var isPopup: Bool
     
     var body: some View {
         HStack(alignment: .center) {
-            Menu {
-                ForEach(0..<fontViewModel.dummyFonts.count, id: \.self) { i in
-                    Button {
-                        fontViewModel.selectedIndex = i
-                        letterContent.fontString = fontViewModel.dummyFonts[i].font
-                    } label: {
-                        HStack {
-                            Text(fontViewModel.dummyFonts[i].fontName)
-                                .font(FontUtility.selectedFont(font: fontViewModel.dummyFonts[i].font, size: 13))
-                            Spacer()
-                            if fontViewModel.selectedIndex == i {
-                                Image("checked")
-                            }
-                        }
-                    }
-                }
+            Button {
+                isPopup.toggle()
             } label: {
                 Text("F")
                     .bold()
