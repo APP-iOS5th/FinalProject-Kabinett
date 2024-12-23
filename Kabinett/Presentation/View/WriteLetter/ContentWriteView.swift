@@ -15,6 +15,7 @@ struct ContentWriteView: View {
     @StateObject var viewModel = ContentWriteViewModel()
     @ObservedObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
+    @StateObject var fontViewModel = FontSelectionViewModel()
     
     init(
         letterContent: Binding<LetterWriteModel>,
@@ -36,10 +37,11 @@ struct ContentWriteView: View {
             ZStack(alignment: .top) {
                 VStack {
                     ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
-                    
+                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
+
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
                 }
-                MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
+                MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, fontViewModel: fontViewModel)
             }
         }
         .toolbar {
@@ -72,7 +74,7 @@ struct MiniTabBar: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @StateObject var fontViewModel = FontSelectionViewModel()
+    @ObservedObject var fontViewModel: FontSelectionViewModel
     
     var body: some View {
         HStack(alignment: .center) {
@@ -222,7 +224,6 @@ struct ScrollableLetterView: View {
                     .scrollTargetLayout()
                 }
                 .scrollTargetBehavior(.viewAligned)
-                .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                 .onChange(of: viewModel.texts.count) {
                     withAnimation {
                         scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
