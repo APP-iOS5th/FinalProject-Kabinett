@@ -72,10 +72,26 @@ struct MiniTabBar: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
+    @StateObject var fontViewModel = FontSelectionViewModel()
     
     var body: some View {
         HStack(alignment: .center) {
             Menu {
+                ForEach(0..<fontViewModel.dummyFonts.count, id: \.self) { i in
+                    Button {
+                        fontViewModel.selectedIndex = i
+                        letterContent.fontString = fontViewModel.dummyFonts[i].font
+                    } label: {
+                        HStack {
+                            Text(fontViewModel.dummyFonts[i].fontName)
+                                .font(FontUtility.selectedFont(font: fontViewModel.dummyFonts[i].font, size: 13))
+                            Spacer()
+                            if fontViewModel.selectedIndex == i {
+                                Image("checked")
+                            }
+                        }
+                    }
+                }
             } label: {
                 Text("F")
                     .bold()
