@@ -131,6 +131,7 @@ struct MiniTabBar: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     
     @Binding var isPopup: Bool
+    @State var isFontEdit: Bool = true
     
     var body: some View {
         HStack(alignment: .center) {
@@ -139,8 +140,19 @@ struct MiniTabBar: View {
             } label: {
                 Text("F")
                     .bold()
-                    .frame(width: UIScreen.main.bounds.width * 0.45 / 4)
+                    .frame(width: UIScreen.main.bounds.width * 0.45/4, height: 30)
+                    .background(isFontEdit ? Color.clear : Color(.primary300))
+                    .clipShape(Capsule())
             }
+            .disabled(isFontEdit ? false : true)
+            .onChange(of: viewModel.texts) {
+                if viewModel.texts[0].isEmpty && viewModel.texts.count == 1 {
+                    isFontEdit = true
+                } else {
+                    isFontEdit = false
+                }
+            }
+            
             Button {
                 if viewModel.texts.count > 1 {
                     viewModel.isDeleteAlertPresented = true
