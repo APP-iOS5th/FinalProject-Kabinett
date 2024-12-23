@@ -262,6 +262,9 @@ struct FormToUserView: View {
                 if let user = viewModel.usersData.first(where: { $0.name == name }) {
                     letterContent.fromUserId = user.id
                     viewModel.fromUserKabinettNumber = user.kabinettNumber
+                } else {
+                    viewModel.fromUserId = ""
+                    viewModel.fromUserKabinettNumber = 0
                 }
             } else {
                 viewModel.updateSelectedUser(selectedUserName: name)
