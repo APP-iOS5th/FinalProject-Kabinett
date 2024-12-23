@@ -5,6 +5,7 @@
 //  Created by Yule on 8/14/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 import Kingfisher
 
@@ -101,5 +102,12 @@ struct ProfileView: View {
         .onReceive(NotificationCenter.default.publisher(for: CustomTabViewModel.profileTabTappedNotification)) { _ in
             viewModel.showSettingsView = false
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }

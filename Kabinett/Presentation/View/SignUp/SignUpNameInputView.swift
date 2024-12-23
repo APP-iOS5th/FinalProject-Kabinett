@@ -5,6 +5,7 @@
 //  Created by Yule on 8/13/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 
 struct SignUpNameInputView: View {
@@ -59,6 +60,13 @@ struct SignUpNameInputView: View {
             .ignoresSafeArea(.keyboard)
         }
         .navigationBarBackButtonHidden()
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 
