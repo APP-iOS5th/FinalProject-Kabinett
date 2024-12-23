@@ -75,6 +75,12 @@ struct MiniTabBar: View {
     
     var body: some View {
         HStack(alignment: .center) {
+            Menu {
+            } label: {
+                Text("F")
+                    .bold()
+                    .frame(width: UIScreen.main.bounds.width * 0.45 / 4)
+            }
             Button {
                 if viewModel.texts.count > 1 {
                     viewModel.isDeleteAlertPresented = true
@@ -82,7 +88,7 @@ struct MiniTabBar: View {
             } label: {
                 Image("PageMinus")
                     .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.3/3)
+                    .frame(width: UIScreen.main.bounds.width * 0.45/4)
             }
             .alert(isPresented: $viewModel.isDeleteAlertPresented) {
                 Alert(
@@ -101,7 +107,7 @@ struct MiniTabBar: View {
             } label: {
                 Image(systemName: "doc.badge.plus")
                     .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.3/3)
+                    .frame(width: UIScreen.main.bounds.width * 0.45/4)
             }
             Button {
                 customTabViewModel.showPhotoLibrary = true
@@ -109,14 +115,14 @@ struct MiniTabBar: View {
             } label: {
                 Image(systemName: "photo.on.rectangle.angled")
                     .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.3/3, height: 30)
+                    .frame(width: UIScreen.main.bounds.width * 0.45/4, height: 30)
                     .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
                     .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
                     .clipShape(Capsule())
                     .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
             }
         }
-        .frame(maxWidth: UIScreen.main.bounds.width * 0.45, maxHeight: 40)
+        .frame(maxWidth: UIScreen.main.bounds.width * 0.55, maxHeight: 40)
         .foregroundStyle(Color("ToolBarIcon"))
         .background(Color(.primary100))
         .clipShape(Capsule())
