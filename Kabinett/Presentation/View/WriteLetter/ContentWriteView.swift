@@ -336,11 +336,13 @@ struct CustomTextEditor: UIViewRepresentable {
         }
         
         func textViewDidChange(_ textView: UITextView) {
-            if textView.text.count > parent.maxCharacterLimit {
-                textView.text = String(textView.text.prefix(parent.maxCharacterLimit))
+            let size = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
+
+            if size.height > parent.maxHeight {
+                textView.text = parent.text
+            } else {
+                parent.text = textView.text
             }
-            
-            parent.text = textView.text
         }
     }
     
