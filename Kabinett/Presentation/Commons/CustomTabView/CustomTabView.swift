@@ -30,13 +30,13 @@ struct CustomTabView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $customTabViewModel.selectedTab) {
-                LetterBoxView()
+                LetterBoxView(customTabViewModel: customTabViewModel)
                     .tag(0)
                 
                 Color.clear
                     .tag(1)
                 
-                ProfileView()
+                ProfileView(customTabViewModel: customTabViewModel)
                     .tag(2)
             }
             .overlay(

@@ -5,6 +5,7 @@
 //  Created by Yule on 8/13/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 
 struct SignUpKabinettNumberSelectView: View {
@@ -129,5 +130,12 @@ struct SignUpKabinettNumberSelectView: View {
         .task {
             await viewModel.getNumbers()
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }

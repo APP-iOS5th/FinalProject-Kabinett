@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
@@ -71,10 +72,10 @@ struct StationerySelectionView: View {
         .navigationTitle("편지지 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                NavigationLink(destination: FontSelectionView(
+                NavigationLink(destination: ContentWriteView(
                     letterContent: $letterContent,
-                    customViewModel: customViewModel,
-                    imageViewModel: imageViewModel
+                    imageViewModel: imageViewModel,
+                    customTabViewModel: customViewModel
                 )) {
                     Text("다음")
                         .fontWeight(.medium)
@@ -83,6 +84,13 @@ struct StationerySelectionView: View {
                 }
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

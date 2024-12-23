@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
@@ -46,6 +47,18 @@ struct UserSelectionView: View {
                         Spacer(minLength: 95)
                         VStack {
                             SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
+                            Group {
+                                Text("정확한 닉네임")
+                                    .bold() +
+                                Text(" 혹은 -를 뺀") +
+                                Text(" 6개의 카비넷 번호만\n")
+                                    .bold() +
+                                Text("입력해주세요.")
+                            }
+                            .font(.system(size: 12))
+                            .foregroundColor(Color("ContentSecondary"))
+                            .lineSpacing(3)
+                            .padding(.top, 1)
                         }
                     } else {
                         Spacer(minLength: 65)
@@ -80,6 +93,13 @@ struct UserSelectionView: View {
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             .padding(.top, 24)
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

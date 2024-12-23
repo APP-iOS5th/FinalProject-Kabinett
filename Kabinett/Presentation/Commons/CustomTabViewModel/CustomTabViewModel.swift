@@ -20,7 +20,7 @@ final class CustomTabViewModel: ObservableObject {
     @Published var isLetterWrite: Bool = false
     @Published var previousTab: Int?
     
-    static let profileTabTappedNotification = Notification.Name("profileTabTapped")
+    static let profileTabTappedNotification = Notification.Name("profileTabTappedNotification")
     
     private var lastTabSelectionTime: Date?
     private let doubleTapInterval: TimeInterval = 0.2
@@ -50,21 +50,21 @@ final class CustomTabViewModel: ObservableObject {
     }
     
     func handleTabSelection(_ tab: Int) {
-            if tab == selectedTab {
-                if tab == 2 {
-                    NotificationCenter.default.post(name: CustomTabViewModel.profileTabTappedNotification, object: nil)
-                }
-                if tab == 0 {
-                    letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
-                }
-            } else if tab == 1 {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                    showOptions = true
-                }
-            } else {
-                selectedTab = tab
+        if tab == selectedTab {
+            if tab == 2 {
+                NotificationCenter.default.post(name: CustomTabViewModel.profileTabTappedNotification, object: nil)
             }
+            if tab == 0 {
+                letterBoxNavigationPath.removeLast(letterBoxNavigationPath.count)
+            }
+        } else if tab == 1 {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                showOptions = true
+            }
+        } else {
+            selectedTab = tab
         }
+    }
     
     private func resetNavigationForTab(_ tab: Int) {
         switch tab {

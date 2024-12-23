@@ -13,13 +13,13 @@ final class DefaultWriteLetterUseCase {
     private let logger: Logger
     private let authManager: AuthManager
     private let writerManager: FirestoreWriterManager
-    private let letterManager: FirestoreLetterManager
+    private let letterManager: FirestoreLetterWriteManager
     private let letterStorageManager: FirestorageLetterManager
     
     init(
         authManager: AuthManager,
         writerManager: FirestoreWriterManager,
-        letterManager: FirestoreLetterManager,
+        letterManager: FirestoreLetterWriteManager,
         letterStorageManager: FirestorageLetterManager
     ) {
         self.logger = Logger(
@@ -34,7 +34,7 @@ final class DefaultWriteLetterUseCase {
 }
 
 extension DefaultWriteLetterUseCase: WriteLetterUseCase {
-    func saveLetter(font: String, 
+    func saveLetter(font: String,
                     postScript: String?,
                     envelope: String,
                     stamp: String,
@@ -89,11 +89,11 @@ extension DefaultWriteLetterUseCase: WriteLetterUseCase {
     func findWriter(by query: String) async -> [Writer] {
         do {
             async let resultByName = letterManager.findDocuments(
-                by: Query(key: "name", value: query),
+                by: Query(key: .name, value: query),
                 as: Writer.self
             )
             async let resultByNumber = letterManager.findDocuments(
-                by: Query(key: "kabinettNumber", value: query),
+                by: Query(key: .kabinettNumber, value: query),
                 as: Writer.self
             )
             

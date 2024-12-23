@@ -5,6 +5,7 @@
 //  Created by 김정우 on 8/20/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 import Kingfisher
 
@@ -31,8 +32,6 @@ struct LetterCompletionView: View {
                 }
             }
         }
-        .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: backButton)
         .onAppear {
             Task {
                 await viewModel.loadAndUpdateEnvelopeAndStamp()
@@ -40,19 +39,13 @@ struct LetterCompletionView: View {
                 stampURL = viewModel.stampURL ?? letterContent.stampImageUrlString
             }
         }
-        .slideToDismiss {
-            dismiss()
-        }
-    }
-    
-    private var backButton: some View {
-        Button(action: {
-            dismiss()
-        }) {
-            Image(systemName: "chevron.left")
-                .font(.system(size: 18, weight: .semibold))
-                .foregroundColor(.primary900)
-        }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     private var letterPreviewView: some View {

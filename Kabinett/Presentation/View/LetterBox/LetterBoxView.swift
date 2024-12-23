@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct LetterBoxView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
@@ -16,7 +17,11 @@ struct LetterBoxView: View {
     @StateObject private var calendarViewModel = CalendarViewModel()
     @StateObject private var searchBarViewModel = SearchBarViewModel()
     
-    init() {
+    @ObservedObject var customTabViewModel: CustomTabViewModel
+    
+    init(customTabViewModel: CustomTabViewModel) {
+        self.customTabViewModel = customTabViewModel
+        
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
         _letterBoxViewModel = StateObject(wrappedValue: LetterBoxViewModel(letterBoxUseCase: letterBoxUseCase))
         
@@ -25,7 +30,7 @@ struct LetterBoxView: View {
     
     var body: some View {
         ZStack {
-            NavigationStack {
+            NavigationStack(path: $customTabViewModel.letterBoxNavigationPath) {
                 ZStack {
                     Color.background
                         .ignoresSafeArea()
@@ -34,7 +39,7 @@ struct LetterBoxView: View {
                         ForEach(LetterType.allCases, id: \.self) { type in
                             let unreadCount = letterBoxViewModel.getIsReadLetters(for: type)
                             
-                            NavigationLink(destination: LetterBoxDetailView(viewModel: letterBoxDetailViewModel, calendarViewModel: calendarViewModel, searchBarViewModel: searchBarViewModel)) {
+                            NavigationLink(value: type) {
                                 LetterBoxCell(viewModel: letterBoxViewModel, type: type, unreadCount: unreadCount)
                             }
                             .simultaneousGesture(TapGesture().onEnded {
@@ -43,6 +48,12 @@ struct LetterBoxView: View {
                         }
                     }
                     .padding(.top, LayoutHelper.shared.getSize(forSE: 0.035, forOthers: 0.035))
+                    .navigationDestination(for: LetterType.self) { type in
+                        LetterBoxDetailView(viewModel: letterBoxDetailViewModel, calendarViewModel: calendarViewModel, searchBarViewModel: searchBarViewModel)
+                            .onAppear {
+                                letterBoxDetailViewModel.currentLetterType = type
+                            }
+                    }
                     
                     VStack {
                         Spacer()
@@ -67,6 +78,13 @@ struct LetterBoxView: View {
                 }
             }
             .tint(.contentPrimary)
+            .analyticsScreen(
+                name: "\(type(of:self))",
+                extraParameters: [
+                    AnalyticsParameterScreenName: "\(type(of:self))",
+                    AnalyticsParameterScreenClass: "\(type(of:self))",
+                ]
+            )
             
             if searchBarViewModel.showSearchBarView {
                 VStack {

@@ -7,16 +7,16 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel: EnvelopeStampSelectionViewModel
     @ObservedObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @State private var text: String = ""
+    @State private var postScriptText: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
-    @State private var postScriptText: String = ""
     
     init(
         letterContent: Binding<LetterWriteModel>,
@@ -29,7 +29,6 @@ struct EnvelopeStampSelectionView: View {
         
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
         _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
-        _postScriptText = State(initialValue: letterContent.wrappedValue.postScript ?? "")
         
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
@@ -43,7 +42,7 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: letterContent.postScript, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
+                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: postScriptText, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
                     .padding(.top, 10)
                     .padding(.bottom, 50)
                     .onChange(of: viewModel.envelopes) {
@@ -61,15 +60,15 @@ struct EnvelopeStampSelectionView: View {
                     Text("봉투에 적을 내용")
                         .font(.system(size: 13))
                         .padding(.bottom, 1)
-                    TextField("최대 15글자를 적을 수 있어요.", text: $text)
-                        .maxLength(text: $text, 15)
+                    TextField("최대 15글자를 적을 수 있어요.", text: $postScriptText)
+                        .maxLength(text: $postScriptText, 15)
                         .padding(.leading, 6)
                         .font(.system(size: 14))
                         .frame(maxWidth: .infinity, minHeight: 35, alignment: .leading)
                         .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .onChange(of: text) {
-                            letterContent.postScript = text
+                        .onChange(of: postScriptText) {
+                            letterContent.postScript = postScriptText
                         }
                 }
                 .padding(.bottom, 30)
@@ -82,7 +81,6 @@ struct EnvelopeStampSelectionView: View {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
             
-            postScriptText = letterContent.postScript ?? ""
             if letterContent.dataSource == .fromImagePicker {
                 await imageViewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeImageUrl = imageViewModel.envelopeURL ?? ""
@@ -132,6 +130,13 @@ struct EnvelopeStampSelectionView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

@@ -5,6 +5,7 @@
 //  Created by 김정우 on 8/19/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 
 struct LetterWritingView: View {
@@ -33,14 +34,6 @@ struct LetterWritingView: View {
                 UIApplication.shared.endEditing()
             }
             .navigationBarItems(
-                leading: Button(action: {
-                    letterContent.reset()
-                    viewModel.resetSelections()
-                    dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.contentPrimary)
-                },
                 trailing: Button(action: {
                     updateLetterWrite()
                     dismiss()
@@ -53,15 +46,18 @@ struct LetterWritingView: View {
                 }
             )
         }
-        .slideToDismiss {
-            viewModel.resetSelections()
-            dismiss()
-        }
         .task {
             await viewModel.fetchCurrentWriter()
             viewModel.updateDefaultUsers()
             updateLetterWriteFromViewModel()
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     private func updateLetterWriteFromViewModel() {
@@ -266,6 +262,9 @@ struct FormToUserView: View {
                 if let user = viewModel.usersData.first(where: { $0.name == name }) {
                     letterContent.fromUserId = user.id
                     viewModel.fromUserKabinettNumber = user.kabinettNumber
+                } else {
+                    viewModel.fromUserId = ""
+                    viewModel.fromUserKabinettNumber = 0
                 }
             } else {
                 viewModel.updateSelectedUser(selectedUserName: name)

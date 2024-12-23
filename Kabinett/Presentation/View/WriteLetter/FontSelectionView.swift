@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct FontSelectionView: View {
     @Binding var letterContent: LetterWriteModel
@@ -109,6 +110,13 @@ struct FontSelectionView: View {
                 }
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

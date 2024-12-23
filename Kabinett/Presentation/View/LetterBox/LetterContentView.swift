@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct LetterContentView: View {
     @State private var selectedIndex: Int = 0
@@ -37,10 +38,11 @@ struct LetterContentView: View {
                     GeometryReader { geometry in
                         ZStack {
                             ForEach(0..<max(totalPageCount, 1), id: \.self) { index in
-                                if index == selectedIndex || index == selectedIndex + 1 {
+                                if index == selectedIndex || index == selectedIndex + 1 || index == selectedIndex - 1 {
                                     createPageView(index: index, geometry: geometry)
-                                        .offset(x: CGFloat(index - selectedIndex) * 10, y: CGFloat(index - selectedIndex) * 10)
-                                        .zIndex(index == selectedIndex ? 1 : 0)
+                                        .offset(x: calculateOffset(for: index, geometry: geometry))
+                                        .offset(y: calculateStackOffset(for: index))
+                                        .zIndex(Double(totalPageCount - abs(selectedIndex - index)))
                                         .animation(.spring(), value: selectedIndex)
                                 }
                             }
@@ -60,6 +62,13 @@ struct LetterContentView: View {
                 }
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
    
     @ViewBuilder
@@ -76,8 +85,10 @@ struct LetterContentView: View {
                     currentPageIndex: index,
                     totalPages: max(letter.content.count, 1)
                 )
+                .offset(x: index < selectedIndex ? -geometry.size.width * 0.02 : 0)
             } else if !letter.photoContents.isEmpty && index >= letter.content.count {
                 displayPhoto(index: index - letter.content.count, geometry: geometry)
+                    .offset(x: index < selectedIndex ? -geometry.size.width * 0.02 : 0)
             } else {
                 ContentRectangleView(
                     stationeryImageUrlString: letter.stationeryImageUrlString,
@@ -107,5 +118,24 @@ struct LetterContentView: View {
                 selectedPhotoUrl = letter.photoContents[index]
                 isPhotoDetailPresented = true
             }
+    }
+    
+    private func calculateOffset(for index: Int, geometry: GeometryProxy) -> CGFloat {
+        let pageWidth = geometry.size.width * 0.88
+        if index < selectedIndex {
+            return -pageWidth * 0.999
+        } else if index > selectedIndex {
+            return pageWidth * 0.03
+        } else {
+            return 0
+        }
+    }
+    
+    private func calculateStackOffset(for index: Int) -> CGFloat {
+        if index > selectedIndex {
+            return CGFloat(index - selectedIndex) * 15
+        } else {
+            return 0
+        }
     }
 }

@@ -5,6 +5,7 @@
 //  Created by Yule on 8/14/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 
 // `SettingsView`
@@ -77,6 +78,13 @@ struct SettingsView: View {
             .navigationTitle("설정")
             .navigationBarTitleDisplayMode(.inline)
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
 }
