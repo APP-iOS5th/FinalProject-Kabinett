@@ -5,6 +5,7 @@
 //  Created by 김정우 on 8/19/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 
 struct ImagePreview: View {
@@ -90,5 +91,12 @@ struct ImagePreview: View {
                 )
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }

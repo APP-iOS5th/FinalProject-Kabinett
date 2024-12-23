@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import Kingfisher
 import PhotosUI
+import FirebaseAnalytics
 
 struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
@@ -111,6 +112,13 @@ struct ContentWriteView: View {
                 letterContent.photoContents = imageViewModel.photoContents
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 
