@@ -110,7 +110,7 @@ struct LetterContentView: View {
         KFImage(URL(string: letter.photoContents[index]))
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: geometry.size.width * 0.88)
+            .frame(width: geometry.size.width * 0.84)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
             .padding(.bottom, 30)
