@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UIKit
+import FirebaseAnalytics
 
 struct LetterBoxDetailView: View {
     @ObservedObject var viewModel: LetterBoxDetailViewModel
@@ -83,6 +84,13 @@ struct LetterBoxDetailView: View {
         .onDisappear {
             searchBarViewModel.showSearchBarView = false
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     @ViewBuilder

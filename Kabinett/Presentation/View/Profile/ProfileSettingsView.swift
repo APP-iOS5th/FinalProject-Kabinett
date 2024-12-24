@@ -5,6 +5,7 @@
 //  Created by Yule on 8/14/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 import PhotosUI
 import Kingfisher
@@ -51,6 +52,13 @@ struct ProfileSettingsView: View {
                 ImageCropper(viewModel: viewModel, isShowingCropper: $viewModel.isShowingCropper, imageToCrop: profileImage)
             }
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     @ViewBuilder

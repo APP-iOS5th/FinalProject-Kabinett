@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
@@ -129,6 +130,13 @@ struct EnvelopeStampSelectionView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
 

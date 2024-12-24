@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics
 
 struct LetterView: View {
     @StateObject var viewModel: LetterViewModel
@@ -103,5 +104,12 @@ struct LetterView: View {
         .fullScreenCover(isPresented: $showDetailLetter) {
             LetterContentView(letter: letter)
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }

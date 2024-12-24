@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Kingfisher
+import FirebaseAnalytics
 
 struct PhotoDetailView: View {
     let photoUrl: String
@@ -72,6 +73,13 @@ struct PhotoDetailView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
     
     func savePhotoToAlbum() async {

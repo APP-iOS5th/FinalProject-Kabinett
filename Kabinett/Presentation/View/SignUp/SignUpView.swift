@@ -5,6 +5,7 @@
 //  Created by Yule on 8/12/24.
 //
 
+import FirebaseAnalytics
 import SwiftUI
 import AuthenticationServices
 
@@ -74,5 +75,12 @@ struct SignUpView: View {
         } message: {
             Text(viewModel.loginError ?? "로그인 오류가 발생했어요. 카비넷 팀에게 알려주세요.")
         }
+        .analyticsScreen(
+            name: "\(type(of:self))",
+            extraParameters: [
+                AnalyticsParameterScreenName: "\(type(of:self))",
+                AnalyticsParameterScreenClass: "\(type(of:self))",
+            ]
+        )
     }
 }
