@@ -42,7 +42,11 @@ struct ContentWriteView: View {
                     ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
                         .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                     
-                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
+                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+imageViewModel.photoContents.count)")
+                        .padding(2)
+                        .padding(.horizontal, 5)
+                        .background(Color.gray)
+                        .clipShape(Capsule())
                 }
                 MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, isPopup: $isPopup)
             }
