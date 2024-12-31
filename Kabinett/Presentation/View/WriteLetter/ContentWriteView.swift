@@ -308,15 +308,17 @@ struct ScrollableLetterView: View {
                     }
                 }
                 .onPreferenceChange(AnchorsKey.self) { anchors in
+                    let horizontalPadding = UIScreen.main.bounds.width * 0.06
                     let leadingAnchor = anchors
-                        .filter { geometry[$0.value].x >= 0 }
+                        .filter { geometry[$0.value].x >= horizontalPadding }
                         .sorted { geometry[$0.value].x < geometry[$1.value].x }
                         .first
-                    
-                    if currentIndex != leadingAnchor?.key ?? 0 {
-                        currentIndex = leadingAnchor?.key ?? 0
+
+                    if let leadingAnchor = leadingAnchor, currentIndex != leadingAnchor.key {
+                        currentIndex = leadingAnchor.key
                     }
                 }
+
             }
         }
     }
