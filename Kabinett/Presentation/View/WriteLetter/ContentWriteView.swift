@@ -155,10 +155,10 @@ struct MiniTabBar: View {
                 }
                 .disabled(isFontEdit ? false : true)
                 .onChange(of: viewModel.texts) {
-                    if viewModel.texts[0].isEmpty && viewModel.texts.count == 1 {
-                        isFontEdit = true
-                    } else {
+                    if viewModel.texts.contains(where: { !$0.isEmpty }) {
                         isFontEdit = false
+                    } else {
+                        isFontEdit = true
                     }
                 }
                 
