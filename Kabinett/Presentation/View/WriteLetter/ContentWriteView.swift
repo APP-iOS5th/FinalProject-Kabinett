@@ -284,7 +284,14 @@ struct ScrollableLetterView: View {
                                     Image(uiImage: uiImage)
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .tag(index)
+                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
+                                        .padding(.vertical, UIScreen.main.bounds.width * 0.2)
+                                        .background(Color.white)
+                                        .frame(width: UIScreen.main.bounds.width * 0.88)
+                                        .cornerRadius(10)
+                                        .padding(.top, 10)
+                                        .tag(index + viewModel.texts.count)
+                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [index + viewModel.texts.count: $0] })
                                 }
                             }
                         }
