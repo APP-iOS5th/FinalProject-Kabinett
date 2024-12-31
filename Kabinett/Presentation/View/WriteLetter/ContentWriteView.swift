@@ -39,7 +39,7 @@ struct ContentWriteView: View {
                 }
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, currentIndex: $viewModel.currentIndex)
+                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
                         .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 14))
                     
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count)")
@@ -218,6 +218,7 @@ struct ScrollableLetterView: View {
     
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     @Binding var currentIndex: Int
     
     var body: some View {
@@ -278,6 +279,14 @@ struct ScrollableLetterView: View {
                                     .id(i)
                                     Spacer()
                                         .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                }
+                            }
+                            ForEach(imageViewModel.photoContents.indices, id: \.self) { index in
+                                if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .tag(index)
                                 }
                             }
                         }
