@@ -142,72 +142,74 @@ struct MiniTabBar: View {
     @State var isFontEdit: Bool = true
     
     var body: some View {
-        HStack(alignment: .center) {
-            Button {
-                isPopup.toggle()
-            } label: {
-                Text("F")
-                    .bold()
-                    .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                    .background(isFontEdit ? Color.clear : Color(.primary300))
-                    .clipShape(Capsule())
-            }
-            .disabled(isFontEdit ? false : true)
-            .onChange(of: viewModel.texts) {
-                if viewModel.texts[0].isEmpty && viewModel.texts.count == 1 {
-                    isFontEdit = true
-                } else {
-                    isFontEdit = false
+        if viewModel.currentIndex < viewModel.texts.count {
+            HStack(alignment: .center) {
+                Button {
+                    isPopup.toggle()
+                } label: {
+                    Text("F")
+                        .bold()
+                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
+                        .background(isFontEdit ? Color.clear : Color(.primary300))
+                        .clipShape(Capsule())
                 }
-            }
-            
-            Button {
-                if viewModel.texts.count > 1 {
-                    viewModel.isDeleteAlertPresented = true
-                }
-            } label: {
-                Image("PageMinus")
-                    .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.4/4)
-            }
-            .alert(isPresented: $viewModel.isDeleteAlertPresented) {
-                Alert(
-                    title: Text("Delete Page"),
-                    message: Text("현재 페이지를 지우시겠어요?"),
-                    primaryButton: .destructive(Text("삭제")) {
-                        viewModel.deleteLetter(idx: viewModel.currentIndex)
-                    },
-                    secondaryButton: .cancel(Text("취소")) {
-                        viewModel.isDeleteAlertPresented = false
+                .disabled(isFontEdit ? false : true)
+                .onChange(of: viewModel.texts) {
+                    if viewModel.texts[0].isEmpty && viewModel.texts.count == 1 {
+                        isFontEdit = true
+                    } else {
+                        isFontEdit = false
                     }
-                )
+                }
+                
+                Button {
+                    if viewModel.texts.count > 1 {
+                        viewModel.isDeleteAlertPresented = true
+                    }
+                } label: {
+                    Image("PageMinus")
+                        .font(.system(size: 15))
+                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
+                }
+                .alert(isPresented: $viewModel.isDeleteAlertPresented) {
+                    Alert(
+                        title: Text("Delete Page"),
+                        message: Text("현재 페이지를 지우시겠어요?"),
+                        primaryButton: .destructive(Text("삭제")) {
+                            viewModel.deleteLetter(idx: viewModel.currentIndex)
+                        },
+                        secondaryButton: .cancel(Text("취소")) {
+                            viewModel.isDeleteAlertPresented = false
+                        }
+                    )
+                }
+                Button {
+                    viewModel.createNewLetter(idx: viewModel.currentIndex)
+                } label: {
+                    Image(systemName: "doc.badge.plus")
+                        .font(.system(size: 15))
+                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
+                }
+                Button {
+                    customTabViewModel.showPhotoLibrary = true
+                    customTabViewModel.isLetterWrite = true
+                } label: {
+                    Image(systemName: "photo.on.rectangle.angled")
+                        .font(.system(size: 15))
+                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
+                        .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
+                        .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                        .clipShape(Capsule())
+                        .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
+                }
             }
-            Button {
-                viewModel.createNewLetter(idx: viewModel.currentIndex)
-            } label: {
-                Image(systemName: "doc.badge.plus")
-                    .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.4/4)
-            }
-            Button {
-                customTabViewModel.showPhotoLibrary = true
-                customTabViewModel.isLetterWrite = true
-            } label: {
-                Image(systemName: "photo.on.rectangle.angled")
-                    .font(.system(size: 15))
-                    .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                    .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
-                    .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
-                    .clipShape(Capsule())
-                    .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
-            }
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
+            .foregroundStyle(Color("ToolBarIcon"))
+            .background(Color(.primary100))
+            .clipShape(Capsule())
+            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+            .padding(.top, -10)
         }
-        .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
-        .foregroundStyle(Color("ToolBarIcon"))
-        .background(Color(.primary100))
-        .clipShape(Capsule())
-        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-        .padding(.top, -10)
     }
 }
 
