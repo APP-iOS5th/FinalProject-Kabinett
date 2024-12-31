@@ -280,8 +280,9 @@ struct ScrollableLetterView: View {
                                 .id(i)
                                 .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
-                            
-                            ForEach(imageViewModel.photoContents.indices, id: \.self) { index in
+
+                            ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
+                                let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
                                     Image(uiImage: uiImage)
                                         .resizable()
@@ -292,8 +293,8 @@ struct ScrollableLetterView: View {
                                         .frame(width: UIScreen.main.bounds.width * 0.88)
                                         .cornerRadius(10)
                                         .padding(.top, 10)
-                                        .tag(index + viewModel.texts.count)
-                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [index + viewModel.texts.count: $0] })
+                                        .tag(imageIndex)
+                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                 }
                             }
                         }
