@@ -128,7 +128,7 @@ struct CustomFontMenu: View {
             .padding(7)
             .frame(width: 250)
             .background(Color.white)
-            .cornerRadius(10)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.top, -(UIScreen.main.bounds.height/2.7))
             .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
         }
@@ -295,7 +295,7 @@ struct ScrollableLetterView: View {
                                         .padding(.vertical, UIScreen.main.bounds.width * 0.2)
                                         .background(Color.white)
                                         .frame(width: UIScreen.main.bounds.width * 0.88)
-                                        .cornerRadius(10)
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .padding(.top, 10)
                                         .tag(imageIndex)
                                         .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
