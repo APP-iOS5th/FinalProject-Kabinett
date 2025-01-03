@@ -290,9 +290,11 @@ struct ScrollableLetterView: View {
                                 if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
                                     Image(uiImage: uiImage)
                                         .resizable()
+                                        .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .aspectRatio(contentMode: .fit)
-                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.1)
-                                        .padding(.vertical, UIScreen.main.bounds.width * 0.2)
+                                        .padding(.horizontal, 10)
+                                        .padding(.top, 10)
+                                        .padding(.bottom, UIScreen.main.bounds.width * 0.18)
                                         .background(Color.white)
                                         .frame(width: UIScreen.main.bounds.width * 0.88)
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
