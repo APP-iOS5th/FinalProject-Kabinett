@@ -22,7 +22,7 @@ struct LetterWritingView: View {
             ZStack {
                 Color.primary100.edgesIgnoringSafeArea(.all)
                 
-                VStack(spacing: 20) {
+                VStack(spacing: 50) {
                     FormToUserView(letterContent: $letterContent, viewModel: viewModel)
                     dateField()
                     Spacer()
@@ -69,7 +69,7 @@ struct LetterWritingView: View {
     }
     
     private func dateField() -> some View {
-        VStack(spacing: 1) {
+        VStack {
             HStack(alignment: .center, spacing: 10) {
                 Text("받은/보낸 날짜")
                     .foregroundStyle(Color.contentPrimary)
@@ -82,12 +82,12 @@ struct LetterWritingView: View {
                 }) {
                     Text(viewModel.formattedDate)
                         .foregroundStyle(Color.blue)
-                        .font(.system(size: 15))
+                        .font(.system(size: 17))
                         .padding(.horizontal, 15)
                         .frame(height: 40)
                         .frame(maxWidth: .infinity)
                         .background(Color.contentTertiary)
-                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
                 }
             }
         }
@@ -96,13 +96,11 @@ struct LetterWritingView: View {
                 .datePickerStyle(.graphical)
                 .frame(maxHeight: 350)
                 .background(Color.white)
-                .cornerRadius(5)
-                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                .clipShape(RoundedRectangle(cornerRadius: 14))
+                .shadow(color: Color.black.opacity(0.1), radius: 14, x: 0, y: 2)
                 .padding()
-                .presentationDetents([.height(470)])
+                .presentationDetents([.height(560)])
                 .presentationBackground(.clear)
-                .presentationCornerRadius(5)
-                .interactiveDismissDisabled()
                 .onChange(of: viewModel.date) { oldValue, newValue in
                     if oldValue != newValue {
                         letterContent.date = newValue
@@ -128,11 +126,10 @@ struct FormToUserView: View {
     @ObservedObject var viewModel: ImagePickerViewModel
     
     var body: some View {
-        VStack(spacing: 20) {
-            userField(title: "보내는 사람", name: $viewModel.fromUserName, search: $viewModel.fromUserSearch, isFromUser: true)
-            userField(title: "받는 사람", name: $viewModel.toUserName, search: $viewModel.toUserSearch, isFromUser: false)
+        VStack(spacing: 50) {
+            userField(title: "보내는 사람", name: $viewModel.fromUserName, isFromUser: false)
+            userField(title: "받는 사람", name: $viewModel.toUserName, isFromUser: false)
         }
-        
         .onAppear {
             if let fromUser = viewModel.fromUser {
                 letterContent.fromUserId = fromUser.id
@@ -150,31 +147,23 @@ struct FormToUserView: View {
         
     }
     
-    private func userField(title: String, name: Binding<String>, search: Binding<String>, isFromUser: Bool) -> some View {
-        VStack(spacing: 10) {
-            HStack(alignment: .center, spacing: 10) {
-                Text(title)
-                    .foregroundStyle(Color.contentPrimary)
-                    .font(.system(size: 16))
-                    .bold()
-                    .frame(width: 100, alignment: .leading)
-                
-                TextField(isFromUser ? name.wrappedValue : "", text: name)
-                    .foregroundStyle(isFromUser ? Color.contentSecondary : .black)
-                    .font(.system(size: 15))
-                    .padding(.horizontal, 15)
-                    .frame(height: 40)
-                    .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .multilineTextAlignment(.center)
-            }
+    private func userField(title: String, name: Binding<String>, isFromUser: Bool) -> some View {
+        HStack(alignment: .center, spacing: 10) {
+            Text(title)
+                .foregroundStyle(Color.contentPrimary)
+                .font(.system(size: 16))
+                .bold()
+                .frame(width: 100, alignment: .leading)
             
-            HStack(alignment: .center, spacing: 10) {
-                Spacer()
-                    .frame(width: 100)
-                
-                SearchResultList(letterContent: $letterContent, searchText: search, viewModel: viewModel, isFromUser: isFromUser)
-            }
+//            TextField(isFromUser ? name.wrappedValue : "", text: name)
+            TextField("", text: isFromUser ? name : .constant(""))
+                .foregroundStyle(Color.contentPrimary)
+                .font(.system(size: 15))
+                .padding(.horizontal, 15)
+                .frame(height: 40)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .multilineTextAlignment(.center)
         }
     }
     
