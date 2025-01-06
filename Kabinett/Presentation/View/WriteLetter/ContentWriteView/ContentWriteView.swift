@@ -180,6 +180,7 @@ struct ScrollableLetterView: View {
                                         
                                         Button(action: {
                                             imageViewModel.photoContents.remove(at: index)
+                                            imageViewModel.selectedItems.remove(at: index)
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
                                                 .resizable()
