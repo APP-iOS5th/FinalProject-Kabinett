@@ -88,136 +88,7 @@ struct ContentWriteView: View {
     }
 }
 
-struct CustomFontMenu: View {
-    @Binding var letterContent: LetterWriteModel
-    @Binding var isPopup: Bool
-    @ObservedObject var fontViewModel: FontSelectionViewModel
-    
-    var body: some View {
-        ZStack {
-            Color.black.opacity(0.1)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    isPopup = false
-                }
-            
-            VStack(spacing: 0) {
-                ForEach(0..<fontViewModel.dummyFonts.count, id: \.self) { i in
-                    Button(action: {
-                        fontViewModel.selectedIndex = i
-                        letterContent.fontString = fontViewModel.dummyFonts[i].font
-                        isPopup = false
-                    }) {
-                        HStack {
-                            Text(fontViewModel.dummyFonts[i].fontName)
-                                .font(FontUtility.selectedFont(font: fontViewModel.dummyFonts[i].font, size: 15))
-                            
-                            Spacer()
-                            
-                            if fontViewModel.selectedIndex == i {
-                                Image("checked")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                            }
-                        }
-                        .padding(13)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-            .padding(7)
-            .frame(width: 250)
-            .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.top, -(UIScreen.main.bounds.height/2.7))
-            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-        }
-    }
-}
-
-
-// MARK: - MiniTabBar
-struct MiniTabBar: View {
-    @Binding var letterContent: LetterWriteModel
-    @ObservedObject var viewModel: ContentWriteViewModel
-    @ObservedObject var customTabViewModel: CustomTabViewModel
-    
-    @Binding var isPopup: Bool
-    @State var isFontEdit: Bool = true
-    
-    var body: some View {
-        if viewModel.currentIndex < viewModel.texts.count {
-            HStack(alignment: .center) {
-                Button {
-                    isPopup.toggle()
-                } label: {
-                    Text("F")
-                        .bold()
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                        .background(isFontEdit ? Color.clear : Color(.primary300))
-                        .clipShape(Capsule())
-                }
-                .disabled(isFontEdit ? false : true)
-                .onChange(of: viewModel.texts) {
-                    if viewModel.texts.contains(where: { !$0.isEmpty }) {
-                        isFontEdit = false
-                    } else {
-                        isFontEdit = true
-                    }
-                }
-                
-                Button {
-                    if viewModel.texts.count > 1 {
-                        viewModel.isDeleteAlertPresented = true
-                    }
-                } label: {
-                    Image("PageMinus")
-                        .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
-                }
-                .alert(isPresented: $viewModel.isDeleteAlertPresented) {
-                    Alert(
-                        title: Text("Delete Page"),
-                        message: Text("현재 페이지를 지우시겠어요?"),
-                        primaryButton: .destructive(Text("삭제")) {
-                            viewModel.deleteLetter(idx: viewModel.currentIndex)
-                        },
-                        secondaryButton: .cancel(Text("취소")) {
-                            viewModel.isDeleteAlertPresented = false
-                        }
-                    )
-                }
-                Button {
-                    viewModel.createNewLetter(idx: viewModel.currentIndex)
-                } label: {
-                    Image(systemName: "doc.badge.plus")
-                        .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
-                }
-                Button {
-                    customTabViewModel.showPhotoLibrary = true
-                    customTabViewModel.isLetterWrite = true
-                } label: {
-                    Image(systemName: "photo.on.rectangle.angled")
-                        .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                        .background(letterContent.photoContents.isEmpty ? Color.clear : Color.white)
-                        .foregroundStyle(letterContent.photoContents.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
-                        .clipShape(Capsule())
-                        .shadow(color: letterContent.photoContents.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
-                }
-            }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
-            .foregroundStyle(Color("ToolBarIcon"))
-            .background(Color(.primary100))
-            .clipShape(Capsule())
-            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-            .padding(.top, -10)
-        }
-    }
-}
-
-// MARK: - ScrollableLetterView
+// MARK: ScrollableLetterView
 struct ScrollableLetterView: View {
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
@@ -307,7 +178,6 @@ struct ScrollableLetterView: View {
                                             .tag(imageIndex)
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                         
-                                        // X 버튼 추가
                                         Button(action: {
                                             imageViewModel.photoContents.remove(at: index)
                                         }) {
@@ -351,75 +221,8 @@ struct ScrollableLetterView: View {
 
 struct AnchorsKey: PreferenceKey {
     typealias Value = [Int: Anchor<CGPoint>]
-    
     static var defaultValue: Value { [ : ] }
-    
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value.merge(nextValue()) { $1 }
-    }
-}
-
-
-// MARK: - CustomTextEditor.swift
-struct CustomTextEditor: UIViewRepresentable {
-    @Binding var text: String
-    var maxWidth: CGFloat
-    var maxHeight: CGFloat
-    var font: UIFont
-    
-    class Coordinator: NSObject, UITextViewDelegate {
-        var parent: CustomTextEditor
-        
-        init(parent: CustomTextEditor) {
-            self.parent = parent
-        }
-        
-        func textViewDidChange(_ textView: UITextView) {
-            let size = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
-            
-            if size.height > parent.maxHeight {
-                textView.text = parent.text
-            } else {
-                parent.text = textView.text
-            }
-        }
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
-    }
-    
-    func makeUIView(context: Context) -> UITextView {
-        let textView = UITextView()
-        textView.delegate = context.coordinator
-        textView.isScrollEnabled = false
-        textView.backgroundColor = .clear
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.autocorrectionType = .no
-        textView.spellCheckingType = .no
-        textView.smartInsertDeleteType = .no
-        textView.font = font
-        
-        let maxWidthConstraint = NSLayoutConstraint(
-            item: textView,
-            attribute: .width,
-            relatedBy: .lessThanOrEqual,
-            toItem: nil,
-            attribute: .notAnAttribute,
-            multiplier: 1.0,
-            constant: maxWidth
-        )
-        textView.addConstraint(maxWidthConstraint)
-        
-        return textView
-    }
-    
-    func updateUIView(_ uiView: UITextView, context: Context) {
-        if uiView.text != text {
-            uiView.text = text
-        }
-        uiView.font = font
     }
 }
