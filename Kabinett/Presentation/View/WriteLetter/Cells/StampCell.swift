@@ -5,7 +5,8 @@
 //  Created by Song Kim on 1/6/25.
 //
 
-import Foundation
+import SwiftUI
+import Kingfisher
 
 struct StampCell: View {
     @Binding var letterContent: LetterWriteModel
