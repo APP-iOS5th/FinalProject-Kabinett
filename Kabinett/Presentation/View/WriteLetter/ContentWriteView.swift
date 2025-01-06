@@ -292,21 +292,35 @@ struct ScrollableLetterView: View {
                             ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
                                 let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
-                                    Image(uiImage: uiImage)
-                                        .resizable()
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(.horizontal, 10)
-                                        .padding(.top, 10)
-                                        .padding(.bottom, UIScreen.main.bounds.width * 0.12)
-                                        .background(Color.white)
-                                        .frame(width: UIScreen.main.bounds.width * 0.88)
-                                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                                        .padding(.top, 10)
-                                        .tag(imageIndex)
-                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding(.horizontal, 10)
+                                            .padding(.top, 10)
+                                            .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+                                            .background(Color.white)
+                                            .frame(width: UIScreen.main.bounds.width * 0.88)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .padding(.top, 10)
+                                            .tag(imageIndex)
+                                            .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
+                                        
+                                        // X 버튼 추가
+                                        Button(action: {
+                                            imageViewModel.photoContents.remove(at: index)
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .resizable()
+                                                .frame(width: 25, height: 25)
+                                                .padding(.trailing, -5)
+                                                .foregroundColor(Color(.primary900))
+                                        }
+                                    }
                                 }
                             }
+
                         }
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
