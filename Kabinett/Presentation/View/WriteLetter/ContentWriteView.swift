@@ -232,57 +232,61 @@ struct ScrollableLetterView: View {
             ScrollViewReader { scrollViewProxy in
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
+                        LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
                             ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                                ZStack {
-                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                    
-                                    VStack {
-                                        Text(i == 0 ? letterContent.toUserName : "")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.top, screenHeight * 0.05)
-                                            .padding(.bottom, screenHeight * 0.01)
-                                            .onTapGesture {
-                                                UIApplication.shared.endEditing()
+                                VStack {
+                                    ZStack {
+                                        KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                            .placeholder {
+                                                ProgressView()
                                             }
+                                            .resizable()
+                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                         
-                                        GeometryReader { geo in
-                                            CustomTextEditor(
-                                                text: $viewModel.texts[i],
-                                                maxWidth: geo.size.width,
-                                                maxHeight: geo.size.height,
-                                                font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
-                                                //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
-                                                //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
-                                            )
+                                        VStack {
+                                            Text(i == 0 ? letterContent.toUserName : "")
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.top, screenHeight * 0.05)
+                                                .padding(.bottom, screenHeight * 0.01)
+                                                .onTapGesture {
+                                                    UIApplication.shared.endEditing()
+                                                }
+                                            
+                                            GeometryReader { geo in
+                                                CustomTextEditor(
+                                                    text: $viewModel.texts[i],
+                                                    maxWidth: geo.size.width,
+                                                    maxHeight: geo.size.height,
+                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
+                                                    //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
+                                                    //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
+                                                )
+                                            }
+                                            .onChange(of: viewModel.texts[i]) {
+                                                letterContent.content = viewModel.texts
+                                            }
+                                            .onChange(of: viewModel.texts.count) {
+                                                letterContent.content = viewModel.texts
+                                            }
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                                .padding(.bottom, screenHeight * 0.00001)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                            
+                                            Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
+                                                .padding(.bottom, screenHeight * 0.05)
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
                                         }
-                                        .onChange(of: viewModel.texts[i]) {
-                                            letterContent.content = viewModel.texts
-                                        }
-                                        .onChange(of: viewModel.texts.count) {
-                                            letterContent.content = viewModel.texts
-                                        }
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                            .padding(.bottom, screenHeight * 0.00001)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                            .padding(.bottom, screenHeight * 0.05)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+                                    .padding(.top, 10)
+                                    .aspectRatio(9/13, contentMode: .fit)
+                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    .id(i)
+                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                    
+                                    Spacer()
                                 }
-                                .padding(.top, 10)
-                                .aspectRatio(9/13, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .id(i)
-                                .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
 
                             ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
