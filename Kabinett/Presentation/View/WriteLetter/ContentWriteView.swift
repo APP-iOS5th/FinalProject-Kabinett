@@ -48,12 +48,12 @@ struct ContentWriteView: View {
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
-                MiniTabBar(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, isPopup: $isPopup)
+                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, isPopup: $isPopup)
             }
         }
         .overlay {
             if isPopup {
-                CustomFontMenu(letterContent: $letterContent, isPopup: $isPopup, fontViewModel: fontViewModel)
+                FontMenuView(letterContent: $letterContent, isPopup: $isPopup, fontViewModel: fontViewModel)
             }
         }
         .toolbar {
@@ -159,7 +159,7 @@ struct ScrollableLetterView: View {
                                     Spacer()
                                 }
                             }
-
+                            
                             ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
                                 let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
@@ -191,7 +191,7 @@ struct ScrollableLetterView: View {
                                     }
                                 }
                             }
-
+                            
                         }
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
@@ -209,12 +209,12 @@ struct ScrollableLetterView: View {
                         .filter { geometry[$0.value].x >= horizontalPadding }
                         .sorted { geometry[$0.value].x < geometry[$1.value].x }
                         .first
-
+                    
                     if let leadingAnchor = leadingAnchor, currentIndex != leadingAnchor.key {
                         currentIndex = leadingAnchor.key
                     }
                 }
-
+                
             }
         }
     }

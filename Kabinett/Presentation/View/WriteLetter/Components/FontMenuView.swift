@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CustomFontMenu: View {
+struct FontMenuView: View {
     @Binding var letterContent: LetterWriteModel
     @Binding var isPopup: Bool
     @ObservedObject var fontViewModel: FontSelectionViewModel

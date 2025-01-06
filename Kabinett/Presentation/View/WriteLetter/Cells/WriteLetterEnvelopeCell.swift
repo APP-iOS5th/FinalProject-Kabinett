@@ -72,5 +72,5 @@ struct WriteLetterEnvelopeCell: View {
             )
         }
     }
-
+    
 }

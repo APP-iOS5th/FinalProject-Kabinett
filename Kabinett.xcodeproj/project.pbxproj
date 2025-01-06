@@ -48,8 +48,8 @@
 		53FC6B862C90207400E7D9A8 /* ContentRectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */; };
 		53FC6B882C9020C100E7D9A8 /* Extension+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B872C9020C100E7D9A8 /* Extension+String.swift */; };
 		53FC6B8A2C90221600E7D9A8 /* LetterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FC6B892C90221600E7D9A8 /* LetterHelper.swift */; };
-		573EE1F42D2BA4DF00978283 /* CustomFontMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573EE1F32D2BA4DF00978283 /* CustomFontMenu.swift */; };
-		573EE1F62D2BA50300978283 /* MiniTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573EE1F52D2BA50300978283 /* MiniTabBar.swift */; };
+		573EE1F42D2BA4DF00978283 /* FontMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573EE1F32D2BA4DF00978283 /* FontMenuView.swift */; };
+		573EE1F62D2BA50300978283 /* MiniTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573EE1F52D2BA50300978283 /* MiniTabBarView.swift */; };
 		573EE1F82D2BA55B00978283 /* CustomTextEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 573EE1F72D2BA55B00978283 /* CustomTextEditor.swift */; };
 		57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57485D3A2C772332000601BF /* ContentWriteView.swift */; };
 		5753E0A02CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */; };
@@ -68,6 +68,9 @@
 		57966BA02C7EC452008D650B /* SelectionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966B9F2C7EC452008D650B /* SelectionTabView.swift */; };
 		57966BA42C7FF739008D650B /* PreviewLetterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA32C7FF738008D650B /* PreviewLetterView.swift */; };
 		57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */; };
+		579E35FB2D2BB0B300F92A87 /* StationeryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579E35FA2D2BB0B300F92A87 /* StationeryCell.swift */; };
+		579E35FD2D2BB0FA00F92A87 /* EnvelopeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579E35FC2D2BB0FA00F92A87 /* EnvelopeCell.swift */; };
+		579E35FF2D2BB11400F92A87 /* StampCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 579E35FE2D2BB11400F92A87 /* StampCell.swift */; };
 		57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */; };
 		57C35C672CCA02130083A346 /* FontUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C35C662CCA02130083A346 /* FontUtility.swift */; };
 		57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */; };
@@ -195,8 +198,8 @@
 		53FC6B852C90207400E7D9A8 /* ContentRectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentRectangleView.swift; sourceTree = "<group>"; };
 		53FC6B872C9020C100E7D9A8 /* Extension+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+String.swift"; sourceTree = "<group>"; };
 		53FC6B892C90221600E7D9A8 /* LetterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterHelper.swift; sourceTree = "<group>"; };
-		573EE1F32D2BA4DF00978283 /* CustomFontMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontMenu.swift; sourceTree = "<group>"; };
-		573EE1F52D2BA50300978283 /* MiniTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTabBar.swift; sourceTree = "<group>"; };
+		573EE1F32D2BA4DF00978283 /* FontMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontMenuView.swift; sourceTree = "<group>"; };
+		573EE1F52D2BA50300978283 /* MiniTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTabBarView.swift; sourceTree = "<group>"; };
 		573EE1F72D2BA55B00978283 /* CustomTextEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextEditor.swift; sourceTree = "<group>"; };
 		57485D3A2C772332000601BF /* ContentWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentWriteView.swift; sourceTree = "<group>"; };
 		5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterEnvelopeCell.swift; sourceTree = "<group>"; };
@@ -213,6 +216,9 @@
 		57966B9F2C7EC452008D650B /* SelectionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionTabView.swift; sourceTree = "<group>"; };
 		57966BA32C7FF738008D650B /* PreviewLetterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterView.swift; sourceTree = "<group>"; };
 		57966BA52C81FD98008D650B /* PreviewLetterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewLetterViewModel.swift; sourceTree = "<group>"; };
+		579E35FA2D2BB0B300F92A87 /* StationeryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StationeryCell.swift; sourceTree = "<group>"; };
+		579E35FC2D2BB0FA00F92A87 /* EnvelopeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvelopeCell.swift; sourceTree = "<group>"; };
+		579E35FE2D2BB11400F92A87 /* StampCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StampCell.swift; sourceTree = "<group>"; };
 		57A014FD2CA57E7100580883 /* NanumMyeongjo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = NanumMyeongjo.otf; sourceTree = "<group>"; };
 		57C35C662CCA02130083A346 /* FontUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FontUtility.swift; path = ../../../../FontUtility.swift; sourceTree = "<group>"; };
 		57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelectionView.swift; sourceTree = "<group>"; };
@@ -355,17 +361,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		573EE1F22D2BA4B500978283 /* ContentWriteView */ = {
-			isa = PBXGroup;
-			children = (
-				57485D3A2C772332000601BF /* ContentWriteView.swift */,
-				573EE1F32D2BA4DF00978283 /* CustomFontMenu.swift */,
-				573EE1F52D2BA50300978283 /* MiniTabBar.swift */,
-				573EE1F72D2BA55B00978283 /* CustomTextEditor.swift */,
-			);
-			path = ContentWriteView;
-			sourceTree = "<group>";
-		};
 		57635A6B2C88890E00727CC5 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -384,10 +379,23 @@
 			isa = PBXGroup;
 			children = (
 				57ED9CD42C70E4A400A4312C /* OpenSourceLicenseModalView.swift */,
-				5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */,
 				57966B9F2C7EC452008D650B /* SelectionTabView.swift */,
+				573EE1F32D2BA4DF00978283 /* FontMenuView.swift */,
+				573EE1F52D2BA50300978283 /* MiniTabBarView.swift */,
+				573EE1F72D2BA55B00978283 /* CustomTextEditor.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		579E35F92D2BB09700F92A87 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5753E09F2CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift */,
+				579E35FA2D2BB0B300F92A87 /* StationeryCell.swift */,
+				579E35FC2D2BB0FA00F92A87 /* EnvelopeCell.swift */,
+				579E35FE2D2BB11400F92A87 /* StampCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		57ED9CE12C7375AC00A4312C /* Font */ = {
@@ -572,10 +580,11 @@
 		8366B6F32C65ECE60021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
+				579E35F92D2BB09700F92A87 /* Cells */,
 				579E35F82D2BAE0300F92A87 /* Components */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */,
 				57EBE5B82C6B399C003ECD7F /* StationerySelectionView.swift */,
-				573EE1F22D2BA4B500978283 /* ContentWriteView */,
+				57485D3A2C772332000601BF /* ContentWriteView.swift */,
 				57966B972C7D574E008D650B /* EnvelopeStampSelectionView.swift */,
 				57966BA32C7FF738008D650B /* PreviewLetterView.swift */,
 			);
@@ -987,8 +996,9 @@
 				AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */,
 				577157052C75DD9900E21162 /* Writer.swift in Sources */,
 				04DEC0FE2C7EDB1100D289EA /* KabinettNumberFormatter.swift in Sources */,
-				573EE1F42D2BA4DF00978283 /* CustomFontMenu.swift in Sources */,
+				573EE1F42D2BA4DF00978283 /* FontMenuView.swift in Sources */,
 				83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */,
+				579E35FD2D2BB0FA00F92A87 /* EnvelopeCell.swift in Sources */,
 				53FC6B842C90204D00E7D9A8 /* CloseButtonView.swift in Sources */,
 				835684412CE0A43600120EC8 /* InjectionKey.swift in Sources */,
 				5300DA4E2C7EC2F9005F22EB /* LetterView.swift in Sources */,
@@ -1011,13 +1021,14 @@
 				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
-				573EE1F62D2BA50300978283 /* MiniTabBar.swift in Sources */,
+				573EE1F62D2BA50300978283 /* MiniTabBarView.swift in Sources */,
 				53A482DA2C6C6F2D00F00A9A /* LetterBoxCell.swift in Sources */,
 				5358E0792CE1EC7E0089C59F /* PhotoDetailView.swift in Sources */,
 				53A482D42C6B4E8600F00A9A /* LetterBoxView.swift in Sources */,
 				530C765A2C7638D9007E09C6 /* LetterBoxViewModel.swift in Sources */,
 				5359618D2C7488DD0031E181 /* TransparentBlurView.swift in Sources */,
 				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
+				579E35FF2D2BB11400F92A87 /* StampCell.swift in Sources */,
 				8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
@@ -1086,6 +1097,7 @@
 				53A99EA72C8190B600896AAC /* SearchBarView.swift in Sources */,
 				577157012C75D73700E21162 /* Extension+UIApplication.swift in Sources */,
 				83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */,
+				579E35FB2D2BB0B300F92A87 /* StationeryCell.swift in Sources */,
 				832C72672C71CF7B0071E8D0 /* SignUpUseCase.swift in Sources */,
 				04DEC0EB2C6C87B500D289EA /* AccountSettingsView.swift in Sources */,
 			);
