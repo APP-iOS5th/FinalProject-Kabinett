@@ -18,8 +18,6 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
-    @State var isPopup: Bool = false
-    
     init(
         letterContent: Binding<LetterWriteModel>,
         imageViewModel: ImagePickerViewModel,
@@ -48,12 +46,12 @@ struct ContentWriteView: View {
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, isPopup: $isPopup)
+                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, showFontMenu: $viewModel.showFontMenu)
             }
         }
         .overlay {
-            if isPopup {
-                FontMenuView(letterContent: $letterContent, isPopup: $isPopup, fontViewModel: fontViewModel)
+            if viewModel.showFontMenu {
+                FontMenuView(letterContent: $letterContent, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
             }
         }
         .toolbar {

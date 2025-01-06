@@ -11,28 +11,26 @@ struct MiniTabBarView: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    
-    @Binding var isPopup: Bool
-    @State var isFontEdit: Bool = true
+    @Binding var showFontMenu: Bool
     
     var body: some View {
         if viewModel.currentIndex < viewModel.texts.count {
             HStack(alignment: .center) {
                 Button {
-                    isPopup.toggle()
+                    showFontMenu.toggle()
                 } label: {
                     Text("F")
                         .bold()
                         .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                        .background(isFontEdit ? Color.clear : Color(.primary300))
+                        .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
                         .clipShape(Capsule())
                 }
-                .disabled(isFontEdit ? false : true)
+                .disabled(viewModel.isFontEdit ? false : true)
                 .onChange(of: viewModel.texts) {
                     if viewModel.texts.contains(where: { !$0.isEmpty }) {
-                        isFontEdit = false
+                        viewModel.isFontEdit = false
                     } else {
-                        isFontEdit = true
+                        viewModel.isFontEdit = true
                     }
                 }
                 
