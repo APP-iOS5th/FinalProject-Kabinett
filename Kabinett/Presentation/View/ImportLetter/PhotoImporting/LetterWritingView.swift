@@ -155,7 +155,6 @@ struct FormToUserView: View {
                 .bold()
                 .frame(width: 100, alignment: .leading)
             
-//            TextField(isFromUser ? name.wrappedValue : "", text: name)
             TextField("", text: isFromUser ? name : .constant(""))
                 .foregroundStyle(Color.contentPrimary)
                 .font(.system(size: 15))
@@ -167,97 +166,97 @@ struct FormToUserView: View {
         }
     }
     
-    struct SearchResultList: View {
-        @Binding var letterContent: LetterWriteModel
-        @Binding var searchText: String
-        @ObservedObject var viewModel: ImagePickerViewModel
-        let isFromUser: Bool
-        
-        var body: some View {
-            VStack {
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(Color.contentPrimary)
-                    
-                    TextField("검색", text: $searchText)
-                        .foregroundStyle(.primary)
-                    
-                    if !searchText.isEmpty {
-                        Button(action: {
-                            self.searchText = ""
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundStyle(Color.primary100)
-                        }
-                    }
-                }
-                .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
-                .background(Color(.white))
-                .clipShape(.capsule)
-                
-                if !searchText.isEmpty {
-                    Divider()
-                        .padding([.leading, .trailing], 10)
-                        .padding(.top, -6)
-                    
-                    List {
-                        Text("\(searchText) 입력")
-                            .onTapGesture {
-                                updateUser(name: searchText)
-                                searchText = ""
-                                UIApplication.shared.endEditing()
-                            }
-                            .padding(.leading, 35)
-                            .listRowSeparator(.hidden)
-                            .foregroundStyle(Color.primary900)
-                        
-                        ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults, id: \.name) { user in
-                            HStack {
-                                Image(systemName: "person.crop.circle")
-                                    .resizable()
-                                    .frame(width: 25, height: 25)
-                                    .clipShape(.circle)
-                                    .foregroundStyle(Color.primary100)
-                                Text(user.name)
-                                    .foregroundStyle(Color.primary900)
-                                Spacer()
-                                Text("\(String(user.kabinettNumber.prefix(3)))-\(String(user.kabinettNumber.suffix(3)))")
-                                    .foregroundStyle(Color.primary900)
-                            }
-                            .listRowSeparator(.hidden)
-                            .onTapGesture {
-                                updateUser(name: user.name)
-                                searchText = ""
-                                UIApplication.shared.endEditing()
-                            }
-                        }
-                    }
-                    .listStyle(PlainListStyle())
-                    .frame(height: 200)
-                    .background(Color.white)
-                    .cornerRadius(20)
-                    .padding(.top, -5)
-                }
-            }
-            .padding(.top, 2)
-            .background(searchText.isEmpty ? Color.clear : Color.white)
-            .cornerRadius(16)
-        }
-        
-        private func updateUser(name: String) {
-            if isFromUser {
-                viewModel.fromUserName = name
-                letterContent.fromUserName = name
-                if let user = viewModel.usersData.first(where: { $0.name == name }) {
-                    letterContent.fromUserId = user.id
-                    viewModel.fromUserKabinettNumber = user.kabinettNumber
-                } else {
-                    viewModel.fromUserId = ""
-                    viewModel.fromUserKabinettNumber = 0
-                }
-            } else {
-                viewModel.updateSelectedUser(selectedUserName: name)
-            }
-        }
-    }
+//    struct SearchResultList: View {
+//        @Binding var letterContent: LetterWriteModel
+//        @Binding var searchText: String
+//        @ObservedObject var viewModel: ImagePickerViewModel
+//        let isFromUser: Bool
+//        
+//        var body: some View {
+//            VStack {
+//                HStack {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundStyle(Color.contentPrimary)
+//                    
+//                    TextField("검색", text: $searchText)
+//                        .foregroundStyle(.primary)
+//                    
+//                    if !searchText.isEmpty {
+//                        Button(action: {
+//                            self.searchText = ""
+//                        }) {
+//                            Image(systemName: "xmark.circle.fill")
+//                                .foregroundStyle(Color.primary100)
+//                        }
+//                    }
+//                }
+//                .padding(EdgeInsets(top: 7, leading: 13, bottom: 7, trailing: 13))
+//                .background(Color(.white))
+//                .clipShape(.capsule)
+//                
+//                if !searchText.isEmpty {
+//                    Divider()
+//                        .padding([.leading, .trailing], 10)
+//                        .padding(.top, -6)
+//                    
+//                    List {
+//                        Text("\(searchText) 입력")
+//                            .onTapGesture {
+//                                updateUser(name: searchText)
+//                                searchText = ""
+//                                UIApplication.shared.endEditing()
+//                            }
+//                            .padding(.leading, 35)
+//                            .listRowSeparator(.hidden)
+//                            .foregroundStyle(Color.primary900)
+//                        
+//                        ForEach(isFromUser ? viewModel.fromUserSearchResults : viewModel.toUserSearchResults, id: \.name) { user in
+//                            HStack {
+//                                Image(systemName: "person.crop.circle")
+//                                    .resizable()
+//                                    .frame(width: 25, height: 25)
+//                                    .clipShape(.circle)
+//                                    .foregroundStyle(Color.primary100)
+//                                Text(user.name)
+//                                    .foregroundStyle(Color.primary900)
+//                                Spacer()
+//                                Text("\(String(user.kabinettNumber.prefix(3)))-\(String(user.kabinettNumber.suffix(3)))")
+//                                    .foregroundStyle(Color.primary900)
+//                            }
+//                            .listRowSeparator(.hidden)
+//                            .onTapGesture {
+//                                updateUser(name: user.name)
+//                                searchText = ""
+//                                UIApplication.shared.endEditing()
+//                            }
+//                        }
+//                    }
+//                    .listStyle(PlainListStyle())
+//                    .frame(height: 200)
+//                    .background(Color.white)
+//                    .cornerRadius(20)
+//                    .padding(.top, -5)
+//                }
+//            }
+//            .padding(.top, 2)
+//            .background(searchText.isEmpty ? Color.clear : Color.white)
+//            .cornerRadius(16)
+//        }
+//        
+//        private func updateUser(name: String) {
+//            if isFromUser {
+//                viewModel.fromUserName = name
+//                letterContent.fromUserName = name
+//                if let user = viewModel.usersData.first(where: { $0.name == name }) {
+//                    letterContent.fromUserId = user.id
+//                    viewModel.fromUserKabinettNumber = user.kabinettNumber
+//                } else {
+//                    viewModel.fromUserId = ""
+//                    viewModel.fromUserKabinettNumber = 0
+//                }
+//            } else {
+//                viewModel.updateSelectedUser(selectedUserName: name)
+//            }
+//        }
+//    }
 }
