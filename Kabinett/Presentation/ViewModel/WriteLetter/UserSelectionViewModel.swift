@@ -41,19 +41,6 @@ class UserSelectionViewModel: ObservableObject {
         }
     }
     
-    func reset() {
-        searchText = ""
-        debouncedSearchText = ""
-        checkLogin = false
-        fromUser = nil
-        toUser = nil
-        usersData = []
-        
-        Task {
-            await getCurrentWriter()
-        }
-    }
-    
     func updateFromUser() {
         if let fromUser = fromUser {
             if fromUser.kabinettNumber == 0 {

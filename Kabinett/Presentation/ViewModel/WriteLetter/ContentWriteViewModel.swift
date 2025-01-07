@@ -15,12 +15,7 @@ class ContentWriteViewModel: ObservableObject {
     
     @State var showFontMenu: Bool = false
     @State var isFontEdit: Bool = true
-    
-    func reset() {
-        texts = [""]
-        currentIndex = 0
-    }
-    
+
     func createNewLetter(idx: Int) {
         texts.insert("", at: idx+1)
     }

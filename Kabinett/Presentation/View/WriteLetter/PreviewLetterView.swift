@@ -69,8 +69,6 @@ struct PreviewLetterView: View {
                                          date: letterContent.date,
                                          stationery: letterContent.stationeryImageUrlString ?? "",
                                          isRead: false)
-                    
-                    letterContent.reset()
                     customTabViewModel.hideOptions()
                     imagePickerViewModel.resetSelections()
                 } label: {

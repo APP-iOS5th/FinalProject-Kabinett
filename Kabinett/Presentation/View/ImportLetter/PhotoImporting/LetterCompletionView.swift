@@ -135,7 +135,6 @@ struct LetterCompletionView: View {
             customTabViewModel.navigateToLetterBox()
             dismiss()
             customTabViewModel.selectedTab = 0
-            envelopeStampSelectionViewModel.reset()
             
             Task {
                 if viewModel.postScript == nil {

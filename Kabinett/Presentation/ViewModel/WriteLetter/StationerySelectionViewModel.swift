@@ -22,11 +22,6 @@ class StationerySelectionViewModel: ObservableObject {
         }
     }
     
-    func reset() {
-        selectedIndex = (0,0)
-        stationerys = []
-    }
-    
     var numberOfRows: Int {
         (stationerys.count + 1) / 2
     }

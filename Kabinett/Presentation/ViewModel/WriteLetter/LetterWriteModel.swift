@@ -33,26 +33,4 @@ class LetterWriteModel: ObservableObject {
         case fromLetterWriting
         case fromImagePicker
     }
-    
-    func reset() {
-        fontString = nil
-        postScript = nil
-        envelopeImageUrlString = ""
-        stampImageUrlString = ""
-        
-        fromUserId = nil
-        fromUserName = ""
-        fromUserKabinettNumber = nil
-        
-        toUserId = nil
-        toUserName = ""
-        toUserKabinettNumber = nil
-        
-        content = []
-        photoContents = []
-        date = Date()
-        stationeryImageUrlString = nil
-        isRead = false
-        dataSource = .fromLetterWriting
-    }
 }
