@@ -136,6 +136,13 @@
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
 		AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE1979F2D118277003597B9 /* OptionGuideView.swift */; };
+		AFEE729B2D37D71F000D59F9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */; };
+		AFEE729D2D37D71F000D59F9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */; };
+		AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */; };
+		AFEE72A22D37D71F000D59F9 /* KabinettWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE72A12D37D71F000D59F9 /* KabinettWidget.swift */; };
+		AFEE72A42D37D722000D59F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFEE72A32D37D722000D59F9 /* Assets.xcassets */; };
+		AFEE72A82D37D722000D59F9 /* KabinettWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AFEE72AD2D37D805000D59F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CDF2C73749800A4312C /* Assets.xcassets */; };
 		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -154,7 +161,28 @@
 			remoteGlobalIDString = 839CE0F22C644BEF003635F3;
 			remoteInfo = Kabinett;
 		};
+		AFEE72A62D37D722000D59F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 839CE0EB2C644BEF003635F3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AFEE72972D37D71F000D59F9;
+			remoteInfo = KabinettWidgetExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AFEE72A92D37D722000D59F9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				AFEE72A82D37D722000D59F9 /* KabinettWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		04D182782C881EBE0038DA57 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -285,6 +313,13 @@
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
 		AFE1979F2D118277003597B9 /* OptionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGuideView.swift; sourceTree = "<group>"; };
+		AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KabinettWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettWidgetBundle.swift; sourceTree = "<group>"; };
+		AFEE72A12D37D71F000D59F9 /* KabinettWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettWidget.swift; sourceTree = "<group>"; };
+		AFEE72A32D37D722000D59F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AFEE72A52D37D722000D59F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -313,6 +348,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFEE72952D37D71F000D59F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFEE729D2D37D71F000D59F9 /* SwiftUI.framework in Frameworks */,
+				AFEE729B2D37D71F000D59F9 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,6 +783,8 @@
 				839CE0F52C644BEF003635F3 /* Kabinett */,
 				839CE1062C644BF0003635F3 /* KabinettTests */,
 				839CE1102C644BF0003635F3 /* KabinettUITests */,
+				AFEE729E2D37D71F000D59F9 /* KabinettWidget */,
+				AFEE72992D37D71F000D59F9 /* Frameworks */,
 				839CE0F42C644BEF003635F3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -749,6 +795,7 @@
 				839CE0F32C644BEF003635F3 /* Kabinett.app */,
 				839CE1032C644BF0003635F3 /* KabinettTests.xctest */,
 				839CE10D2C644BF0003635F3 /* KabinettUITests.xctest */,
+				AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -838,6 +885,26 @@
 			path = CustomTabViewModel;
 			sourceTree = "<group>";
 		};
+		AFEE72992D37D71F000D59F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */,
+				AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AFEE729E2D37D71F000D59F9 /* KabinettWidget */ = {
+			isa = PBXGroup;
+			children = (
+				AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */,
+				AFEE72A12D37D71F000D59F9 /* KabinettWidget.swift */,
+				AFEE72A32D37D722000D59F9 /* Assets.xcassets */,
+				AFEE72A52D37D722000D59F9 /* Info.plist */,
+			);
+			path = KabinettWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -848,10 +915,12 @@
 				839CE0EF2C644BEF003635F3 /* Sources */,
 				839CE0F02C644BEF003635F3 /* Frameworks */,
 				839CE0F12C644BEF003635F3 /* Resources */,
+				AFEE72A92D37D722000D59F9 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AFEE72A72D37D722000D59F9 /* PBXTargetDependency */,
 			);
 			name = Kabinett;
 			packageProductDependencies = (
@@ -902,6 +971,23 @@
 			productReference = 839CE10D2C644BF0003635F3 /* KabinettUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		AFEE72972D37D71F000D59F9 /* KabinettWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AFEE72AC2D37D722000D59F9 /* Build configuration list for PBXNativeTarget "KabinettWidgetExtension" */;
+			buildPhases = (
+				AFEE72942D37D71F000D59F9 /* Sources */,
+				AFEE72952D37D71F000D59F9 /* Frameworks */,
+				AFEE72962D37D71F000D59F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KabinettWidgetExtension;
+			productName = KabinettWidgetExtension;
+			productReference = AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -922,6 +1008,9 @@
 					839CE10C2C644BF0003635F3 = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = 839CE0F22C644BEF003635F3;
+					};
+					AFEE72972D37D71F000D59F9 = {
+						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
@@ -946,6 +1035,7 @@
 				839CE0F22C644BEF003635F3 /* Kabinett */,
 				839CE1022C644BF0003635F3 /* KabinettTests */,
 				839CE10C2C644BF0003635F3 /* KabinettUITests */,
+				AFEE72972D37D71F000D59F9 /* KabinettWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -981,6 +1071,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AFEE72962D37D71F000D59F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFEE72AD2D37D805000D59F9 /* Assets.xcassets in Resources */,
+				AFEE72A42D37D722000D59F9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1120,6 +1219,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AFEE72942D37D71F000D59F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */,
+				AFEE72A22D37D71F000D59F9 /* KabinettWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1132,6 +1240,11 @@
 			isa = PBXTargetDependency;
 			target = 839CE0F22C644BEF003635F3 /* Kabinett */;
 			targetProxy = 839CE10E2C644BF0003635F3 /* PBXContainerItemProxy */;
+		};
+		AFEE72A72D37D722000D59F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AFEE72972D37D71F000D59F9 /* KabinettWidgetExtension */;
+			targetProxy = AFEE72A62D37D722000D59F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1258,6 +1371,7 @@
 		839CE1182C644BF0003635F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Kabinett/Kabinett.entitlements;
@@ -1299,6 +1413,7 @@
 		839CE1192C644BF0003635F3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Kabinett/Kabinett.entitlements;
@@ -1429,6 +1544,62 @@
 			};
 			name = Release;
 		};
+		AFEE72AA2D37D722000D59F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59FP2PXRXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KabinettWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = KabinettWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.kr.codegrove.Kabinett.KabinettWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AFEE72AB2D37D722000D59F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59FP2PXRXK;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KabinettWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = KabinettWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = co.kr.codegrove.Kabinett.KabinettWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1464,6 +1635,15 @@
 			buildConfigurations = (
 				839CE11E2C644BF0003635F3 /* Debug */,
 				839CE11F2C644BF0003635F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AFEE72AC2D37D722000D59F9 /* Build configuration list for PBXNativeTarget "KabinettWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AFEE72AA2D37D722000D59F9 /* Debug */,
+				AFEE72AB2D37D722000D59F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
