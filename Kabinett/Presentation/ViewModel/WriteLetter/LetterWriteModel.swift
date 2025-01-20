@@ -27,10 +27,10 @@ class LetterWriteModel: ObservableObject {
     @Published var date: Date = Date()
     @Published var stationeryImageUrlString: String? = nil
     @Published var isRead: Bool = false
-    @Published var dataSource: DataSource = .fromLetterWriting
+    @Published var dataSource: DataSource = .writeLetter
     
     enum DataSource {
-        case fromLetterWriting
-        case fromImagePicker
+        case writeLetter
+        case importLetter
     }
 }

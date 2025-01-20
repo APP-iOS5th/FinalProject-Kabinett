@@ -81,7 +81,7 @@ struct EnvelopeStampSelectionView: View {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
             
-            if letterContent.dataSource == .fromImagePicker {
+            if letterContent.dataSource == .importLetter {
                 await imageViewModel.loadAndUpdateEnvelopeAndStamp()
                 envelopeImageUrl = imageViewModel.envelopeURL ?? ""
                 stampImageUrl = imageViewModel.stampURL ?? ""
@@ -103,7 +103,7 @@ struct EnvelopeStampSelectionView: View {
         .navigationTitle("봉투와 우표 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                if letterContent.dataSource == .fromImagePicker {
+                if letterContent.dataSource == .importLetter {
                     NavigationLink(destination: LetterCompletionView(
                         letterContent: $letterContent,
                         viewModel: imageViewModel,
