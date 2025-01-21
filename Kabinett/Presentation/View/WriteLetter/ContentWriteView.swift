@@ -18,6 +18,8 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
+    @State var keyBoard: Bool = false
+    
     init(
         letterContent: Binding<LetterWriteModel>,
         imageViewModel: ImagePickerViewModel,
@@ -48,12 +50,14 @@ struct ContentWriteView: View {
                 }
                 MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
             }
-            Button(action:{
-                UIApplication.shared.sendAction(
-                    #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
-                )
-            }){
-                Text("키보드 감추기")
+            if keyBoard {
+                Button(action:{
+                    UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                    )
+                }){
+                    Text("키보드 감추기")
+                }
             }
         }
         .overlay {
@@ -87,10 +91,12 @@ struct ContentWriteView: View {
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
                     print("키보드 나타남")
+                    keyBoard = true
                 }
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
                     print("키보드 비활성화")
+                    keyBoard = false
                 }
         }
         .analyticsScreen(
