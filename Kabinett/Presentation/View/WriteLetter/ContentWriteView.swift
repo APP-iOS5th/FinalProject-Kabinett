@@ -97,12 +97,10 @@ struct ContentWriteView: View {
         .onAppear{
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-                    print("키보드 나타남")
                     keyBoard = true
                 }
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                    print("키보드 비활성화")
                     keyBoard = false
                 }
         }
