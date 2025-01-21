@@ -49,14 +49,21 @@ struct ContentWriteView: View {
                         .clipShape(Capsule())
                 }
                 MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
-            }
-            if keyBoard {
-                Button(action:{
-                    UIApplication.shared.sendAction(
-                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
-                    )
-                }){
-                    Text("키보드 감추기")
+                
+                if keyBoard {
+                    Button(action:{
+                        UIApplication.shared.sendAction(
+                            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                        )
+                    }){
+                        Image(systemName: "keyboard.chevron.compact.down")
+                            .padding(12)
+                            .foregroundStyle(Color.white)
+                            .background(Color.primary900)
+                            .clipShape(Circle())
+                    }
+                    .padding(.top, UIScreen.main.bounds.height * 0.488)
+                    .padding(.leading, UIScreen.main.bounds.width * 0.85)
                 }
             }
         }
