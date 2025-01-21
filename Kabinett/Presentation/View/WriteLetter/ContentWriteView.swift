@@ -46,7 +46,7 @@ struct ContentWriteView: View {
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, showFontMenu: $viewModel.showFontMenu)
+                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
             }
         }
         .overlay {
