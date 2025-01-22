@@ -24,13 +24,9 @@ struct MiniTabBarView: View {
                         .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
                         .clipShape(Capsule())
                 }
-                .disabled(viewModel.isFontEdit ? false : true)
-                .onChange(of: viewModel.texts) {
-                    if viewModel.texts.contains(where: { !$0.isEmpty }) {
-                        viewModel.isFontEdit = false
-                    } else {
-                        viewModel.isFontEdit = true
-                    }
+                .disabled(!viewModel.isFontEdit)
+                .onChange(of: viewModel.currentHeight) {
+                    viewModel.updateFontEditState()
                 }
                 
                 Button {

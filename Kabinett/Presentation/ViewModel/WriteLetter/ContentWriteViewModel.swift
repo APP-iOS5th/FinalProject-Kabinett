@@ -15,6 +15,12 @@ class ContentWriteViewModel: ObservableObject {
     
     @Published var showFontMenu: Bool = false
     @Published var isFontEdit: Bool = true
+    
+    @Published var currentHeight: CGFloat = 0.0
+    
+    func updateFontEditState() {
+        isFontEdit = currentHeight < UIScreen.main.bounds.height * 0.3
+    }
 
     func toggleFontView() {
         showFontMenu.toggle()
