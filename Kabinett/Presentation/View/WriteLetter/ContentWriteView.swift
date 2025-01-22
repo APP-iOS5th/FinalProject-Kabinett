@@ -154,7 +154,8 @@ struct ScrollableLetterView: View {
                                                     text: $viewModel.texts[i],
                                                     maxWidth: geo.size.width,
                                                     maxHeight: geo.size.height,
-                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
+                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? "")),
+                                                    currentHeight: $viewModel.currentHeight
                                                     //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
                                                     //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
                                                 )

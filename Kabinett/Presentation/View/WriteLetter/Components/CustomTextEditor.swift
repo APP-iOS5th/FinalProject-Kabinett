@@ -13,6 +13,7 @@ struct CustomTextEditor: UIViewRepresentable {
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
+    @Binding var currentHeight: CGFloat
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor
@@ -23,6 +24,8 @@ struct CustomTextEditor: UIViewRepresentable {
         
         func textViewDidChange(_ textView: UITextView) {
             let size = textView.sizeThatFits(CGSize(width: parent.maxWidth, height: CGFloat.greatestFiniteMagnitude))
+            
+            parent.currentHeight = size.height
             
             if size.height > parent.maxHeight {
                 textView.text = parent.text
