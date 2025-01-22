@@ -119,7 +119,7 @@ struct LetterWritingView: View {
         letterContent.toUserName = viewModel.toUserName
         letterContent.date = viewModel.date
         letterContent.photoContents = viewModel.photoContents
-        letterContent.dataSource = .fromImagePicker
+        letterContent.dataSource = .importLetter
     }
 }
 

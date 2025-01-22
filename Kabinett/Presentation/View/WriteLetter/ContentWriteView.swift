@@ -18,6 +18,8 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
+    @State var keyBoard: Bool = false
+    
     init(
         letterContent: Binding<LetterWriteModel>,
         imageViewModel: ImagePickerViewModel,
@@ -46,7 +48,23 @@ struct ContentWriteView: View {
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, showFontMenu: $viewModel.showFontMenu)
+                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
+                
+                if keyBoard {
+                    Button(action:{
+                        UIApplication.shared.sendAction(
+                            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                        )
+                    }){
+                        Image(systemName: "keyboard.chevron.compact.down")
+                            .padding(12)
+                            .foregroundStyle(Color.white)
+                            .background(Color.primary900)
+                            .clipShape(Circle())
+                    }
+                    .padding(.top, UIScreen.main.bounds.height * 0.488)
+                    .padding(.leading, UIScreen.main.bounds.width * 0.85)
+                }
             }
         }
         .overlay {
@@ -75,6 +93,16 @@ struct ContentWriteView: View {
                 await imageViewModel.loadImages()
                 letterContent.photoContents = imageViewModel.photoContents
             }
+        }
+        .onAppear{
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+                    keyBoard = true
+                }
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    keyBoard = false
+                }
         }
         .analyticsScreen(
             name: "\(type(of:self))",

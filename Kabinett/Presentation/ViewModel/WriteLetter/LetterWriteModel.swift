@@ -27,32 +27,10 @@ class LetterWriteModel: ObservableObject {
     @Published var date: Date = Date()
     @Published var stationeryImageUrlString: String? = nil
     @Published var isRead: Bool = false
-    @Published var dataSource: DataSource = .fromLetterWriting
+    @Published var dataSource: DataSource = .writeLetter
     
     enum DataSource {
-        case fromLetterWriting
-        case fromImagePicker
-    }
-    
-    func reset() {
-        fontString = nil
-        postScript = nil
-        envelopeImageUrlString = ""
-        stampImageUrlString = ""
-        
-        fromUserId = nil
-        fromUserName = ""
-        fromUserKabinettNumber = nil
-        
-        toUserId = nil
-        toUserName = ""
-        toUserKabinettNumber = nil
-        
-        content = []
-        photoContents = []
-        date = Date()
-        stationeryImageUrlString = nil
-        isRead = false
-        dataSource = .fromLetterWriting
+        case writeLetter
+        case importLetter
     }
 }
