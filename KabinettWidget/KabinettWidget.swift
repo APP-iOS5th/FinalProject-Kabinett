@@ -67,8 +67,8 @@ struct KabinettWidget: Widget {
                     .background(Color.background)
             }
         }
-        .configurationDisplayName("Kabinett")
-        .description("편지를 읽어보세요")
+        .configurationDisplayName("편지 확인")
+        .description("새로 온 편지를 확인할 수 있어요.")
         .supportedFamilies([.systemMedium])
     }
 }
