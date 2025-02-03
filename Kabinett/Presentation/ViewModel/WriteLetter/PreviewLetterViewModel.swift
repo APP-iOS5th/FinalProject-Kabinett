@@ -66,7 +66,7 @@ class PreviewLetterViewModel: ObservableObject {
                 NotificationCenter.default.post(
                     name: .showToast,
                     object: nil,
-                    userInfo: isSaveSuccessful ? ["message": "편지가 성공적으로 보관되었어요.", "color": Color.primary900] : ["message": "앗…!! 편지 보관을 실패했어요..", "color": Color.alert])
+                    userInfo: isSaveSuccessful ? ["message": "편지가 성공적으로 전송되었어요.", "color": Color.primary900] : ["message": "앗…!! 편지 전송을 실패했어요..", "color": Color.alert])
             }
         }
     }
