@@ -142,9 +142,10 @@ struct LetterCompletionView: View {
                 }
                 
                 let success = await viewModel.saveImportingImage()
-                if !success {
-                    print("Failed to save letter")
-                }
+                NotificationCenter.default.post(
+                    name: .showToast,
+                    object: nil,
+                    userInfo: success ? ["message": "편지가 성공적으로 보관되었어요.", "color": Color.primary900] : ["message": "앗…!! 편지 보관을 실패했어요..", "color": Color.alert])
             }
         }) {
             Text("편지 보관하기")

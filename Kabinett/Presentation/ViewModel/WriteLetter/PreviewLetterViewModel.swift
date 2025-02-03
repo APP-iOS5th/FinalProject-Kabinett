@@ -62,6 +62,11 @@ class PreviewLetterViewModel: ObservableObject {
                     self.errorMessage = "오류 발생: \(error.localizedDescription)"
                     print("Save Letter Error: \(error.localizedDescription)")
                 }
+                
+                NotificationCenter.default.post(
+                    name: .showToast,
+                    object: nil,
+                    userInfo: isSaveSuccessful ? ["message": "편지가 성공적으로 보관되었어요.", "color": Color.primary900] : ["message": "앗…!! 편지 보관을 실패했어요..", "color": Color.alert])
             }
         }
     }
