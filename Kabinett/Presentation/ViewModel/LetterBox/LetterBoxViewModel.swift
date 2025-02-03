@@ -74,7 +74,7 @@ class LetterBoxViewModel: ObservableObject {
                 NotificationCenter.default.post(
                     name: .showToast,
                     object: nil,
-                    userInfo: ["message": "카비넷 팀의 편지가 도착했어요.", "color": Color.primary900])
+                    userInfo: ["message": "카비넷 팀이 보낸 편지가 도착했어요.", "color": Color.primary900])
             case .failure(let error):
                 self.isShowToast = false
                 self.errorMessage = error.localizedDescription
