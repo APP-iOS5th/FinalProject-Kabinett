@@ -8,22 +8,20 @@
 import SwiftUI
 
 struct ToastView: View {
-    let message: String
-    @Binding var showToast: Bool
-    
+    @ObservedObject var toastViewModel: ToastViewModel
     @State private var actualCurrentOffset: CGSize = CGSize(width: 0, height: UIScreen.main.bounds.height)
     
     var body: some View {
-        if showToast {
+        if toastViewModel.showToast {
             ZStack {
                 Rectangle()
                     .fill(.clear)
-                    .background(.primary900)
+                    .background(toastViewModel.backgroundColor)
                     .frame(height: 50)
                     .cornerRadius(28)
                     .padding(.horizontal, 50)
                 
-                Text(message)
+                Text(toastViewModel.message)
                     .font(.system(size: 16, weight: .heavy))
                     .foregroundStyle(.white)
             }
@@ -34,15 +32,11 @@ struct ToastView: View {
                 } completion: {
                     withAnimation(Animation.easeInOut(duration: 1.5).delay(1.2)) {
                         actualCurrentOffset = CGSize(width: 0, height: UIScreen.main.bounds.height)
-                        showToast = false
+                        toastViewModel.showToast = false
                     }
                 }
             }
             .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.01, forOthers: 0.01))
         }
     }
-}
-
-#Preview {
-    ToastView(message: "카비넷 팀이 보낸 편지가 도착했어요.", showToast: .constant(true))
 }
