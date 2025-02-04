@@ -201,6 +201,7 @@ struct ScrollableLetterView: View {
                                             .frame(width: UIScreen.main.bounds.width * 0.88)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                             .padding(.top, 10)
+                                            .shadow(color: .primary300, radius: 5, x: 3, y: 3)
                                             .tag(imageIndex)
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                         
