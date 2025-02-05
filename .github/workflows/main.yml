@@ -10,7 +10,7 @@ jobs:
       - name: Send Discord notification
         uses: stegzilla/discord-notify@v2
         with:
-          webhook_url: https://discord.com/api/webhooks/1279764424533610537/ebmxzQxzmoekP7d3UIo6q9e8RuwQKIZMm497Txy12oVvtEdehMedh4jcdH7uZmVbyqtw
+          webhook_url: https://discord.com/api/webhooks/1336664047818506280/witcWkjuUYR7BrBcc_WE3u0dZjKZfqZDRkfqsL1WwHdcBgj91fcB0vfAeuYwBLgpxFMs
           title: New PR opened
           message: "**${{ github.event.pull_request.title }}**\n**Creator:** ${{ github.event.pull_request.user.login }}\n${{ github.event.pull_request.html_url }}"
           include_image: true
