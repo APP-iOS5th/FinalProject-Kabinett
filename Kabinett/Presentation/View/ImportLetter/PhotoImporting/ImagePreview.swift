@@ -52,6 +52,7 @@ struct ImagePreview: View {
                     }
                     .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                 }
+                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
             }
             .navigationTitle("")
             .navigationBarTitleDisplayMode(.inline)

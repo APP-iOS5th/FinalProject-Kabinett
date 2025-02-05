@@ -125,6 +125,8 @@
 		83D9C8E52C830C7600EF2684 /* DefaultSignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */; };
 		83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6842C705E42001B8733 /* AuthManager.swift */; };
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
+		AF738DC42D50B3900081FB96 /* Extension+NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */; };
+		AF738DC62D50B3C00081FB96 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */; };
 		AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */; };
 		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
@@ -274,6 +276,8 @@
 		83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSignUpUseCase.swift; sourceTree = "<group>"; };
 		83F0D6842C705E42001B8733 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
+		AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NotificationName.swift"; sourceTree = "<group>"; };
+		AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
 		AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImportLetterUseCase.swift; sourceTree = "<group>"; };
 		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
@@ -371,6 +375,7 @@
 				57966B992C7D8B45008D650B /* Extension+Date.swift */,
 				57966B9D2C7DB266008D650B /* Extension+TextField.swift */,
 				577C86722C8B8D5700EAB1BE /* Extension+View.swift */,
+				AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -569,8 +574,8 @@
 				536AE7FB2C94881C002A3046 /* Cells */,
 				5381504F2C8AD54A007B1E5A /* Components */,
 				53A482D32C6B4E8600F00A9A /* LetterBoxView.swift */,
-				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
 				5300DA4D2C7EC2F9005F22EB /* LetterView.swift */,
+				53A482D72C6C6ACA00F00A9A /* LetterBoxDetailView.swift */,
 				534C67B62C7FF85700F0C175 /* LetterContentView.swift */,
 				5358E0782CE1EC7E0089C59F /* PhotoDetailView.swift */,
 			);
@@ -632,6 +637,7 @@
 				53DC1A2E2C7F0FC000575ACC /* LetterViewModel.swift */,
 				53A99EA82C81914B00896AAC /* CalendarViewModel.swift */,
 				5358E0722CE16E630089C59F /* SearchBarViewModel.swift */,
+				AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */,
 			);
 			path = LetterBox;
 			sourceTree = "<group>";
@@ -1063,6 +1069,7 @@
 				AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */,
 				AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */,
 				8314013F2C69C34500F601FB /* Letter.swift in Sources */,
+				AF738DC42D50B3900081FB96 /* Extension+NotificationName.swift in Sources */,
 				57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
@@ -1087,6 +1094,7 @@
 				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,
 				53DC1A2F2C7F0FC000575ACC /* LetterViewModel.swift in Sources */,
 				7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */,
+				AF738DC62D50B3C00081FB96 /* ToastViewModel.swift in Sources */,
 				8356843D2CE0A43600120EC8 /* ServiceKeys.swift in Sources */,
 				53BB36422C8E943600E74A4D /* CustomStrokePathView.swift in Sources */,
 				5753E0A02CE1AB8200ACC007 /* WriteLetterEnvelopeCell.swift in Sources */,

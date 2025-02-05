@@ -16,6 +16,7 @@ struct LetterBoxView: View {
     
     @StateObject private var calendarViewModel = CalendarViewModel()
     @StateObject private var searchBarViewModel = SearchBarViewModel()
+    @StateObject private var toastViewModel = ToastViewModel()
     
     @ObservedObject var customTabViewModel: CustomTabViewModel
     
@@ -57,7 +58,7 @@ struct LetterBoxView: View {
                     
                     VStack {
                         Spacer()
-                        ToastView(message: "카비넷 팀의 편지가 도착했어요.", showToast: $letterBoxViewModel.showToast)
+                        ToastView(toastViewModel: toastViewModel)
                     }
                 }
                 .onAppear() {
