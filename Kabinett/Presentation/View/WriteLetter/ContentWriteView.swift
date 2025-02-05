@@ -129,61 +129,57 @@ struct ScrollableLetterView: View {
             ScrollViewReader { scrollViewProxy in
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(spacing: UIScreen.main.bounds.width * 0.04) {
+                        LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
                             ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                                VStack {
-                                    ZStack {
-                                        KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
-                                            .placeholder {
-                                                ProgressView()
-                                            }
-                                            .resizable()
-                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                        
-                                        VStack {
-                                            Text(i == 0 ? letterContent.toUserName : "")
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.top, screenHeight * 0.05)
-                                                .padding(.bottom, screenHeight * 0.01)
-                                                .onTapGesture {
-                                                    UIApplication.shared.endEditing()
-                                                }
-                                            
-                                            GeometryReader { geo in
-                                                CustomTextEditor(
-                                                    text: $viewModel.texts[i],
-                                                    maxWidth: geo.size.width,
-                                                    maxHeight: geo.size.height,
-                                                    font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
-                                                    //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
-                                                    //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
-                                                )
-                                            }
-                                            .onChange(of: viewModel.texts[i]) {
-                                                letterContent.content = viewModel.texts
-                                            }
-                                            .onChange(of: viewModel.texts.count) {
-                                                letterContent.content = viewModel.texts
-                                            }
-                                            
-                                            Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                                .padding(.bottom, screenHeight * 0.00001)
-                                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                            
-                                            Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                                .padding(.bottom, screenHeight * 0.05)
-                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                ZStack {
+                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                        .placeholder {
+                                            ProgressView()
                                         }
-                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
-                                    }
-                                    .padding(.top, 10)
-                                    .aspectRatio(9/13, contentMode: .fit)
-                                    .frame(width: UIScreen.main.bounds.width * 0.88)
-                                    .id(i)
-                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                        .resizable()
+                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                     
-                                    Spacer()
+                                    VStack {
+                                        Text(i == 0 ? letterContent.toUserName : "")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.top, screenHeight * 0.05)
+                                            .padding(.bottom, screenHeight * 0.01)
+                                            .onTapGesture {
+                                                UIApplication.shared.endEditing()
+                                            }
+                                        
+                                        GeometryReader { geo in
+                                            CustomTextEditor(
+                                                text: $viewModel.texts[i],
+                                                maxWidth: geo.size.width,
+                                                maxHeight: geo.size.height,
+                                                font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
+                                                //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
+                                                //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
+                                            )
+                                        }
+                                        .onChange(of: viewModel.texts[i]) {
+                                            letterContent.content = viewModel.texts
+                                        }
+                                        .onChange(of: viewModel.texts.count) {
+                                            letterContent.content = viewModel.texts
+                                        }
+                                        
+                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                            .padding(.bottom, screenHeight * 0.00001)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        
+                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
+                                            .padding(.bottom, screenHeight * 0.05)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                    }
+                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
                                 }
+                                .padding(.top, 10)
+                                .aspectRatio(9/13, contentMode: .fit)
+                                .frame(width: UIScreen.main.bounds.width * 0.88)
+                                .id(i)
+                                .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
                             
                             ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
@@ -194,13 +190,11 @@ struct ScrollableLetterView: View {
                                             .resizable()
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                             .aspectRatio(contentMode: .fit)
-                                            .padding(.horizontal, 10)
-                                            .padding(.top, 10)
+                                            .padding([.horizontal, .top], 10)
                                             .padding(.bottom, UIScreen.main.bounds.width * 0.12)
                                             .background(Color.white)
                                             .frame(width: UIScreen.main.bounds.width * 0.88)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .padding(.top, 10)
                                             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
                                             .tag(imageIndex)
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
@@ -212,10 +206,11 @@ struct ScrollableLetterView: View {
                                             Image(systemName: "xmark.circle.fill")
                                                 .resizable()
                                                 .frame(width: 25, height: 25)
-                                                .padding(.trailing, -5)
+                                                .padding([.trailing, .top], -5)
                                                 .foregroundColor(Color(.primary900))
                                         }
                                     }
+                                    .position(x: geometry.size.width / 2 - 25, y: geometry.size.height / 2)
                                 }
                             }
                             
