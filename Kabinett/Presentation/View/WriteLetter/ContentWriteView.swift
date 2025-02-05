@@ -48,6 +48,7 @@ struct ContentWriteView: View {
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
+                .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
                 MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
                 
                 if keyBoard {
