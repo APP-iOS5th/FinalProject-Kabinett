@@ -196,6 +196,7 @@ struct ScrollableLetterView: View {
                                             .frame(width: UIScreen.main.bounds.width * 0.88)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                                            .padding(.top, 10)
                                             .tag(imageIndex)
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                         
@@ -206,11 +207,10 @@ struct ScrollableLetterView: View {
                                             Image(systemName: "xmark.circle.fill")
                                                 .resizable()
                                                 .frame(width: 25, height: 25)
-                                                .padding([.trailing, .top], -5)
+                                                .padding(.trailing, -10)
                                                 .foregroundColor(Color(.primary900))
                                         }
                                     }
-                                    .position(x: geometry.size.width / 2 - 25, y: geometry.size.height / 2)
                                 }
                             }
                             
