@@ -109,11 +109,16 @@ struct LetterContentView: View {
     private func displayPhoto(index: Int, geometry: GeometryProxy) -> some View {
         KFImage(URL(string: letter.photoContents[index]))
             .resizable()
+            .clipShape(RoundedRectangle(cornerRadius: 5))
             .aspectRatio(contentMode: .fit)
+            .padding(.horizontal, 10)
+            .padding(.top, 10)
+            .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+            .background(Color.white)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
             .frame(width: geometry.size.width * 0.84)
             .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-            .padding(.bottom, 30)
             .onTapGesture {
                 selectedPhotoUrl = letter.photoContents[index]
                 isPhotoDetailPresented = true
