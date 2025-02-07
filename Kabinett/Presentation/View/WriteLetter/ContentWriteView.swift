@@ -194,10 +194,9 @@ struct ScrollableLetterView: View {
                                             .padding([.horizontal, .top], 10)
                                             .padding(.bottom, UIScreen.main.bounds.width * 0.12)
                                             .background(Color.white)
-                                            .frame(width: UIScreen.main.bounds.width * 0.88)
                                             .clipShape(RoundedRectangle(cornerRadius: 5))
                                             .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                                            .padding(.top, 10)
+                                            .padding([.top, .bottom], 10)
                                             .tag(imageIndex)
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                         
@@ -212,6 +211,7 @@ struct ScrollableLetterView: View {
                                                 .foregroundColor(Color(.primary900))
                                         }
                                     }
+                                    .frame(width: UIScreen.main.bounds.width * 0.88)
                                 }
                             }
                             
