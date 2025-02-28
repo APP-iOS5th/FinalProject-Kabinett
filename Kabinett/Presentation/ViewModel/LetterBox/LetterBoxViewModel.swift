@@ -16,7 +16,7 @@ class LetterBoxViewModel: ObservableObject {
     
     @Published var letterBoxLetters: [LetterType: [Letter]] = [:]
     @Published var isReadLetters: [LetterType: Int] = [:]
-    @Published var showToast = false
+    @Published var isShowToast = false
     
     @Published var errorMessage: String?
     
@@ -70,9 +70,13 @@ class LetterBoxViewModel: ObservableObject {
             let result = await letterBoxUseCase.getWelcomeLetter()
             switch result {
             case .success:
-                self.showToast = true
+                self.isShowToast = true
+                NotificationCenter.default.post(
+                    name: .showToast,
+                    object: nil,
+                    userInfo: ["message": "카비넷 팀이 보낸 편지가 도착했어요.", "color": Color.primary900])
             case .failure(let error):
-                self.showToast = false
+                self.isShowToast = false
                 self.errorMessage = error.localizedDescription
             }
         }

@@ -11,13 +11,12 @@ struct MiniTabBarView: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @Binding var showFontMenu: Bool
     
     var body: some View {
         if viewModel.currentIndex < viewModel.texts.count {
             HStack(alignment: .center) {
                 Button {
-                    showFontMenu.toggle()
+                    viewModel.toggleFontView()
                 } label: {
                     Text("F")
                         .bold()

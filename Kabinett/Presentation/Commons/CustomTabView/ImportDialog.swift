@@ -17,12 +17,10 @@ struct ImportDialog: View {
                 Button("촬영하기") {
                     viewModel.hideOptions()
                     viewModel.showCamera = true
-                    envelopeStampSelectionViewModel.reset()
                 }
                 Button("앨범에서 가져오기") {
                     viewModel.hideOptions()
                     viewModel.showPhotoLibrary = true
-                    envelopeStampSelectionViewModel.reset()
                 }
                 Button("취소", role: .cancel) {
                     viewModel.showImportDialog = false

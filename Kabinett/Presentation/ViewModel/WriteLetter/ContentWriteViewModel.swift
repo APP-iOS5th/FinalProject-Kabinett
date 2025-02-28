@@ -13,12 +13,11 @@ class ContentWriteViewModel: ObservableObject {
     @Published var currentIndex: Int = 0
     @Published var isDeleteAlertPresented = false
     
-    @State var showFontMenu: Bool = false
-    @State var isFontEdit: Bool = true
-    
-    func reset() {
-        texts = [""]
-        currentIndex = 0
+    @Published var showFontMenu: Bool = false
+    @Published var isFontEdit: Bool = true
+
+    func toggleFontView() {
+        showFontMenu.toggle()
     }
     
     func createNewLetter(idx: Int) {
