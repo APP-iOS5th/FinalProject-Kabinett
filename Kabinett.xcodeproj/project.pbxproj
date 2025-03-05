@@ -324,6 +324,7 @@
 		AFEE72A12D37D71F000D59F9 /* KabinettWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KabinettWidget.swift; sourceTree = "<group>"; };
 		AFEE72A32D37D722000D59F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFEE72A52D37D722000D59F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFFE08AE2D77E4E600A5A587 /* KabinettWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KabinettWidgetExtension.entitlements; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -785,6 +786,7 @@
 		839CE0EA2C644BEF003635F3 = {
 			isa = PBXGroup;
 			children = (
+				AFFE08AE2D77E4E600A5A587 /* KabinettWidgetExtension.entitlements */,
 				04D182782C881EBE0038DA57 /* Settings.bundle */,
 				839CE0F52C644BEF003635F3 /* Kabinett */,
 				839CE1062C644BF0003635F3 /* KabinettTests */,
@@ -1557,6 +1559,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = KabinettWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1585,6 +1588,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = KabinettWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
