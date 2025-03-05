@@ -27,11 +27,6 @@ class EnvelopeStampSelectionViewModel: ObservableObject {
         }
     }
     
-    func reset() {
-        envelopeSelectedIndex = (0,0)
-        stampSelectedIndex = (0,0)
-    }
-    
     var envelopeNumberOfRows: Int {
         (envelopes.count + 1) / 2
     }
