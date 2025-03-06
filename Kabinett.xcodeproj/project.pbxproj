@@ -145,6 +145,7 @@
 		AFEE72A42D37D722000D59F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFEE72A32D37D722000D59F9 /* Assets.xcassets */; };
 		AFEE72A82D37D722000D59F9 /* KabinettWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		AFEE72AD2D37D805000D59F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CDF2C73749800A4312C /* Assets.xcassets */; };
+		AFFE08C12D794AF400A5A587 /* WidgetEnvelopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFE08C02D794AF400A5A587 /* WidgetEnvelopeView.swift */; };
 		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -325,6 +326,7 @@
 		AFEE72A32D37D722000D59F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AFEE72A52D37D722000D59F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AFFE08AE2D77E4E600A5A587 /* KabinettWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KabinettWidgetExtension.entitlements; sourceTree = "<group>"; };
+		AFFE08C02D794AF400A5A587 /* WidgetEnvelopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetEnvelopeView.swift; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -905,12 +907,21 @@
 		AFEE729E2D37D71F000D59F9 /* KabinettWidget */ = {
 			isa = PBXGroup;
 			children = (
+				AFFE08BF2D794AD900A5A587 /* Views */,
 				AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */,
 				AFEE72A12D37D71F000D59F9 /* KabinettWidget.swift */,
 				AFEE72A32D37D722000D59F9 /* Assets.xcassets */,
 				AFEE72A52D37D722000D59F9 /* Info.plist */,
 			);
 			path = KabinettWidget;
+			sourceTree = "<group>";
+		};
+		AFFE08BF2D794AD900A5A587 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AFFE08C02D794AF400A5A587 /* WidgetEnvelopeView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1235,6 +1246,7 @@
 			files = (
 				AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */,
 				AFEE72A22D37D71F000D59F9 /* KabinettWidget.swift in Sources */,
+				AFFE08C12D794AF400A5A587 /* WidgetEnvelopeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
