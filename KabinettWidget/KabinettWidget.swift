@@ -47,13 +47,6 @@ struct KabinettWidgetEntryView : View {
         ZStack {
             WidgetEnvelopeView()
         }
-//        VStack {
-//            Text("Time:")
-//            Text(entry.date, style: .time)
-//
-//            Text("Emoji:")
-//            Text(entry.emoji)
-//        }
     }
 }
 
