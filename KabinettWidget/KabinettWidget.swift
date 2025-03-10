@@ -46,6 +46,7 @@ struct KabinettWidgetEntryView : View {
     var body: some View {
         ZStack {
             WidgetEnvelopeView()
+            RedSticker()
         }
     }
 }

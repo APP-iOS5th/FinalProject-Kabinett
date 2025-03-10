@@ -142,6 +142,7 @@
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
 		AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */; };
 		AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */; };
+		AFBD58302D7EDE1A00202F50 /* RedSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFBD582F2D7EDE1A00202F50 /* RedSticker.swift */; };
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
@@ -329,6 +330,7 @@
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterWriteManager.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
+		AFBD582F2D7EDE1A00202F50 /* RedSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSticker.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
 		AFE1979F2D118277003597B9 /* OptionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGuideView.swift; sourceTree = "<group>"; };
 		AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KabinettWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -936,6 +938,7 @@
 			isa = PBXGroup;
 			children = (
 				AFFE08C02D794AF400A5A587 /* WidgetEnvelopeView.swift */,
+				AFBD582F2D7EDE1A00202F50 /* RedSticker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1271,6 +1274,7 @@
 				AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */,
 				AFEE72A22D37D71F000D59F9 /* KabinettWidget.swift in Sources */,
 				AFFE08C12D794AF400A5A587 /* WidgetEnvelopeView.swift in Sources */,
+				AFBD58302D7EDE1A00202F50 /* RedSticker.swift in Sources */,
 				AFFE08C22D79666700A5A587 /* LayoutHelper.swift in Sources */,
 				AFFE08C32D79667900A5A587 /* FontUtility.swift in Sources */,
 			);
