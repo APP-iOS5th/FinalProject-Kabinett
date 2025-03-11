@@ -66,7 +66,7 @@ struct WidgetEnvelopeView: View {
                         KFImage(URL(string: "https://firebasestorage.googleapis.com/v0/b/kabinett-2b247.appspot.com/o/Envelopes%2FEnvelope0.png?alt=media&token=2a6e0dc3-8ed1-467d-a953-8297975a8334"))
                             .resizable()
                     )
-                    .shadow(color: .primary300, radius: 4, x: 5, y: 5)
+                    .shadow(color: .primary300, radius: 3, x: 4, y: 4)
             )
             .padding(.trailing, LayoutHelper.shared.getSize(forSE: 0.006, forOthers: 0.008))
         }
