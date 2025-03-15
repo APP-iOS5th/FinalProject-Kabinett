@@ -12,12 +12,13 @@ struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), emoji: "😀")
     }
-
+    
+    // 위젯 표기 시 미리보기로 보이는 화면
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let entry = SimpleEntry(date: Date(), emoji: "😀")
         completion(entry)
     }
-
+    // 정의한 타임라인에 맞게 업데이트해서 보여질 내용
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [SimpleEntry] = []
 
@@ -43,12 +44,9 @@ struct KabinettWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
-            Text("Time:")
-            Text(entry.date, style: .time)
-
-            Text("Emoji:")
-            Text(entry.emoji)
+        ZStack {
+            WidgetEnvelopeView()
+            RedSticker()
         }
     }
 }

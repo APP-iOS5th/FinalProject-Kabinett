@@ -7,5 +7,14 @@
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.widgetkit-extension</string>
 	</dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Pecita.otf</string>
+		<string>goormSansOTF4.otf</string>
+		<string>Baskervville-Regular.otf</string>
+		<string>SourceHanSerifK-Regular.otf</string>
+		<string>SourceHanSerifK-Bold.otf</string>
+		<string>NanumMyeongjo.otf</string>
+	</array>
 </dict>
 </plist>
