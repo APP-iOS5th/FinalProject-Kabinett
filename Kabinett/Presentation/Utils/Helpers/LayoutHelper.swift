@@ -30,23 +30,44 @@ struct LayoutHelper {
     }
     
     static func calculateOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
-            let screenWidth = UIScreen.main.bounds.width
-            let screenHeight = UIScreen.main.bounds.height
-            
-            switch totalCount {
-            case 1:
-                return (xOffset: screenWidth * -0.027, yOffset: screenHeight * -0.002, rotation: Double(-1.5))
-            case 2:
-                let xOffset = index == 0 ? screenWidth * -0.018 : screenWidth * 0.015
-                let yOffset = index == 0 ? screenHeight * -0.01 : screenHeight * -0.001
-                let rotation = index == 0 ? -1 : 0
-                return (xOffset: xOffset, yOffset: yOffset, rotation: Double(rotation))
-            case 3:
-                let xOffsets = [screenWidth * -0.029, screenWidth * -0.02, screenWidth * 0.029]
-                let yOffsets = [screenHeight * -0.002, screenHeight * -0.01, screenHeight * -0.002]
-                return (xOffset: xOffsets[index], yOffset: yOffsets[index], rotation: 0)
-            default:
-                return (xOffset: 0, yOffset: 0, rotation: 0)
-            }
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        switch totalCount {
+        case 1:
+            return (xOffset: screenWidth * -0.027, yOffset: screenHeight * -0.002, rotation: Double(-1.5))
+        case 2:
+            let xOffset = index == 0 ? screenWidth * -0.018 : screenWidth * 0.015
+            let yOffset = index == 0 ? screenHeight * -0.01 : screenHeight * -0.001
+            let rotation = index == 0 ? -1 : 0
+            return (xOffset: xOffset, yOffset: yOffset, rotation: Double(rotation))
+        case 3:
+            let xOffsets = [screenWidth * -0.029, screenWidth * -0.02, screenWidth * 0.029]
+            let yOffsets = [screenHeight * -0.002, screenHeight * -0.01, screenHeight * -0.002]
+            return (xOffset: xOffsets[index], yOffset: yOffsets[index], rotation: 0)
+        default:
+            return (xOffset: 0, yOffset: 0, rotation: 0)
+        }
     }
+    
+    static func calculateWidgetOffsetAndRotation(for index: Int, totalCount: Int) -> (xOffset: CGFloat, yOffset: CGFloat, rotation: Double) {
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        switch totalCount {
+        case 1:
+            return (xOffset: 0, yOffset: 0, rotation: 0)
+        case 2:
+            let xOffsets = [screenWidth * -0.02, screenWidth * 0.05]
+            let yOffsets = [screenHeight * -0.002, screenHeight * 0.01]
+            return (xOffsets[index], yOffsets[index], 0)
+        case 3:
+            let xOffsets = [screenWidth * -0.045, screenWidth * 0.02, screenWidth * 0.06]
+            let yOffsets = [screenHeight * -0.002, screenHeight * 0.004, screenHeight * 0.009]
+            return (xOffsets[index], yOffsets[index], 0)
+        default:
+            return (0, 0, 0)
+        }
+    }
+    
 }
