@@ -45,7 +45,14 @@ struct KabinettWidgetEntryView : View {
 
     var body: some View {
         ZStack {
-            WidgetEnvelopeView()
+            ForEach(Array(WidgetLetterStub.sampleLetters3.reversed().enumerated()), id: \.element.id) { index, letter in
+                let (xOffset, yOffset, rotation) = LayoutHelper.calculateWidgetOffsetAndRotation(for: index, totalCount: WidgetLetterStub.sampleLetters3.count)
+                
+                WidgetEnvelopeView()
+                    .offset(x: xOffset, y: yOffset)
+                    .rotationEffect(.degrees(rotation))
+                    .zIndex(Double(-index))
+            }
             RedSticker()
         }
     }
@@ -58,11 +65,11 @@ struct KabinettWidget: Widget {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
                 KabinettWidgetEntryView(entry: entry)
-                    .containerBackground(Color.background, for: .widget)
+                    .containerBackground(Color.widgetBackground, for: .widget)
             } else {
                 KabinettWidgetEntryView(entry: entry)
                     .padding()
-                    .background(Color.background)
+                    .background(Color.widgetBackground)
             }
         }
         .configurationDisplayName("편지 확인")
