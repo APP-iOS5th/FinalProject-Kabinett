@@ -32,11 +32,11 @@ struct ImagePickerView: View {
                     customViewModel.showImagePreview = true
                 }
             }
-            .fullScreenCover(isPresented: $customViewModel.showImagePreview) {
-                ImagePreview(
-                    imageViewModel: imageViewModel,
-                    customViewModel: customViewModel
-                )
-            }
+//            .fullScreenCover(isPresented: $customViewModel.showImagePreview) {
+//                ImagePreview(
+//                    imageViewModel: imageViewModel,
+//                    customViewModel: customViewModel
+//                )
+//            }
     }
 }

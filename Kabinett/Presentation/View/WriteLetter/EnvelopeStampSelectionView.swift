@@ -80,16 +80,9 @@ struct EnvelopeStampSelectionView: View {
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
-            
-            if letterContent.dataSource == .importLetter {
-                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
-                envelopeImageUrl = imageViewModel.envelopeURL ?? ""
-                stampImageUrl = imageViewModel.stampURL ?? ""
-            } else {
-                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
-                envelopeImageUrl = letterContent.envelopeImageUrlString
-                stampImageUrl = letterContent.stampImageUrlString
-            }
+            await imageViewModel.loadAndUpdateEnvelopeAndStamp()
+            envelopeImageUrl = letterContent.envelopeImageUrlString
+            stampImageUrl = letterContent.stampImageUrlString
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
             imageViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
@@ -103,29 +96,15 @@ struct EnvelopeStampSelectionView: View {
         .navigationTitle("봉투와 우표 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                if letterContent.dataSource == .importLetter {
-                    NavigationLink(destination: LetterCompletionView(
-                        letterContent: $letterContent,
-                        viewModel: imageViewModel,
-                        customTabViewModel: customTabViewModel,
-                        envelopeStampSelectionViewModel: viewModel
-                    )) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
-                } else {
-                    NavigationLink(destination: PreviewLetterView(
-                        letterContent: $letterContent,
-                        customTabViewModel: customTabViewModel,
-                        imagePickerViewModel: imageViewModel
-                    )) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
+                NavigationLink(destination: PreviewLetterView(
+                    letterContent: $letterContent,
+                    customTabViewModel: customTabViewModel,
+                    imagePickerViewModel: imageViewModel
+                )) {
+                    Text("다음")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundStyle(.contentPrimary)
                 }
             }
         }

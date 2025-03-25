@@ -412,10 +412,19 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		57F7A5532D924E8A002E1209 /* ImportPhoto */ = {
+			isa = PBXGroup;
+			children = (
+				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
+				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
+				7F6CE9E52C6E28400074568E /* CameraView.swift */,
+			);
+			path = ImportPhoto;
+			sourceTree = "<group>";
+		};
 		7F397C4F2C7C381E00388645 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				7F6CE9E52C6E28400074568E /* CameraView.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -433,10 +442,8 @@
 			isa = PBXGroup;
 			children = (
 				7FCAE2B02C73080000228FA7 /* ImagePreview.swift */,
-				7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */,
 				7FCAE2B72C730E1700228FA7 /* OverlappingImagesView.swift */,
 				7FCAE2BB2C73157C00228FA7 /* LetterWritingView.swift */,
-				7F78684B2C78B41A0083D204 /* ImagePickerView.swift */,
 				7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */,
 			);
 			path = PhotoImporting;
@@ -576,6 +583,7 @@
 		8366B6F32C65ECE60021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
+				57F7A5532D924E8A002E1209 /* ImportPhoto */,
 				579E35F92D2BB09700F92A87 /* Cells */,
 				579E35F82D2BAE0300F92A87 /* Components */,
 				57EBE5AF2C69E5F2003ECD7F /* UserSelectionView.swift */,
