@@ -65,9 +65,10 @@ struct StationerySelectionView: View {
                     customViewModel.hideWriteView()
                 }) {
                     Image(systemName: "chevron.backward")
+                        .fontWeight(.semibold)
                         .foregroundColor(Color.primary900)
                         .imageScale(.large)
-                        .padding(.leading, -5)
+                        .padding(.leading, 3)
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
