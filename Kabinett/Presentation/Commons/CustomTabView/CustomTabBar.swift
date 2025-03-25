@@ -43,7 +43,7 @@ struct CustomTabBar: View {
         }) {
             Image(uiImage: image)
                 .renderingMode(.template)
-                .foregroundStyle(viewModel.selectedTab == tag ? Color.primary600 : Color.primary300)
+                .foregroundStyle(viewModel.selectedTab == tag ? Color.primary900 : Color.primary300)
         }
     }
     
