@@ -14,7 +14,7 @@ import FirebaseAnalytics
 struct ContentWriteView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel = ContentWriteViewModel()
-    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @StateObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
@@ -22,12 +22,11 @@ struct ContentWriteView: View {
     
     init(
         letterContent: Binding<LetterWriteModel>,
-        imageViewModel: ImagePickerViewModel,
         customTabViewModel: CustomTabViewModel
     ) {
         self._letterContent = letterContent
-        self.imageViewModel = imageViewModel
         self.customTabViewModel = customTabViewModel
+        self._imageViewModel = StateObject(wrappedValue: ImagePickerViewModel())
     }
     
     var body: some View {
@@ -76,8 +75,7 @@ struct ContentWriteView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: EnvelopeStampSelectionView(
                     letterContent: $letterContent,
-                    customTabViewModel: customTabViewModel,
-                    imageViewModel: imageViewModel
+                    customTabViewModel: customTabViewModel
                 )) {
                     Text("다음")
                         .fontWeight(.medium)

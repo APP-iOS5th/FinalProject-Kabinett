@@ -14,18 +14,15 @@ struct StationerySelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel : StationerySelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     init(
         letterContent: Binding<LetterWriteModel>,
-        customViewModel: CustomTabViewModel,
-        imageViewModel: ImagePickerViewModel
+        customViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
         self.customViewModel = customViewModel
-        self.imageViewModel = imageViewModel
     }
     
     var body: some View {
@@ -74,7 +71,6 @@ struct StationerySelectionView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: ContentWriteView(
                     letterContent: $letterContent,
-                    imageViewModel: imageViewModel,
                     customTabViewModel: customViewModel
                 )) {
                     Text("다음")

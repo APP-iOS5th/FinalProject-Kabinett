@@ -14,19 +14,16 @@ struct PreviewLetterView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel: PreviewLetterViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     
     init(
         letterContent: Binding<LetterWriteModel>,
-        customTabViewModel: CustomTabViewModel,
-        imagePickerViewModel: ImagePickerViewModel
+        customTabViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         
         _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
         self.customTabViewModel = customTabViewModel
-        self.imagePickerViewModel = imagePickerViewModel
     }
     
     var body: some View {
@@ -70,7 +67,6 @@ struct PreviewLetterView: View {
                                          stationery: letterContent.stationeryImageUrlString ?? "",
                                          isRead: false)
                     customTabViewModel.hideWriteView()
-                    imagePickerViewModel.resetSelections()
                 } label: {
                     Text("편지 보내기")
                         .font(.system(size: 16))

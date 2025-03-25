@@ -14,19 +14,16 @@ struct UserSelectionView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel : UserSelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     @State private var isFullScreen = false
     
     init(
         letterContent: Binding<LetterWriteModel>,
-        customViewModel: CustomTabViewModel,
-        imageViewModel: ImagePickerViewModel
+        customViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: UserSelectionViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
         self.customViewModel = customViewModel
-        self.imageViewModel = imageViewModel
     }
     
     var body: some View {
@@ -51,8 +48,7 @@ struct UserSelectionView: View {
                     NavigationStack {
                         StationerySelectionView(
                             letterContent: $letterContent,
-                            customViewModel: customViewModel,
-                            imageViewModel: imageViewModel
+                            customViewModel: customViewModel
                         )
                     }
                 }

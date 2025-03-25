@@ -12,7 +12,6 @@ struct CustomTabView: View {
     @StateObject private var customTabViewModel = CustomTabViewModel()
     @StateObject private var profileViewModel: ProfileViewModel
     @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @StateObject private var imagePickerViewModel: ImagePickerViewModel
     @State private var letterWriteViewModel = LetterWriteModel()
     
     init() {
@@ -23,7 +22,6 @@ struct CustomTabView: View {
         self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel())
         self._profileViewModel = StateObject(wrappedValue: ProfileViewModel(profileUseCase: profileUseCase))
         self._envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
-        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel())
     }
     
     var body: some View {
@@ -59,7 +57,7 @@ struct CustomTabView: View {
             }
         }
         .sheet(isPresented: $customTabViewModel.showWriteView) {
-            UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel, imageViewModel: imagePickerViewModel)
+            UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel)
                 .presentationDetents([.height(300), .large])
         }
     }

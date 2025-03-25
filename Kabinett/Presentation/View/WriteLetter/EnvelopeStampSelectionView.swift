@@ -12,7 +12,6 @@ import FirebaseAnalytics
 struct EnvelopeStampSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @StateObject var viewModel: EnvelopeStampSelectionViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var postScriptText: String = ""
     @State private var envelopeImageUrl: String
@@ -20,11 +19,9 @@ struct EnvelopeStampSelectionView: View {
     
     init(
         letterContent: Binding<LetterWriteModel>,
-        customTabViewModel: CustomTabViewModel,
-        imageViewModel: ImagePickerViewModel
+        customTabViewModel: CustomTabViewModel
     ) {
         self._letterContent = letterContent
-        self.imageViewModel = imageViewModel
         self.customTabViewModel = customTabViewModel
         
         _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
@@ -95,8 +92,7 @@ struct EnvelopeStampSelectionView: View {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: PreviewLetterView(
                     letterContent: $letterContent,
-                    customTabViewModel: customTabViewModel,
-                    imagePickerViewModel: imageViewModel
+                    customTabViewModel: customTabViewModel
                 )) {
                     Text("다음")
                         .fontWeight(.medium)
