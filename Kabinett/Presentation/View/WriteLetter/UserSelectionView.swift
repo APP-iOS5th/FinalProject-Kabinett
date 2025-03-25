@@ -13,15 +13,23 @@ struct UserSelectionView: View {
     @Binding var letterContent: LetterWriteModel
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel : UserSelectionViewModel
+    @ObservedObject var customViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    @State private var isFullScreen = false
     
-    init(letterContent: Binding<LetterWriteModel>) {
+    init(
+        letterContent: Binding<LetterWriteModel>,
+        customViewModel: CustomTabViewModel,
+        imageViewModel: ImagePickerViewModel
+    ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: UserSelectionViewModel(useCase: writeLetterUseCase))
         self._letterContent = letterContent
+        self.customViewModel = customViewModel
+        self.imageViewModel = imageViewModel
     }
     
     var body: some View {
-        
         ZStack {
             Color(.primary100).ignoresSafeArea()
                 .onTapGesture {
@@ -32,13 +40,22 @@ struct UserSelectionView: View {
                 HStack {
                     Spacer()
                     Button("완료") {
-                        dismiss()
+                        isFullScreen = true
                     }
                 }
                 .fontWeight(.medium)
                 .font(.system(size: 19))
                 .foregroundColor(.contentPrimary)
                 .padding(.bottom, -3)
+                .fullScreenCover(isPresented: $isFullScreen) {
+                    NavigationStack {
+                        StationerySelectionView(
+                            letterContent: $letterContent,
+                            customViewModel: customViewModel,
+                            imageViewModel: imageViewModel
+                        )
+                    }
+                }
                 
                 FormToUser(letterContent: $letterContent, viewModel: viewModel)
                 

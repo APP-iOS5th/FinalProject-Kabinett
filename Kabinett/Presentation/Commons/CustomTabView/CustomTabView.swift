@@ -59,38 +59,16 @@ struct CustomTabView: View {
                 customTabViewModel.selectedTab = oldValue
             }
         }
-        .overlay(
-            Group {
-                if customTabViewModel.showOptions {
-                    OptionOverlay(
-                        customTabViewModel: customTabViewModel,
-                        imageViewModel: imagePickerViewModel
-                    )
-                }
-            }
-        )
-        .overlay(
-            ImportDialog(
-                viewModel: customTabViewModel,
-                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
-            )
-        )
-        .overlay(
-            ImagePickerView(
-                imageViewModel: imagePickerViewModel,
-                customViewModel: customTabViewModel,
-                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
-            )
-        )
-        .fullScreenCover(isPresented: $customTabViewModel.showCamera) {
-            CameraView(imagePickerViewModel: imagePickerViewModel)
+        .sheet(isPresented: $customTabViewModel.showOptions) {
+            UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel, imageViewModel: imagePickerViewModel)
+                .presentationDetents([.height(300), .large])
         }
-        .sheet(isPresented: $customTabViewModel.showWriteLetterView) {
-            ContentWriteView(
-                letterContent: $letterWriteViewModel,
-                imageViewModel: imagePickerViewModel,
-                customTabViewModel: customTabViewModel
-            )
-        }
+//        .overlay(
+//            ImagePickerView(
+//                imageViewModel: imagePickerViewModel,
+//                customViewModel: customTabViewModel,
+//                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
+//            )
+//        )
     }
 }

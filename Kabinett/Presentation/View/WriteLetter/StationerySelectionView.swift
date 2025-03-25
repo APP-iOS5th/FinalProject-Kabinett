@@ -57,20 +57,20 @@ struct StationerySelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
         }
-        .sheet(isPresented: $viewModel.showModal) {
-            UserSelectionView(letterContent: $letterContent)
-                .presentationDetents([.height(300), .large])
-        }
-        .onAppear {
-            viewModel.showModal = true
-            
-            Task {
-                await viewModel.loadStationeries()
-            }
-        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("편지지 고르기")
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    customViewModel.showOptions = false
+                    dismiss()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .foregroundColor(Color.primary900)
+                        .imageScale(.large)
+                        .padding(.leading, -5)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: ContentWriteView(
                     letterContent: $letterContent,
