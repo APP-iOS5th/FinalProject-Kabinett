@@ -69,7 +69,7 @@ struct PreviewLetterView: View {
                                          date: letterContent.date,
                                          stationery: letterContent.stationeryImageUrlString ?? "",
                                          isRead: false)
-                    customTabViewModel.hideOptions()
+                    customTabViewModel.hideWriteView()
                     imagePickerViewModel.resetSelections()
                 } label: {
                     Text("편지 보내기")

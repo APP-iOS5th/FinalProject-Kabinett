@@ -54,12 +54,12 @@ struct CustomTabView: View {
         .onChange(of: customTabViewModel.selectedTab) { oldValue, newValue in
             if newValue == 1 {
                 withAnimation {
-                    customTabViewModel.showOptions = true
+                    customTabViewModel.showWriteView = true
                 }
                 customTabViewModel.selectedTab = oldValue
             }
         }
-        .sheet(isPresented: $customTabViewModel.showOptions) {
+        .sheet(isPresented: $customTabViewModel.showWriteView) {
             UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel, imageViewModel: imagePickerViewModel)
                 .presentationDetents([.height(300), .large])
         }

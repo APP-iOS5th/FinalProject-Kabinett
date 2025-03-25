@@ -62,8 +62,7 @@ struct StationerySelectionView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button(action: {
-                    customViewModel.showOptions = false
-                    dismiss()
+                    customViewModel.hideWriteView()
                 }) {
                     Image(systemName: "chevron.backward")
                         .foregroundColor(Color.primary900)

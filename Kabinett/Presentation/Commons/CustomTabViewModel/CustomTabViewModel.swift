@@ -9,21 +9,17 @@ import SwiftUI
 
 final class CustomTabViewModel: ObservableObject {
     @Published var selectedTab: Int = 0
-    @Published var showOptions: Bool = false
+    @Published var showWriteView: Bool = false
     @Published var showImportDialog: Bool = false
+    
     @Published var showCamera: Bool = false
     @Published var showPhotoLibrary: Bool = false
     @Published var showImagePreview: Bool = false
-    @Published var showWriteLetterView: Bool = false
+    
     @Published var letterBoxNavigationPath = NavigationPath()
     @Published var profileNavigationPath = NavigationPath()
-    @Published var isLetterWrite: Bool = false
-    @Published var previousTab: Int?
     
     static let profileTabTappedNotification = Notification.Name("profileTabTappedNotification")
-    
-    private var lastTabSelectionTime: Date?
-    private let doubleTapInterval: TimeInterval = 0.2
     
     // MARK: TabView SystemImage Size
     let envelopeImage: UIImage
@@ -59,7 +55,7 @@ final class CustomTabViewModel: ObservableObject {
             }
         } else if tab == 1 {
             withAnimation(.easeInOut(duration: 0.3)) {
-                showOptions = true
+                showWriteView = true
             }
         } else {
             selectedTab = tab
@@ -77,30 +73,9 @@ final class CustomTabViewModel: ObservableObject {
         }
     }
     
-    func navigateToLetterBox() {
-        selectedTab = 0
-        showOptions = false
-        showImportDialog = false
-        showPhotoLibrary = false
-        showCamera = false
-        showImagePreview = false
-        showWriteLetterView = false
-    }
-    
-    // MARK: OptionOverlay sheet 관련 Method
-    func hideOptions() {
-        showOptions = false
-    }
-    
-    func showImportDialogAndHideOptions() {
-        showOptions = false
-        showImportDialog = true
-        isLetterWrite = false
-    }
-    
-    func showWriteLetterViewAndHideOptions() {
-        showOptions = false
-        showWriteLetterView = true
+    // MARK: OptionOverlay sheet 관련 Method    
+    func hideWriteView() {
+        showWriteView = false
     }
     
     // MARK: ImagePicker sheet 관련 Method

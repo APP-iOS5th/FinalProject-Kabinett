@@ -63,7 +63,6 @@ struct MiniTabBarView: View {
                 }
                 Button {
                     customTabViewModel.showPhotoLibrary = true
-                    customTabViewModel.isLetterWrite = true
                 } label: {
                     Image(systemName: "photo.on.rectangle.angled")
                         .font(.system(size: 15))
