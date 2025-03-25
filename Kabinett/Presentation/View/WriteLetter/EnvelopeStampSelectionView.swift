@@ -80,16 +80,13 @@ struct EnvelopeStampSelectionView: View {
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
-            await imageViewModel.loadAndUpdateEnvelopeAndStamp()
             envelopeImageUrl = letterContent.envelopeImageUrlString
             stampImageUrl = letterContent.stampImageUrlString
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
-            imageViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
             letterContent.envelopeImageUrlString = newValue
         }
         .onChange(of: stampImageUrl) { _, newValue in
-            imageViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
             letterContent.stampImageUrlString = newValue
         }
         .navigationBarTitleDisplayMode(.inline)
