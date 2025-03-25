@@ -120,7 +120,6 @@
 		83F0D6872C7072DB001B8733 /* FirestoreWriterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */; };
 		AF738DC42D50B3900081FB96 /* Extension+NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */; };
 		AF738DC62D50B3C00081FB96 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */; };
-		AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */; };
 		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
 		AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */; };
@@ -263,7 +262,6 @@
 		83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWriterManager.swift; sourceTree = "<group>"; };
 		AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NotificationName.swift"; sourceTree = "<group>"; };
 		AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
-		AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultImportLetterUseCase.swift; sourceTree = "<group>"; };
 		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterUseCase.swift; sourceTree = "<group>"; };
@@ -438,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */,
-				AF9B18F72C894B5900F3E446 /* DefaultImportLetterUseCase.swift */,
 				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
 				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
 				83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */,
@@ -977,7 +974,6 @@
 				57ED9CD52C70E4A400A4312C /* OpenSourceLicenseModalView.swift in Sources */,
 				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
-				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
 				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,

@@ -17,11 +17,6 @@ final class ImagePickerViewModel: ObservableObject {
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
-    private let componentsUseCase: ImportLetterUseCase
-    
-    init(componentsUseCase: ImportLetterUseCase) {
-        self.componentsUseCase = componentsUseCase
-    }
     
     func resetSelections() {
         selectedItems = []

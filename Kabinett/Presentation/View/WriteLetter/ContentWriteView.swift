@@ -25,7 +25,6 @@ struct ContentWriteView: View {
         imageViewModel: ImagePickerViewModel,
         customTabViewModel: CustomTabViewModel
     ) {
-        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
         self._letterContent = letterContent
         self.imageViewModel = imageViewModel
         self.customTabViewModel = customTabViewModel

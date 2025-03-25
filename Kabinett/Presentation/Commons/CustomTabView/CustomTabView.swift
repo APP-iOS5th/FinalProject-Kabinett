@@ -19,12 +19,11 @@ struct CustomTabView: View {
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
         @Injected(ProfileUseCaseKey.self) var profileUseCase: ProfileUseCase
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
-        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
         
         self._customTabViewModel = StateObject(wrappedValue: CustomTabViewModel())
         self._profileViewModel = StateObject(wrappedValue: ProfileViewModel(profileUseCase: profileUseCase))
         self._envelopeStampSelectionViewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
-        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel(componentsUseCase: importLetterUseCase))
+        self._imagePickerViewModel = StateObject(wrappedValue: ImagePickerViewModel())
     }
     
     var body: some View {
