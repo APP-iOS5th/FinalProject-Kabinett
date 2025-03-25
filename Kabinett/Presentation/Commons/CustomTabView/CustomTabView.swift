@@ -12,7 +12,7 @@ struct CustomTabView: View {
     @StateObject private var customTabViewModel = CustomTabViewModel()
     @StateObject private var profileViewModel: ProfileViewModel
     @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @State var letterWriteModel = LetterWriteModel()
+    @State private var letterWriteModel = LetterWriteModel()
     
     init() {
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
