@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct MiniTabBarView: View {
     @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         if viewModel.currentIndex < viewModel.texts.count {
@@ -61,9 +63,10 @@ struct MiniTabBarView: View {
                         .font(.system(size: 15))
                         .frame(width: UIScreen.main.bounds.width * 0.4/4)
                 }
-                Button {
-                    customTabViewModel.showPhotoLibrary = true
-                } label: {
+                PhotosPicker(
+                    selection: $imageViewModel.selectedItems,
+                    maxSelectionCount: 10,
+                    matching: .images) {
                     Image(systemName: "photo.on.rectangle.angled")
                         .font(.system(size: 15))
                         .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)

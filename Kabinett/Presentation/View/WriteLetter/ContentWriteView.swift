@@ -48,7 +48,7 @@ struct ContentWriteView: View {
                         .clipShape(Capsule())
                 }
                 .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
+                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, imageViewModel: imageViewModel)
                 
                 if keyBoard {
                     Button(action:{
@@ -103,9 +103,6 @@ struct ContentWriteView: View {
                 forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
                     keyBoard = false
                 }
-        }
-        .sheet(isPresented: $customTabViewModel.showPhotoLibrary) {
-            ImagePickerView(imageViewModel: imageViewModel, customViewModel: customTabViewModel)
         }
         .analyticsScreen(
             name: "\(type(of:self))",
