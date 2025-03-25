@@ -18,38 +18,24 @@ class PreviewLetterViewModel: ObservableObject {
         self.useCase = useCase
     }
     
-    func saveLetter(font: String,
-                    postScript: String?,
-                    envelope: String,
-                    stamp: String,
-                    fromUserId: String?,
-                    fromUserName: String,
-                    fromUserKabinettNumber: Int?,
-                    toUserId: String?,
-                    toUserName: String,
-                    toUserKabinettNumber: Int?,
-                    content: [String],
-                    photoContents: [Data],
-                    date: Date,
-                    stationery: String,
-                    isRead: Bool) {
+    func saveLetter(letter: WriteLetter) {
         
         Task {
-            let result = await useCase.saveLetter(font: font,
-                                                  postScript: postScript,
-                                                  envelope: envelope,
-                                                  stamp: stamp,
-                                                  fromUserId: fromUserId,
-                                                  fromUserName: fromUserName,
-                                                  fromUserKabinettNumber: fromUserKabinettNumber,
-                                                  toUserId: toUserId,
-                                                  toUserName: toUserName,
-                                                  toUserKabinettNumber: toUserKabinettNumber,
-                                                  content: content,
-                                                  photoContents: photoContents,
-                                                  date: date,
-                                                  stationery: stationery,
-                                                  isRead: isRead)
+            let result = await useCase.saveLetter(font: letter.fontString ?? "",
+                                                  postScript: letter.postScript,
+                                                  envelope: letter.envelopeImageUrlString,
+                                                  stamp: letter.stampImageUrlString,
+                                                  fromUserId: letter.fromUserId,
+                                                  fromUserName: letter.fromUserName,
+                                                  fromUserKabinettNumber: letter.fromUserKabinettNumber,
+                                                  toUserId: letter.toUserId,
+                                                  toUserName: letter.toUserName,
+                                                  toUserKabinettNumber: letter.toUserKabinettNumber,
+                                                  content: letter.content,
+                                                  photoContents: letter.photoContents ?? [],
+                                                  date: letter.date,
+                                                  stationery: letter.stationeryImageUrlString,
+                                                  isRead: letter.isRead)
             await MainActor.run {
                 switch result {
                 case .success(let success):

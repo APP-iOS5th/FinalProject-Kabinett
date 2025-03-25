@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct WriteLetterEnvelopeCell: View {
-    var letter: Letter
+    var letter: WriteLetter
     
     var body: some View {
         ZStack {

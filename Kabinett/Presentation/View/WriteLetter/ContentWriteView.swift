@@ -12,7 +12,7 @@ import PhotosUI
 import FirebaseAnalytics
 
 struct ContentWriteView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel = ContentWriteViewModel()
     @StateObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
@@ -21,12 +21,12 @@ struct ContentWriteView: View {
     @State var keyBoard: Bool = false
     
     init(
-        letterContent: Binding<LetterWriteModel>,
+        letter: Binding<WriteLetter>,
         customTabViewModel: CustomTabViewModel
     ) {
-        self._letterContent = letterContent
         self.customTabViewModel = customTabViewModel
         self._imageViewModel = StateObject(wrappedValue: ImagePickerViewModel())
+        self._letter = letter
     }
     
     var body: some View {
@@ -37,8 +37,8 @@ struct ContentWriteView: View {
                 }
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
-                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 13))
+                    ScrollableLetterView(letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
+                        .font(FontUtility.selectedFont(font: letter.fontString ?? "", size: 13))
                     
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+imageViewModel.photoContents.count)")
                         .padding(5)
@@ -47,7 +47,7 @@ struct ContentWriteView: View {
                         .clipShape(Capsule())
                 }
                 .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel, imageViewModel: imageViewModel)
+                MiniTabBarView(viewModel: viewModel, customTabViewModel: customTabViewModel, imageViewModel: imageViewModel)
                 
                 if keyBoard {
                     Button(action:{
@@ -68,13 +68,13 @@ struct ContentWriteView: View {
         }
         .overlay {
             if viewModel.showFontMenu {
-                FontMenuView(letterContent: $letterContent, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
+                FontMenuView(letter: $letter, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
             }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: EnvelopeStampSelectionView(
-                    letterContent: $letterContent,
+                    letter: $letter,
                     customTabViewModel: customTabViewModel
                 )) {
                     Text("다음")
@@ -89,7 +89,7 @@ struct ContentWriteView: View {
             Task { @MainActor in
                 imageViewModel.selectedItems = newValue
                 await imageViewModel.loadImages()
-                letterContent.photoContents = imageViewModel.photoContents
+                letter.photoContents = imageViewModel.photoContents
             }
         }
         .onAppear{
@@ -117,7 +117,7 @@ struct ScrollableLetterView: View {
     let screenWidth = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
     
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var imageViewModel: ImagePickerViewModel
     @Binding var currentIndex: Int
@@ -130,7 +130,7 @@ struct ScrollableLetterView: View {
                         LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
                             ForEach(0..<viewModel.texts.count, id: \.self) { i in
                                 ZStack {
-                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
+                                    KFImage(URL(string: letter.stationeryImageUrlString ?? ""))
                                         .placeholder {
                                             ProgressView()
                                         }
@@ -138,7 +138,7 @@ struct ScrollableLetterView: View {
                                         .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                                     
                                     VStack {
-                                        Text(i == 0 ? letterContent.toUserName : "")
+                                        Text(i == 0 ? letter.toUserName : "")
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.top, screenHeight * 0.05)
                                             .padding(.bottom, screenHeight * 0.01)
@@ -151,23 +151,23 @@ struct ScrollableLetterView: View {
                                                 text: $viewModel.texts[i],
                                                 maxWidth: geo.size.width,
                                                 maxHeight: geo.size.height,
-                                                font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
-                                                //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
-                                                //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
+                                                font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
+                                                //lineSpacing: FontUtility.lineSpacing(font: letter.fontString ?? ""),
+                                                //kerning: FontUtility.kerning(font: letter.fontString ?? "")
                                             )
                                         }
                                         .onChange(of: viewModel.texts[i]) {
-                                            letterContent.content = viewModel.texts
+                                            letter.content = viewModel.texts
                                         }
                                         .onChange(of: viewModel.texts.count) {
-                                            letterContent.content = viewModel.texts
+                                            letter.content = viewModel.texts
                                         }
                                         
-                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
+                                        Text(i == (viewModel.texts.count-1) ? (letter.date).formattedString() : "")
                                             .padding(.bottom, screenHeight * 0.00001)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                         
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
+                                        Text(i == (viewModel.texts.count-1) ? letter.fromUserName : "")
                                             .padding(.bottom, screenHeight * 0.05)
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                     }

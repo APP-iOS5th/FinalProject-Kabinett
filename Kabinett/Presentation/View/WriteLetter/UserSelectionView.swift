@@ -10,20 +10,20 @@ import Kingfisher
 import FirebaseAnalytics
 
 struct UserSelectionView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel : UserSelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
     @State private var isFullScreen = false
     
     init(
-        letterContent: Binding<LetterWriteModel>,
+        letter: Binding<WriteLetter>,
         customViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: UserSelectionViewModel(useCase: writeLetterUseCase))
-        self._letterContent = letterContent
         self.customViewModel = customViewModel
+        self._letter = letter
     }
     
     var body: some View {
@@ -47,19 +47,19 @@ struct UserSelectionView: View {
                 .fullScreenCover(isPresented: $isFullScreen) {
                     NavigationStack {
                         StationerySelectionView(
-                            letterContent: $letterContent,
+                            letter: $letter,
                             customViewModel: customViewModel
                         )
                     }
                 }
                 
-                FormToUser(letterContent: $letterContent, viewModel: viewModel)
+                FormToUser(letter: $letter, viewModel: viewModel)
                 
                 HStack {
                     if viewModel.checkLogin {
                         Spacer(minLength: 95)
                         VStack {
-                            SearchBar(letterContent: $letterContent, searchText: $viewModel.searchText, viewModel: viewModel)
+                            SearchBar(letter: $letter, searchText: $viewModel.searchText, viewModel: viewModel)
                             Group {
                                 Text("정확한 닉네임")
                                     .bold() +
@@ -119,7 +119,7 @@ struct UserSelectionView: View {
 
 // MARK: - FormToUserView
 struct FormToUser: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @ObservedObject var viewModel : UserSelectionViewModel
     
     var body: some View {
@@ -138,17 +138,17 @@ struct FormToUser: View {
         }
         .padding(.top, 15)
         .onChange(of: viewModel.fromUser?.kabinettNumber) {
-            letterContent.fromUserId = viewModel.fromUser?.id
-            letterContent.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
-            letterContent.toUserId = viewModel.toUser?.id
-            letterContent.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
-            letterContent.date = Date()
+            letter.fromUserId = viewModel.fromUser?.id
+            letter.fromUserKabinettNumber = viewModel.fromUser?.kabinettNumber
+            letter.toUserId = viewModel.toUser?.id
+            letter.toUserKabinettNumber = viewModel.toUser?.kabinettNumber
+            letter.date = Date()
             if viewModel.checkLogin {
-                letterContent.fromUserName = viewModel.fromUser?.name ?? ""
-                letterContent.toUserName = viewModel.toUser?.name ?? ""
+                letter.fromUserName = viewModel.fromUser?.name ?? ""
+                letter.toUserName = viewModel.toUser?.name ?? ""
             } else {
-                letterContent.fromUserName = "나"
-                letterContent.toUserName = "나"
+                letter.fromUserName = "나"
+                letter.toUserName = "나"
             }
         }
         
@@ -158,8 +158,8 @@ struct FormToUser: View {
                 .font(.system(size: 16))
                 .bold()
             Spacer(minLength: 37)
-            let toName = letterContent.toUserName.isEmpty ? viewModel.toUser?.name ?? "" : letterContent.toUserName
-            let toKabi = letterContent.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letterContent.toUserKabinettNumber
+            let toName = letter.toUserName.isEmpty ? viewModel.toUser?.name ?? "" : letter.toUserName
+            let toKabi = letter.toUserName.isEmpty ? viewModel.fromUser?.kabinettNumber ?? 0 : letter.toUserKabinettNumber
             Text(viewModel.checkLogin ? "\(toName) \(viewModel.checkMe(kabiNumber: toKabi ?? 0))" : "나")
                 .foregroundStyle(viewModel.checkLogin ? Color.black : Color("ContentSecondary"))
                 .font(.system(size: 15))
@@ -174,7 +174,7 @@ struct FormToUser: View {
 
 // MARK: - SearchBarView
 struct SearchBar: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @Binding var searchText: String
     @ObservedObject var viewModel: UserSelectionViewModel
     @State var isSearchBar: Bool = true
@@ -213,7 +213,7 @@ struct SearchBar: View {
                 List {
                     Text("\(viewModel.debouncedSearchText) 입력")
                         .onTapGesture {
-                            viewModel.updateToUser(&letterContent, toUserName: viewModel.debouncedSearchText)
+                            viewModel.updateToUser(&letter, toUserName: viewModel.debouncedSearchText)
                             searchText = ""
                             UIApplication.shared.endEditing()
                             isSearchBar = false
@@ -248,7 +248,7 @@ struct SearchBar: View {
                         }
                         .listRowSeparator(.hidden)
                         .onTapGesture {
-                            viewModel.updateToUser(&letterContent, toUserName: user.name)
+                            viewModel.updateToUser(&letter, toUserName: user.name)
                             searchText = ""
                             UIApplication.shared.endEditing()
                             isSearchBar = false

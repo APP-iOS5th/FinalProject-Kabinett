@@ -11,18 +11,18 @@ import FirebaseAnalytics
 
 struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel : StationerySelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
     
     init(
-        letterContent: Binding<LetterWriteModel>,
+        letter: Binding<WriteLetter>,
         customViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
-        self._letterContent = letterContent
         self.customViewModel = customViewModel
+        self._letter = letter
     }
     
     var body: some View {
@@ -39,7 +39,7 @@ struct StationerySelectionView: View {
                                     index: index,
                                     rowIndex: rowIndex,
                                     columnIndex: columnIndex,
-                                    letterContent: $letterContent,
+                                    letter: $letter,
                                     stationerySelectionViewModel: viewModel
                                 )
                             }
@@ -70,7 +70,7 @@ struct StationerySelectionView: View {
             }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: ContentWriteView(
-                    letterContent: $letterContent,
+                    letter: $letter,
                     customTabViewModel: customViewModel
                 )) {
                     Text("다음")

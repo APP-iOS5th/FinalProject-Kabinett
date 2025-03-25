@@ -10,7 +10,7 @@ import SwiftUI
 struct SelectionTabView: View {
     @State private var selectedTab: Int = 0
     @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @Binding var envelopeImageUrl: String
     @Binding var stampImageUrl: String
     
@@ -27,9 +27,9 @@ struct SelectionTabView: View {
                         .scrollDisabled(true)
                     
                     TabView(selection: $selectedTab) {
-                        EnvelopeCell(letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, viewModel: envelopeStampSelectionViewModel)
+                        EnvelopeCell(letter: $letter, envelopeImageUrl: $envelopeImageUrl, viewModel: envelopeStampSelectionViewModel)
                             .tag(0)
-                        StampCell(letterContent: $letterContent, stampImageUrl: $stampImageUrl, viewModel: envelopeStampSelectionViewModel)
+                        StampCell(letter: $letter, stampImageUrl: $stampImageUrl, viewModel: envelopeStampSelectionViewModel)
                             .tag(1)
                     }
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))

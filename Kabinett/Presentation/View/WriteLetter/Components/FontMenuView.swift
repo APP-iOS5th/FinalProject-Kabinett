@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FontMenuView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @Binding var showFontMenu: Bool
     @ObservedObject var fontViewModel: FontSelectionViewModel
     
@@ -24,7 +24,7 @@ struct FontMenuView: View {
                 ForEach(0..<fontViewModel.dummyFonts.count, id: \.self) { i in
                     Button(action: {
                         fontViewModel.selectedIndex = i
-                        letterContent.fontString = fontViewModel.dummyFonts[i].font
+                        letter.fontString = fontViewModel.dummyFonts[i].font
                         showFontMenu = false
                     }) {
                         HStack {

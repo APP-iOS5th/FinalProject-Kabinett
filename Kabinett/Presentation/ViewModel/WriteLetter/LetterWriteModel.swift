@@ -9,22 +9,23 @@ import Foundation
 import SwiftUI
 
 class LetterWriteModel: ObservableObject {
-    @Published var fontString: String? = nil
-    @Published var postScript: String? = nil
-    @Published var envelopeImageUrlString: String = ""
-    @Published var stampImageUrlString: String = ""
-    
-    @Published var fromUserId: String? = nil
-    @Published var fromUserName: String = ""
-    @Published var fromUserKabinettNumber: Int? = nil
-    
-    @Published var toUserId: String? = nil
-    @Published var toUserName: String = ""
-    @Published var toUserKabinettNumber: Int? = nil
-    
-    @Published var content: [String] = []
-    @Published var photoContents: [Data] = []
-    @Published var date: Date = Date()
-    @Published var stationeryImageUrlString: String? = nil
-    @Published var isRead: Bool = false
+    @Published var writeLetter: WriteLetter = WriteLetter(envelopeImageUrlString: "", stampImageUrlString: "", fromUserName: "", toUserName: "", content: [], date: Date(), stationeryImageUrlString: "", isRead: false)
+}
+
+struct WriteLetter {
+    var fontString: String?
+    var postScript: String?
+    var envelopeImageUrlString: String
+    var stampImageUrlString: String
+    var fromUserId: String?
+    var fromUserName: String
+    var fromUserKabinettNumber: Int?
+    var toUserId: String?
+    var toUserName: String
+    var toUserKabinettNumber: Int?
+    var content: [String]
+    var photoContents: [Data]?
+    var date: Date
+    var stationeryImageUrlString: String
+    var isRead: Bool
 }

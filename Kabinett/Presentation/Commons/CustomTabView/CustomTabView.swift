@@ -12,7 +12,7 @@ struct CustomTabView: View {
     @StateObject private var customTabViewModel = CustomTabViewModel()
     @StateObject private var profileViewModel: ProfileViewModel
     @StateObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @State private var letterWriteViewModel = LetterWriteModel()
+    @State var letterWriteModel = LetterWriteModel()
     
     init() {
         @Injected(LetterBoxUseCaseKey.self) var letterBoxUseCase: LetterBoxUseCase
@@ -57,7 +57,7 @@ struct CustomTabView: View {
             }
         }
         .sheet(isPresented: $customTabViewModel.showWriteView) {
-            UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel)
+            UserSelectionView(letter: $letterWriteModel.writeLetter, customViewModel: customTabViewModel)
                 .presentationDetents([.height(300), .large])
         }
     }

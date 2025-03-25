@@ -10,7 +10,7 @@ import Kingfisher
 import FirebaseAnalytics
 
 struct EnvelopeStampSelectionView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel: EnvelopeStampSelectionViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var postScriptText: String = ""
@@ -18,14 +18,14 @@ struct EnvelopeStampSelectionView: View {
     @State private var stampImageUrl: String
     
     init(
-        letterContent: Binding<LetterWriteModel>,
+        letter: Binding<WriteLetter>,
         customTabViewModel: CustomTabViewModel
     ) {
-        self._letterContent = letterContent
         self.customTabViewModel = customTabViewModel
+        self._letter = letter
         
-        _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
-        _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+        _envelopeImageUrl = State(initialValue: letter.wrappedValue.envelopeImageUrlString)
+        _stampImageUrl = State(initialValue: letter.wrappedValue.stampImageUrlString)
         
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
@@ -39,16 +39,16 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: postScriptText, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
+                WriteLetterEnvelopeCell(letter: letter)
                     .padding(.top, 10)
                     .padding(.bottom, 50)
                     .onChange(of: viewModel.envelopes) {
-                        if letterContent.envelopeImageUrlString.isEmpty {
+                        if letter.envelopeImageUrlString.isEmpty {
                             envelopeImageUrl = viewModel.envelopes[0]
                         }
                     }
                     .onChange(of: viewModel.stamps) {
-                        if letterContent.stampImageUrlString.isEmpty {
+                        if letter.stampImageUrlString.isEmpty {
                             stampImageUrl = viewModel.stamps[0]
                         }
                     }
@@ -65,33 +65,33 @@ struct EnvelopeStampSelectionView: View {
                         .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .onChange(of: postScriptText) {
-                            letterContent.postScript = postScriptText
+                            letter.postScript = postScriptText
                         }
                 }
                 .padding(.bottom, 30)
                 
-                SelectionTabView(envelopeStampSelectionViewModel: viewModel, letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
+                SelectionTabView(envelopeStampSelectionViewModel: viewModel, letter: $letter, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
-            envelopeImageUrl = letterContent.envelopeImageUrlString
-            stampImageUrl = letterContent.stampImageUrlString
+            envelopeImageUrl = letter.envelopeImageUrlString
+            stampImageUrl = letter.stampImageUrlString
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
-            letterContent.envelopeImageUrlString = newValue
+            letter.envelopeImageUrlString = newValue
         }
         .onChange(of: stampImageUrl) { _, newValue in
-            letterContent.stampImageUrlString = newValue
+            letter.stampImageUrlString = newValue
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("봉투와 우표 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: PreviewLetterView(
-                    letterContent: $letterContent,
+                    letter: $letter,
                     customTabViewModel: customTabViewModel
                 )) {
                     Text("다음")

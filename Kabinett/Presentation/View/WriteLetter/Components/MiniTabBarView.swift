@@ -9,7 +9,6 @@ import SwiftUI
 import PhotosUI
 
 struct MiniTabBarView: View {
-    @Binding var letterContent: LetterWriteModel
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @ObservedObject var imageViewModel: ImagePickerViewModel
