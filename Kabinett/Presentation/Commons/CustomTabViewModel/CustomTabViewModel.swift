@@ -28,7 +28,7 @@ final class CustomTabViewModel: ObservableObject {
     
     init() {
         self.envelopeImage = UIImage(systemName: "envelope")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
-        self.plusImage = UIImage(systemName: "plus")!.applyingSymbolConfiguration(.init(pointSize: 24, weight: .medium))!
+        self.plusImage = UIImage(systemName: "pencil.line")!.applyingSymbolConfiguration(.init(pointSize: 24, weight: .medium))!
         self.profileImage = UIImage(systemName: "circle.fill")!.applyingSymbolConfiguration(.init(pointSize: 21, weight: .medium))!
     }
     
