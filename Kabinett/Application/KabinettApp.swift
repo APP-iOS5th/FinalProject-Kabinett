@@ -17,19 +17,19 @@ struct KabinettApp: App {
         // Init Firebase App
         FirebaseApp.configure()
         
-//        #if DEBUG
-//        // Firebase Authenticate Emulator
-//        Auth.auth().useEmulator(withHost:"localhost", port:9099)
-//        
-//        // Firebase Storage Emulator
-//        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
-//        
-//        // Firebaes Firestore Emulator
-//        let settings = Firestore.firestore().settings
-//        settings.host = "localhost:8080"
-//        settings.isSSLEnabled = false
-//        Firestore.firestore().settings = settings
-//        #endif
+        #if DEBUG
+        // Firebase Authenticate Emulator
+        Auth.auth().useEmulator(withHost:"localhost", port:9099)
+        
+        // Firebase Storage Emulator
+        Storage.storage().useEmulator(withHost: "localhost", port: 9199)
+        
+        // Firebaes Firestore Emulator
+        let settings = Firestore.firestore().settings
+        settings.host = "localhost:8080"
+        settings.isSSLEnabled = false
+        Firestore.firestore().settings = settings
+        #endif
         
         // MARK: Register Dependencies
         KabinettApp.registerServices()
