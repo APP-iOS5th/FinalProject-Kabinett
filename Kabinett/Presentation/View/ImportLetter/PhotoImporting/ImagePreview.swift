@@ -11,7 +11,6 @@ import SwiftUI
 struct ImagePreview: View {
     @ObservedObject private var imageViewModel: ImagePickerViewModel
     @ObservedObject private var customViewModel: CustomTabViewModel
-    @ObservedObject private var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     @Environment(\.dismiss) var dismiss
     @State private var showDetailView = false
     @State private var showLetterWritingView = false
@@ -20,12 +19,10 @@ struct ImagePreview: View {
     
     init(
         imageViewModel: ImagePickerViewModel,
-        customViewModel: CustomTabViewModel,
-        envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
+        customViewModel: CustomTabViewModel
     ) {
         self.imageViewModel = imageViewModel
         self.customViewModel = customViewModel
-        self.envelopeStampSelectionViewModel = envelopeStampSelectionViewModel
     }
     
     var body: some View {
@@ -73,15 +70,6 @@ struct ImagePreview: View {
                 ImageDetailView(
                     images: imageViewModel.photoContents,
                     showDetailView: $showDetailView
-                )
-            }
-            .sheet(isPresented: $showLetterWritingView) {
-                LetterWritingView(
-                    viewModel: imageViewModel,
-                    customViewModel: customViewModel,
-                    envelopeStampViewModel: envelopeStampSelectionViewModel,
-                    letterContent: $letterContent,
-                    showEnvelopeStamp: $navigateToEnvelopeStamp
                 )
             }
             .navigationDestination(isPresented: $navigateToEnvelopeStamp) {

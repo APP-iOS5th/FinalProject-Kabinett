@@ -86,9 +86,7 @@
 		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		7F23AD6C2C7432B8007E1F28 /* LetterCompletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */; };
 		7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */; };
-		7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C542C7DF20C00388645 /* ImportDialog.swift */; };
 		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
-		7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */; };
 		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
 		7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E12C6E25500074568E /* CameraViewModel.swift */; };
 		7F6CE9E62C6E28400074568E /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9E52C6E28400074568E /* CameraView.swift */; };
@@ -137,7 +135,6 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
-		AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE1979F2D118277003597B9 /* OptionGuideView.swift */; };
 		E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E0DCD02CAED20800596DF7 /* LoadingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -237,9 +234,7 @@
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
 		7F23AD6B2C7432B8007E1F28 /* LetterCompletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterCompletionView.swift; sourceTree = "<group>"; };
 		7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewModel.swift; sourceTree = "<group>"; };
-		7F397C542C7DF20C00388645 /* ImportDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDialog.swift; sourceTree = "<group>"; };
 		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
-		7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionOverlay.swift; sourceTree = "<group>"; };
 		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E12C6E25500074568E /* CameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9E52C6E28400074568E /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
@@ -288,7 +283,6 @@
 		AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterWriteManager.swift; sourceTree = "<group>"; };
 		AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
-		AFE1979F2D118277003597B9 /* OptionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGuideView.swift; sourceTree = "<group>"; };
 		E2E0DCD02CAED20800596DF7 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -431,9 +425,6 @@
 			children = (
 				7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */,
 				7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */,
-				7F397C542C7DF20C00388645 /* ImportDialog.swift */,
-				7F6CE9C12C6B33DD0074568E /* OptionOverlay.swift */,
-				AFE1979F2D118277003597B9 /* OptionGuideView.swift */,
 			);
 			path = CustomTabView;
 			sourceTree = "<group>";
@@ -1015,11 +1006,9 @@
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* OpenSourceLicenseModalView.swift in Sources */,
-				7F397C552C7DF20C00388645 /* ImportDialog.swift in Sources */,
 				7F7868562C7B14220083D204 /* HorizontalPadding.swift in Sources */,
 				8356843F2CE0A43600120EC8 /* DIContainer.swift in Sources */,
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
-				AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */,
 				AF9B18F82C894B5900F3E446 /* DefaultImportLetterUseCase.swift in Sources */,
 				5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
@@ -1088,7 +1077,6 @@
 				7F6CE9E22C6E25500074568E /* CameraViewModel.swift in Sources */,
 				573EE1F82D2BA55B00978283 /* CustomTextEditor.swift in Sources */,
 				7FCAE2BC2C73157C00228FA7 /* LetterWritingView.swift in Sources */,
-				7F6CE9C22C6B33DD0074568E /* OptionOverlay.swift in Sources */,
 				57966B9C2C7D8DAF008D650B /* EnvelopeStampSelectionViewModel.swift in Sources */,
 				7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */,
 				53FC6B822C901F7700E7D9A8 /* Extension+Collection.swift in Sources */,

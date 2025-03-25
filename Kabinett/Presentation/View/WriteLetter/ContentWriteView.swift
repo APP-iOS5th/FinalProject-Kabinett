@@ -105,6 +105,9 @@ struct ContentWriteView: View {
                     keyBoard = false
                 }
         }
+        .sheet(isPresented: $customTabViewModel.showPhotoLibrary) {
+            ImagePickerView(imageViewModel: imageViewModel, customViewModel: customTabViewModel)
+        }
         .analyticsScreen(
             name: "\(type(of:self))",
             extraParameters: [

@@ -6,11 +6,11 @@
 //
 
 import SwiftUI
+import _PhotosUI_SwiftUI
 
 struct ImagePickerView: View {
     @ObservedObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
     
     var body: some View {
         EmptyView()
@@ -35,8 +35,7 @@ struct ImagePickerView: View {
             .fullScreenCover(isPresented: $customViewModel.showImagePreview) {
                 ImagePreview(
                     imageViewModel: imageViewModel,
-                    customViewModel: customViewModel,
-                    envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
+                    customViewModel: customViewModel
                 )
             }
     }

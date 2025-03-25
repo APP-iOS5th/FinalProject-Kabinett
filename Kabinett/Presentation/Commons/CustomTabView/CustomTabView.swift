@@ -63,12 +63,5 @@ struct CustomTabView: View {
             UserSelectionView(letterContent: $letterWriteViewModel, customViewModel: customTabViewModel, imageViewModel: imagePickerViewModel)
                 .presentationDetents([.height(300), .large])
         }
-//        .overlay(
-//            ImagePickerView(
-//                imageViewModel: imagePickerViewModel,
-//                customViewModel: customTabViewModel,
-//                envelopeStampSelectionViewModel: envelopeStampSelectionViewModel
-//            )
-//        )
     }
 }
