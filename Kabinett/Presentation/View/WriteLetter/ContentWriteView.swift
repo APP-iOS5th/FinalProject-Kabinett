@@ -119,7 +119,6 @@ struct ScrollableLetterView: View {
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var imageViewModel: ImagePickerViewModel
-    @Binding var currentIndex: Int
     
     var body: some View {
         GeometryReader { geometry in
@@ -216,7 +215,7 @@ struct ScrollableLetterView: View {
                 .scrollTargetBehavior(.viewAligned)
                 .onChange(of: viewModel.texts.count) {
                     withAnimation {
-                        scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
+                        scrollViewProxy.scrollTo((viewModel.currentIndex+1), anchor: .center)
                     }
                 }
                 .onPreferenceChange(AnchorsKey.self) { anchors in
@@ -226,8 +225,8 @@ struct ScrollableLetterView: View {
                         .sorted { geometry[$0.value].x < geometry[$1.value].x }
                         .first
                     
-                    if let leadingAnchor = leadingAnchor, currentIndex != leadingAnchor.key {
-                        currentIndex = leadingAnchor.key
+                    if let leadingAnchor = leadingAnchor, viewModel.currentIndex != leadingAnchor.key {
+                        viewModel.currentIndex = leadingAnchor.key
                     }
                 }
                 
