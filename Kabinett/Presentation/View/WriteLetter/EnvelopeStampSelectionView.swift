@@ -39,7 +39,7 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                WriteLetterEnvelopeCell(letter: letter)
+                WriteLetterEnvelopeCell(letter: letter, postScript: postScriptText)
                     .padding(.top, 10)
                     .padding(.bottom, 50)
                     .onChange(of: viewModel.envelopes) {

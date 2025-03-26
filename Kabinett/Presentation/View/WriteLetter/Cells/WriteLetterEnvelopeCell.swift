@@ -10,6 +10,7 @@ import Kingfisher
 
 struct WriteLetterEnvelopeCell: View {
     var letter: WriteLetter
+    var postScript: String
     
     var body: some View {
         ZStack {
@@ -40,7 +41,7 @@ struct WriteLetterEnvelopeCell: View {
                     .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.035 * 1.1, forOthers: 0.03 * 1.1))
                     
                     HStack(alignment: .top) {
-                        Text(letter.postScript ?? "")
+                        Text(postScript ?? "")
                             .font(FontUtility.selectedFont(font: letter.fontString ?? "SFDisplay", size: LayoutHelper.shared.getSize(forSE: 0.012 * 1.1, forOthers: 0.012 * 1.1)))
                             .foregroundStyle(.contentPrimary)
                             .frame(width: LayoutHelper.shared.getWidth(forSE: 0.4 * 1.1, forOthers: 0.4 * 1.1), alignment: .leading)

@@ -31,7 +31,7 @@ struct PreviewLetterView: View {
             
             VStack {
                 Spacer()
-                WriteLetterEnvelopeCell(letter: letter)
+                WriteLetterEnvelopeCell(letter: letter, postScript: letter.postScript ?? "")
                     .padding(.bottom,30)
                 
                 VStack {
