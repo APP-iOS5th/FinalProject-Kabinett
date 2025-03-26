@@ -37,7 +37,7 @@ struct ContentWriteView: View {
                 }
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollableLetterView(letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
+                    ScrollableLetterView(letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel)
                         .font(FontUtility.selectedFont(font: letter.fontString ?? "", size: 13))
                     
                     Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+imageViewModel.photoContents.count)")
@@ -66,10 +66,27 @@ struct ContentWriteView: View {
                 }
             }
         }
-        .overlay {
+        .overlay { // 폰트 선택뷰
             if viewModel.showFontMenu {
                 FontMenuView(letter: $letter, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
             }
+        }
+        .ignoresSafeArea(.keyboard)
+        .onChange(of: imageViewModel.selectedItems) { // 이미지가 변경될 때
+            Task { @MainActor in
+                await imageViewModel.loadImages()
+                letter.photoContents = imageViewModel.photoContents
+            }
+        }
+        .onAppear{ // 키보드 감지
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+                    keyBoard = true
+                }
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    keyBoard = false
+                }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -84,24 +101,7 @@ struct ContentWriteView: View {
                 }
             }
         }
-        .ignoresSafeArea(.keyboard)
-        .onChange(of: imageViewModel.selectedItems) {
-            Task { @MainActor in
-                await imageViewModel.loadImages()
-                letter.photoContents = imageViewModel.photoContents
-            }
-        }
-        .onAppear{
-            NotificationCenter.default.addObserver(
-                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-                    keyBoard = true
-                }
-            NotificationCenter.default.addObserver(
-                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                    keyBoard = false
-                }
-        }
-        .analyticsScreen(
+        .analyticsScreen( // 화면 추적
             name: "\(type(of:self))",
             extraParameters: [
                 AnalyticsParameterScreenName: "\(type(of:self))",
