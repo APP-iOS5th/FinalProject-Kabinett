@@ -85,9 +85,8 @@ struct ContentWriteView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-        .onChange(of: imageViewModel.selectedItems) { _, newValue in
+        .onChange(of: imageViewModel.selectedItems) {
             Task { @MainActor in
-                imageViewModel.selectedItems = newValue
                 await imageViewModel.loadImages()
                 letter.photoContents = imageViewModel.photoContents
             }
@@ -152,8 +151,6 @@ struct ScrollableLetterView: View {
                                                 maxWidth: geo.size.width,
                                                 maxHeight: geo.size.height,
                                                 font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
-                                                //lineSpacing: FontUtility.lineSpacing(font: letter.fontString ?? ""),
-                                                //kerning: FontUtility.kerning(font: letter.fontString ?? "")
                                             )
                                         }
                                         .onChange(of: viewModel.texts[i]) {
@@ -198,7 +195,6 @@ struct ScrollableLetterView: View {
                                             .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                         
                                         Button(action: {
-                                            imageViewModel.photoContents.remove(at: index)
                                             imageViewModel.selectedItems.remove(at: index)
                                         }) {
                                             Image(systemName: "xmark.circle.fill")
