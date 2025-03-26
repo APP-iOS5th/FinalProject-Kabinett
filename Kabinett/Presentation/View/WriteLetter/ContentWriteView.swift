@@ -130,7 +130,7 @@ struct ScrollableLetterView: View {
                         LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
                             ForEach(0..<viewModel.texts.count, id: \.self) { i in
                                 ZStack {
-                                    KFImage(URL(string: letter.stationeryImageUrlString ?? ""))
+                                    KFImage(URL(string: letter.stationeryImageUrlString))
                                         .placeholder {
                                             ProgressView()
                                         }
