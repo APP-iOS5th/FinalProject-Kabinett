@@ -114,6 +114,8 @@ struct ContentWriteView: View {
 struct ScrollableLetterView: View {
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
+    @State private var scrollWorkItem: DispatchWorkItem?
+    
     private var scrollObservableView: some View {
         GeometryReader { proxy in
             let offsetX = proxy.frame(in: .global).origin.x
@@ -177,18 +179,16 @@ struct ScrollableLetterView: View {
                         scrollViewProxy.scrollTo((viewModel.currentIndex+1), anchor: .center)
                     }
                 }
-                .onPreferenceChange(AnchorsKey.self) { anchors in
-                    let horizontalPadding = UIScreen.main.bounds.width * 0.06
-                    let leadingAnchor = anchors
-                        .filter { geometry[$0.value].x >= horizontalPadding }
-                        .sorted { geometry[$0.value].x < geometry[$1.value].x }
-                        .first
-                    
-                    if let leadingAnchor = leadingAnchor, viewModel.currentIndex != leadingAnchor.key {
-                        viewModel.currentIndex = leadingAnchor.key
+                .onChange(of: viewModel.offset) {
+                    scrollWorkItem?.cancel()
+                    let workItem = DispatchWorkItem {
+                        withAnimation {
+                            scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                        }
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: workItem)
+                    scrollWorkItem = workItem
                 }
-                
             }
         }
     }
