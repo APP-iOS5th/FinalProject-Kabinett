@@ -11,20 +11,6 @@ import Combine
 
 class ContentWriteViewModel: ObservableObject {
     @Published var offset: CGFloat = 0
-    private var originOffset: CGFloat = 0
-    private var isCheckedOriginOffset: Bool = false
-    
-    func setOriginOffset(_ offset: CGFloat) {
-        guard !isCheckedOriginOffset else { return }
-        self.originOffset = offset
-        self.offset = offset
-        isCheckedOriginOffset = true
-    }
-    
-    func setOffset(_ offset: CGFloat) {
-        guard isCheckedOriginOffset else { return }
-        self.offset = offset
-    }
     
     @Published var texts: [String] = [""]
     @Published var currentIndex: Int = 0
@@ -34,7 +20,7 @@ class ContentWriteViewModel: ObservableObject {
     @Published var isFontEdit: Bool = true
     @Published var isKeyboard: Bool = false
     
-    @Published var selectedItems: [PhotosPickerItem] = [] //*****
+    @Published var selectedItems: [PhotosPickerItem] = []
     @Published var photoContents: [Data] = []
     
     @Published var isLoading: Bool = false
@@ -76,7 +62,6 @@ class ContentWriteViewModel: ObservableObject {
         isLoading = false
     }
     
-    // MARK: 선택된 이미지 로드
     private func loadImagesTask() async throws -> [Data] {
         try await withThrowingTaskGroup(of: Data?.self) { group -> [Data] in
             for item in selectedItems {
