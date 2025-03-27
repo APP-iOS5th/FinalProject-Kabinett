@@ -11,6 +11,9 @@ import Kingfisher
 import PhotosUI
 import FirebaseAnalytics
 
+let screenWidth = UIScreen.main.bounds.width
+let screenHeight = UIScreen.main.bounds.height
+
 struct ContentWriteView: View {
     @Binding var letter: WriteLetter
     @StateObject var viewModel = ContentWriteViewModel()
@@ -113,9 +116,6 @@ struct ContentWriteView: View {
 
 // MARK: ScrollableLetterView
 struct ScrollableLetterView: View {
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
-    
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var imageViewModel: ImagePickerViewModel
@@ -126,84 +126,21 @@ struct ScrollableLetterView: View {
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
-                            ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                                ZStack {
-                                    KFImage(URL(string: letter.stationeryImageUrlString))
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                    
-                                    VStack {
-                                        Text(i == 0 ? letter.toUserName : "")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.top, screenHeight * 0.05)
-                                            .padding(.bottom, screenHeight * 0.01)
-                                            .onTapGesture {
-                                                UIApplication.shared.endEditing()
-                                            }
-                                        
-                                        GeometryReader { geo in
-                                            CustomTextEditor(
-                                                text: $viewModel.texts[i],
-                                                maxWidth: geo.size.width,
-                                                maxHeight: geo.size.height,
-                                                font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
-                                            )
-                                        }
-                                        .onChange(of: viewModel.texts[i]) {
-                                            letter.content = viewModel.texts
-                                        }
-                                        .onChange(of: viewModel.texts.count) {
-                                            letter.content = viewModel.texts
-                                        }
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? (letter.date).formattedString() : "")
-                                            .padding(.bottom, screenHeight * 0.00001)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? letter.fromUserName : "")
-                                            .padding(.bottom, screenHeight * 0.05)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            ForEach(viewModel.texts.indices, id: \.self) { i in
+                                TypingView(index: i, letter: $letter, viewModel: viewModel)
+                                    .onChange(of: viewModel.texts[i]) {
+                                        letter.content = viewModel.texts
                                     }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
-                                }
-                                .padding(.top, 10)
-                                .aspectRatio(9/13, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .id(i)
-                                .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                                    .padding(.top, 10)
+                                    .aspectRatio(9/13, contentMode: .fit)
+                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    .id(i)
+                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
                             
-                            ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
-                                let imageIndex = index + viewModel.texts.count
+                            ForEach(imageViewModel.photoContents.indices, id: \.self) { index in
                                 if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding([.horizontal, .top], 10)
-                                            .padding(.bottom, UIScreen.main.bounds.width * 0.12)
-                                            .background(Color.white)
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                                            .padding([.top, .bottom], 10)
-                                            .tag(imageIndex)
-                                            .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
-                                        
-                                        Button(action: {
-                                            imageViewModel.selectedItems.remove(at: index)
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .resizable()
-                                                .frame(width: 25, height: 25)
-                                                .padding(.trailing, -10)
-                                                .foregroundColor(Color(.primary900))
-                                        }
-                                    }
-                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel)
                                 }
                             }
                             
@@ -232,6 +169,93 @@ struct ScrollableLetterView: View {
                 
             }
         }
+    }
+}
+
+struct TypingView: View {
+    let index: Int
+    @Binding var letter: WriteLetter
+    @ObservedObject var viewModel: ContentWriteViewModel
+    
+    var body: some View {
+        ZStack {
+            KFImage(URL(string: letter.stationeryImageUrlString))
+                .placeholder {
+                    ProgressView()
+                }
+                .resizable()
+                .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+            
+            VStack {
+                Text(index == 0 ? letter.toUserName : "")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.top, screenHeight * 0.05)
+                    .padding(.bottom, screenHeight * 0.01)
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
+                
+                GeometryReader { geo in
+                    if index < viewModel.texts.count {
+                        CustomTextEditor(
+                            text: $viewModel.texts[index],
+                            maxWidth: geo.size.width,
+                            maxHeight: geo.size.height,
+                            font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
+                        )
+                    }
+                }
+                .onChange(of: viewModel.texts.count) {
+                    letter.content = viewModel.texts
+                }
+                
+                Text(index == (viewModel.texts.count-1) ? (letter.date).formattedString() : "")
+                    .padding(.bottom, screenHeight * 0.00001)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                
+                Text(index == (viewModel.texts.count-1) ? letter.fromUserName : "")
+                    .padding(.bottom, screenHeight * 0.05)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+        }
+    }
+}
+
+struct PolaroidView: View {
+    let index: Int
+    let uiImage: UIImage
+    @Binding var letter: WriteLetter
+    @ObservedObject var viewModel: ContentWriteViewModel
+    @ObservedObject var imageViewModel: ImagePickerViewModel
+    
+    var body: some View {
+        let imageIndex = index + viewModel.texts.count
+            ZStack(alignment: .topTrailing) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .aspectRatio(contentMode: .fit)
+                    .padding([.horizontal, .top], 10)
+                    .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+                    .background(Color.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
+                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                    .padding([.top, .bottom], 10)
+                    .tag(imageIndex)
+                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
+                
+                Button(action: {
+                    imageViewModel.selectedItems.remove(at: index)
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .resizable()
+                        .frame(width: 25, height: 25)
+                        .padding(.trailing, -10)
+                        .foregroundColor(Color(.primary900))
+                }
+            }
+            .frame(width: UIScreen.main.bounds.width * 0.88)
     }
 }
 
