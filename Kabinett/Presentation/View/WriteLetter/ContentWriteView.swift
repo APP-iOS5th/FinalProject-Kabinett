@@ -114,12 +114,27 @@ struct ContentWriteView: View {
 struct ScrollableLetterView: View {
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
+    private var scrollObservableView: some View {
+        GeometryReader { proxy in
+            let offsetX = proxy.frame(in: .global).origin.x
+            Color.clear
+                .preference(
+                    key: ScrollOffsetKey.self,
+                    value: offsetX
+                )
+                .onAppear {
+                    viewModel.setOriginOffset(offsetX)
+                }
+        }
+        .frame(height: 0)
+    }
     
     var body: some View {
         GeometryReader { geometry in
             ScrollViewReader { scrollViewProxy in
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
+                        scrollObservableView
                         LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
                             ForEach(viewModel.texts.indices, id: \.self) { i in
                                 TypingView(index: i, letter: $letter, viewModel: viewModel)
@@ -130,7 +145,6 @@ struct ScrollableLetterView: View {
                                     .aspectRatio(9/13, contentMode: .fit)
                                     .frame(width: UIScreen.main.bounds.width * 0.88)
                                     .id(i)
-                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
                             
                             ForEach(viewModel.photoContents.indices, id: \.self) { index in
@@ -138,7 +152,6 @@ struct ScrollableLetterView: View {
                                 if let uiImage = UIImage(data: viewModel.photoContents[index]) {
                                     PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel)
                                         .tag(imageIndex)
-                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                 }
                             }
                             
@@ -146,6 +159,17 @@ struct ScrollableLetterView: View {
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
                     .scrollTargetLayout()
+                    .onPreferenceChange(ScrollOffsetKey.self) { newOffset in
+                        viewModel.offset = newOffset
+                        
+                        let pageWidth = screenWidth * 0.9204
+                        let rawIndex = -viewModel.offset / pageWidth
+                        let nearestIndex = Int(round(rawIndex))
+                        
+                        if viewModel.currentIndex != nearestIndex {
+                            viewModel.currentIndex = nearestIndex
+                        }
+                    }
                 }
                 .scrollTargetBehavior(.viewAligned)
                 .onChange(of: viewModel.texts.count) {
@@ -253,10 +277,9 @@ struct PolaroidView: View {
     }
 }
 
-struct AnchorsKey: PreferenceKey {
-    typealias Value = [Int: Anchor<CGPoint>]
-    static var defaultValue: Value { [ : ] }
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value.merge(nextValue()) { $1 }
+struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value += nextValue()
     }
 }
