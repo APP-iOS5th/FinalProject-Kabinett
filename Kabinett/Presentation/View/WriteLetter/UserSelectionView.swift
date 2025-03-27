@@ -10,11 +10,11 @@ import Kingfisher
 import FirebaseAnalytics
 
 struct UserSelectionView: View {
-    @Binding var letter: WriteLetter
     @Environment(\.dismiss) var dismiss
+    @Binding var letter: WriteLetter
+    @State private var isFullScreen = false
     @StateObject var viewModel : UserSelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
-    @State private var isFullScreen = false
     
     init(
         letter: Binding<WriteLetter>,

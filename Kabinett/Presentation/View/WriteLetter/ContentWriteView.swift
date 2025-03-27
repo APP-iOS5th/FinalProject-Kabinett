@@ -17,8 +17,8 @@ let screenHeight = UIScreen.main.bounds.height
 struct ContentWriteView: View {
     @Binding var letter: WriteLetter
     @StateObject var viewModel = ContentWriteViewModel()
-    @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
         letter: Binding<WriteLetter>,
@@ -65,19 +65,19 @@ struct ContentWriteView: View {
                 }
             }
         }
-        .overlay { // 폰트 선택뷰
+        .overlay {
             if viewModel.showFontMenu {
                 FontMenuView(letter: $letter, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
             }
         }
         .ignoresSafeArea(.keyboard)
-        .onChange(of: viewModel.selectedItems) { // 이미지가 변경될 때
+        .onChange(of: viewModel.selectedItems) {
             Task { @MainActor in
                 await viewModel.loadImages()
                 letter.photoContents = viewModel.photoContents
             }
         }
-        .onAppear{ // 키보드 감지
+        .onAppear {
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
                     viewModel.isKeyboard = true
@@ -110,11 +110,11 @@ struct ContentWriteView: View {
     }
 }
 
-// MARK: ScrollableLetterView
+// MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
     @Binding var letter: WriteLetter
-    @ObservedObject var viewModel: ContentWriteViewModel
     @State private var scrollWorkItem: DispatchWorkItem?
+    @ObservedObject var viewModel: ContentWriteViewModel
     
     var body: some View {
         ScrollViewReader { scrollViewProxy in

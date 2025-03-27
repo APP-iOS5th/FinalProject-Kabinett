@@ -11,11 +11,11 @@ import FirebaseAnalytics
 
 struct EnvelopeStampSelectionView: View {
     @Binding var letter: WriteLetter
-    @StateObject var viewModel: EnvelopeStampSelectionViewModel
-    @ObservedObject var customTabViewModel: CustomTabViewModel
     @State private var postScriptText: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
+    @StateObject var viewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
         letter: Binding<WriteLetter>,

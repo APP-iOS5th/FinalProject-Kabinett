@@ -65,14 +65,14 @@ struct MiniTabBarView: View {
                     selection: $viewModel.selectedItems,
                     maxSelectionCount: 10,
                     matching: .images) {
-                    Image(systemName: "photo.on.rectangle.angled")
-                        .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                        .background(viewModel.selectedItems.isEmpty ? Color.clear : Color.white)
-                        .foregroundStyle(viewModel.selectedItems.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
-                        .clipShape(Capsule())
-                        .shadow(color: viewModel.selectedItems.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
-                }
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.system(size: 15))
+                            .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
+                            .background(viewModel.selectedItems.isEmpty ? Color.clear : Color.white)
+                            .foregroundStyle(viewModel.selectedItems.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                            .clipShape(Capsule())
+                            .shadow(color: viewModel.selectedItems.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
+                    }
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
             .foregroundStyle(Color("ToolBarIcon"))

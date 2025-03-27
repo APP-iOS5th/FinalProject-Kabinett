@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 class PreviewLetterViewModel: ObservableObject {
-    private let useCase: WriteLetterUseCase
-    
     @Published var isSaveSuccessful: Bool = false
     @Published var errorMessage: String? = nil
+    
+    private let useCase: WriteLetterUseCase
     
     init(useCase: WriteLetterUseCase) {
         self.useCase = useCase

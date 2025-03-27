@@ -27,7 +27,7 @@ class ContentWriteViewModel: ObservableObject {
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
-
+    
     func toggleFontView() {
         showFontMenu.toggle()
     }

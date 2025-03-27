@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct SelectionTabView: View {
+    @Binding var letter: WriteLetter
+    @Binding var stampImageUrl: String
+    @Binding var envelopeImageUrl: String
     @State private var selectedTab: Int = 0
     @ObservedObject var envelopeStampSelectionViewModel: EnvelopeStampSelectionViewModel
-    @Binding var letter: WriteLetter
-    @Binding var envelopeImageUrl: String
-    @Binding var stampImageUrl: String
     
     let tabs: [String] = [
         "봉투",
