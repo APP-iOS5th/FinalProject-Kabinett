@@ -126,61 +126,87 @@ struct ScrollableLetterView: View {
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
-                            
-                            ForEach(0..<viewModel.texts.count+imageViewModel.photoContents.count, id: \.self) { i in
-                                if i < viewModel.texts.count {
-                                    ZStack {
-                                        KFImage(URL(string: letter.stationeryImageUrlString))
-                                            .placeholder {
-                                                ProgressView()
-                                            }
-                                            .resizable()
-                                            .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                        
-                                        VStack {
-                                            Text(i == 0 ? letter.toUserName : "")
-                                                .frame(maxWidth: .infinity, alignment: .leading)
-                                                .padding(.top, screenHeight * 0.05)
-                                                .padding(.bottom, screenHeight * 0.01)
-                                                .onTapGesture {
-                                                    UIApplication.shared.endEditing()
-                                                }
-                                            
-                                            GeometryReader { geo in
-                                                CustomTextEditor(
-                                                    text: $viewModel.texts[i],
-                                                    maxWidth: geo.size.width,
-                                                    maxHeight: geo.size.height,
-                                                    font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
-                                                )
-                                            }
-                                            .onChange(of: viewModel.texts[i]) {
-                                                letter.content = viewModel.texts
-                                            }
-                                            .onChange(of: viewModel.texts.count) {
-                                                letter.content = viewModel.texts
-                                            }
-                                            
-                                            Text(i == (viewModel.texts.count-1) ? (letter.date).formattedString() : "")
-                                                .padding(.bottom, screenHeight * 0.00001)
-                                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                            
-                                            Text(i == (viewModel.texts.count-1) ? letter.fromUserName : "")
-                                                .padding(.bottom, screenHeight * 0.05)
-                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            ForEach(0..<viewModel.texts.count, id: \.self) { i in
+                                ZStack {
+                                    KFImage(URL(string: letter.stationeryImageUrlString))
+                                        .placeholder {
+                                            ProgressView()
                                         }
-                                        .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+                                        .resizable()
+                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
+                                    
+                                    VStack {
+                                        Text(i == 0 ? letter.toUserName : "")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding(.top, screenHeight * 0.05)
+                                            .padding(.bottom, screenHeight * 0.01)
+                                            .onTapGesture {
+                                                UIApplication.shared.endEditing()
+                                            }
+                                        
+                                        GeometryReader { geo in
+                                            CustomTextEditor(
+                                                text: $viewModel.texts[i],
+                                                maxWidth: geo.size.width,
+                                                maxHeight: geo.size.height,
+                                                font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
+                                            )
+                                        }
+                                        .onChange(of: viewModel.texts[i]) {
+                                            letter.content = viewModel.texts
+                                        }
+                                        .onChange(of: viewModel.texts.count) {
+                                            letter.content = viewModel.texts
+                                        }
+                                        
+                                        Text(i == (viewModel.texts.count-1) ? (letter.date).formattedString() : "")
+                                            .padding(.bottom, screenHeight * 0.00001)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                        
+                                        Text(i == (viewModel.texts.count-1) ? letter.fromUserName : "")
+                                            .padding(.bottom, screenHeight * 0.05)
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
                                     }
-                                    .padding(.top, 10)
-                                    .aspectRatio(9/13, contentMode: .fit)
+                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+                                }
+                                .padding(.top, 10)
+                                .aspectRatio(9/13, contentMode: .fit)
+                                .frame(width: UIScreen.main.bounds.width * 0.88)
+                                .id(i)
+                                .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
+                            }
+                            
+                            ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
+                                let imageIndex = index + viewModel.texts.count
+                                if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
+                                    ZStack(alignment: .topTrailing) {
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding([.horizontal, .top], 10)
+                                            .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+                                            .background(Color.white)
+                                            .clipShape(RoundedRectangle(cornerRadius: 5))
+                                            .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                                            .padding([.top, .bottom], 10)
+                                            .tag(imageIndex)
+                                            .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
+                                        
+                                        Button(action: {
+                                            imageViewModel.selectedItems.remove(at: index)
+                                        }) {
+                                            Image(systemName: "xmark.circle.fill")
+                                                .resizable()
+                                                .frame(width: 25, height: 25)
+                                                .padding(.trailing, -10)
+                                                .foregroundColor(Color(.primary900))
+                                        }
+                                    }
                                     .frame(width: UIScreen.main.bounds.width * 0.88)
-                                    .id(i)
-                                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
-                                } else {
-                                    ImageView(imageViewModel: imageViewModel, i: i, textsCnt: viewModel.texts.count)
                                 }
                             }
-                            // ------------------------------
+                            
                         }
                         .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
                     }
@@ -205,45 +231,6 @@ struct ScrollableLetterView: View {
                 }
                 
             }
-        }
-    }
-}
-
-struct ImageView: View {
-    @ObservedObject var imageViewModel: ImagePickerViewModel
-    let i: Int
-    let textsCnt: Int
-    
-    var body: some View {
-        if let uiImage = UIImage(data: imageViewModel.photoContents[i-textsCnt]) {
-            ZStack(alignment: .topTrailing) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .aspectRatio(contentMode: .fit)
-                    .padding([.horizontal, .top], 10)
-                    .padding(.bottom, UIScreen.main.bounds.width * 0.12)
-                    .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                    .padding([.top, .bottom], 10)
-                    .tag(i)
-                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
-                
-                Button(action: {
-                    if i - textsCnt < imageViewModel.selectedItems.count {
-                        imageViewModel.selectedItems.remove(at: i - textsCnt)
-                        imageViewModel.photoContents.remove(at: i - textsCnt)
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .padding(.trailing, -10)
-                        .foregroundColor(Color(.primary900))
-                }
-            }
-            .frame(width: UIScreen.main.bounds.width * 0.88)
         }
     }
 }
