@@ -252,7 +252,7 @@ struct PolaroidView: View {
                 .padding([.top, .bottom], 10)
             
             Button(action: {
-                viewModel.selectedItems.remove(at: index)
+                viewModel.selectedItems.remove(at: viewModel.currentIndex - viewModel.texts.count)
             }) {
                 Image(systemName: "xmark.circle.fill")
                     .resizable()
