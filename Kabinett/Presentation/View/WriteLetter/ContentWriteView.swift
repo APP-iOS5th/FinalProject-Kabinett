@@ -17,7 +17,6 @@ let screenHeight = UIScreen.main.bounds.height
 struct ContentWriteView: View {
     @Binding var letter: WriteLetter
     @StateObject var viewModel = ContentWriteViewModel()
-    @StateObject var imageViewModel: ImagePickerViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
@@ -28,7 +27,6 @@ struct ContentWriteView: View {
         customTabViewModel: CustomTabViewModel
     ) {
         self.customTabViewModel = customTabViewModel
-        self._imageViewModel = StateObject(wrappedValue: ImagePickerViewModel())
         self._letter = letter
     }
     
@@ -40,17 +38,17 @@ struct ContentWriteView: View {
                 }
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollableLetterView(letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel)
+                    ScrollableLetterView(letter: $letter, viewModel: viewModel)
                         .font(FontUtility.selectedFont(font: letter.fontString ?? "", size: 13))
                     
-                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+imageViewModel.photoContents.count)")
+                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+viewModel.photoContents.count)")
                         .padding(5)
                         .padding(.horizontal, 8)
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
                 .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
-                MiniTabBarView(viewModel: viewModel, customTabViewModel: customTabViewModel, imageViewModel: imageViewModel)
+                MiniTabBarView(viewModel: viewModel, customTabViewModel: customTabViewModel)
                 
                 if keyBoard {
                     Button(action:{
@@ -75,10 +73,10 @@ struct ContentWriteView: View {
             }
         }
         .ignoresSafeArea(.keyboard)
-        .onChange(of: imageViewModel.selectedItems) { // 이미지가 변경될 때
+        .onChange(of: viewModel.selectedItems) { // 이미지가 변경될 때
             Task { @MainActor in
-                await imageViewModel.loadImages()
-                letter.photoContents = imageViewModel.photoContents
+                await viewModel.loadImages()
+                letter.photoContents = viewModel.photoContents
             }
         }
         .onAppear{ // 키보드 감지
@@ -118,7 +116,6 @@ struct ContentWriteView: View {
 struct ScrollableLetterView: View {
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -138,9 +135,9 @@ struct ScrollableLetterView: View {
                                     .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
                             }
                             
-                            ForEach(imageViewModel.photoContents.indices, id: \.self) { index in
-                                if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
-                                    PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel, imageViewModel: imageViewModel)
+                            ForEach(viewModel.photoContents.indices, id: \.self) { index in
+                                if let uiImage = UIImage(data: viewModel.photoContents[index]) {
+                                    PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel)
                                 }
                             }
                             
@@ -227,7 +224,6 @@ struct PolaroidView: View {
     let uiImage: UIImage
     @Binding var letter: WriteLetter
     @ObservedObject var viewModel: ContentWriteViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         let imageIndex = index + viewModel.texts.count
@@ -246,7 +242,7 @@ struct PolaroidView: View {
                     .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                 
                 Button(action: {
-                    imageViewModel.selectedItems.remove(at: index)
+                    viewModel.selectedItems.remove(at: index)
                 }) {
                     Image(systemName: "xmark.circle.fill")
                         .resizable()

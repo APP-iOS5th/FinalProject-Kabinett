@@ -11,7 +11,6 @@ import PhotosUI
 struct MiniTabBarView: View {
     @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     var body: some View {
         if viewModel.currentIndex < viewModel.texts.count {
@@ -63,16 +62,16 @@ struct MiniTabBarView: View {
                         .frame(width: UIScreen.main.bounds.width * 0.4/4)
                 }
                 PhotosPicker(
-                    selection: $imageViewModel.selectedItems,
+                    selection: $viewModel.selectedItems,
                     maxSelectionCount: 10,
                     matching: .images) {
                     Image(systemName: "photo.on.rectangle.angled")
                         .font(.system(size: 15))
                         .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
-                        .background(imageViewModel.selectedItems.isEmpty ? Color.clear : Color.white)
-                        .foregroundStyle(imageViewModel.selectedItems.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
+                        .background(viewModel.selectedItems.isEmpty ? Color.clear : Color.white)
+                        .foregroundStyle(viewModel.selectedItems.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
                         .clipShape(Capsule())
-                        .shadow(color: imageViewModel.selectedItems.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
+                        .shadow(color: viewModel.selectedItems.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
                 }
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)

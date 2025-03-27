@@ -86,7 +86,6 @@
 		57ED9CE92C74262500A4312C /* SourceHanSerifK-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */; };
 		7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */; };
 		7F6CE9C02C6B2FEA0074568E /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */; };
-		7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */; };
 		7F9890822C7EF5C30035CB0D /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */; };
 		7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */; };
 		8314013F2C69C34500F601FB /* Letter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314013E2C69C34500F601FB /* Letter.swift */; };
@@ -225,7 +224,6 @@
 		57ED9CE82C74262400A4312C /* SourceHanSerifK-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceHanSerifK-Regular.otf"; sourceTree = "<group>"; };
 		7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabViewModel.swift; sourceTree = "<group>"; };
 		7F6CE9BF2C6B2FE90074568E /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
-		7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
 		7F9890812C7EF5C30035CB0D /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		7FCAE2B92C73102900228FA7 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		8314013E2C69C34500F601FB /* Letter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letter.swift; sourceTree = "<group>"; };
@@ -586,7 +584,6 @@
 		8366B6F82C65ED0F0021FAE0 /* WriteLetter */ = {
 			isa = PBXGroup;
 			children = (
-				7F6CE9C32C6B50050074568E /* ImagePickerViewModel.swift */,
 				57C35C662CCA02130083A346 /* FontUtility.swift */,
 				57ED94F92C84AFAC00A6F187 /* LetterWriteModel.swift */,
 				57ED9CDD2C73698B00A4312C /* StationerySelectionViewModel.swift */,
@@ -959,7 +956,6 @@
 				538150542C8AF04B007B1E5A /* Extension+LetterType.swift in Sources */,
 				5358E0732CE16E630089C59F /* SearchBarViewModel.swift in Sources */,
 				83CA92AB2C8160CB00DFB68B /* Publisher+.swift in Sources */,
-				7F6CE9C42C6B50050074568E /* ImagePickerViewModel.swift in Sources */,
 				534C67B72C7FF85700F0C175 /* LetterContentView.swift in Sources */,
 				7FCAE2BA2C73102900228FA7 /* ImageDetailView.swift in Sources */,
 				04DEC0E72C6C6C7300D289EA /* ProfileView.swift in Sources */,
