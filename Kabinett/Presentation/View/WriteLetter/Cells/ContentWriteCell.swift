@@ -34,10 +34,10 @@ struct TypingView: View {
                 GeometryReader { geo in
                     if index < viewModel.texts.count {
                         CustomTextEditor(
-                            text: $viewModel.texts[index],
                             maxWidth: geo.size.width,
                             maxHeight: geo.size.height,
-                            font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? ""))
+                            font: FontUtility.selectedUIFont(font: letter.fontString ?? "", size: FontUtility.fontSize(font: letter.fontString ?? "")),
+                            text: $viewModel.texts[index]
                         )
                     }
                 }

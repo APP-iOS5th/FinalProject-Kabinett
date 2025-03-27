@@ -70,7 +70,7 @@ struct EnvelopeStampSelectionView: View {
                 }
                 .padding(.bottom, 30)
                 
-                SelectionTabView(envelopeStampSelectionViewModel: viewModel, letter: $letter, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
+                SelectionTabView(letter: $letter, stampImageUrl: $stampImageUrl, envelopeImageUrl: $envelopeImageUrl, envelopeStampSelectionViewModel: viewModel)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
