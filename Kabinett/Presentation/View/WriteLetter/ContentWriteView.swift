@@ -116,28 +116,20 @@ struct ScrollableLetterView: View {
     @ObservedObject var viewModel: ContentWriteViewModel
     @State private var scrollWorkItem: DispatchWorkItem?
     
-    private var scrollObservableView: some View {
-        GeometryReader { proxy in
-            let offsetX = proxy.frame(in: .global).origin.x
-            Color.clear
-                .preference(
-                    key: ScrollOffsetKey.self,
-                    value: offsetX
-                )
-                .onAppear {
-                    viewModel.setOriginOffset(offsetX)
-                }
-        }
-        .frame(height: 0)
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             ScrollViewReader { scrollViewProxy in
                 ZStack(alignment: .top) {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        scrollObservableView
-                        LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
+                        GeometryReader { proxy in
+                            Color.clear
+                                .preference(
+                                    key: ScrollOffsetKey.self,
+                                    value: proxy.frame(in: .global).origin.x
+                                )
+                        }
+                        .frame(height: 0)
+                        LazyHStack(alignment: .top, spacing: geometry.size.width * 0.04) {
                             ForEach(viewModel.texts.indices, id: \.self) { i in
                                 TypingView(index: i, letter: $letter, viewModel: viewModel)
                                     .onChange(of: viewModel.texts[i]) {
@@ -145,22 +137,23 @@ struct ScrollableLetterView: View {
                                     }
                                     .padding(.top, 10)
                                     .aspectRatio(9/13, contentMode: .fit)
-                                    .frame(width: UIScreen.main.bounds.width * 0.88)
+                                    .frame(width: geometry.size.width * 0.88)
                                     .id(i)
                             }
                             
                             ForEach(viewModel.photoContents.indices, id: \.self) { index in
                                 let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: viewModel.photoContents[index]) {
-                                    PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel)
-                                        .tag(imageIndex)
+                                    PolaroidView(index: imageIndex, uiImage: uiImage, letter: $letter, viewModel: viewModel)
+                                        .frame(width: geometry.size.width * 0.88)
+                                        .id(imageIndex)
                                 }
                             }
-                            
                         }
-                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                        .padding(.horizontal, geometry.size.width * 0.06)
                     }
                     .scrollTargetLayout()
+                    .scrollTargetBehavior(.viewAligned)
                     .onPreferenceChange(ScrollOffsetKey.self) { newOffset in
                         viewModel.offset = newOffset
                         
@@ -173,26 +166,21 @@ struct ScrollableLetterView: View {
                         }
                     }
                 }
-                .scrollTargetBehavior(.viewAligned)
                 .onChange(of: viewModel.texts.count) {
-                    withAnimation {
-                        scrollViewProxy.scrollTo((viewModel.currentIndex+1), anchor: .center)
+                    withAnimation(.spring()) {
+                        scrollViewProxy.scrollTo(viewModel.currentIndex+1, anchor: .center)
                     }
                 }
-                .onChange(of: viewModel.offset) {
-                    scrollWorkItem?.cancel()
-                    let workItem = DispatchWorkItem {
-                        withAnimation {
-                            scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
-                        }
+                .onAppear {
+                    DispatchQueue.main.async {
+                        scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.02, execute: workItem)
-                    scrollWorkItem = workItem
                 }
             }
         }
     }
 }
+
 
 struct TypingView: View {
     let index: Int
