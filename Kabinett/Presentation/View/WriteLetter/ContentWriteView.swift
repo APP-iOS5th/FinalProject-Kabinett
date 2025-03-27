@@ -134,8 +134,11 @@ struct ScrollableLetterView: View {
                             }
                             
                             ForEach(viewModel.photoContents.indices, id: \.self) { index in
+                                let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: viewModel.photoContents[index]) {
                                     PolaroidView(index: index, uiImage: uiImage, letter: $letter, viewModel: viewModel)
+                                        .tag(imageIndex)
+                                        .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
                                 }
                             }
                             
@@ -224,32 +227,29 @@ struct PolaroidView: View {
     @ObservedObject var viewModel: ContentWriteViewModel
     
     var body: some View {
-        let imageIndex = index + viewModel.texts.count
-            ZStack(alignment: .topTrailing) {
-                Image(uiImage: uiImage)
+        ZStack(alignment: .topTrailing) {
+            Image(uiImage: uiImage)
+                .resizable()
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .aspectRatio(contentMode: .fit)
+                .padding([.horizontal, .top], 10)
+                .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .shadow(color: .primary300, radius: 5, x: 3, y: 3)
+                .padding([.top, .bottom], 10)
+            
+            Button(action: {
+                viewModel.selectedItems.remove(at: index)
+            }) {
+                Image(systemName: "xmark.circle.fill")
                     .resizable()
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .aspectRatio(contentMode: .fit)
-                    .padding([.horizontal, .top], 10)
-                    .padding(.bottom, UIScreen.main.bounds.width * 0.12)
-                    .background(Color.white)
-                    .clipShape(RoundedRectangle(cornerRadius: 5))
-                    .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                    .padding([.top, .bottom], 10)
-                    .tag(imageIndex)
-                    .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
-                
-                Button(action: {
-                    viewModel.selectedItems.remove(at: index)
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .resizable()
-                        .frame(width: 25, height: 25)
-                        .padding(.trailing, -10)
-                        .foregroundColor(Color(.primary900))
-                }
+                    .frame(width: 25, height: 25)
+                    .padding(.trailing, -10)
+                    .foregroundColor(Color(.primary900))
             }
-            .frame(width: UIScreen.main.bounds.width * 0.88)
+        }
+        .frame(width: UIScreen.main.bounds.width * 0.88)
     }
 }
 
