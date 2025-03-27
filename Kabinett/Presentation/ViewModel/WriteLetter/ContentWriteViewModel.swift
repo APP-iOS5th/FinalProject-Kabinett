@@ -5,12 +5,19 @@
 //  Created by Song Kim on 8/22/24.
 //
 
-import Foundation
 import SwiftUI
 import PhotosUI
 import Combine
 
 class ContentWriteViewModel: ObservableObject {
+    @Published var texts: [String] = [""]
+    @Published var currentIndex: Int = 0
+    @Published var isDeleteAlertPresented = false
+    
+    @Published var showFontMenu: Bool = false
+    @Published var isFontEdit: Bool = true
+    @Published var isKeyboard: Bool = false
+    
     @Published var selectedItems: [PhotosPickerItem] = [] //*****
     @Published var photoContents: [Data] = []
     
@@ -18,6 +25,20 @@ class ContentWriteViewModel: ObservableObject {
     @Published var error: Error?
     
     private var cancellables = Set<AnyCancellable>()
+
+    func toggleFontView() {
+        showFontMenu.toggle()
+    }
+    
+    func createNewLetter(idx: Int) {
+        texts.insert("", at: idx+1)
+    }
+    
+    func deleteLetter(idx: Int) {
+        if texts.count > 1 {
+            texts.remove(at: idx)
+        }
+    }
     
     func resetSelections() {
         selectedItems = []
@@ -62,27 +83,6 @@ class ContentWriteViewModel: ObservableObject {
                 }
             }
             return results
-        }
-    }
-    
-    @Published var texts: [String] = [""]
-    @Published var currentIndex: Int = 0
-    @Published var isDeleteAlertPresented = false
-    
-    @Published var showFontMenu: Bool = false
-    @Published var isFontEdit: Bool = true
-
-    func toggleFontView() {
-        showFontMenu.toggle()
-    }
-    
-    func createNewLetter(idx: Int) {
-        texts.insert("", at: idx+1)
-    }
-    
-    func deleteLetter(idx: Int) {
-        if texts.count > 1 {
-            texts.remove(at: idx)
         }
     }
 }

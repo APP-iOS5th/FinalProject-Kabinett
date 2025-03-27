@@ -20,8 +20,6 @@ struct ContentWriteView: View {
     @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
     
-    @State var keyBoard: Bool = false
-    
     init(
         letter: Binding<WriteLetter>,
         customTabViewModel: CustomTabViewModel
@@ -50,7 +48,7 @@ struct ContentWriteView: View {
                 .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
                 MiniTabBarView(viewModel: viewModel, customTabViewModel: customTabViewModel)
                 
-                if keyBoard {
+                if viewModel.isKeyboard {
                     Button(action:{
                         UIApplication.shared.sendAction(
                             #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
@@ -82,11 +80,11 @@ struct ContentWriteView: View {
         .onAppear{ // 키보드 감지
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-                    keyBoard = true
+                    viewModel.isKeyboard = true
                 }
             NotificationCenter.default.addObserver(
                 forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                    keyBoard = false
+                    viewModel.isKeyboard = false
                 }
         }
         .toolbar {
