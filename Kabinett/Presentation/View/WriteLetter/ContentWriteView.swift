@@ -60,8 +60,8 @@ struct ContentWriteView: View {
                             .background(Color.primary900)
                             .clipShape(Circle())
                     }
-                    .padding(.top, UIScreen.main.bounds.height * 0.488)
-                    .padding(.leading, UIScreen.main.bounds.width * 0.85)
+                    .padding(.top, screenHeight * 0.488)
+                    .padding(.leading, screenWidth * 0.85)
                 }
             }
         }
@@ -137,7 +137,7 @@ struct ScrollableLetterView: View {
                                     }
                                     .padding(.top, 10)
                                     .aspectRatio(9/13, contentMode: .fit)
-                                    .frame(width: geometry.size.width * 0.88)
+                                    .frame(width: screenWidth * 0.88)
                                     .id(i)
                             }
                             
@@ -145,7 +145,7 @@ struct ScrollableLetterView: View {
                                 let imageIndex = index + viewModel.texts.count
                                 if let uiImage = UIImage(data: viewModel.photoContents[index]) {
                                     PolaroidView(index: imageIndex, uiImage: uiImage, letter: $letter, viewModel: viewModel)
-                                        .frame(width: geometry.size.width * 0.88)
+                                        .frame(width: screenWidth * 0.88)
                                         .id(imageIndex)
                                 }
                             }
@@ -227,7 +227,7 @@ struct TypingView: View {
                     .padding(.bottom, screenHeight * 0.05)
                     .frame(maxWidth: .infinity, alignment: .trailing)
             }
-            .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+            .padding(.horizontal, screenWidth * 0.08)
         }
     }
 }
@@ -245,7 +245,7 @@ struct PolaroidView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .aspectRatio(contentMode: .fit)
                 .padding([.horizontal, .top], 10)
-                .padding(.bottom, UIScreen.main.bounds.width * 0.12)
+                .padding(.bottom, screenWidth * 0.12)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 5))
                 .shadow(color: .primary300, radius: 5, x: 3, y: 3)
@@ -261,7 +261,7 @@ struct PolaroidView: View {
                     .foregroundColor(Color(.primary900))
             }
         }
-        .frame(width: UIScreen.main.bounds.width * 0.88)
+        .frame(width: screenWidth * 0.88)
     }
 }
 
