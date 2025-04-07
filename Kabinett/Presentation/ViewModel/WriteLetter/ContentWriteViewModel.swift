@@ -27,6 +27,7 @@ class ContentWriteViewModel: ObservableObject {
     @Published var error: Error?
     
     @Published var isDeletePhoto: Bool = false
+    @Published var showCheckmark: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     

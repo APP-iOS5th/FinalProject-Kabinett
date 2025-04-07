@@ -64,6 +64,15 @@ struct ContentWriteView: View {
                     .padding(.leading, screenWidth * 0.85)
                 }
             }
+            if viewModel.showCheckmark {
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.green)
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.showCheckmark)
+                    .position(x: screenWidth / 2, y: screenHeight * 0.5)
+            }
         }
         .overlay {
             if viewModel.showFontMenu {
@@ -75,6 +84,11 @@ struct ContentWriteView: View {
             Task { @MainActor in
                 await viewModel.loadImages()
                 letter.photoContents = viewModel.photoContents
+
+                viewModel.showCheckmark = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    viewModel.showCheckmark = false
+                }
             }
         }
         .onAppear {
