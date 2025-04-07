@@ -29,6 +29,8 @@ class ContentWriteViewModel: ObservableObject {
     @Published var isDeletePhoto: Bool = false
     @Published var showCheckmark: Bool = false
     
+    @Published var keyboardHeight: CGFloat = 0
+    
     private var cancellables = Set<AnyCancellable>()
     
     func toggleFontView() {

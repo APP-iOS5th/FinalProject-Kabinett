@@ -60,7 +60,7 @@ struct ContentWriteView: View {
                             .background(Color.primary900)
                             .clipShape(Circle())
                     }
-                    .padding(.top, screenHeight * 0.488)
+                    .padding(.top, (screenHeight*0.82857)-viewModel.keyboardHeight)
                     .padding(.leading, screenWidth * 0.85)
                 }
             }
@@ -100,6 +100,12 @@ struct ContentWriteView: View {
                 forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
                     viewModel.isKeyboard = false
                 }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                    viewModel.keyboardHeight = keyboardFrame.height
+                }
+            }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
