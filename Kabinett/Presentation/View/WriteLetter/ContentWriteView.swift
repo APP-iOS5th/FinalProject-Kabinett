@@ -57,7 +57,7 @@ struct ContentWriteView: View {
                         Image(systemName: "keyboard.chevron.compact.down")
                             .padding(12)
                             .foregroundStyle(Color.white)
-                            .background(Color.primary900)
+                            .background(Color.secondary)
                             .clipShape(Circle())
                     }
                     .padding(.top, (screenHeight*0.82857)-viewModel.keyboardHeight)
@@ -68,7 +68,7 @@ struct ContentWriteView: View {
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .frame(width: 50, height: 50)
-                    .foregroundColor(.green)
+                    .foregroundColor(Color(UIColor(red: 0x13/255, green: 0xA4/255, blue: 0x50/255, alpha: 1)))
                     .transition(.scale.combined(with: .opacity))
                     .animation(.easeInOut(duration: 0.3), value: viewModel.showCheckmark)
                     .position(x: screenWidth / 2, y: screenHeight * 0.5)
