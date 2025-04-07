@@ -78,13 +78,25 @@ struct PolaroidView: View {
                 .padding([.top, .bottom], 10)
             
             Button(action: {
-                viewModel.selectedItems.remove(at: viewModel.currentIndex - viewModel.texts.count)
+                viewModel.isDeletePhoto = true
             }) {
                 Image(systemName: "xmark.circle.fill")
                     .resizable()
                     .frame(width: 25, height: 25)
                     .padding(.trailing, -10)
                     .foregroundColor(Color(.primary900))
+            }
+            .alert(isPresented: $viewModel.isDeletePhoto) {
+                Alert(
+                    title: Text("Delete Page"),
+                    message: Text("이 사진을 삭제하시겠어요?"),
+                    primaryButton: .destructive(Text("삭제")) {
+                        viewModel.selectedItems.remove(at: viewModel.currentIndex - viewModel.texts.count)
+                    },
+                    secondaryButton: .cancel(Text("취소")) {
+                        viewModel.isDeletePhoto = false
+                    }
+                )
             }
         }
         .frame(width: screenWidth * 0.88)

@@ -26,6 +26,8 @@ class ContentWriteViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var error: Error?
     
+    @Published var isDeletePhoto: Bool = false
+    
     private var cancellables = Set<AnyCancellable>()
     
     func toggleFontView() {
