@@ -8,22 +8,30 @@
 import WidgetKit
 import SwiftUI
 
-struct WidgetLetterProvider: TimelineProvider {
+struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> WidgetLetterEntry {
         WidgetLetterEntry(date: Date(), letters: [])
     }
     
     // 위젯 표기 시 미리보기로 보이는 화면
     func getSnapshot(in context: Context, completion: @escaping (WidgetLetterEntry) -> ()) {
-        let letters = WidgetLetterStorage.shared.loadWidgetLetters()
-        let entry = WidgetLetterEntry(date: Date(), letters: letters)
+        let entry = WidgetLetterEntry(date: Date(), letters: [])
+        
         completion(entry)
     }
     // 정의한 타임라인에 맞게 업데이트해서 보여질 내용
-    func getTimeline(in context: Context, completion: @escaping (Timeline<WidgetLetterEntry>) -> ()) {
-        let letters = WidgetLetterStorage.shared.loadWidgetLetters()
-        let entry = WidgetLetterEntry(date: Date(), letters: letters)
-        let timeline = Timeline(entries: [entry], policy: .atEnd)
+    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        var entries: [WidgetLetterEntry] = []
+        
+        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+        let currentDate = Date()
+        for hourOffset in 0 ..< 5 {
+            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+            let entry = WidgetLetterEntry(date: entryDate, letters: [])
+            entries.append(entry)
+        }
+        
+        let timeline = Timeline(entries: entries, policy: .atEnd)
         completion(timeline)
     }
 }
@@ -34,12 +42,12 @@ struct WidgetLetterEntry: TimelineEntry {
 }
 
 struct KabinettWidgetEntryView : View {
-    var entry: WidgetLetterProvider.Entry
-
+    var entry: Provider.Entry
+    
     var body: some View {
         ZStack {
-            ForEach(Array(entry.letters.reversed().enumerated()), id: \.element.id) { index, letter in
-                let (xOffset, yOffset, rotation) = LayoutHelper.calculateWidgetOffsetAndRotation(for: index, totalCount: entry.letters.count)
+            ForEach(Array(WidgetLetterStub.sampleLetters3.reversed().enumerated()), id: \.element.id) { index, letter in
+                let (xOffset, yOffset, rotation) = LayoutHelper.calculateWidgetOffsetAndRotation(for: index, totalCount: WidgetLetterStub.sampleLetters3.count)
                 
                 if let letter = entry.letters.first {
                     WidgetEnvelopeView(letter: letter)
@@ -50,26 +58,19 @@ struct KabinettWidgetEntryView : View {
             }
             RedSticker()
         }
-//        VStack(alignment: .leading) {
-//                    ForEach(entry.letters.prefix(3), id: \.id) { letter in
-//                        Text("\(letter.fromUserName): \(letter.postScript)")
-//                            .font(.caption)
-//                    }
-//                }
-//                .padding()
     }
 }
 
 struct KabinettWidget: Widget {
     let kind: String = "KabinettWidget"
-
+    
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: WidgetLetterProvider()) { entry in
+        StaticConfiguration(kind: kind, provider: Provider()) { entry in
             if #available(iOS 17.0, *) {
                 KabinettWidgetEntryView(entry: entry)
                     .containerBackground(Color.widgetBackground, for: .widget)
-            }
-            else {
+            } else {
+                
                 KabinettWidgetEntryView(entry: entry)
                     .padding()
                     .background(Color.widgetBackground)
@@ -81,9 +82,9 @@ struct KabinettWidget: Widget {
     }
 }
 
-//#Preview(as: .systemMedium) {
-//    KabinettWidget()
-//} timeline: {
-//    WidgetLetterEntry(date: .now, emoji: "😀")
-//    WidgetLetterEntry(date: .now, emoji: "🤩")
-//}
+#Preview(as: .systemMedium) {
+    KabinettWidget()
+} timeline: {
+    WidgetLetterEntry(date: .now, letters: [])
+    WidgetLetterEntry(date: .now, letters: [])
+}
