@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 class StationerySelectionViewModel: ObservableObject {
-    @Published var showModal = true
     @Published var selectedIndex: (Int, Int) = (0, 0)
     @Published var stationerys: [String] = []
     

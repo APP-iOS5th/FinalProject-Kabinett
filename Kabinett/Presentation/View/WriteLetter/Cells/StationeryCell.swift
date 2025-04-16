@@ -12,7 +12,7 @@ struct StationeryCell: View {
     let index: Int
     let rowIndex: Int
     let columnIndex: Int
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @ObservedObject var stationerySelectionViewModel: StationerySelectionViewModel
     
     var body: some View {
@@ -28,7 +28,7 @@ struct StationeryCell: View {
                     .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
                     .onTapGesture {
                         stationerySelectionViewModel.selectStationery(coordinates: (rowIndex, columnIndex))
-                        letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
+                        letter.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
                     }
             } else {
                 EmptyView()
@@ -40,7 +40,7 @@ struct StationeryCell: View {
                     .frame(width: 32, height: 32)
                     .padding([.top, .trailing], 20)
                     .onAppear {
-                        letterContent.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
+                        letter.stationeryImageUrlString = stationerySelectionViewModel.stationerys[index]
                     }
             }
         }

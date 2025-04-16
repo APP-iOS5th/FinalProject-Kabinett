@@ -11,21 +11,18 @@ import FirebaseAnalytics
 
 struct StationerySelectionView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel : StationerySelectionViewModel
     @ObservedObject var customViewModel: CustomTabViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
     
     init(
-        letterContent: Binding<LetterWriteModel>,
-        customViewModel: CustomTabViewModel,
-        imageViewModel: ImagePickerViewModel
+        letter: Binding<WriteLetter>,
+        customViewModel: CustomTabViewModel
     ) {
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: StationerySelectionViewModel(useCase: writeLetterUseCase))
-        self._letterContent = letterContent
         self.customViewModel = customViewModel
-        self.imageViewModel = imageViewModel
+        self._letter = letter
     }
     
     var body: some View {
@@ -42,7 +39,7 @@ struct StationerySelectionView: View {
                                     index: index,
                                     rowIndex: rowIndex,
                                     columnIndex: columnIndex,
-                                    letterContent: $letterContent,
+                                    letter: $letter,
                                     stationerySelectionViewModel: viewModel
                                 )
                             }
@@ -57,24 +54,23 @@ struct StationerySelectionView: View {
                 .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
             }
         }
-        .sheet(isPresented: $viewModel.showModal) {
-            UserSelectionView(letterContent: $letterContent)
-                .presentationDetents([.height(300), .large])
-        }
-        .onAppear {
-            viewModel.showModal = true
-            
-            Task {
-                await viewModel.loadStationeries()
-            }
-        }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("편지지 고르기")
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button(action: {
+                    customViewModel.hideWriteView()
+                }) {
+                    Image(systemName: "chevron.backward")
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color.primary900)
+                        .imageScale(.large)
+                        .padding(.leading, 3)
+                }
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: ContentWriteView(
-                    letterContent: $letterContent,
-                    imageViewModel: imageViewModel,
+                    letter: $letter,
                     customTabViewModel: customViewModel
                 )) {
                     Text("다음")
