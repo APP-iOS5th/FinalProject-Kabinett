@@ -32,7 +32,7 @@ class FontSelectionViewModel: ObservableObject {
     init() {
         updateText()
     }
-
+    
     private func updateText() {
         for _ in 0..<dummyFonts.count {
             testFontText.append("")

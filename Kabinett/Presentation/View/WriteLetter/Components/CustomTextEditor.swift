@@ -9,10 +9,10 @@ import UIKit
 import SwiftUI
 
 struct CustomTextEditor: UIViewRepresentable {
-    @Binding var text: String
     var maxWidth: CGFloat
     var maxHeight: CGFloat
     var font: UIFont
+    @Binding var text: String
     
     class Coordinator: NSObject, UITextViewDelegate {
         var parent: CustomTextEditor

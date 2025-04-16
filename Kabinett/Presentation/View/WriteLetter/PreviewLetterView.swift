@@ -11,22 +11,18 @@ import UIKit
 import FirebaseAnalytics
 
 struct PreviewLetterView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel: PreviewLetterViewModel
     @ObservedObject var customTabViewModel: CustomTabViewModel
-    @ObservedObject var imagePickerViewModel: ImagePickerViewModel
     
     init(
-        letterContent: Binding<LetterWriteModel>,
-        customTabViewModel: CustomTabViewModel,
-        imagePickerViewModel: ImagePickerViewModel
+        letter: Binding<WriteLetter>,
+        customTabViewModel: CustomTabViewModel
     ) {
-        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
-        
-        _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
-        self._letterContent = letterContent
         self.customTabViewModel = customTabViewModel
-        self.imagePickerViewModel = imagePickerViewModel
+        self._letter = letter
+        @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
+        _viewModel = StateObject(wrappedValue: PreviewLetterViewModel(useCase: writeLetterUseCase))
     }
     
     var body: some View {
@@ -35,14 +31,14 @@ struct PreviewLetterView: View {
             
             VStack {
                 Spacer()
-                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: letterContent.postScript, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
+                WriteLetterEnvelopeCell(letter: letter, postScript: letter.postScript ?? "")
                     .padding(.bottom,30)
                 
                 VStack {
                     Text("편지가 완성되었어요.")
                         .font(.system(size: 18, weight: .semibold))
                     HStack {
-                        Text("\(letterContent.toUserName == letterContent.fromUserName ? "나" : letterContent.toUserName)")
+                        Text("\(letter.toUserName == letter.fromUserName ? "나" : letter.toUserName)")
                             .font(.system(size: 22, weight: .bold))
                             .padding(.trailing, -3)
                         Text("에게 편지를 보낼까요?")
@@ -54,23 +50,8 @@ struct PreviewLetterView: View {
                 Spacer()
                 
                 Button {
-                    viewModel.saveLetter(font: letterContent.fontString ?? "",
-                                         postScript: letterContent.postScript,
-                                         envelope: letterContent.envelopeImageUrlString,
-                                         stamp: letterContent.stampImageUrlString,
-                                         fromUserId: letterContent.fromUserId,
-                                         fromUserName: letterContent.fromUserName,
-                                         fromUserKabinettNumber: letterContent.fromUserKabinettNumber,
-                                         toUserId: letterContent.toUserId,
-                                         toUserName: letterContent.toUserName,
-                                         toUserKabinettNumber: letterContent.toUserKabinettNumber,
-                                         content: letterContent.content,
-                                         photoContents: letterContent.photoContents,
-                                         date: letterContent.date,
-                                         stationery: letterContent.stationeryImageUrlString ?? "",
-                                         isRead: false)
-                    customTabViewModel.hideOptions()
-                    imagePickerViewModel.resetSelections()
+                    viewModel.saveLetter(letter: letter)
+                    customTabViewModel.hideWriteView()
                 } label: {
                     Text("편지 보내기")
                         .font(.system(size: 16))

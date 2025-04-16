@@ -52,15 +52,15 @@ class UserSelectionViewModel: ObservableObject {
         }
     }
     
-    func updateToUser(_ letterContent: inout LetterWriteModel, toUserName: String) {
+    func updateToUser(_ letter: inout WriteLetter, toUserName: String) {
         if let user = usersData.first(where: { $0.name == toUserName }) {
             toUser = Writer(id: user.id, name: user.name, kabinettNumber: user.kabinettNumber, profileImage: user.profileImage)
         } else {
             toUser = Writer(name: toUserName, kabinettNumber: 0, profileImage: nil)
         }
-        letterContent.toUserId = toUser?.id
-        letterContent.toUserName = toUser?.name ?? ""
-        letterContent.toUserKabinettNumber = toUser?.kabinettNumber
+        letter.toUserId = toUser?.id
+        letter.toUserName = toUser?.name ?? ""
+        letter.toUserKabinettNumber = toUser?.kabinettNumber
     }
     
     func checkMe(kabiNumber: Int) -> String {

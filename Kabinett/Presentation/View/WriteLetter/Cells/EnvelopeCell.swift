@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct EnvelopeCell: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @Binding var envelopeImageUrl: String
     @ObservedObject var viewModel: EnvelopeStampSelectionViewModel
     
@@ -37,7 +37,7 @@ struct EnvelopeCell: View {
                                             .onTapGesture {
                                                 viewModel.envelopeSelectStationery(coordinates: (rowIndex, columnIndex))
                                                 envelopeImageUrl = viewModel.envelopes[index]
-                                                letterContent.envelopeImageUrlString = viewModel.envelopes[index]
+                                                letter.envelopeImageUrlString = viewModel.envelopes[index]
                                             }
                                         
                                         if viewModel.isEnvelopeSelected(coordinates: (rowIndex, columnIndex)) {
@@ -46,7 +46,7 @@ struct EnvelopeCell: View {
                                                 .frame(width: 27, height: 27)
                                                 .padding([.top, .trailing], 20)
                                                 .onAppear {
-                                                    letterContent.envelopeImageUrlString = viewModel.envelopes[viewModel.envelopeIndex(row: rowIndex, column: columnIndex)]
+                                                    letter.envelopeImageUrlString = viewModel.envelopes[viewModel.envelopeIndex(row: rowIndex, column: columnIndex)]
                                                 }
                                         }
                                     }

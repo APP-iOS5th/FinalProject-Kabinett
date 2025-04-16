@@ -152,14 +152,6 @@ struct KabinettApp: App {
                     authManager: authManager
                 )
             }
-            Module(ImportLetterUseCaseKey.self) {
-                DefaultImportLetterUseCase(
-                    authManager: authManager,
-                    writerManager: firestoreWriterManager,
-                    letterManager: firestoreLetterWriteManager,
-                    letterStorageManager: firestorageLetterManager
-                )
-            }
         }
     }
 }

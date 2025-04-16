@@ -11,24 +11,21 @@ import Kingfisher
 import PhotosUI
 import FirebaseAnalytics
 
+let screenWidth = UIScreen.main.bounds.width
+let screenHeight = UIScreen.main.bounds.height
+
 struct ContentWriteView: View {
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
     @StateObject var viewModel = ContentWriteViewModel()
-    @ObservedObject var imageViewModel: ImagePickerViewModel
-    @ObservedObject var customTabViewModel: CustomTabViewModel
     @StateObject var fontViewModel = FontSelectionViewModel()
-    
-    @State var keyBoard: Bool = false
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
-        letterContent: Binding<LetterWriteModel>,
-        imageViewModel: ImagePickerViewModel,
+        letter: Binding<WriteLetter>,
         customTabViewModel: CustomTabViewModel
     ) {
-        @Injected(ImportLetterUseCaseKey.self) var importLetterUseCase: ImportLetterUseCase
-        self._letterContent = letterContent
-        self.imageViewModel = imageViewModel
         self.customTabViewModel = customTabViewModel
+        self._letter = letter
     }
     
     var body: some View {
@@ -39,19 +36,19 @@ struct ContentWriteView: View {
                 }
             ZStack(alignment: .top) {
                 VStack {
-                    ScrollableLetterView(letterContent: $letterContent, viewModel: viewModel, imageViewModel: imageViewModel, currentIndex: $viewModel.currentIndex)
-                        .font(FontUtility.selectedFont(font: letterContent.fontString ?? "", size: 13))
+                    ScrollableLetterView(letter: $letter, viewModel: viewModel)
+                        .font(FontUtility.selectedFont(font: letter.fontString ?? "", size: 13))
                     
-                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+imageViewModel.photoContents.count)")
+                    Text("\(viewModel.currentIndex+1) / \(viewModel.texts.count+viewModel.photoContents.count)")
                         .padding(5)
                         .padding(.horizontal, 8)
                         .background(Color(.primary900).opacity(0.3))
                         .clipShape(Capsule())
                 }
                 .padding(.bottom, LayoutHelper.shared.getSize(forSE: 0.03, forOthers: 0.0))
-                MiniTabBarView(letterContent: $letterContent, viewModel: viewModel, customTabViewModel: customTabViewModel)
+                MiniTabBarView(viewModel: viewModel, customTabViewModel: customTabViewModel)
                 
-                if keyBoard {
+                if viewModel.isKeyboard {
                     Button(action:{
                         UIApplication.shared.sendAction(
                             #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
@@ -60,25 +57,61 @@ struct ContentWriteView: View {
                         Image(systemName: "keyboard.chevron.compact.down")
                             .padding(12)
                             .foregroundStyle(Color.white)
-                            .background(Color.primary900)
+                            .background(Color.secondary)
                             .clipShape(Circle())
                     }
-                    .padding(.top, UIScreen.main.bounds.height * 0.488)
-                    .padding(.leading, UIScreen.main.bounds.width * 0.85)
+                    .padding(.top, (screenHeight*0.82857)-viewModel.keyboardHeight)
+                    .padding(.leading, screenWidth * 0.85)
                 }
+            }
+            if viewModel.showCheckmark {
+                Image(systemName: "checkmark.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(Color(UIColor(red: 0x13/255, green: 0xA4/255, blue: 0x50/255, alpha: 1)))
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.easeInOut(duration: 0.3), value: viewModel.showCheckmark)
+                    .position(x: screenWidth / 2, y: screenHeight * 0.5)
             }
         }
         .overlay {
             if viewModel.showFontMenu {
-                FontMenuView(letterContent: $letterContent, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
+                FontMenuView(letter: $letter, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
+            }
+        }
+        .ignoresSafeArea(.keyboard)
+        .onChange(of: viewModel.selectedItems) {
+            Task { @MainActor in
+                await viewModel.loadImages()
+                letter.photoContents = viewModel.photoContents
+
+                viewModel.showCheckmark = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                    viewModel.showCheckmark = false
+                }
+            }
+        }
+        .onAppear {
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
+                    viewModel.isKeyboard = true
+                }
+            NotificationCenter.default.addObserver(
+                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+                    viewModel.isKeyboard = false
+                }
+            
+            NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+                if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+                    viewModel.keyboardHeight = keyboardFrame.height
+                }
             }
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink(destination: EnvelopeStampSelectionView(
-                    letterContent: $letterContent,
-                    customTabViewModel: customTabViewModel,
-                    imageViewModel: imageViewModel
+                    letter: $letter,
+                    customTabViewModel: customTabViewModel
                 )) {
                     Text("다음")
                         .fontWeight(.medium)
@@ -87,25 +120,7 @@ struct ContentWriteView: View {
                 }
             }
         }
-        .ignoresSafeArea(.keyboard)
-        .onChange(of: imageViewModel.selectedItems) { _, newValue in
-            Task { @MainActor in
-                imageViewModel.selectedItems = newValue
-                await imageViewModel.loadImages()
-                letterContent.photoContents = imageViewModel.photoContents
-            }
-        }
-        .onAppear{
-            NotificationCenter.default.addObserver(
-                forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { _ in
-                    keyBoard = true
-                }
-            NotificationCenter.default.addObserver(
-                forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                    keyBoard = false
-                }
-        }
-        .analyticsScreen(
+        .analyticsScreen( // 화면 추적
             name: "\(type(of:self))",
             extraParameters: [
                 AnalyticsParameterScreenName: "\(type(of:self))",
@@ -115,138 +130,78 @@ struct ContentWriteView: View {
     }
 }
 
-// MARK: ScrollableLetterView
+// MARK: - ScrollableLetterView
 struct ScrollableLetterView: View {
-    let screenWidth = UIScreen.main.bounds.width
-    let screenHeight = UIScreen.main.bounds.height
-    
-    @Binding var letterContent: LetterWriteModel
+    @Binding var letter: WriteLetter
+    @State private var scrollWorkItem: DispatchWorkItem?
     @ObservedObject var viewModel: ContentWriteViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
-    @Binding var currentIndex: Int
     
     var body: some View {
-        GeometryReader { geometry in
-            ScrollViewReader { scrollViewProxy in
-                ZStack(alignment: .top) {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        LazyHStack(alignment: .top, spacing: UIScreen.main.bounds.width * 0.04) {
-                            ForEach(0..<viewModel.texts.count, id: \.self) { i in
-                                ZStack {
-                                    KFImage(URL(string: letterContent.stationeryImageUrlString ?? ""))
-                                        .placeholder {
-                                            ProgressView()
-                                        }
-                                        .resizable()
-                                        .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
-                                    
-                                    VStack {
-                                        Text(i == 0 ? letterContent.toUserName : "")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .padding(.top, screenHeight * 0.05)
-                                            .padding(.bottom, screenHeight * 0.01)
-                                            .onTapGesture {
-                                                UIApplication.shared.endEditing()
-                                            }
-                                        
-                                        GeometryReader { geo in
-                                            CustomTextEditor(
-                                                text: $viewModel.texts[i],
-                                                maxWidth: geo.size.width,
-                                                maxHeight: geo.size.height,
-                                                font: FontUtility.selectedUIFont(font: letterContent.fontString ?? "", size: FontUtility.fontSize(font: letterContent.fontString ?? ""))
-                                                //lineSpacing: FontUtility.lineSpacing(font: letterContent.fontString ?? ""),
-                                                //kerning: FontUtility.kerning(font: letterContent.fontString ?? "")
-                                            )
-                                        }
-                                        .onChange(of: viewModel.texts[i]) {
-                                            letterContent.content = viewModel.texts
-                                        }
-                                        .onChange(of: viewModel.texts.count) {
-                                            letterContent.content = viewModel.texts
-                                        }
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? (letterContent.date).formattedString() : "")
-                                            .padding(.bottom, screenHeight * 0.00001)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                        
-                                        Text(i == (viewModel.texts.count-1) ? letterContent.fromUserName : "")
-                                            .padding(.bottom, screenHeight * 0.05)
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                    }
-                                    .padding(.horizontal, UIScreen.main.bounds.width * 0.08)
+        ScrollViewReader { scrollViewProxy in
+            ZStack(alignment: .top) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    GeometryReader { proxy in
+                        Color.clear
+                            .preference(
+                                key: ScrollOffsetKey.self,
+                                value: proxy.frame(in: .global).origin.x
+                            )
+                    }
+                    .frame(height: 0)
+                    LazyHStack(alignment: .top, spacing: screenWidth * 0.04) {
+                        ForEach(viewModel.texts.indices, id: \.self) { index in
+                            TypingView(index: index, letter: $letter, viewModel: viewModel)
+                                .onChange(of: viewModel.texts[index]) {
+                                    letter.content = viewModel.texts
                                 }
                                 .padding(.top, 10)
                                 .aspectRatio(9/13, contentMode: .fit)
-                                .frame(width: UIScreen.main.bounds.width * 0.88)
-                                .id(i)
-                                .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [i: $0] })
-                            }
-                            
-                            ForEach(0..<imageViewModel.photoContents.count, id: \.self) { index in
-                                let imageIndex = index + viewModel.texts.count
-                                if let uiImage = UIImage(data: imageViewModel.photoContents[index]) {
-                                    ZStack(alignment: .topTrailing) {
-                                        Image(uiImage: uiImage)
-                                            .resizable()
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .aspectRatio(contentMode: .fit)
-                                            .padding([.horizontal, .top], 10)
-                                            .padding(.bottom, UIScreen.main.bounds.width * 0.12)
-                                            .background(Color.white)
-                                            .clipShape(RoundedRectangle(cornerRadius: 5))
-                                            .shadow(color: .primary300, radius: 5, x: 3, y: 3)
-                                            .padding([.top, .bottom], 10)
-                                            .tag(imageIndex)
-                                            .anchorPreference(key: AnchorsKey.self, value: .trailing, transform: { [imageIndex: $0] })
-                                        
-                                        Button(action: {
-                                            imageViewModel.photoContents.remove(at: index)
-                                            imageViewModel.selectedItems.remove(at: index)
-                                        }) {
-                                            Image(systemName: "xmark.circle.fill")
-                                                .resizable()
-                                                .frame(width: 25, height: 25)
-                                                .padding(.trailing, -10)
-                                                .foregroundColor(Color(.primary900))
-                                        }
-                                    }
-                                    .frame(width: UIScreen.main.bounds.width * 0.88)
-                                }
-                            }
-                            
+                                .frame(width: screenWidth * 0.88)
+                                .id(index)
                         }
-                        .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
+                        
+                        ForEach(viewModel.photoContents.indices, id: \.self) { index in
+                            let imageIndex = index + viewModel.texts.count
+                            if let uiImage = UIImage(data: viewModel.photoContents[index]) {
+                                PolaroidView(index: imageIndex, uiImage: uiImage, letter: $letter, viewModel: viewModel)
+                                    .frame(width: screenWidth * 0.88)
+                                    .id(imageIndex)
+                            }
+                        }
                     }
-                    .scrollTargetLayout()
+                    .padding(.horizontal, screenWidth * 0.06)
                 }
+                .scrollTargetLayout()
                 .scrollTargetBehavior(.viewAligned)
-                .onChange(of: viewModel.texts.count) {
-                    withAnimation {
-                        scrollViewProxy.scrollTo((currentIndex+1), anchor: .center)
-                    }
-                }
-                .onPreferenceChange(AnchorsKey.self) { anchors in
-                    let horizontalPadding = UIScreen.main.bounds.width * 0.06
-                    let leadingAnchor = anchors
-                        .filter { geometry[$0.value].x >= horizontalPadding }
-                        .sorted { geometry[$0.value].x < geometry[$1.value].x }
-                        .first
+                .onPreferenceChange(ScrollOffsetKey.self) { newOffset in
+                    viewModel.offset = newOffset
                     
-                    if let leadingAnchor = leadingAnchor, currentIndex != leadingAnchor.key {
-                        currentIndex = leadingAnchor.key
+                    let pageWidth = screenWidth * 0.9204
+                    let rawIndex = -viewModel.offset / pageWidth
+                    let nearestIndex = Int(round(rawIndex))
+                    
+                    if viewModel.currentIndex != nearestIndex {
+                        viewModel.currentIndex = nearestIndex
                     }
                 }
-                
+            }
+            .onChange(of: viewModel.texts.count) {
+                withAnimation(.spring()) {
+                    scrollViewProxy.scrollTo(viewModel.currentIndex+1, anchor: .center)
+                }
+            }
+            .onAppear {
+                DispatchQueue.main.async {
+                    scrollViewProxy.scrollTo(viewModel.currentIndex, anchor: .center)
+                }
             }
         }
     }
 }
 
-struct AnchorsKey: PreferenceKey {
-    typealias Value = [Int: Anchor<CGPoint>]
-    static var defaultValue: Value { [ : ] }
-    static func reduce(value: inout Value, nextValue: () -> Value) {
-        value.merge(nextValue()) { $1 }
+struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = .zero
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value += nextValue()
     }
 }
