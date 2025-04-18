@@ -39,10 +39,3 @@ protocol LetterBoxUseCase {
     
     func getWelcomeLetter() async -> Result<Bool, any Error>
 }
-
-enum LetterType: CaseIterable {
-    case all
-    case toMe
-    case sent
-    case received
-}
