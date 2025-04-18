@@ -136,9 +136,10 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
-		AFE197A02D118277003597B9 /* OptionGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE1979F2D118277003597B9 /* OptionGuideView.swift */; };
 		AFEE570E2DADDE6900B77B3E /* WidigetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */; };
 		AFEE570F2DADDE6900B77B3E /* WidigetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */; };
+		AFEE57182DB1F43800B77B3E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AFEE57172DB1F43800B77B3E /* Config.xcconfig */; };
+		AFEE57192DB1F43800B77B3E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AFEE57172DB1F43800B77B3E /* Config.xcconfig */; };
 		AFEE729B2D37D71F000D59F9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */; };
 		AFEE729D2D37D71F000D59F9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */; };
 		AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */; };
@@ -313,8 +314,8 @@
 		AFBD582F2D7EDE1A00202F50 /* RedSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSticker.swift; sourceTree = "<group>"; };
 		AFBD58532D7FD60400202F50 /* WidgetLetterStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLetterStub.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
-		AFE1979F2D118277003597B9 /* OptionGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionGuideView.swift; sourceTree = "<group>"; };
 		AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidigetLetter.swift; sourceTree = "<group>"; };
+		AFEE57172DB1F43800B77B3E /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KabinettWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -777,6 +778,7 @@
 				83FDCA7E2CA2E5EE00FAEF22 /* Resource */,
 				839CE12C2C645F89003635F3 /* GoogleService-Info.plist */,
 				839CE1202C645274003635F3 /* Kabinett.entitlements */,
+				AFEE57172DB1F43800B77B3E /* Config.xcconfig */,
 				57ED9CDF2C73749800A4312C /* Assets.xcassets */,
 				839CE0FC2C644BF0003635F3 /* Preview Content */,
 			);
@@ -1027,6 +1029,7 @@
 				577156F72C746A7C00E21162 /* MaruBuriot-Regular.otf in Resources */,
 				57A014FE2CA57E7100580883 /* NanumMyeongjo.otf in Resources */,
 				57ED9CE72C73780100A4312C /* Pecita.otf in Resources */,
+				AFEE57192DB1F43800B77B3E /* Config.xcconfig in Resources */,
 				839CE0FE2C644BF0003635F3 /* Preview Assets.xcassets in Resources */,
 				57ED9CE52C73760800A4312C /* goormSansOTF4.otf in Resources */,
 				839CE12D2C645F89003635F3 /* GoogleService-Info.plist in Resources */,
@@ -1058,6 +1061,7 @@
 				AF69CF182D798A01003E9CC6 /* MaruBuriot-Bold.otf in Resources */,
 				AF69CF142D7989ED003E9CC6 /* NanumMyeongjo.otf in Resources */,
 				AF69CF152D7989F4003E9CC6 /* SourceHanSerifK-Bold.otf in Resources */,
+				AFEE57182DB1F43800B77B3E /* Config.xcconfig in Resources */,
 				AFEE72AD2D37D805000D59F9 /* Assets.xcassets in Resources */,
 				AF69CF1A2D798A08003E9CC6 /* Baskervville-Regular.otf in Resources */,
 				AF69CF162D7989F8003E9CC6 /* SourceHanSerifK-Regular.otf in Resources */,
@@ -1233,6 +1237,7 @@
 /* Begin XCBuildConfiguration section */
 		839CE1152C644BF0003635F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFEE57172DB1F43800B77B3E /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1296,6 +1301,7 @@
 		};
 		839CE1162C644BF0003635F3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AFEE57172DB1F43800B77B3E /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1365,6 +1371,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해서 카메라 접근 권한이 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해서 사진 앨범에 접근할게요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1407,6 +1414,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Kabinett/Info.plist;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "편지에 첨부할 사진을 촬영하기 위해서 카메라 접근 권한이 필요해요.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진을 설정하기 위해서 사진 앨범에 접근할게요.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
