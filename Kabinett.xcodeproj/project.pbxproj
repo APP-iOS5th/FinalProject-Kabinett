@@ -135,10 +135,15 @@
 		AFCFDFC32C7C3F2A00BEFFDF /* DefaultProfileUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */; };
 		AFCFDFC42C7C3F2A00BEFFDF /* FirestoreLetterBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */; };
 		AFDE7D2E2C75797A0019F2DE /* FirestorageLetterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */; };
-		AFEE570E2DADDE6900B77B3E /* WidigetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */; };
-		AFEE570F2DADDE6900B77B3E /* WidigetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */; };
+		AFEE570E2DADDE6900B77B3E /* WidgetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidgetLetter.swift */; };
+		AFEE570F2DADDE6900B77B3E /* WidgetLetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE570D2DADDE6900B77B3E /* WidgetLetter.swift */; };
 		AFEE57182DB1F43800B77B3E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AFEE57172DB1F43800B77B3E /* Config.xcconfig */; };
 		AFEE57192DB1F43800B77B3E /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = AFEE57172DB1F43800B77B3E /* Config.xcconfig */; };
+		AFEE571B2DB1F8B800B77B3E /* FirestoreWidgetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE571A2DB1F8B800B77B3E /* FirestoreWidgetManager.swift */; };
+		AFEE571F2DB219BE00B77B3E /* WidgetLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE571E2DB219BE00B77B3E /* WidgetLetterUseCase.swift */; };
+		AFEE57212DB2269500B77B3E /* DefaultWidgetLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE57202DB2269500B77B3E /* DefaultWidgetLetterUseCase.swift */; };
+		AFEE57242DB2294500B77B3E /* WidgetLetterStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE57232DB2294500B77B3E /* WidgetLetterStorage.swift */; };
+		AFEE57252DB2294500B77B3E /* WidgetLetterStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE57232DB2294500B77B3E /* WidgetLetterStorage.swift */; };
 		AFEE729B2D37D71F000D59F9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */; };
 		AFEE729D2D37D71F000D59F9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */; };
 		AFEE72A02D37D71F000D59F9 /* KabinettWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE729F2D37D71F000D59F9 /* KabinettWidgetBundle.swift */; };
@@ -312,8 +317,12 @@
 		AFBD582F2D7EDE1A00202F50 /* RedSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedSticker.swift; sourceTree = "<group>"; };
 		AFBD58532D7FD60400202F50 /* WidgetLetterStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLetterStub.swift; sourceTree = "<group>"; };
 		AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestorageLetterManager.swift; sourceTree = "<group>"; };
-		AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidigetLetter.swift; sourceTree = "<group>"; };
+		AFEE570D2DADDE6900B77B3E /* WidgetLetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLetter.swift; sourceTree = "<group>"; };
 		AFEE57172DB1F43800B77B3E /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		AFEE571A2DB1F8B800B77B3E /* FirestoreWidgetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreWidgetManager.swift; sourceTree = "<group>"; };
+		AFEE571E2DB219BE00B77B3E /* WidgetLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLetterUseCase.swift; sourceTree = "<group>"; };
+		AFEE57202DB2269500B77B3E /* DefaultWidgetLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWidgetLetterUseCase.swift; sourceTree = "<group>"; };
+		AFEE57232DB2294500B77B3E /* WidgetLetterStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetLetterStorage.swift; sourceTree = "<group>"; };
 		AFEE72982D37D71F000D59F9 /* KabinettWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = KabinettWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFEE729A2D37D71F000D59F9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		AFEE729C2D37D71F000D59F9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -481,6 +490,7 @@
 				83F0D6862C7072DB001B8733 /* FirestoreWriterManager.swift */,
 				AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */,
 				AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */,
+				AFEE571A2DB1F8B800B77B3E /* FirestoreWidgetManager.swift */,
 				83CA92AD2C8181DB00DFB68B /* FirestorageWriterManager.swift */,
 				AFDE7D2D2C75797A0019F2DE /* FirestorageLetterManager.swift */,
 			);
@@ -494,6 +504,7 @@
 				AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */,
 				83949C892C71BC0F0080D72C /* DefaultProfileUseCase.swift */,
 				83D9C8E42C830C7600EF2684 /* DefaultSignUpUseCase.swift */,
+				AFEE57202DB2269500B77B3E /* DefaultWidgetLetterUseCase.swift */,
 			);
 			path = DefaultUseCases;
 			sourceTree = "<group>";
@@ -556,7 +567,6 @@
 			children = (
 				8314013E2C69C34500F601FB /* Letter.swift */,
 				AFA58F172C69DB1300A7C569 /* Writer.swift */,
-				AFEE570D2DADDE6900B77B3E /* WidigetLetter.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -564,6 +574,7 @@
 		8366B6F02C65ECCD0021FAE0 /* UseCase */ = {
 			isa = PBXGroup;
 			children = (
+				AFEE571D2DB219AB00B77B3E /* WidgetLetterUseCase */,
 				8314013D2C69C23C00F601FB /* SignUpUseCase */,
 				8314013C2C69C23500F601FB /* ProfileUseCase */,
 				8314013B2C69C22B00F601FB /* WriteLetterUseCase */,
@@ -734,6 +745,7 @@
 		839CE0EA2C644BEF003635F3 = {
 			isa = PBXGroup;
 			children = (
+				AFEE57222DB2290900B77B3E /* Shared */,
 				AFFE08AE2D77E4E600A5A587 /* KabinettWidgetExtension.entitlements */,
 				04D182782C881EBE0038DA57 /* Settings.bundle */,
 				839CE0F52C644BEF003635F3 /* Kabinett */,
@@ -840,6 +852,23 @@
 				7F397C4D2C7C0ECE00388645 /* CustomTabViewModel.swift */,
 			);
 			path = CustomTabViewModel;
+			sourceTree = "<group>";
+		};
+		AFEE571D2DB219AB00B77B3E /* WidgetLetterUseCase */ = {
+			isa = PBXGroup;
+			children = (
+				AFEE571E2DB219BE00B77B3E /* WidgetLetterUseCase.swift */,
+			);
+			path = WidgetLetterUseCase;
+			sourceTree = "<group>";
+		};
+		AFEE57222DB2290900B77B3E /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				AFEE570D2DADDE6900B77B3E /* WidgetLetter.swift */,
+				AFEE57232DB2294500B77B3E /* WidgetLetterStorage.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		AFEE72992D37D71F000D59F9 /* Frameworks */ = {
@@ -1083,6 +1112,7 @@
 				7F397C4E2C7C0ECE00388645 /* CustomTabViewModel.swift in Sources */,
 				57ED9CD72C72C8C900A4312C /* UserSelectionViewModel.swift in Sources */,
 				57ED9CDA2C733D5300A4312C /* FontSelectionViewModel.swift in Sources */,
+				AFEE57242DB2294500B77B3E /* WidgetLetterStorage.swift in Sources */,
 				577157032C75D7C300E21162 /* StationerySelectionViewModel.swift in Sources */,
 				AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */,
 				57ED9CD52C70E4A400A4312C /* OpenSourceLicenseModalView.swift in Sources */,
@@ -1101,6 +1131,7 @@
 				57C35C672CCA02130083A346 /* FontUtility.swift in Sources */,
 				579E35FF2D2BB11400F92A87 /* StampCell.swift in Sources */,
 				8356843E2CE0A43600120EC8 /* UseCaseKeys.swift in Sources */,
+				AFEE571B2DB1F8B800B77B3E /* FirestoreWidgetManager.swift in Sources */,
 				538150512C8AD5FB007B1E5A /* LayoutHelper.swift in Sources */,
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
@@ -1120,9 +1151,11 @@
 				835684402CE0A43600120EC8 /* Injected.swift in Sources */,
 				04DEC0ED2C6C882100D289EA /* ProfileSettingsView.swift in Sources */,
 				04DEC0E92C6C799500D289EA /* SettingsView.swift in Sources */,
+				AFEE571F2DB219BE00B77B3E /* WidgetLetterUseCase.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
 				E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
+				AFEE57212DB2269500B77B3E /* DefaultWidgetLetterUseCase.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
 				5771570B2C77071400E21162 /* ContentWriteViewModel.swift in Sources */,
 				53A99EA92C81914B00896AAC /* CalendarViewModel.swift in Sources */,
@@ -1133,7 +1166,7 @@
 				AF738DC42D50B3900081FB96 /* Extension+NotificationName.swift in Sources */,
 				57485D3B2C772332000601BF /* ContentWriteView.swift in Sources */,
 				57EBE5B92C6B399C003ECD7F /* StationerySelectionView.swift in Sources */,
-				AFEE570F2DADDE6900B77B3E /* WidigetLetter.swift in Sources */,
+				AFEE570F2DADDE6900B77B3E /* WidgetLetter.swift in Sources */,
 				57EBE5B02C69E5F2003ECD7F /* UserSelectionView.swift in Sources */,
 				57966B982C7D574E008D650B /* EnvelopeStampSelectionView.swift in Sources */,
 				53BA8D212C69E4B60084D5CC /* LetterEnvelopeCell.swift in Sources */,
@@ -1195,9 +1228,10 @@
 				AFEE72A22D37D71F000D59F9 /* KabinettWidget.swift in Sources */,
 				AFBD58542D7FD60400202F50 /* WidgetLetterStub.swift in Sources */,
 				AFFE08C12D794AF400A5A587 /* WidgetEnvelopeView.swift in Sources */,
+				AFEE57252DB2294500B77B3E /* WidgetLetterStorage.swift in Sources */,
 				AFBD58302D7EDE1A00202F50 /* RedSticker.swift in Sources */,
 				AFFE08C22D79666700A5A587 /* LayoutHelper.swift in Sources */,
-				AFEE570E2DADDE6900B77B3E /* WidigetLetter.swift in Sources */,
+				AFEE570E2DADDE6900B77B3E /* WidgetLetter.swift in Sources */,
 				AFFE08C32D79667900A5A587 /* FontUtility.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

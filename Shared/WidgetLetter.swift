@@ -1,5 +1,5 @@
 //
-//  WidigetLetter.swift
+//  WidgetLetter.swift
 //  Kabinett
 //
 //  Created by Jihye Seok on 4/15/25.
@@ -21,4 +21,8 @@ struct WidgetLetter: Codable, Identifiable {
     let toUserName: String
     let date: Date
     var isRead: Bool
+}
+
+enum WidgetLetterType: String {
+    case received = "Received"
 }
