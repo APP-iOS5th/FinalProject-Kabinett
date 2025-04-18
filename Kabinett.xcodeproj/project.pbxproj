@@ -126,7 +126,6 @@
 		AF738DC62D50B3C00081FB96 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */; };
 		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
-		AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
 		AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */; };
 		AFB88B592C89410600E79F90 /* DefaultWriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB88B582C89410600E79F90 /* DefaultWriteLetterUseCase.swift */; };
@@ -306,7 +305,6 @@
 		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterUseCase.swift; sourceTree = "<group>"; };
-		AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportLetterUseCase.swift; sourceTree = "<group>"; };
 		AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterBoxManager.swift; sourceTree = "<group>"; };
 		AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LetterBoxUseCase.swift; sourceTree = "<group>"; };
 		AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterWriteManager.swift; sourceTree = "<group>"; };
@@ -500,14 +498,6 @@
 			path = DefaultUseCases;
 			sourceTree = "<group>";
 		};
-		831401392C69C21300F601FB /* ImportLetterUseCase */ = {
-			isa = PBXGroup;
-			children = (
-				AFA58F232C6A02BF00A7C569 /* ImportLetterUseCase.swift */,
-			);
-			path = ImportLetterUseCase;
-			sourceTree = "<group>";
-		};
 		8314013A2C69C21D00F601FB /* LetterBoxUseCase */ = {
 			isa = PBXGroup;
 			children = (
@@ -578,7 +568,6 @@
 				8314013C2C69C23500F601FB /* ProfileUseCase */,
 				8314013B2C69C22B00F601FB /* WriteLetterUseCase */,
 				8314013A2C69C21D00F601FB /* LetterBoxUseCase */,
-				831401392C69C21300F601FB /* ImportLetterUseCase */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -1116,7 +1105,6 @@
 				535961912C74F5870031E181 /* CalendarView.swift in Sources */,
 				530C765C2C76CEFC007E09C6 /* LetterBoxUseCaseStub.swift in Sources */,
 				53A482D82C6C6ACA00F00A9A /* LetterBoxDetailView.swift in Sources */,
-				AFA58F242C6A02BF00A7C569 /* ImportLetterUseCase.swift in Sources */,
 				83F0D6852C705E42001B8733 /* AuthManager.swift in Sources */,
 				57966B9A2C7D8B45008D650B /* Extension+Date.swift in Sources */,
 				5358E07B2CE1F0200089C59F /* ZoomableScrollView.swift in Sources */,
