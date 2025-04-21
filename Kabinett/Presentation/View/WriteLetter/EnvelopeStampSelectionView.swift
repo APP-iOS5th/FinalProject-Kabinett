@@ -10,25 +10,22 @@ import Kingfisher
 import FirebaseAnalytics
 
 struct EnvelopeStampSelectionView: View {
-    @Binding var letterContent: LetterWriteModel
-    @StateObject var viewModel: EnvelopeStampSelectionViewModel
-    @ObservedObject var imageViewModel: ImagePickerViewModel
-    @ObservedObject var customTabViewModel: CustomTabViewModel
+    @Binding var letter: WriteLetter
     @State private var postScriptText: String = ""
     @State private var envelopeImageUrl: String
     @State private var stampImageUrl: String
+    @StateObject var viewModel: EnvelopeStampSelectionViewModel
+    @ObservedObject var customTabViewModel: CustomTabViewModel
     
     init(
-        letterContent: Binding<LetterWriteModel>,
-        customTabViewModel: CustomTabViewModel,
-        imageViewModel: ImagePickerViewModel
+        letter: Binding<WriteLetter>,
+        customTabViewModel: CustomTabViewModel
     ) {
-        self._letterContent = letterContent
-        self.imageViewModel = imageViewModel
         self.customTabViewModel = customTabViewModel
+        self._letter = letter
         
-        _envelopeImageUrl = State(initialValue: letterContent.wrappedValue.envelopeImageUrlString)
-        _stampImageUrl = State(initialValue: letterContent.wrappedValue.stampImageUrlString)
+        _envelopeImageUrl = State(initialValue: letter.wrappedValue.envelopeImageUrlString)
+        _stampImageUrl = State(initialValue: letter.wrappedValue.stampImageUrlString)
         
         @Injected(WriteLetterUseCaseKey.self) var writeLetterUseCase: WriteLetterUseCase
         _viewModel = StateObject(wrappedValue: EnvelopeStampSelectionViewModel(useCase: writeLetterUseCase))
@@ -42,16 +39,16 @@ struct EnvelopeStampSelectionView: View {
                 }
             
             VStack {
-                WriteLetterEnvelopeCell(letter: Letter(fontString: letterContent.fontString, postScript: postScriptText, envelopeImageUrlString: letterContent.envelopeImageUrlString, stampImageUrlString: letterContent.stampImageUrlString, fromUserId: letterContent.fromUserId, fromUserName: letterContent.fromUserName, fromUserKabinettNumber: letterContent.fromUserKabinettNumber, toUserId: letterContent.toUserId, toUserName: letterContent.toUserName, toUserKabinettNumber: letterContent.toUserKabinettNumber, content: letterContent.content, photoContents: [""], date: letterContent.date, stationeryImageUrlString: letterContent.stationeryImageUrlString, isRead: true))
+                WriteLetterEnvelopeCell(letter: letter, postScript: postScriptText)
                     .padding(.top, 10)
                     .padding(.bottom, 50)
                     .onChange(of: viewModel.envelopes) {
-                        if letterContent.envelopeImageUrlString.isEmpty {
+                        if letter.envelopeImageUrlString.isEmpty {
                             envelopeImageUrl = viewModel.envelopes[0]
                         }
                     }
                     .onChange(of: viewModel.stamps) {
-                        if letterContent.stampImageUrlString.isEmpty {
+                        if letter.stampImageUrlString.isEmpty {
                             stampImageUrl = viewModel.stamps[0]
                         }
                     }
@@ -68,64 +65,39 @@ struct EnvelopeStampSelectionView: View {
                         .background(Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 5))
                         .onChange(of: postScriptText) {
-                            letterContent.postScript = postScriptText
+                            letter.postScript = postScriptText
                         }
                 }
                 .padding(.bottom, 30)
                 
-                SelectionTabView(envelopeStampSelectionViewModel: viewModel, letterContent: $letterContent, envelopeImageUrl: $envelopeImageUrl, stampImageUrl: $stampImageUrl)
+                SelectionTabView(letter: $letter, stampImageUrl: $stampImageUrl, envelopeImageUrl: $envelopeImageUrl, envelopeStampSelectionViewModel: viewModel)
             }
             .padding(.horizontal, UIScreen.main.bounds.width * 0.06)
         }
         .task {
             await viewModel.loadStamps()
             await viewModel.loadEnvelopes()
-            
-            if letterContent.dataSource == .importLetter {
-                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
-                envelopeImageUrl = imageViewModel.envelopeURL ?? ""
-                stampImageUrl = imageViewModel.stampURL ?? ""
-            } else {
-                await imageViewModel.loadAndUpdateEnvelopeAndStamp()
-                envelopeImageUrl = letterContent.envelopeImageUrlString
-                stampImageUrl = letterContent.stampImageUrlString
-            }
+            envelopeImageUrl = letter.envelopeImageUrlString
+            stampImageUrl = letter.stampImageUrlString
         }
         .onChange(of: envelopeImageUrl) { _, newValue in
-            imageViewModel.updateEnvelopeAndStamp(envelope: newValue, stamp: stampImageUrl)
-            letterContent.envelopeImageUrlString = newValue
+            letter.envelopeImageUrlString = newValue
         }
         .onChange(of: stampImageUrl) { _, newValue in
-            imageViewModel.updateEnvelopeAndStamp(envelope: envelopeImageUrl, stamp: newValue)
-            letterContent.stampImageUrlString = newValue
+            letter.stampImageUrlString = newValue
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("봉투와 우표 고르기")
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                if letterContent.dataSource == .importLetter {
-                    NavigationLink(destination: LetterCompletionView(
-                        letterContent: $letterContent,
-                        viewModel: imageViewModel,
-                        customTabViewModel: customTabViewModel,
-                        envelopeStampSelectionViewModel: viewModel
-                    )) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
-                } else {
-                    NavigationLink(destination: PreviewLetterView(
-                        letterContent: $letterContent,
-                        customTabViewModel: customTabViewModel,
-                        imagePickerViewModel: imageViewModel
-                    )) {
-                        Text("다음")
-                            .fontWeight(.medium)
-                            .font(.system(size: 19))
-                            .foregroundStyle(.contentPrimary)
-                    }
+                NavigationLink(destination: PreviewLetterView(
+                    letter: $letter,
+                    customTabViewModel: customTabViewModel
+                )) {
+                    Text("다음")
+                        .fontWeight(.medium)
+                        .font(.system(size: 19))
+                        .foregroundStyle(.contentPrimary)
                 }
             }
         }

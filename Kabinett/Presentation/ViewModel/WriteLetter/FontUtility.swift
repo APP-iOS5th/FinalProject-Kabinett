@@ -2,12 +2,12 @@
 //  FontUtility.swift
 //  Kabinett
 //
-//  Created by Song Kim on 10/17/24.
+//  Created by Song Kim on 10/24/24.
 //
 
 import Foundation
-import SwiftUI
 import UIKit
+import SwiftUI
 
 class FontUtility {
     static let screenSize = UIScreen.main.bounds.width

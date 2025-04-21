@@ -27,3 +27,10 @@ struct Letter: Codable, Identifiable {
     let stationeryImageUrlString: String?
     var isRead: Bool
 }
+
+enum LetterType: CaseIterable {
+    case all
+    case toMe
+    case sent
+    case received
+}
