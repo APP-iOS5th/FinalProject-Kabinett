@@ -45,7 +45,18 @@ struct KabinettWidgetEntryView : View {
     var entry: Provider.Entry
     
     var body: some View {
+
         ZStack {
+            //            ForEach(Array(WidgetLetterStub.sampleLetters3.reversed().enumerated()), id: \.element.id) { index, letter in
+            //                let (xOffset, yOffset, rotation) = LayoutHelper.calculateWidgetOffsetAndRotation(for: index, totalCount: WidgetLetterStub.sampleLetters3.count)
+            //
+            //                WidgetEnvelopeView()
+            //                    .offset(x: xOffset, y: yOffset)
+            //                    .rotationEffect(.degrees(rotation))
+            //                    .zIndex(Double(-index))
+            //
+            //
+            //            }
             ForEach(Array(WidgetLetterStub.sampleLetters3.reversed().enumerated()), id: \.element.id) { index, letter in
                 let (xOffset, yOffset, rotation) = LayoutHelper.calculateWidgetOffsetAndRotation(for: index, totalCount: WidgetLetterStub.sampleLetters3.count)
                 
