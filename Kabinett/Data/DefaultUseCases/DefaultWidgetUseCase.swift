@@ -11,12 +11,12 @@ import Combine
 
 final class DefaultWidgetUseCase {
     private let logger: Logger
-    private let storage: WidgetUserDefaults
+//    private let storage: WidgetUserDefaults
     private let widgetManager: FirestoreWidgetManager
     private let authManager: AuthManager
     
     init(
-        storage: WidgetUserDefaults,
+//        storage: WidgetUserDefaults,
         widgetManager: FirestoreWidgetManager,
         authManager: AuthManager
     ) {
@@ -24,7 +24,7 @@ final class DefaultWidgetUseCase {
             subsystem: "co.kr.codegrove.Kabinett",
             category: "DefaultWidgetUseCase"
         )
-        self.storage = storage
+//        self.storage = storage
         self.widgetManager = widgetManager
         self.authManager = authManager
     }
@@ -37,9 +37,9 @@ extension DefaultWidgetUseCase: WidgetUseCase {
             .flatMap { userId in
                 self.widgetManager.getWidgetLetter(userId: userId, letterType: letterType)
             }
-            .handleEvents(receiveOutput: { [weak self] letters in
-                self?.storage.save(letters)
-            })
+//            .handleEvents(receiveOutput: { [weak self] letters in
+//                self?.storage.save(letters)
+//            })
             .eraseToAnyPublisher()
     }
 }

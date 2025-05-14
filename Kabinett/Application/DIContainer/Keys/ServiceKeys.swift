@@ -31,6 +31,10 @@ struct FirestoreLetterBoxManagerKey: InjectionKey {
     typealias Value = FirestoreLetterBoxManager
 }
 
+struct FirestoreWidgetManagerKey: InjectionKey {
+    typealias Value = FirestoreWidgetManager
+}
+
 struct FirestorageWriterManagerKey: InjectionKey {
     typealias Value = FirestorageWriterManager
 }

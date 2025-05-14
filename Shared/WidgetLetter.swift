@@ -24,5 +24,6 @@ struct WidgetLetter: Codable, Identifiable {
 }
 
 enum WidgetLetterType: String {
-    case received = "Received"
+    //    case received = "Received"
+    case received = "ToMe" // for test
 }

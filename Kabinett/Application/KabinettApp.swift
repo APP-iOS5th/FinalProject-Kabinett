@@ -92,6 +92,9 @@ struct KabinettApp: App {
             Module(FirestoreLetterBoxManagerKey.self) {
                 FirestoreLetterBoxManager()
             }
+            Module(FirestoreWidgetManagerKey.self) {
+                FirestoreWidgetManager()
+            }
         }
         
         // MARK: Register Firestore Authenticate Service
@@ -117,6 +120,9 @@ struct KabinettApp: App {
         
         @Injected(FirestoreLetterBoxManagerKey.self)
         var firestoreLetterBoxManager: FirestoreLetterBoxManager
+        
+        @Injected(FirestoreWidgetManagerKey.self)
+        var firestoreWidgetManager: FirestoreWidgetManager
         
         @Injected(FirestorageWriterManagerKey.self)
         var firestorageWriterManager: FirestorageWriterManager
@@ -149,6 +155,13 @@ struct KabinettApp: App {
             Module(LetterBoxUseCaseKey.self) {
                 DefaultLetterBoxUseCase(
                     letterManager: firestoreLetterBoxManager,
+                    authManager: authManager
+                )
+            }
+            Module(WidgetUseCaseKey.self) {
+                DefaultWidgetUseCase(
+//                    storage: widgetUserDefaults,
+                    widgetManager: firestoreWidgetManager,
                     authManager: authManager
                 )
             }

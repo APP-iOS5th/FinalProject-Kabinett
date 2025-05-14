@@ -24,3 +24,7 @@ struct WriteLetterUseCaseKey: InjectionKey {
 struct LetterBoxUseCaseKey: InjectionKey {
     typealias Value = LetterBoxUseCase
 }
+
+struct WidgetUseCaseKey: InjectionKey {
+    typealias Value = WidgetUseCase
+}

@@ -127,6 +127,9 @@
 		AF738DC42D50B3900081FB96 /* Extension+NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */; };
 		AF738DC62D50B3C00081FB96 /* ToastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */; };
 		AF9B18FA2C894B7100F3E446 /* DefaultLetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */; };
+		AF9F092D2DCC508500AF4BBE /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F092C2DCC508500AF4BBE /* WidgetViewModel.swift */; };
+		AF9F092E2DCC508500AF4BBE /* WidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9F092C2DCC508500AF4BBE /* WidgetViewModel.swift */; };
+		AF9F092F2DCCA6D700AF4BBE /* WidgetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE571E2DB219BE00B77B3E /* WidgetUseCase.swift */; };
 		AFA58F222C6A004C00A7C569 /* WriteLetterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */; };
 		AFA58F302C6C4B2A00A7C569 /* LetterBoxUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA58F2F2C6C4B2A00A7C569 /* LetterBoxUseCase.swift */; };
 		AFA75B272D013F8900DA418F /* FirestoreLetterWriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA75B262D013F8900DA418F /* FirestoreLetterWriteManager.swift */; };
@@ -309,6 +312,7 @@
 		AF738DC32D50B3900081FB96 /* Extension+NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+NotificationName.swift"; sourceTree = "<group>"; };
 		AF738DC52D50B3C00081FB96 /* ToastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastViewModel.swift; sourceTree = "<group>"; };
 		AF9B18F92C894B7100F3E446 /* DefaultLetterBoxUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultLetterBoxUseCase.swift; sourceTree = "<group>"; };
+		AF9F092C2DCC508500AF4BBE /* WidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewModel.swift; sourceTree = "<group>"; };
 		AFA58F172C69DB1300A7C569 /* Writer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		AFA58F212C6A004C00A7C569 /* WriteLetterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteLetterUseCase.swift; sourceTree = "<group>"; };
 		AFA58F252C6AE33D00A7C569 /* FirestoreLetterBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreLetterBoxManager.swift; sourceTree = "<group>"; };
@@ -867,6 +871,7 @@
 			children = (
 				AFEE570D2DADDE6900B77B3E /* WidgetLetter.swift */,
 				AFEE57232DB2294500B77B3E /* WidgetUserDefaults.swift */,
+				AF9F092C2DCC508500AF4BBE /* WidgetViewModel.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1154,6 +1159,7 @@
 				AFEE571F2DB219BE00B77B3E /* WidgetUseCase.swift in Sources */,
 				57966BA62C81FD98008D650B /* PreviewLetterViewModel.swift in Sources */,
 				E2E0DCD12CAED20800596DF7 /* LoadingView.swift in Sources */,
+				AF9F092D2DCC508500AF4BBE /* WidgetViewModel.swift in Sources */,
 				53972BA02C7B4DE400A8D240 /* LetterBoxDetailViewModel.swift in Sources */,
 				AFEE57212DB2269500B77B3E /* DefaultWidgetUseCase.swift in Sources */,
 				530912CC2C7045F200964130 /* ToastView.swift in Sources */,
@@ -1230,9 +1236,11 @@
 				AFFE08C12D794AF400A5A587 /* WidgetEnvelopeView.swift in Sources */,
 				AFEE57252DB2294500B77B3E /* WidgetUserDefaults.swift in Sources */,
 				AFBD58302D7EDE1A00202F50 /* RedSticker.swift in Sources */,
+				AF9F092E2DCC508500AF4BBE /* WidgetViewModel.swift in Sources */,
 				AFFE08C22D79666700A5A587 /* LayoutHelper.swift in Sources */,
 				AFEE570E2DADDE6900B77B3E /* WidgetLetter.swift in Sources */,
 				AFFE08C32D79667900A5A587 /* FontUtility.swift in Sources */,
+				AF9F092F2DCCA6D700AF4BBE /* WidgetUseCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
