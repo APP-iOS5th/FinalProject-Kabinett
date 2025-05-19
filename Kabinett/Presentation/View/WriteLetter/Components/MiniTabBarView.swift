@@ -20,7 +20,7 @@ struct MiniTabBarView: View {
                 } label: {
                     Text("F")
                         .bold()
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
+                        .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
                         .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
                         .clipShape(Capsule())
                 }
@@ -34,13 +34,22 @@ struct MiniTabBarView: View {
                 }
                 
                 Button {
+                    // TODO: 편지지컬러피커
+                } label: {
+                    Image(systemName: "paintbrush")
+                        .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
+                        .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
+                        .clipShape(Capsule())
+                }
+                
+                Button {
                     if viewModel.texts.count > 1 {
                         viewModel.isDeleteAlertPresented = true
                     }
                 } label: {
                     Image("PageMinus")
                         .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
+                        .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
                 }
                 .alert(isPresented: $viewModel.isDeleteAlertPresented) {
                     Alert(
@@ -59,7 +68,7 @@ struct MiniTabBarView: View {
                 } label: {
                     Image(systemName: "doc.badge.plus")
                         .font(.system(size: 15))
-                        .frame(width: UIScreen.main.bounds.width * 0.4/4)
+                        .frame(width: UIScreen.main.bounds.width * 0.1)
                 }
                 PhotosPicker(
                     selection: $viewModel.selectedItems,
@@ -67,14 +76,14 @@ struct MiniTabBarView: View {
                     matching: .images) {
                         Image(systemName: "photo.on.rectangle.angled")
                             .font(.system(size: 15))
-                            .frame(width: UIScreen.main.bounds.width * 0.4/4, height: 30)
+                            .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
                             .background(viewModel.selectedItems.isEmpty ? Color.clear : Color.white)
                             .foregroundStyle(viewModel.selectedItems.isEmpty ? Color("ToolBarIcon") : Color(.primary900))
                             .clipShape(Capsule())
                             .shadow(color: viewModel.selectedItems.isEmpty ? Color.clear : Color(.primary300), radius: 7, x: 3, y: 3)
                     }
             }
-            .frame(maxWidth: UIScreen.main.bounds.width * 0.5, maxHeight: 40)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.6, maxHeight: 40)
             .foregroundStyle(Color("ToolBarIcon"))
             .background(Color(.primary100))
             .clipShape(Capsule())
