@@ -75,8 +75,13 @@ struct ContentWriteView: View {
             }
         }
         .overlay {
+            if viewModel.showFontEditPicker {
+                FontStylePickerView(letter: $letter, viewModel: viewModel)
+            }
+        }
+        .overlay {
             if viewModel.showFontMenu {
-                FontMenuView(letter: $letter, showFontMenu: $viewModel.showFontMenu, fontViewModel: fontViewModel)
+                FontMenuView(letter: $letter, viewModel: viewModel, fontViewModel: fontViewModel)
             }
         }
         .ignoresSafeArea(.keyboard)

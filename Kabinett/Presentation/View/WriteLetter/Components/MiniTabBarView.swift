@@ -16,15 +16,12 @@ struct MiniTabBarView: View {
         if viewModel.currentIndex < viewModel.texts.count {
             HStack(alignment: .center) {
                 Button {
-                    viewModel.toggleFontView()
+                    viewModel.toggleFontEditPickerView()
                 } label: {
                     Text("F")
                         .bold()
                         .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
-                        .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
-                        .clipShape(Capsule())
                 }
-                .disabled(viewModel.isFontEdit ? false : true)
                 .onChange(of: viewModel.texts) {
                     if viewModel.texts.contains(where: { !$0.isEmpty }) {
                         viewModel.isFontEdit = false
@@ -38,8 +35,6 @@ struct MiniTabBarView: View {
                 } label: {
                     Image(systemName: "paintbrush")
                         .frame(width: UIScreen.main.bounds.width * 0.1, height: 30)
-                        .background(viewModel.isFontEdit ? Color.clear : Color(.primary300))
-                        .clipShape(Capsule())
                 }
                 
                 Button {

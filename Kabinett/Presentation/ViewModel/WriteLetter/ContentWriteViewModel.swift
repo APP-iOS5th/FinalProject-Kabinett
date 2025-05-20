@@ -17,6 +17,7 @@ class ContentWriteViewModel: ObservableObject {
     @Published var isDeleteAlertPresented = false
     
     @Published var showFontMenu: Bool = false
+    @Published var showFontEditPicker: Bool = false
     @Published var isFontEdit: Bool = true
     @Published var isKeyboard: Bool = false
     
@@ -33,8 +34,12 @@ class ContentWriteViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
     
-    func toggleFontView() {
+    func toggleFontMenuView() {
         showFontMenu.toggle()
+    }
+    
+    func toggleFontEditPickerView() {
+        showFontEditPicker.toggle()
     }
     
     func createNewLetter(idx: Int) {

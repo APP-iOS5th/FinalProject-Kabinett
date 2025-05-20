@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FontMenuView: View {
     @Binding var letter: WriteLetter
-    @Binding var showFontMenu: Bool
+    @ObservedObject var viewModel: ContentWriteViewModel
     @ObservedObject var fontViewModel: FontSelectionViewModel
     
     var body: some View {
@@ -17,7 +17,7 @@ struct FontMenuView: View {
             Color.black.opacity(0.1)
                 .edgesIgnoringSafeArea(.all)
                 .onTapGesture {
-                    showFontMenu = false
+                    viewModel.showFontMenu = false
                 }
             
             VStack(spacing: 0) {
@@ -25,7 +25,8 @@ struct FontMenuView: View {
                     Button(action: {
                         fontViewModel.selectedIndex = i
                         letter.fontString = fontViewModel.dummyFonts[i].font
-                        showFontMenu = false
+                        viewModel.showFontMenu = false
+                        viewModel.showFontEditPicker = false
                     }) {
                         HStack {
                             Text(fontViewModel.dummyFonts[i].fontName)
@@ -48,7 +49,7 @@ struct FontMenuView: View {
             .frame(width: 250)
             .background(Color.white)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.top, -(UIScreen.main.bounds.height/2.7))
+            .padding(.top, (UIScreen.main.bounds.height/1.3 - 400))
             .shadow(color: Color(.primary300), radius: 5, x: 3, y: 3)
         }
     }
